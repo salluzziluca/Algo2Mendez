@@ -6,7 +6,7 @@
 int main(int argc, char *argv[])
 {
 	//Los archivos deben venir como parámetros del main
-	sala_t *sala = sala_crear_desde_archivos("???", "???");
+	sala_t *sala = sala_crear_desde_archivos("objetos.txt", "interacciones.txt");
 
 	if (sala == NULL) {
 		printf("Error al crear la sala de escape\n");
@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
 
 	printf("Interacciones...\n");
 
-	sala_destruir(sala);
+	//sala_destruir(sala);
 
 	return 0;
 }
