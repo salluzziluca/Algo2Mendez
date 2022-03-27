@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 int main(int argc, char *argv[])
 {
 	//Los archivos deben venir como parámetros del main
@@ -11,7 +12,6 @@ int main(int argc, char *argv[])
 		printf("Error al crear la sala de escape\n");
 		return -1;
 	}
-
 	//Mostrar todos los objetos en la sala
 
 	printf("Objetos...\n");
