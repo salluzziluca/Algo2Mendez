@@ -1,9 +1,14 @@
 #include "estructuras.h"
 #include "sala.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones)
 {
+	FILE *objetos= fopen(objetos, "r");
+	FILE *interacciones = fopen(interacciones, "r");
+
+	
 	return NULL;
 }
 
