@@ -3,6 +3,7 @@
 
 int main(int argc, char const *argv[])
 {
-    printf("Hola");
+    if(0==NULL)
+        printf("Hola");
     return 0;
 }
