@@ -2,15 +2,40 @@
 #include "sala.h"
 #include <stdlib.h>
 #include <stdio.h>
+#define LARGO_MAX_LINEA 1024
 
 sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones)
 {
 	FILE *objetos= fopen(objetos, "r");
-	FILE *interacciones = fopen(interacciones, "r");
+
+	if(!objetos)
+		return NULL;
+
+	char linea[LARGO_MAX_LINEA];
+	char *linea_leida = fgets(linea, 
+	LARGO_MAX_LINEA, objetos);
+
+	struct objeto objeto;
+	bool es_asible;
+
+	sscanf(linea,"%[^;];%[^;];%[^\n]\n",objeto.nombre, objeto.descripcion, es_asible);
+
+	while (linea_leida)
+	{
+		printf("Nombre: %s - Descripcion: %s - Es asible: %s\n", objeto.nombre, objeto.descripcion, es_asible);
+		linea_leida = fgets(linea, LARGO_MAX_LINEA, objetos);
+		sscanf(linea,"%[^;];%[^;];%[^\n]\n",objeto.nombre, objeto.descripcion, es_asible);
+	}
+	
+	fclose(objetos);
+	/*FILE *interacciones = fopen(interacciones, "r");*/
+
 
 	
 	return NULL;
 }
+
+
 
 char **sala_obtener_nombre_objetos(sala_t *sala, int *cantidad)
 {
