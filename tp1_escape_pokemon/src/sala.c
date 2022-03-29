@@ -2,32 +2,34 @@
 #include "sala.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
 #define LARGO_MAX_LINEA 1024
+#define LARGO_MAX_BOOL 5
 
 sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones)
 {
-	FILE *objetos= fopen(objetos, "r");
+	FILE *archivo_objetos= fopen(objetos, "r");
 
-	if(!objetos)
+	if(!archivo_objetos)
 		return NULL;
 
 	char linea[LARGO_MAX_LINEA];
 	char *linea_leida = fgets(linea, 
-	LARGO_MAX_LINEA, objetos);
+	LARGO_MAX_LINEA, archivo_objetos);
 
 	struct objeto objeto;
-	bool es_asible;
-
+	char es_asible[LARGO_MAX_BOOL];
+	//TODO: ver por que no lee el archivo correctamente
 	sscanf(linea,"%[^;];%[^;];%[^\n]\n",objeto.nombre, objeto.descripcion, es_asible);
 
 	while (linea_leida)
 	{
 		printf("Nombre: %s - Descripcion: %s - Es asible: %s\n", objeto.nombre, objeto.descripcion, es_asible);
-		linea_leida = fgets(linea, LARGO_MAX_LINEA, objetos);
+		linea_leida = fgets(linea, LARGO_MAX_LINEA, archivo_objetos);
 		sscanf(linea,"%[^;];%[^;];%[^\n]\n",objeto.nombre, objeto.descripcion, es_asible);
 	}
 	
-	fclose(objetos);
+	fclose(archivo_objetos);
 	/*FILE *interacciones = fopen(interacciones, "r");*/
 
 
