@@ -7,6 +7,7 @@
 int main(int argc, char *argv[])
 {	
 	//Los archivos deben venir como parámetros del main
+	//TODO: Ver por que no se define la referencia de la funcion posterior al correrlo.
 	sala_t *sala = sala_crear_desde_archivos(argv[0], argv[1]);
 
 	if (sala == NULL) {
