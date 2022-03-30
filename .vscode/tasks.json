@@ -29,6 +29,7 @@
                                 "-fdiagnostics-color=always",
                                 "-g",
                                 "${file}",
+                                "src/*.c",
                                 "-o",
                                 "${fileDirname}/${fileBasenameNoExtension}"
                         ],
