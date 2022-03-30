@@ -52,4 +52,5 @@ bool sala_es_interaccion_valida(sala_t *sala, const char *verbo, const char *obj
 
 void sala_destruir(sala_t *sala)
 {
+	//tener cuidado de liberar toda la memoria en orden
 }
