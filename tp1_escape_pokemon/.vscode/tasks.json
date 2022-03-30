@@ -15,6 +15,7 @@
 				"-limits",
 				"-Werror",
 				"${file}",
+				"src/*.c",
 				"-o",
 				"${fileDirname}/${fileBasenameNoExtension}"
 			],
