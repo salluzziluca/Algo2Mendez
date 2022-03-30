@@ -8,7 +8,7 @@
 int main(int argc, char *argv[])
 {	
 	//Los archivos deben venir como parámetros del main
-	sala_t *sala = sala_crear_desde_archivos(argv[0], argv[1]);
+	sala_t *sala = sala_crear_desde_archivos(argv[1], argv[2]);
 
 	if (sala == NULL) {
 		printf("Error al crear la sala de escape\n");
