@@ -10,6 +10,8 @@
 
 sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones)
 {
+	struct sala sala;
+	//TODO: Chequear los campos del struct sala y pensar como pasarlos a sala_obtener_nombre_objetos()
 	FILE *archivo_objetos= fopen(objetos, "r");
 
 	if(!archivo_objetos)
@@ -19,12 +21,10 @@ sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones
 	char *linea_leida = fgets(linea, 
 	LARGO_MAX_LINEA, archivo_objetos);
 
-	//struct objeto objeto;
 	char nombre[LARGO_MAX_NOMBRE];
 	char descripcion[LARGO_MAX_NOMBRE];
 	char es_asible[LARGO_MAX_DESCRIPCION];
 
-	//TODO: ver por que no lee el archivo correctamente
 	sscanf(linea,"%[^;];%[^;];%[^\n]\n",nombre, descripcion, es_asible);
 
 	while (linea_leida)
@@ -37,8 +37,6 @@ sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones
 	fclose(archivo_objetos);
 	/*FILE *interacciones = fopen(interacciones, "r");*/
 
-
-	
 	return NULL;
 }
 
