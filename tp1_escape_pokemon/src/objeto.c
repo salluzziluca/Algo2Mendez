@@ -4,5 +4,6 @@
 
 struct objeto *objeto_crear_desde_string(const char *string)
 {
+	
 	return NULL;
 }

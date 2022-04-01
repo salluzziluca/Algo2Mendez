@@ -27,6 +27,8 @@ sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones
 
 	sscanf(linea,"%[^;];%[^;];%[^\n]\n",nombre, descripcion, es_asible);
 
+	objeto_crear_desde_string(*linea_leida);
+
 	while (linea_leida)
 	{
 		printf("Nombre: %s - Descripcion: %s - Es asible: %s\n", nombre, descripcion, es_asible);
