@@ -3,7 +3,13 @@
 
 int main(int argc, char const *argv[])
 {
-    if(0==NULL)
-        printf("Hola");
+    int i=0;
+    do
+    {
+        printf("%i\n", i); 
+        i++;
+    } while (i<10);
+    
+        
     return 0;
 }

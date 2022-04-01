@@ -7,8 +7,9 @@
 
 struct objeto *objeto_crear_desde_string(const char *string)
 {
-	struct objeto *objeto;
+	struct objeto *objeto_actual= malloc(sizeof(struct objeto));
 	//TODO:ver por que tira segfault
-	sscanf(string,"%[^;];%[^;];",objeto->nombre, objeto->descripcion);
-	return objeto;
+	sscanf(string,"%[^;];%[^;];",objeto_actual->nombre, objeto_actual->descripcion);
+	printf("Nombre: %s - Descripcion: %s\n", objeto_actual->nombre, objeto_actual->descripcion);
+	return (objeto_actual);
 }
