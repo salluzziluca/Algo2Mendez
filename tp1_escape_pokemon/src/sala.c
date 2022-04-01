@@ -1,12 +1,11 @@
 #include "estructuras.h"
 #include "sala.h"
+#include "objeto.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
 #define LARGO_MAX_LINEA 1024
 #define LARGO_MAX_BOOL 5
-#define LARGO_MAX_NOMBRE 20
-#define LARGO_MAX_DESCRIPCION 100
 
 sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones)
 {
@@ -20,21 +19,16 @@ sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones
 	char linea[LARGO_MAX_LINEA];
 	char *linea_leida = fgets(linea, 
 	LARGO_MAX_LINEA, archivo_objetos);
+	objeto_crear_desde_string(linea);
 
-	char nombre[LARGO_MAX_NOMBRE];
-	char descripcion[LARGO_MAX_NOMBRE];
-	char es_asible[LARGO_MAX_DESCRIPCION];
+	
 
-	sscanf(linea,"%[^;];%[^;];%[^\n]\n",nombre, descripcion, es_asible);
-
-	objeto_crear_desde_string(*linea_leida);
-
-	while (linea_leida)
+	/*while (linea_leida)
 	{
 		printf("Nombre: %s - Descripcion: %s - Es asible: %s\n", nombre, descripcion, es_asible);
 		linea_leida = fgets(linea, LARGO_MAX_LINEA, archivo_objetos);
 		sscanf(linea,"%[^;];%[^;];%[^\n]\n",nombre, descripcion, es_asible);
-	}
+	}*/
 	
 	fclose(archivo_objetos);
 	/*FILE *interacciones = fopen(interacciones, "r");*/

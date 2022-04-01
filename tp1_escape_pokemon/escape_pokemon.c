@@ -5,6 +5,7 @@
 #include <stdbool.h>
 
 
+
 int main(int argc, char *argv[])
 {	
 	//Los archivos deben venir como parámetros del main
