@@ -7,15 +7,29 @@
 #define LARGO_MAX_LINEA 1024
 #define LARGO_MAX_BOOL 5
 
-sala_t *sala_con_objeto_agregado(struct sala *sala, int *tamanio, struct objeto *objeto)
+int agregar_objeto_a_sala(struct sala *sala, int *tamanio, struct objeto *objeto)
 {
-	//TODO: preguntar como alocarle memoria a un struct
-	struct *(bloque)=realloc(*sala,sizeof(struct objeto));
-}
+	//TODO: Resolver el error de realloc que me tira valgrind
+	 sala_t *bloque = realloc(sala,sizeof(struct objeto));
+	if (bloque == NULL)
+		return -1;
 
+	bloque->objetos[*tamanio] = objeto;
+	(*tamanio)++;
+
+	*sala = *bloque;
+
+	return 0;
+
+
+
+}	
 sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones)
 {
-	struct sala sala;
+	//TODO: fijarse como inicializar un struct como null.
+	struct sala sala= NULL;
+
+	int tamanio = 0;
 	//TODO: Chequear los campos del struct sala y pensar como pasarlos a sala_obtener_nombre_objetos()
 	FILE *archivo_objetos= fopen(objetos, "r");
 
@@ -30,6 +44,8 @@ sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones
 		return NULL;
 		
 	struct objeto *objeto_a_agregar = objeto_crear_desde_string(linea);
+
+	agregar_objeto_a_sala(&sala, &tamanio, objeto_a_agregar);
 
 	while (linea_leida){	
 		linea_leida = fgets(linea, LARGO_MAX_LINEA, archivo_objetos);
