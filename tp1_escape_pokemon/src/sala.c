@@ -7,9 +7,15 @@
 #define LARGO_MAX_LINEA 1024
 #define LARGO_MAX_BOOL 5
 
+sala_t *sala_con_objeto_agregado(struct sala *sala, int *tamanio, struct objeto *objeto)
+{
+	//TODO: preguntar como alocarle memoria a un struct
+	struct *(bloque)=realloc(*sala,sizeof(struct objeto));
+}
+
 sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones)
 {
-	//struct sala sala;
+	struct sala sala;
 	//TODO: Chequear los campos del struct sala y pensar como pasarlos a sala_obtener_nombre_objetos()
 	FILE *archivo_objetos= fopen(objetos, "r");
 
@@ -22,12 +28,12 @@ sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones
 
 	if (linea_leida == NULL)
 		return NULL;
-
-	objeto_crear_desde_string(linea);
+		
+	struct objeto *objeto_a_agregar = objeto_crear_desde_string(linea);
 
 	while (linea_leida){	
 		linea_leida = fgets(linea, LARGO_MAX_LINEA, archivo_objetos);
-		objeto_crear_desde_string(linea);
+		objeto_a_agregar=objeto_crear_desde_string(linea);
 	}
 	
 	fclose(archivo_objetos);
