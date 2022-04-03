@@ -7,17 +7,18 @@
 #define LARGO_MAX_LINEA 1024
 #define LARGO_MAX_BOOL 5
 
-int agregar_objeto_a_sala(struct sala *sala, int *tamanio, struct objeto *objeto)
+int agregar_objeto_a_vector(struct objeto **vector, int *tamanio, struct objeto *objeto)
 {
-	//TODO: Resolver el error de realloc que me tira valgrind
-	 sala_t *bloque = realloc(sala,sizeof(struct objeto));
-	if (bloque == NULL)
+	//TODO: cuchame pibe, lo quetenes que hacer es que eesta funcion agregue un objeto al vector dinamico objetos. el struct sala ya lo tenes que tener inicializado.
+	 struct objetos *bloque_vector_objetos = realloc(*vector,sizeof(struct objeto));
+	if (bloque_vector_objetos == NULL)
 		return -1;
 
-	bloque->objetos[*tamanio] = objeto;
+
+	bloque_vector_objetos->objetos[*tamanio] = objeto;
 	(*tamanio)++;
 
-	*sala = *bloque;
+	*vector = *bloque_vector_objetos;
 
 	return 0;
 
@@ -26,11 +27,10 @@ int agregar_objeto_a_sala(struct sala *sala, int *tamanio, struct objeto *objeto
 }	
 sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones)
 {
-	//TODO: fijarse como inicializar un struct como null.
-	struct sala sala= NULL;
+	struct sala *sala= NULL;
 
 	int tamanio = 0;
-	//TODO: Chequear los campos del struct sala y pensar como pasarlos a sala_obtener_nombre_objetos()
+	
 	FILE *archivo_objetos= fopen(objetos, "r");
 
 	if(!archivo_objetos)
@@ -45,7 +45,7 @@ sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones
 		
 	struct objeto *objeto_a_agregar = objeto_crear_desde_string(linea);
 
-	agregar_objeto_a_sala(&sala, &tamanio, objeto_a_agregar);
+	agregar_objeto_a_sala(sala, &tamanio, objeto_a_agregar);
 
 	while (linea_leida){	
 		linea_leida = fgets(linea, LARGO_MAX_LINEA, archivo_objetos);
