@@ -7,9 +7,9 @@
 #define LARGO_MAX_LINEA 1024
 #define LARGO_MAX_BOOL 5
 
-struct objeto *agregar_objeto_a_vector(struct objeto **vector, int *tamanio, struct objeto *objeto)
+struct objeto *agregar_objeto_a_vector(struct objeto ***vector, int *tamanio, struct objeto *objeto)
 {
-	struct objeto *bloque_vector_objetos = realloc(*vector,((((unsigned long)(*tamanio)) + 1) * sizeof(struct objeto)));
+	struct objeto *bloque_vector_objetos = realloc(**vector,((((unsigned long)(*tamanio)) + 1) * sizeof(struct objeto)));
 	
 	if (bloque_vector_objetos == NULL)
 			return NULL;
@@ -42,7 +42,8 @@ sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones
 		
 	struct objeto *objeto_a_agregar = objeto_crear_desde_string(linea);
 	sala.objetos=NULL;
-	agregar_objeto_a_vector(sala.objetos, &sala.cantidad_objetos, objeto_a_agregar);
+
+	agregar_objeto_a_vector(&sala.objetos, &sala.cantidad_objetos, objeto_a_agregar);
 
 	while (linea_leida){	
 		linea_leida = fgets(linea, LARGO_MAX_LINEA, archivo_objetos);
