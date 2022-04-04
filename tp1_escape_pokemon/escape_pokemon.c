@@ -3,13 +3,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#define ARCHIVO_OBJETOS argv[1] 
+#define ARCHIVO_INTERACCIONES argv[2]
 
 
 
 int main(int argc, char *argv[])
 {	
 	//Los archivos deben venir como parámetros del main
-	sala_t *sala = sala_crear_desde_archivos(argv[1], argv[2]);
+	sala_t *sala = sala_crear_desde_archivos(ARCHIVO_OBJETOS, ARCHIVO_INTERACCIONES);
 
 	if (sala == NULL) {
 		printf("Error al crear la sala de escape\n");
