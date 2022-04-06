@@ -8,18 +8,19 @@
 #define LARGO_MAX_BOOL 15
 
 
-struct objeto **agregar_objeto_a_vector(struct objeto **vector, int *tamanio, struct objeto *objeto)
+struct objeto **agregar_objeto_a_vector(struct objeto **vector, int *cantidad_objetos, struct objeto *objeto_actual)
 {
-	struct objeto **bloque_vector_objetos = realloc(vector,((((unsigned long)(*tamanio)) + 1) * sizeof(struct objeto)));
+	struct objeto **bloque_vector_objetos = realloc(vector,((((unsigned long)(*cantidad_objetos)) + 1) * sizeof(struct objeto)));
 
 	if (bloque_vector_objetos == NULL)
 			return NULL;
 
-	(bloque_vector_objetos)[*tamanio]= objeto;
-	(*tamanio)++;
+	(bloque_vector_objetos)[*cantidad_objetos]= objeto_actual;
+	(*cantidad_objetos)++;
 
 	return bloque_vector_objetos;
 }
+
 
 
 sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones)
