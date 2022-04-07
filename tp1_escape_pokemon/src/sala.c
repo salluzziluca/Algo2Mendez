@@ -43,7 +43,8 @@ int agregar_interaccion_a_vector(struct interaccion ***interacciones, int *canti
 sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones)
 {
 	struct sala *sala= malloc( sizeof(struct sala));
-	sala->objetos = calloc(1, sizeof(struct objetos*));
+	sala->objetos =NULL;
+	sala->interacciones=NULL;
 	
 	FILE *archivo_objetos= fopen(objetos, MODO_LECTURA);
 	
