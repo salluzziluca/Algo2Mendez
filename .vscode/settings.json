@@ -2,7 +2,8 @@
         "files.associations": {
                 "stdio.h": "c",
                 "sala.h": "c",
-                "estructuras.h": "c"
+                "estructuras.h": "c",
+                "objeto.h": "c"
         },
         "C_Cpp.errorSquiggles": "Enabled"
 }

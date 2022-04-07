@@ -1,5 +1,6 @@
 #include "objeto.h"
 #include "estructuras.h"
+#include "estructuras.h"
 #include <stdlib.h>
 #include <stdio.h>
 #define LARGO_MAX_NOMBRE 20

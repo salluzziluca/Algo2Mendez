@@ -1,11 +1,13 @@
 #include "estructuras.h"
 #include "sala.h"
 #include "objeto.h"
+#include "interaccion.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
 #define LARGO_MAX_LINEA 1024
 #define LARGO_MAX_BOOL 15
+#define MODO_LECTURA "r"
 
 
 
@@ -24,38 +26,84 @@ int agregar_objeto_a_vector(struct objeto ***objetos, int *cantidad_objetos, str
 	return 0;
 }
 
+int agregar_interaccion_a_vector(struct interaccion ***interacciones, int *cantidad_interacciones, struct interaccion *interaccion_actual)
+{
+	struct interaccion **bloque_auxiliar = realloc(*interacciones, ((unsigned)(*cantidad_interacciones)+1) * sizeof(struct interaccion*));
+
+	if(bloque_auxiliar == NULL)
+		return -1;
+
+	*interacciones= bloque_auxiliar;
+	bloque_auxiliar[*cantidad_interacciones]=interaccion_actual;
+	(*cantidad_interacciones)++;
+
+	return 0;
+}
+
 sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones)
 {
 	struct sala *sala= malloc( sizeof(struct sala));
 	sala->objetos = calloc(1, sizeof(struct objetos*));
 	
-	FILE *archivo_objetos= fopen(objetos, "r");
+	FILE *archivo_objetos= fopen(objetos, MODO_LECTURA);
+	
 
 	if(!archivo_objetos)
 		return NULL;
 
-	char linea[LARGO_MAX_LINEA];
-	char *linea_leida = fgets(linea, 
+	char linea_objeto[LARGO_MAX_LINEA];
+	char *linea_leida_objeto = fgets(linea_objeto, 
 	LARGO_MAX_LINEA, archivo_objetos);
 
-	if (linea_leida == NULL)
+	if (linea_leida_objeto == NULL)
 		return NULL;
 		
-	struct objeto *objeto_a_agregar = objeto_crear_desde_string(linea);
+	struct objeto *objeto_a_agregar = objeto_crear_desde_string(linea_objeto);
 
 	agregar_objeto_a_vector(&sala->objetos, &sala->cantidad_objetos, objeto_a_agregar);
-	//TODO ver por que no se guarda el segundo objeto
-	while (linea_leida){	
-		linea_leida = fgets(linea, LARGO_MAX_LINEA, archivo_objetos);
-		struct objeto *objeto_a_agregar =objeto_crear_desde_string(linea);
+
+	while (linea_leida_objeto){	
+		linea_leida_objeto = fgets(linea_objeto, LARGO_MAX_LINEA, archivo_objetos);
+		struct objeto *objeto_a_agregar =objeto_crear_desde_string(linea_objeto);
 		agregar_objeto_a_vector(&sala->objetos, &sala->cantidad_objetos, objeto_a_agregar);
 	}
+
 	for (int i = 1; i < sala->cantidad_objetos-1; ++i)
 	{
 		printf("%s\n", sala->objetos[i]->nombre);
 	}
+
 	fclose(archivo_objetos);
-	/*FILE *interacciones = fopen(interacciones, "r");*/
+/*-----------------------------INTERACCIONES---------------------------------*/
+	FILE *archivo_interacciones = fopen(interacciones, MODO_LECTURA);
+
+	if(!archivo_interacciones)
+		return NULL;
+
+	char linea_interaccion[LARGO_MAX_LINEA];
+	char *linea_leida_interaccion = fgets(linea_interaccion,LARGO_MAX_LINEA, archivo_interacciones);
+	
+	if(linea_leida_interaccion == NULL)
+		return NULL;
+	
+	struct interaccion *interaccion_a_agregar = interaccion_crear_desde_string(linea_interaccion);
+
+	agregar_interaccion_a_vector(&sala->interacciones, &sala->cantidad_interacciones, interaccion_a_agregar);
+
+	while(linea_leida_interaccion){
+		linea_leida_interaccion = fgets(linea_interaccion, LARGO_MAX_LINEA, archivo_interacciones);
+		struct interaccion *interaccion_a_agregar = interaccion_crear_desde_string(linea_interaccion);
+		agregar_interaccion_a_vector(&sala->interacciones, &sala->cantidad_interacciones, interaccion_a_agregar);
+	}
+
+	for (int i = 1; i < sala->cantidad_interacciones-1; ++i)
+	{
+		printf("%s\n", sala->interacciones[i]->objeto);
+	}
+
+
+	fclose(archivo_interacciones);
+	
 
 	return NULL;
 }
