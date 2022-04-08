@@ -25,8 +25,17 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 	//Mostrar todos los objetos en la sala
+	int *cantidad_objetos =malloc(sizeof(int));
 
+	char **nombres_objetos = sala_obtener_nombre_objetos(sala, cantidad_objetos);
+	
 	printf("Objetos...\n");
+	// TODO: ver por que me imprime dos veces mesa y despues me tira segmentation fault 
+	//TODO: ver por que tengo cantidad de objetos mayor a 10 cuando no deberia ser mayor a 8.
+	for (int i = 0; i < *cantidad_objetos-1; i++)
+	{
+		printf("%s\n", nombres_objetos[i]);
+	}
 
 	//Mostrar si son válidas las siguientes interacciones
 	//1. examinar habitacion

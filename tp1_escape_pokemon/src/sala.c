@@ -48,8 +48,6 @@ int cargar_a_memoria(struct sala *sala, const char *archivo, char elemento )
 	char linea[LARGO_MAX_LINEA];
 	char *linea_leida = fgets(linea, LARGO_MAX_LINEA, archivo_actual);
 	
-	
-
 	if(linea_leida == NULL)
 		return -1;
 
@@ -96,31 +94,21 @@ sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones
 
 	cargar_a_memoria(sala, objetos, OBJETOS);
 	cargar_a_memoria(sala, interacciones, INTERACCIONES);
-
-	
-	for (int i = 0; i < sala->cantidad_interacciones-1; ++i)
-	{
-		printf("%s\n", sala->interacciones[i]->objeto);
-		printf("%s\n", sala->interacciones[i]->verbo);
-		printf("%s\n", sala->interacciones[i]->objeto_parametro);
-	}
-
-	for (int i = 0; i < 9; ++i)
-		{
-			printf("%s\n", sala->objetos[i]->nombre);
-			printf("%d\n", sala->objetos[i]->es_asible);
-		}
-
-	
-
-	return NULL;
+	return sala;
 }
 
 
 
 char **sala_obtener_nombre_objetos(sala_t *sala, int *cantidad)
 {
-	return NULL;
+	char **nombres_objetos = malloc((unsigned)(sala->cantidad_objetos) * sizeof(char*));
+
+	for (int i = 0; i < sala->cantidad_interacciones; i++)
+	{
+		nombres_objetos[i] = sala->objetos[i]->nombre;
+	}
+	
+	return nombres_objetos;
 }
 
 bool sala_es_interaccion_valida(sala_t *sala, const char *verbo, const char *objeto1,
