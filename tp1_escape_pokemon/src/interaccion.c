@@ -5,9 +5,9 @@
 struct interaccion *interaccion_crear_desde_string(const char *string)
 {
 	struct interaccion *interaccion_actual= malloc(sizeof(struct interaccion));
-
 	char tipo_accion_actual;
 	enum tipo_accion;
+
 	sscanf(string,"%[^;];%[^;];%[^;];%c:%[^:]:%[^\n]\n", interaccion_actual->objeto, interaccion_actual->verbo,
 	interaccion_actual->objeto_parametro, &tipo_accion_actual,interaccion_actual->accion.objeto,
 	interaccion_actual->accion.mensaje

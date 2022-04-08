@@ -6,7 +6,6 @@
 #include <stdio.h>
 #include <stdbool.h>
 #define LARGO_MAX_LINEA 1024
-#define LARGO_MAX_BOOL 15
 #define MODO_LECTURA "r"
 #define OBJETOS 'o'
 #define INTERACCIONES 'i'
@@ -109,6 +108,7 @@ sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones
 	for (int i = 0; i < 9; ++i)
 		{
 			printf("%s\n", sala->objetos[i]->nombre);
+			printf("%d\n", sala->objetos[i]->es_asible);
 		}
 
 	

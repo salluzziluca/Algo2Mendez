@@ -10,7 +10,14 @@
 
 int main(int argc, char *argv[])
 {	
+	
+	
 	//Los archivos deben venir como parámetros del main
+	if((((strcmp(ARCHIVO_OBJETOS, "ejemplo/objetos.txt")) != 0) || ((strcmp(ARCHIVO_INTERACCIONES,"ejemplo/interacciones.txt"))!=0))){
+		printf("Error, no se ingresaron los archivos correctamente\n");
+		return -1;
+	}
+
 	sala_t *sala = sala_crear_desde_archivos(ARCHIVO_OBJETOS, ARCHIVO_INTERACCIONES);
 
 	if (sala == NULL) {
