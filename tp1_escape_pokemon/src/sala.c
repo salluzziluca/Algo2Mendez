@@ -69,7 +69,7 @@ sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones
 		agregar_objeto_a_vector(&sala->objetos, &sala->cantidad_objetos, objeto_a_agregar);
 	}
 
-	for (int i = 1; i < sala->cantidad_objetos-1; ++i)
+	for (int i = 0; i < sala->cantidad_objetos-1; ++i)
 	{
 		printf("%s\n", sala->objetos[i]->nombre);
 	}
@@ -97,9 +97,11 @@ sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones
 		agregar_interaccion_a_vector(&sala->interacciones, &sala->cantidad_interacciones, interaccion_a_agregar);
 	}
 
-	for (int i = 1; i < sala->cantidad_interacciones-1; ++i)
+	for (int i = 0; i < sala->cantidad_interacciones-1; ++i)
 	{
 		printf("%s\n", sala->interacciones[i]->objeto);
+		printf("%s\n", sala->interacciones[i]->verbo);
+		printf("%s\n", sala->interacciones[i]->objeto_parametro);
 	}
 
 
