@@ -4,22 +4,37 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#define LARGO_MAX_NOMBRE 20
-#define LARGO_MAX_BOOL 15
-#define LARGO_MAX_DESCRIPCION 100
-
+#define MAX_BOOL 20
 struct objeto *objeto_crear_desde_string(const char *string)
 {
 	struct objeto *objeto_actual= malloc(sizeof(struct objeto));
 
-	char bool_aux[LARGO_MAX_BOOL];
+	char nombre_aux[MAX_NOMBRE];
+	char descripcion_aux[MAX_TEXTO];
+	char bool_aux[MAX_BOOL];
 
-	sscanf(string,"%[^;];%[^;];%[^\n]\n",objeto_actual->nombre, objeto_actual->descripcion, bool_aux);
+	sscanf(string,"%[^;];%[^;];%[^\n]\n",nombre_aux, descripcion_aux, bool_aux);
 	
+	if(nombre_aux!=NULL)
+		strcpy(objeto_actual->nombre,nombre_aux);
+	else
+		return NULL;
+	
+	if(descripcion_aux!=NULL)
+		strcpy(objeto_actual->descripcion,descripcion_aux);
+	else
+		return NULL;
+
 	if(strcmp(bool_aux,"true")==0)
 		objeto_actual->es_asible=true;
-	else
+	else if ((strcmp(bool_aux,"false")==0))
+	{
 		objeto_actual->es_asible=false;
+	}
+	else
+	{
+		return NULL;
+	}
 
 	return (objeto_actual);
 }
