@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
 #define LARGO_MAX_LINEA 1024
 #define MODO_LECTURA "r"
 #define OBJETOS 'o'
@@ -97,8 +98,6 @@ sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones
 	return sala;
 }
 
-
-
 char **sala_obtener_nombre_objetos(sala_t *sala, int *cantidad)
 {
 	char **nombres_objetos = malloc((unsigned)(sala->cantidad_objetos) * sizeof(char*));	
@@ -115,10 +114,13 @@ char **sala_obtener_nombre_objetos(sala_t *sala, int *cantidad)
 	return nombres_objetos;
 }
 
-bool sala_es_interaccion_valida(sala_t *sala, const char *verbo, const char *objeto1,
-				const char *objeto2)
-{
-	return false;
+bool sala_es_interaccion_valida(sala_t *sala, const char *verbo, const char *objeto1,const char *objeto2)
+{	bool es_valido = false;
+	for(int i = 0; i < sala->cantidad_interacciones; i++){
+		if(strcmp(sala->interacciones[i]->objeto, objeto1) == 0 && strcmp(sala->interacciones[i]->objeto_parametro, objeto2) == 0 && strcmp(sala->interacciones[i]->verbo, verbo) == 0)
+			return true;
+	}
+	return es_valido;
 }
 
 void sala_destruir(sala_t *sala)
