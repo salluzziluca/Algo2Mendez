@@ -89,7 +89,7 @@ int cargar_a_memoria(struct sala *sala, const char *archivo, char elemento )
 
 sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones)
 {
-	struct sala *sala= malloc( sizeof(struct sala));
+	struct sala *sala = malloc( sizeof(struct sala));
 	if(sala==NULL)
 		return NULL;
 
