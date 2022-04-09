@@ -101,13 +101,17 @@ sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones
 
 char **sala_obtener_nombre_objetos(sala_t *sala, int *cantidad)
 {
-	char **nombres_objetos = malloc((unsigned)(sala->cantidad_objetos) * sizeof(char*));
+	char **nombres_objetos = malloc((unsigned)(sala->cantidad_objetos) * sizeof(char*));	
 
-	for (int i = 0; i < sala->cantidad_interacciones; i++)
+	while(*cantidad < sala->cantidad_objetos)
 	{
-		nombres_objetos[i] = sala->objetos[i]->nombre;
+		nombres_objetos[*cantidad] = sala->objetos[*cantidad]->nombre;
+		(*cantidad)++;
 	}
 	
+	if (*cantidad == 0)
+		printf("No hay objetos en la sala\n");
+		
 	return nombres_objetos;
 }
 
