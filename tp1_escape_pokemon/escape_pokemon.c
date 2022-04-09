@@ -7,7 +7,15 @@
 #define ARCHIVO_INTERACCIONES argv[2]
 #define MAX_NOMBRE 20
 
-
+	
+int interracion_valida(bool interaccion_valida, char *string_validez)
+{
+	if(interaccion_valida)
+		strcpy(string_validez, "Válido");
+	else
+		strcpy(string_validez, "Inválido");
+	return 0;
+}
 
 int main(int argc, char *argv[])
 {	
@@ -39,38 +47,19 @@ int main(int argc, char *argv[])
 
 	printf("Interacciones...\n");
 
-	char examinar_habitacion[MAX_NOMBRE];
-	if(sala_es_interaccion_valida(sala, "examinar", "habitacion", "\0")){
-		strcpy(examinar_habitacion, "Válido");
-	}
-	else{
-		strcpy(examinar_habitacion, "Inválido");
-	}
-
-	char abrir_pokebola[MAX_NOMBRE];
-	if(sala_es_interaccion_valida(sala, "abrir", "pokebola", "\0")){
-		strcpy(abrir_pokebola, "Válido");
-	}
-	else{
-		strcpy(abrir_pokebola, "Inválido");
-	}
-
-	char usar_llave_cajon[MAX_NOMBRE];
-	if(sala_es_interaccion_valida(sala, "usar", "llave", "cajon")){
-		strcpy(usar_llave_cajon, "Válido");
-	}
-	else{
-		strcpy(usar_llave_cajon, "Inválido");
-	}
 	
-	char quemar_mesa[MAX_NOMBRE];
-	if(sala_es_interaccion_valida(sala, "quemar", "mesa", "\0")){
-		strcpy(quemar_mesa, "Válido");
-	}
-	else{
-		strcpy(quemar_mesa, "Inválido");
-	}
+	char *examinar_habitacion = calloc(MAX_NOMBRE, sizeof(char));
+	interracion_valida(sala_es_interaccion_valida(sala, "examinar", "habitacion", "_"), examinar_habitacion);
 
+	char *abrir_pokebola = calloc(MAX_NOMBRE, sizeof(char));
+	interracion_valida(sala_es_interaccion_valida(sala, "abrir", "pokebola", "_"), abrir_pokebola);
+
+	char *usar_llave_cajon = calloc(MAX_NOMBRE, sizeof(char));
+	interracion_valida(sala_es_interaccion_valida(sala, "usar", "llave", "cajon"), usar_llave_cajon);
+	
+	char *quemar_mesa = calloc(MAX_NOMBRE, sizeof(char));
+	interracion_valida(sala_es_interaccion_valida(sala, "quemar", "mesa", "_"), quemar_mesa);
+	
 
 	printf("examinar la habitacion: %s\n", examinar_habitacion);
 	printf("Abrir pokebola: %s\n", abrir_pokebola);
