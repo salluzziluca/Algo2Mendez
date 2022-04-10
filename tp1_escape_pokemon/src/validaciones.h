@@ -22,7 +22,7 @@ int interracion_valida(bool interaccion_valida, char *string_validez);
 *   
 *
 */
-int validar_y_agregar_campos_interaccion(char valor_aux[MAX_NOMBRE], char *campo_actual, struct interaccion *interaccion_actual);
+int validar_y_agregar_campos_interaccion(char valor_aux[MAX_NOMBRE], char *campo_actual, struct interaccion *interaccion_actual, char campo[MAX_NOMBRE]);
 
 /*
 * Valida si el valor pasado es no nulo. De ser asi, lo agrega al campo correspondiente del struct objeto. Devuelve 1 si el campo fue agregado, -1 si no.
