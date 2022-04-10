@@ -16,6 +16,7 @@ struct objeto *objeto_crear_desde_string(const char *string)
 
 	if(string ==NULL)
 		return NULL;
+		
 	else if((strcmp(string,"_") == 0)){
 		strcpy(objeto_actual->nombre,"\0");
 		strcpy(objeto_actual->descripcion,"\0");
