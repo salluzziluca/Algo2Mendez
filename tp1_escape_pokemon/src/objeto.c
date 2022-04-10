@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 #define MAX_BOOL 20
+
 struct objeto *objeto_crear_desde_string(const char *string)
 {
 	struct objeto *objeto_actual= malloc(sizeof(struct objeto));
@@ -14,14 +15,8 @@ struct objeto *objeto_crear_desde_string(const char *string)
 	char descripcion_aux[MAX_TEXTO] = "\0";
 	char bool_aux[MAX_BOOL] = "\0";
 
-	if(string ==NULL)
+	if(string ==NULL || strcmp(string, "\0") == 0)
 		return NULL;
-		
-	else if((strcmp(string,"_") == 0)){
-		strcpy(objeto_actual->nombre,"\0");
-		strcpy(objeto_actual->descripcion,"\0");
-		objeto_actual->es_asible=false;
-	}
 	else{
 		sscanf(string,"%[^;];%[^;];%[^\n]\n",nombre_aux, descripcion_aux, bool_aux);
 		

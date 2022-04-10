@@ -17,22 +17,16 @@ struct interaccion *interaccion_crear_desde_string(const char *string)
 	char accion_objeto_aux[MAX_NOMBRE] = "\0";
 	char accion_mensaje_aux[MAX_TEXTO] = "\0";
 
-
-
-	if(string == NULL || strcmp(string, "\0")==0){
-		strcpy(interaccion_actual->objeto,"\0");
-		strcpy(interaccion_actual->verbo,"\0");
-		strcpy(interaccion_actual->objeto_parametro,"\0");
-		interaccion_actual->accion.tipo = -1;
-		strcpy(interaccion_actual->accion.objeto,"\0");
-		strcpy(interaccion_actual->accion.mensaje,"\0");
-	}
+	if(string==NULL || strcmp(string, "\0") == 0)
+		return NULL;
 	else{
 		sscanf(string,"%[^;];%[^;];%[^;];%c:%[^:]:%[^\n]\n", objeto_aux, verbo_aux, objeto_parametro_aux, &tipo_accion_actual, accion_objeto_aux, accion_mensaje_aux);
 
-		validar_y_agregar_campos_interaccion(objeto_aux, interaccion_actual->objeto, interaccion_actual);
-		validar_y_agregar_campos_interaccion(verbo_aux, interaccion_actual->verbo, interaccion_actual);
-		validar_y_agregar_campos_interaccion(objeto_parametro_aux, interaccion_actual->objeto_parametro, interaccion_actual);
+		int objeto_validado = validar_y_agregar_campos_interaccion(objeto_aux, interaccion_actual->objeto, interaccion_actual);
+
+		int verbo_validado = validar_y_agregar_campos_interaccion(verbo_aux, interaccion_actual->verbo, interaccion_actual);
+
+		int objeto_parametro_validado = validar_y_agregar_campos_interaccion(objeto_parametro_aux, interaccion_actual->objeto_parametro, interaccion_actual);
 		
 		switch (tipo_accion_actual){
 		case 'd':
@@ -52,8 +46,12 @@ struct interaccion *interaccion_crear_desde_string(const char *string)
 			break;
 		}
 
-		validar_y_agregar_campos_interaccion(accion_objeto_aux, interaccion_actual->accion.objeto, interaccion_actual);
-		validar_y_agregar_campos_interaccion(accion_mensaje_aux, interaccion_actual->accion.mensaje, interaccion_actual);
+		int accion_objeto_validado = validar_y_agregar_campos_interaccion(accion_objeto_aux, interaccion_actual->accion.objeto, interaccion_actual);
+
+		int accion_mensaje_validado = validar_y_agregar_campos_interaccion(accion_mensaje_aux, interaccion_actual->accion.mensaje, interaccion_actual);
+
+		if(objeto_validado == -1 || verbo_validado == -1 || objeto_parametro_validado == -1 || interaccion_actual->accion.tipo == -1 || accion_objeto_validado == -1 || accion_mensaje_validado == -1)
+			interaccion_actual = NULL;
 	}
 
 	return interaccion_actual;
