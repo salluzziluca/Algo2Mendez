@@ -123,7 +123,9 @@ bool sala_es_interaccion_valida(sala_t *sala, const char *verbo, const char *obj
 
 	for(int i = 0; i < sala->cantidad_interacciones; i++){
 		bool es_objeto_valido = strcmp(sala->interacciones[i]->objeto, objeto1) == 0;
+
 		bool es_objeto_parametro_valido = strcmp(sala->interacciones[i]->objeto_parametro, objeto2) == 0;
+		
 		bool es_verbo_valido = strcmp(sala->interacciones[i]->verbo, verbo) == 0;
 
 		if(es_objeto_valido && es_objeto_parametro_valido && es_verbo_valido)

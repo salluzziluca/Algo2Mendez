@@ -20,8 +20,11 @@ struct interaccion *interaccion_crear_desde_string(const char *string)
 	if(string==NULL || strcmp(string, "\0") == 0)
 		return NULL;
 	else{
-		sscanf(string,"%[^;];%[^;];%[^;];%c:%[^:]:%[^\n]\n", objeto_aux, verbo_aux, objeto_parametro_aux, &tipo_accion_actual, accion_objeto_aux, accion_mensaje_aux);
+		int leidos = sscanf(string,"%[^;];%[^;];%[^;];%c:%[^:]:%[^\n]\n", objeto_aux, verbo_aux, objeto_parametro_aux, &tipo_accion_actual, accion_objeto_aux, accion_mensaje_aux);
 
+		if(leidos != 6)
+			return NULL;
+		
 		char objeto[MAX_NOMBRE] = "objeto";
 		int objeto_validado = validar_y_agregar_campos_interaccion(objeto_aux, interaccion_actual->objeto, interaccion_actual, objeto);
 

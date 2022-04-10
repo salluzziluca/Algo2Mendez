@@ -26,14 +26,12 @@ struct objeto *objeto_crear_desde_string(const char *string)
 
 		if(strcmp(bool_aux,"true") == 0)
 			objeto_actual->es_asible = true;
+
 		else if ((strcmp(bool_aux,"false") == 0))
-		{
 			objeto_actual->es_asible = false;
-		}
+			
 		else
-		{
 			return NULL;
-		}
 	}	
 
 	return objeto_actual;
