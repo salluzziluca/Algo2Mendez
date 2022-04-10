@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 {	
 	sala_t *sala = sala_crear_desde_archivos(ARCHIVO_OBJETOS, ARCHIVO_INTERACCIONES);
 
-	if (sala == NULL) {
+	if (sala == NULL){
 		printf("Error al crear la sala de escape\n");
 		return -1;
 	}
@@ -20,8 +20,7 @@ int main(int argc, char *argv[])
 	char **nombres_objetos = sala_obtener_nombre_objetos(sala, cantidad_objetos);
 	
 	printf("Objetos...\n");
-	for (int i = 0; i < *cantidad_objetos-1; i++)
-	{
+	for (int i = 0; i < *cantidad_objetos-1; i++){
 		printf("%i: %s\n", i, nombres_objetos[i]);
 	}
 
@@ -29,24 +28,19 @@ int main(int argc, char *argv[])
 
 	printf("Interacciones...\n");
 
-	
-	char *examinar_habitacion = calloc(MAX_NOMBRE, sizeof(char));
-	interracion_valida(sala_es_interaccion_valida(sala, "examinar", "habitacion", "_"), examinar_habitacion);
+	bool es_examinar_habitacion_valida = sala_es_interaccion_valida(sala, "examinar", "habitacion", "");
 
-	char *abrir_pokebola = calloc(MAX_NOMBRE, sizeof(char));
-	interracion_valida(sala_es_interaccion_valida(sala, "abrir", "pokebola", "_"), abrir_pokebola);
+	bool es_abrir_pokebola_valida = sala_es_interaccion_valida(sala, "abrir", "pokebola", "");
 
-	char *usar_llave_cajon = calloc(MAX_NOMBRE, sizeof(char));
-	interracion_valida(sala_es_interaccion_valida(sala, "usar", "llave", "cajon"), usar_llave_cajon);
+	bool es_usar_llave_cajon_valido = sala_es_interaccion_valida(sala, "usar", "llave", "cajon");
 	
-	char *quemar_mesa = calloc(MAX_NOMBRE, sizeof(char));
-	interracion_valida(sala_es_interaccion_valida(sala, "quemar", "mesa", "_"), quemar_mesa);
+	bool es_quemar_mesa_valido = sala_es_interaccion_valida(sala, "quemar", "mesa", "");
 	
 
-	printf("examinar la habitacion: %s\n", examinar_habitacion);
-	printf("Abrir pokebola: %s\n", abrir_pokebola);
-	printf("Usar llave en el cajon: %s\n", usar_llave_cajon);
-	printf("Quemar la mesa: %s\n", quemar_mesa);
+	printf("examinar la habitacion: %s\n", interaccion_valida(es_examinar_habitacion_valida));
+	printf("Abrir pokebola: %s\n", interaccion_valida(es_abrir_pokebola_valida));
+	printf("Usar llave en el cajon: %s\n", interaccion_valida(es_usar_llave_cajon_valido));
+	printf("Quemar la mesa: %s\n", interaccion_valida(es_quemar_mesa_valido));
 	//Mostrar si son válidas las siguientes interacciones
 	//1. examinar habitacion
 	//2. abrir pokebola

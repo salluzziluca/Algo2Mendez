@@ -3,7 +3,8 @@
                 "stdio.h": "c",
                 "sala.h": "c",
                 "estructuras.h": "c",
-                "objeto.h": "c"
+                "objeto.h": "c",
+                "stdbool.h": "c"
         },
         "C_Cpp.errorSquiggles": "Disabled"
 }

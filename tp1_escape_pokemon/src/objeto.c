@@ -18,18 +18,21 @@ struct objeto *objeto_crear_desde_string(const char *string)
 	if(string ==NULL || strcmp(string, "\0") == 0)
 		return NULL;
 	else{
-		sscanf(string,"%[^;];%[^;];%[^\n]\n",nombre_aux, descripcion_aux, bool_aux);
+		int leidos = sscanf(string,"%[^;];%[^;];%[^\n]\n",nombre_aux, descripcion_aux, bool_aux);
 		
-		validar_y_agregar_campos_objeto(nombre_aux, objeto_actual->nombre, objeto_actual);
+		if(leidos != 3)
+			return NULL;
 
-		validar_y_agregar_campos_objeto(descripcion_aux, objeto_actual->descripcion, objeto_actual);
+		strcpy(objeto_actual->nombre, nombre_aux);
+
+		strcpy(objeto_actual->descripcion, descripcion_aux);
 
 		if(strcmp(bool_aux,"true") == 0)
 			objeto_actual->es_asible = true;
 
 		else if ((strcmp(bool_aux,"false") == 0))
 			objeto_actual->es_asible = false;
-			
+
 		else
 			return NULL;
 	}	
