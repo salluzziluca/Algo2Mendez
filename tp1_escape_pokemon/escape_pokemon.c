@@ -10,7 +10,6 @@
 
 int main(int argc, char *argv[])
 {	
-	sala_crear_desde_archivos("chanu/obj.dat", "chanu/int.csv");
 	sala_t *sala = sala_crear_desde_archivos(ARCHIVO_OBJETOS, ARCHIVO_INTERACCIONES);
 
 	if (sala == NULL) {

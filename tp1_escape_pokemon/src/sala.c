@@ -54,14 +54,14 @@ int cargar_a_memoria(struct sala *sala, const char *archivo, char elemento )
 
 	if(elemento == 'o'){
 		sala->objetos = NULL;
-		sala->cantidad_objetos = 0;
+		sala->cantidad_objetos = 1;
 		struct objeto *objeto_a_agregar = objeto_crear_desde_string(linea);
 
 		agregar_objeto_a_vector(&sala->objetos, &sala->cantidad_objetos, objeto_a_agregar);
 	}
 	else if(elemento == 'i'){
 		sala->interacciones = NULL;
-		sala->cantidad_interacciones = 0;
+		sala->cantidad_interacciones = 1;
 		struct interaccion *interaccion_a_agregar = interaccion_crear_desde_string(linea);
 
 		agregar_interaccion_a_vector(&sala->interacciones, &sala->cantidad_interacciones, interaccion_a_agregar);
