@@ -123,9 +123,12 @@ char **sala_obtener_nombre_objetos(sala_t *sala, int *cantidad)
 
 bool sala_es_interaccion_valida(sala_t *sala, const char *verbo, const char *objeto1,const char *objeto2)
 {	
+	if(sala==NULL || verbo==NULL || objeto1==NULL)
+		return false;
+
 	bool es_valido = false;
 
-	for(int i = 1; i < sala->cantidad_interacciones; i++){
+	for(int i = 0; i < sala->cantidad_interacciones; i++){
 		bool es_objeto_valido = strcmp(sala->interacciones[i]->objeto, objeto1) == 0;
 
 		bool es_objeto_parametro_valido = strcmp(sala->interacciones[i]->objeto_parametro, objeto2) == 0;
