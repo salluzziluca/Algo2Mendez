@@ -16,6 +16,7 @@ int main(int argc, char *argv[])
 		printf("Error al crear la sala de escape\n");
 		return -1;
 	}
+
 	int *contador_vector_nombres =calloc(1, sizeof(int));
 	char **nombres_objetos = sala_obtener_nombre_objetos(sala, contador_vector_nombres);
 	
