@@ -42,7 +42,7 @@ struct interaccion *interaccion_crear_desde_string(const char *string)
 			interaccion_actual->accion.tipo=DESCUBRIR_OBJETO;
 			break;	
 		default:
-			interaccion_actual->accion.tipo=-1;
+			interaccion_actual->accion.tipo=0;
 			break;
 		}
 
@@ -50,7 +50,7 @@ struct interaccion *interaccion_crear_desde_string(const char *string)
 
 		int accion_mensaje_validado = validar_y_agregar_campos_interaccion(accion_mensaje_aux, interaccion_actual->accion.mensaje, interaccion_actual);
 
-		if(objeto_validado == -1 || verbo_validado == -1 || objeto_parametro_validado == -1 || interaccion_actual->accion.tipo == -1 || accion_objeto_validado == -1 || accion_mensaje_validado == -1)
+		if(objeto_validado == -1 || verbo_validado == -1 || objeto_parametro_validado == -1 || interaccion_actual->accion.tipo == 0|| accion_objeto_validado == -1 || accion_mensaje_validado == -1)
 			interaccion_actual = NULL;
 	}
 

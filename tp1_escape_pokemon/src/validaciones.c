@@ -17,11 +17,11 @@ int interracion_valida(bool interaccion_valida, char *string_validez)
 	return 0;
 }
 
-int validar_y_agregar_campos_interaccion(char *campo_actual, char valor_aux[MAX_NOMBRE], struct interaccion *interaccion_actual)
+int validar_y_agregar_campos_interaccion(char valor_aux[MAX_NOMBRE], char *campo_actual, struct interaccion *interaccion_actual)
 {
-        if(campo_actual != NULL || strcmp(campo_actual, "\0") != 0)
+        if(valor_aux != NULL || strcmp(valor_aux, "") != 0)
         {
-                strcpy(valor_aux,campo_actual);
+                strcpy(campo_actual,valor_aux);
                 return 1;
         }
         else
@@ -30,11 +30,11 @@ int validar_y_agregar_campos_interaccion(char *campo_actual, char valor_aux[MAX_
         }
         return 0;
 }
-int validar_y_agregar_campos_objeto(char *campo_actual, char valor_aux[MAX_NOMBRE], struct objeto *objeto_actual)
+int validar_y_agregar_campos_objeto(char valor_aux[MAX_NOMBRE], char *campo_actual, struct objeto *objeto_actual)
 {
-        if(campo_actual!=NULL|| strcmp(campo_actual, "\0") != 0)
+        if(valor_aux!=NULL|| strcmp(valor_aux, "") != 0)
         {
-                strcpy(valor_aux,campo_actual);
+                strcpy(campo_actual,valor_aux);
                 return 1;
         }
         else
