@@ -55,19 +55,14 @@ int cargar_a_memoria(struct sala *sala, const char *archivo, char elemento )
 	if(elemento == 'o'){
 		sala->objetos = NULL;
 		sala->cantidad_objetos = 0;
-		struct objeto *objeto_a_agregar = objeto_crear_desde_string(linea);
 
-		agregar_objeto_a_vector(&sala->objetos, &sala->cantidad_objetos, objeto_a_agregar);
 	}
 	else if(elemento == 'i'){
 		sala->interacciones = NULL;
 		sala->cantidad_interacciones = 0;
-		struct interaccion *interaccion_a_agregar = interaccion_crear_desde_string(linea);
-
-		agregar_interaccion_a_vector(&sala->interacciones, &sala->cantidad_interacciones, interaccion_a_agregar);
 	}
 
-	while(linea_leida){
+	while(linea_leida!=NULL){
 		linea_leida = fgets(linea, LARGO_MAX_LINEA, archivo_actual);
 
 		if(elemento == 'o'){
@@ -90,7 +85,6 @@ sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones
 	struct sala *sala = malloc( sizeof(struct sala));
 	if(sala == NULL)
 		return NULL;
-
 	cargar_a_memoria(sala, objetos, OBJETOS);
 	cargar_a_memoria(sala, interacciones, INTERACCIONES);
 
@@ -104,6 +98,11 @@ sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones
 
 char **sala_obtener_nombre_objetos(sala_t *sala, int *cantidad)
 {
+	if(sala==NULL){
+		*cantidad=-1;
+		return NULL;
+	}
+	
 	char **nombres_objetos = malloc((unsigned)(sala->cantidad_objetos) * sizeof(char*));	
 
 	while(*cantidad < sala->cantidad_objetos){
@@ -121,7 +120,7 @@ bool sala_es_interaccion_valida(sala_t *sala, const char *verbo, const char *obj
 {	
 	bool es_valido = false;
 
-	for(int i = 0; i < sala->cantidad_interacciones; i++){
+	for(int i = 1; i < sala->cantidad_interacciones; i++){
 		bool es_objeto_valido = strcmp(sala->interacciones[i]->objeto, objeto1) == 0;
 
 		bool es_objeto_parametro_valido = strcmp(sala->interacciones[i]->objeto_parametro, objeto2) == 0;

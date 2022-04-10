@@ -16,11 +16,11 @@ int main(int argc, char *argv[])
 		printf("Error al crear la sala de escape\n");
 		return -1;
 	}
-	int *cantidad_objetos =calloc(1, sizeof(int));
-	char **nombres_objetos = sala_obtener_nombre_objetos(sala, cantidad_objetos);
+	int *contador_vector_nombres =calloc(1, sizeof(int));
+	char **nombres_objetos = sala_obtener_nombre_objetos(sala, contador_vector_nombres);
 	
 	printf("Objetos...\n");
-	for (int i = 0; i < *cantidad_objetos-1; i++){
+	for (int i = 0; i < *contador_vector_nombres-1; i++){
 		printf("%i: %s\n", i, nombres_objetos[i]);
 	}
 
