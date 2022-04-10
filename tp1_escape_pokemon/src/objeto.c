@@ -13,7 +13,9 @@ struct objeto *objeto_crear_desde_string(const char *string)
 	char nombre_aux[MAX_NOMBRE] = "\0";
 	char descripcion_aux[MAX_TEXTO] = "\0";
 	char bool_aux[MAX_BOOL] = "\0";
-	if((string == NULL) || (strcmp(string,"_")==0)){
+	if(string ==NULL)
+		return NULL;
+	else if((strcmp(string,"_")==0)){
 		strcpy(objeto_actual->nombre,"\0");
 		strcpy(objeto_actual->descripcion,"\0");
 		objeto_actual->es_asible=false;
