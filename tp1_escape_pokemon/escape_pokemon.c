@@ -1,4 +1,5 @@
 #include "src/sala.h"
+#include "src/validaciones.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -7,22 +8,13 @@
 #define ARCHIVO_INTERACCIONES argv[2]
 #define MAX_NOMBRE 20
 
-	
-int interracion_valida(bool interaccion_valida, char *string_validez)
-{
-	if(interaccion_valida)
-		strcpy(string_validez, "Válido");
-	else
-		strcpy(string_validez, "Inválido");
-	return 0;
-}
-
 int main(int argc, char *argv[])
 {	
 	
+	bool es_archivo_objeto_valido = (strcmp(ARCHIVO_OBJETOS, "ejemplo/objetos.txt")) != 0;
+	bool es_archivo_interaccion_valido = (strcmp(ARCHIVO_INTERACCIONES, "ejemplo/interacciones.txt")) != 0;
 	
-	//Los archivos deben venir como parámetros del main
-	if((((strcmp(ARCHIVO_OBJETOS, "ejemplo/objetos.txt")) != 0) || ((strcmp(ARCHIVO_INTERACCIONES,"ejemplo/interacciones.txt"))!=0))){
+	if(((es_archivo_objeto_valido) || (es_archivo_interaccion_valido))){
 		printf("Error, no se ingresaron los archivos correctamente\n");
 		return -1;
 	}
@@ -33,7 +25,6 @@ int main(int argc, char *argv[])
 		printf("Error al crear la sala de escape\n");
 		return -1;
 	}
-	//Mostrar todos los objetos en la sala
 	int *cantidad_objetos =calloc(1, sizeof(int));
 	char **nombres_objetos = sala_obtener_nombre_objetos(sala, cantidad_objetos);
 	

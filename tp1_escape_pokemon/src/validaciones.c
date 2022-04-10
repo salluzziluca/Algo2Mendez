@@ -8,6 +8,15 @@
 #include <stdbool.h>
 #include <string.h>
 
+int interracion_valida(bool interaccion_valida, char *string_validez)
+{
+	if(interaccion_valida)
+		strcpy(string_validez, "Válido");
+	else
+		strcpy(string_validez, "Inválido");
+	return 0;
+}
+
 int validar_y_agregar_campos_interaccion(char *campo_actual, char valor_aux[MAX_NOMBRE], struct interaccion *interaccion_actual)
 {
         if(campo_actual!=NULL)

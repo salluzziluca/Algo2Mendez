@@ -8,13 +8,27 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
+
 /*
-* Valida si el valor pasado es no nulo. De ser asi, lo agrega al campo correspondiente. Devuelve 1 si el campo fue agregado, -1 si no.
+* Valida si el resultado de la comparacion entre input y registro de interacciones 
+* es correcto. De ser verdadero, se modiifica un string con el resultado de la     * comparacion. 
+* Este string sera luego utilizado para imprimir por pantalla las interacciones
+* validas.
+*/
+int interracion_valida(bool interaccion_valida, char *string_validez);
+
+/*
+* Valida si el valor pasado es no nulo. De ser asi, lo agrega al campo correspondiente del estruct interacción. Devuelve 1 si el campo fue agregado, -1 si no.
 *   
 *
 */
 int validar_y_agregar_campos_interaccion(char *campo_actual, char valor_aux[MAX_NOMBRE], struct interaccion *interaccion_actual);
 
+/*
+* Valida si el valor pasado es no nulo. De ser asi, lo agrega al campo correspondiente del struct objeto. Devuelve 1 si el campo fue agregado, -1 si no.
+*   
+*
+*/
 int validar_y_agregar_campos_objeto(char *campo_actual, char valor_aux[MAX_NOMBRE], struct objeto *objeto_actual);
 
 #endif // VALIDACIONES_H_
