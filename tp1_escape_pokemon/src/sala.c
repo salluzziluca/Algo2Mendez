@@ -65,8 +65,6 @@ int cargar_a_memoria(struct sala *sala, const char *archivo, char elemento )
 		sala->interacciones = NULL;
 		sala->cantidad_interacciones = 0;
 		struct interaccion *interaccion_a_agregar = interaccion_crear_desde_string(linea);
-		interaccion_crear_desde_string("a;b;c;d");
-		
 
 		agregar_interaccion_a_vector(&sala->interacciones, &sala->cantidad_interacciones, interaccion_a_agregar);
 	}
