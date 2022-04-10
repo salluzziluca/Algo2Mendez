@@ -54,14 +54,16 @@ int cargar_a_memoria(struct sala *sala, const char *archivo, char elemento )
 
 	if(elemento == 'o')
 	{
-		sala->objetos=NULL;
+		sala->objetos = NULL;
+		sala->cantidad_objetos = 0;
 		struct objeto *objeto_a_agregar = objeto_crear_desde_string(linea);
 
 		agregar_objeto_a_vector(&sala->objetos, &sala->cantidad_objetos, objeto_a_agregar);
 	}
 	else if(elemento == 'i')
 	{
-		sala->interacciones=NULL;
+		sala->interacciones = NULL;
+		sala->cantidad_objetos = 0;
 		struct interaccion *interaccion_a_agregar = interaccion_crear_desde_string(linea);
 
 		agregar_interaccion_a_vector(&sala->interacciones, &sala->cantidad_interacciones, interaccion_a_agregar);
@@ -90,7 +92,7 @@ int cargar_a_memoria(struct sala *sala, const char *archivo, char elemento )
 sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones)
 {
 	struct sala *sala = malloc( sizeof(struct sala));
-	if(sala==NULL)
+	if(sala == NULL)
 		return NULL;
 
 	cargar_a_memoria(sala, objetos, OBJETOS);
