@@ -97,6 +97,13 @@ sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones
 
 	cargar_a_memoria(sala, objetos, OBJETOS);
 	cargar_a_memoria(sala, interacciones, INTERACCIONES);
+
+	if(sala->cantidad_objetos == 0 || sala->cantidad_interacciones == 0)
+	{
+		//sala_destruir(sala);
+		return NULL;
+	}
+
 	return sala;
 }
 

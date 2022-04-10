@@ -10,15 +10,7 @@
 
 int main(int argc, char *argv[])
 {	
-	
-	bool es_archivo_objeto_valido = (strcmp(ARCHIVO_OBJETOS, "ejemplo/objetos.txt")) != 0;
-	bool es_archivo_interaccion_valido = (strcmp(ARCHIVO_INTERACCIONES, "ejemplo/interacciones.txt")) != 0;
-	
-	if(((es_archivo_objeto_valido) || (es_archivo_interaccion_valido))){
-		printf("Error, no se ingresaron los archivos correctamente\n");
-		return -1;
-	}
-
+	sala_crear_desde_archivos("chanu/obj.dat", "chanu/int.csv");
 	sala_t *sala = sala_crear_desde_archivos(ARCHIVO_OBJETOS, ARCHIVO_INTERACCIONES);
 
 	if (sala == NULL) {
