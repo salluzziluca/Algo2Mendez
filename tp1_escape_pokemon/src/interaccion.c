@@ -39,7 +39,7 @@ struct interaccion *interaccion_crear_desde_string(const char *string)
 			interaccion_actual->accion.tipo=ELIMINAR_OBJETO;
 			break;
 		case 'm':
-			interaccion_actual->accion.tipo=DESCUBRIR_OBJETO;
+			interaccion_actual->accion.tipo=MOSTRAR_MENSAJE;
 			break;	
 		default:
 			interaccion_actual->accion.tipo=0;

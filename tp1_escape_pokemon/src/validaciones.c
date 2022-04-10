@@ -19,7 +19,7 @@ int interracion_valida(bool interaccion_valida, char *string_validez)
 
 int validar_y_agregar_campos_interaccion(char valor_aux[MAX_NOMBRE], char *campo_actual, struct interaccion *interaccion_actual)
 {
-        if(valor_aux != NULL || strcmp(valor_aux, "") != 0)
+        if(valor_aux != NULL && strcmp(valor_aux, "") != 0)
         {
                 strcpy(campo_actual,valor_aux);
                 return 1;
@@ -32,7 +32,7 @@ int validar_y_agregar_campos_interaccion(char valor_aux[MAX_NOMBRE], char *campo
 }
 int validar_y_agregar_campos_objeto(char valor_aux[MAX_NOMBRE], char *campo_actual, struct objeto *objeto_actual)
 {
-        if(valor_aux!=NULL|| strcmp(valor_aux, "") != 0)
+        if(valor_aux!=NULL && strcmp(valor_aux, "") != 0)
         {
                 strcpy(campo_actual,valor_aux);
                 return 1;
