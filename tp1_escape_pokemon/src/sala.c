@@ -18,7 +18,7 @@ int agregar_objeto_a_vector(struct objeto ***objetos, int *cantidad_objetos, str
 	if(bloque_auxiliar == NULL)
 		return -1;
 
-	*objetos= bloque_auxiliar;
+	*objetos = bloque_auxiliar;
 	bloque_auxiliar[*cantidad_objetos]=objeto_actual;
 	(*cantidad_objetos)++;
 
@@ -32,7 +32,7 @@ int agregar_interaccion_a_vector(struct interaccion ***interacciones, int *canti
 	if(bloque_auxiliar == NULL)
 		return -1;
 
-	*interacciones= bloque_auxiliar;
+	*interacciones = bloque_auxiliar;
 	bloque_auxiliar[*cantidad_interacciones]=interaccion_actual;
 	(*cantidad_interacciones)++;
 
@@ -49,8 +49,10 @@ int cargar_a_memoria(struct sala *sala, const char *archivo, char elemento )
 	char linea[LARGO_MAX_LINEA];
 	char *linea_leida = fgets(linea, LARGO_MAX_LINEA, archivo_actual);
 	
-	if(linea_leida == NULL)
+	if(linea_leida == NULL){
+		fclose(archivo_actual);
 		return -1;
+	}
 
 	if(elemento == 'o'){
 		sala->objetos = NULL;
@@ -85,13 +87,15 @@ int cargar_a_memoria(struct sala *sala, const char *archivo, char elemento )
 sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones)
 {
 	struct sala *sala = calloc(1, sizeof(struct sala));
+
 	if(sala == NULL)
 		return NULL;
+
 	cargar_a_memoria(sala, objetos, OBJETOS);
 	cargar_a_memoria(sala, interacciones, INTERACCIONES);
 
 	if(sala->cantidad_objetos == 0 || sala->cantidad_interacciones == 0){
-		//sala_destruir(sala);
+		sala_destruir(sala);
 		return NULL;
 	}
 
@@ -101,22 +105,28 @@ sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones
 char **sala_obtener_nombre_objetos(sala_t *sala, int *cantidad)
 {
 	if(sala==NULL){
-		*cantidad=-1;
-		return NULL;
+		if(cantidad != NULL)
+			*cantidad=-1;
+
+		return NULL;	
 	}
 
-	if(cantidad==NULL)
-		cantidad = calloc(1, sizeof(int));
+	char **nombres_objetos = malloc((unsigned)sala->cantidad_objetos * sizeof(char*));
 
-	char **nombres_objetos = malloc((unsigned)(sala->cantidad_objetos) * sizeof(char*));	
+	if(nombres_objetos==NULL){
+		if(cantidad != NULL)
+			*cantidad=-1;
 
-	while(*cantidad < sala->cantidad_objetos){
-		nombres_objetos[*cantidad] = sala->objetos[*cantidad]->nombre;
-		(*cantidad)++;
+		return NULL;	
 	}
 	
-	if (*cantidad == 0)
-		printf("No hay objetos en la sala\n");
+
+	for(int i=0; i<sala->cantidad_objetos; i++){
+		nombres_objetos[i] = sala->objetos[i]->nombre;
+	}
+
+	if(cantidad != NULL)
+		*cantidad = sala->cantidad_objetos;
 		
 	return nombres_objetos;
 }
@@ -129,6 +139,7 @@ bool sala_es_interaccion_valida(sala_t *sala, const char *verbo, const char *obj
 	bool es_valido = false;
 
 	for(int i = 0; i < sala->cantidad_interacciones; i++){
+		
 		bool es_objeto_valido = strcmp(sala->interacciones[i]->objeto, objeto1) == 0;
 
 		bool es_objeto_parametro_valido = strcmp(sala->interacciones[i]->objeto_parametro, objeto2) == 0;
@@ -144,5 +155,16 @@ bool sala_es_interaccion_valida(sala_t *sala, const char *verbo, const char *obj
 
 void sala_destruir(sala_t *sala)
 {
+	for(int i = 0; i < sala->cantidad_objetos; i++){
+		free(sala->objetos[i]);
+	}
+
+	for(int i = 0; i < sala->cantidad_interacciones; i++){
+		free(sala->interacciones[i]);
+	}	
+	free(sala->objetos);
+	free(sala->interacciones);
+	free(sala);
+
 	//tener cuidado de liberar toda la memoria en orden
 }

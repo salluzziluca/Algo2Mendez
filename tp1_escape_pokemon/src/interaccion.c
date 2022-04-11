@@ -17,13 +17,18 @@ struct interaccion *interaccion_crear_desde_string(const char *string)
 	char accion_objeto_aux[MAX_NOMBRE] = "\0";
 	char accion_mensaje_aux[MAX_TEXTO] = "\0";
 
-	if(string==NULL || strcmp(string, "\0") == 0)
+	if(string==NULL || strcmp(string, "\0") == 0){
+		free(interaccion_actual);
 		return NULL;
+	}
+
 	else{
 		int leidos = sscanf(string,"%[^;];%[^;];%[^;];%c:%[^:]:%[^\n]\n", objeto_aux, verbo_aux, objeto_parametro_aux, &tipo_accion_actual, accion_objeto_aux, accion_mensaje_aux);
 
-		if(leidos != 6)
+		if(leidos != 6){
+			free(interaccion_actual);
 			return NULL;
+		}
 
 		strcpy(interaccion_actual->objeto, objeto_aux);
 		strcpy(interaccion_actual->verbo, verbo_aux);
@@ -57,9 +62,6 @@ struct interaccion *interaccion_crear_desde_string(const char *string)
 			strcpy(interaccion_actual->accion.objeto, accion_objeto_aux);
 
 		strcpy(interaccion_actual->accion.mensaje, accion_mensaje_aux);
-
-		/*if(objeto_validado == -1 || verbo_validado == -1 || objeto_parametro_validado == -1 || interaccion_actual->accion.tipo == 0|| accion_objeto_validado == -1 || accion_mensaje_validado == -1)
-			interaccion_actual = NULL;*/
 	}
 
 	return interaccion_actual;

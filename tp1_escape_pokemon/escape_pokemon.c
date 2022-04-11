@@ -17,11 +17,11 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 
-	int *contador_vector_nombres =calloc(1, sizeof(int));
-	char **nombres_objetos = sala_obtener_nombre_objetos(sala, contador_vector_nombres);
+	int cantidad_vector_nombres =0;
+	char **nombres_objetos = sala_obtener_nombre_objetos(sala, &cantidad_vector_nombres);
 	
 	printf("Objetos...\n");
-	for (int i = 0; i < *contador_vector_nombres-1; i++){
+	for (int i = 0; i < cantidad_vector_nombres-1; i++){
 		printf("%i: %s\n", i, nombres_objetos[i]);
 	}
 
@@ -36,21 +36,13 @@ int main(int argc, char *argv[])
 	bool es_usar_llave_cajon_valido = sala_es_interaccion_valida(sala, "usar", "llave", "cajon");
 	
 	bool es_quemar_mesa_valido = sala_es_interaccion_valida(sala, "quemar", "mesa", "");
-	
 
 	printf("examinar la habitacion: %s\n", interaccion_valida(es_examinar_habitacion_valida));
 	printf("Abrir pokebola: %s\n", interaccion_valida(es_abrir_pokebola_valida));
 	printf("Usar llave en el cajon: %s\n", interaccion_valida(es_usar_llave_cajon_valido));
-	printf("Quemar la mesa: %s\n", interaccion_valida(es_quemar_mesa_valido));
-	//Mostrar si son válidas las siguientes interacciones
-	//1. examinar habitacion
-	//2. abrir pokebola
-	//3. usar llave cajon
-	//4. quemar mesa
+	printf("Quemar la mesa: %s\n", interaccion_valida(es_quemar_mesa_valido));	
 
-	
-
-	//sala_destruir(sala);
+	sala_destruir(sala);
 
 	return 0;
 }
