@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 
-	int cantidad_vector_nombres =0;
+	int cantidad_vector_nombres = 0;
 	char **nombres_objetos = sala_obtener_nombre_objetos(sala, &cantidad_vector_nombres);
 	
 	printf("Objetos...\n");

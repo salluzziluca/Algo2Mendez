@@ -65,8 +65,6 @@ int cargar_a_memoria(struct sala *sala, const char *archivo, char elemento )
 	}
 
 	while(linea_leida!=NULL){
-		
-
 		if(elemento == 'o'){
 			struct objeto *objeto_a_agregar = objeto_crear_desde_string(linea);
 
@@ -120,7 +118,6 @@ char **sala_obtener_nombre_objetos(sala_t *sala, int *cantidad)
 		return NULL;	
 	}
 	
-
 	for(int i=0; i<sala->cantidad_objetos; i++){
 		nombres_objetos[i] = sala->objetos[i]->nombre;
 	}
