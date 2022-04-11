@@ -99,12 +99,11 @@ En esta sección van los diagramas que realizas para poder acompañar los detall
 
 1. Diagrama1
 
-    ![Diagrama1](https://i.imgur.com/KvYn8UD.png)
+    ![[WhatsApp Image 2022-04-10 at 11.54.57 PM.jpeg]]
 
-    Explicacion del diagrama1, en caso de ser necesaria.
+Una muestra de como se manejan el stack y el heap. Un puntero en el stack apunta a una memoria en el heap. Una variable cantidad_nombres creada en el stack tiene un puntero en el heap (creado despues) que apunta a cantidad_objetos. De esta forma se le modifica el valor a cantidad_nombres
 
-2. Diagrama2
+2. ![[WhatsApp Image 2022-04-10 at 11.54.56 PM.jpeg]]
 
-    ![Diagrama2](https://i.imgur.com/nhqXNr6.png)
 
-    Explicacion del diagrama2, en caso de ser necesaria.
+    Se tiene un archivo, de ese se lee una lina que mediante objeto_crear_desde_string se transforma luego en un struct objeto que es cargado a un vector. A ese vector se accede mediante un puntero en sala

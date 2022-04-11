@@ -1,0 +1,94 @@
+{
+  "main": {
+    "id": "fd1f9d1fa1409bea",
+    "type": "split",
+    "children": [
+      {
+        "id": "36e3bef38266baf0",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "Informe.md",
+            "mode": "source",
+            "source": false
+          }
+        }
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "be5bc984cd3e52ee",
+    "type": "split",
+    "children": [
+      {
+        "id": "0654fc43266c2405",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "0c6cc2f7e7aafe1c",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "a485143b1cf1efae",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "be1b3f883a6a268a",
+    "type": "split",
+    "children": [
+      {
+        "id": "e753f8cf7d027e3c",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "7817cc2ef2a91c17",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Informe.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "active": "36e3bef38266baf0",
+  "lastOpenFiles": [
+    "Informe.md"
+  ]
+}
