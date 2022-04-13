@@ -102,7 +102,7 @@ sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones
 
 char **sala_obtener_nombre_objetos(sala_t *sala, int *cantidad)
 {
-	if(sala==NULL){
+	if(sala == NULL){
 		if(cantidad != NULL)
 			*cantidad=-1;
 
@@ -111,14 +111,14 @@ char **sala_obtener_nombre_objetos(sala_t *sala, int *cantidad)
 
 	char **nombres_objetos = malloc((unsigned)sala->cantidad_objetos * sizeof(char*));
 
-	if(nombres_objetos==NULL){
+	if(nombres_objetos == NULL){
 		if(cantidad != NULL)
 			*cantidad=-1;
 
 		return NULL;	
 	}
 	
-	for(int i=0; i<sala->cantidad_objetos; i++){
+	for(int i = 0; i < sala->cantidad_objetos; i++){
 		nombres_objetos[i] = sala->objetos[i]->nombre;
 	}
 
@@ -130,7 +130,7 @@ char **sala_obtener_nombre_objetos(sala_t *sala, int *cantidad)
 
 bool sala_es_interaccion_valida(sala_t *sala, const char *verbo, const char *objeto1,const char *objeto2)
 {	
-	if(sala==NULL || verbo==NULL || objeto1==NULL)
+	if(sala == NULL || verbo == NULL || objeto1 == NULL)
 		return false;
 
 	bool es_valido = false;
@@ -162,6 +162,4 @@ void sala_destruir(sala_t *sala)
 	free(sala->objetos);
 	free(sala->interacciones);
 	free(sala);
-
-	//tener cuidado de liberar toda la memoria en orden
 }

@@ -10,7 +10,7 @@ struct interaccion *interaccion_crear_desde_string(const char *string)
 {
 	struct interaccion *interaccion_actual= malloc(sizeof(struct interaccion));
 
-	char objeto_aux[MAX_NOMBRE]= "\0";
+	char objeto_aux[MAX_NOMBRE] = "\0";
 	char verbo_aux[MAX_NOMBRE] = "\0";
 	char objeto_parametro_aux[MAX_NOMBRE] = "\0";
 	char tipo_accion_actual = '\0';
@@ -33,26 +33,26 @@ struct interaccion *interaccion_crear_desde_string(const char *string)
 		strcpy(interaccion_actual->objeto, objeto_aux);
 		strcpy(interaccion_actual->verbo, verbo_aux);
 
-		if(strcmp(objeto_parametro_aux, "_")==0)
+		if(strcmp(objeto_parametro_aux, "_") == 0)
 			strcpy(interaccion_actual->objeto_parametro, "");
 		else
 			strcpy(interaccion_actual->objeto_parametro, objeto_parametro_aux);
 		
 		switch (tipo_accion_actual){
 		case 'd':
-			interaccion_actual->accion.tipo=DESCUBRIR_OBJETO;
+			interaccion_actual->accion.tipo = DESCUBRIR_OBJETO;
 			break;
 		case 'r':
-			interaccion_actual->accion.tipo=REEMPLAZAR_OBJETO;
+			interaccion_actual->accion.tipo = REEMPLAZAR_OBJETO;
 			break;
 		case 'e':
-			interaccion_actual->accion.tipo=ELIMINAR_OBJETO;
+			interaccion_actual->accion.tipo = ELIMINAR_OBJETO;
 			break;
 		case 'm':
-			interaccion_actual->accion.tipo=MOSTRAR_MENSAJE;
+			interaccion_actual->accion.tipo = MOSTRAR_MENSAJE;
 			break;	
 		default:
-			interaccion_actual->accion.tipo=0;
+			interaccion_actual->accion.tipo = 0;
 			break;
 		}
 

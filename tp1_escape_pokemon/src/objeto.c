@@ -15,7 +15,7 @@ struct objeto *objeto_crear_desde_string(const char *string)
 	char descripcion_aux[MAX_TEXTO] = "\0";
 	char bool_aux[MAX_BOOL] = "\0";
 
-	if(string ==NULL || strcmp(string, "\0") == 0){
+	if(string == NULL || strcmp(string, "\0") == 0){
 		free(objeto_actual);
 		return NULL;
 	}
