@@ -8,11 +8,13 @@ pila_t *pila_crear()
 
 pila_t *pila_apilar(pila_t *pila, void *elemento)
 {
+	//Fijarme si tope se estas acercando mucho a tamanio, en ese caso, damos mas memoria. Propongo un 75%
 	return NULL;
 }
 
 void *pila_desapilar(pila_t *pila)
 {
+	//Fijarme si tope ==0
 	return NULL;
 }
 
@@ -28,6 +30,7 @@ size_t pila_tamanio(pila_t *pila)
 
 bool pila_vacia(pila_t *pila)
 {
+	//Fijarme si tope == 0
 	return false;
 }
 
