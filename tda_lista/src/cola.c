@@ -1,6 +1,10 @@
 #include "cola.h"
 #include "lista.h"
 
+struct _cola_t {
+	lista_t *lista;
+}
+
 cola_t *cola_crear()
 {
 	return NULL;
