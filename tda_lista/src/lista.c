@@ -18,7 +18,8 @@ lista_t *lista_insertar(lista_t *lista, void *elemento)
 
 	if(nodo == NULL)
 		return NULL;
-
+	//TODO: Revisar la sintaxis, ver si se puede optimizar
+	
 	if(lista->cantidad == 0){
 		nodo->elemento = elemento;
 		nodo->siguiente = NULL;
@@ -91,7 +92,7 @@ void lista_destruir(lista_t *lista)
 
 void lista_destruir_todo(lista_t *lista, void (*funcion)(void *))
 {
-
+//tener en cuenta en uso de cantidad. 
 }
 
 lista_iterador_t *lista_iterador_crear(lista_t *lista)
