@@ -2,6 +2,15 @@
 #include <stddef.h>
 #include <stdlib.h>
 
+int insertar_nodo(lista_t *lista, nodo_t *nodo, void *elemento)
+{
+	nodo->elemento = elemento;
+	nodo->siguiente = NULL;
+	lista->nodo_fin = nodo;
+
+	return 0;
+}
+
 lista_t *lista_crear()
 {
 	lista_t *lista = malloc(sizeof(lista_t));
@@ -18,20 +27,23 @@ lista_t *lista_insertar(lista_t *lista, void *elemento)
 
 	if(nodo == NULL)
 		return NULL;
+
 	//TODO: Revisar la sintaxis, ver si se puede optimizar
 	
 	if(lista->cantidad == 0){
-		nodo->elemento = elemento;
+		insertar_nodo(lista, nodo, elemento);
+		/*nodo->elemento = elemento;
 		nodo->siguiente = NULL;
-		lista->nodo_fin = nodo;
+		lista->nodo_fin = nodo;*/
 		lista->nodo_inicio = nodo;
 		lista->cantidad++;
 	}
 	else{
-		nodo->elemento = elemento;
+		insertar_nodo(lista, nodo, elemento);
+		/*nodo->elemento = elemento;
 		nodo->siguiente = NULL;
+		lista->nodo_fin = nodo;*/
 		lista->nodo_fin->siguiente = nodo;
-		lista->nodo_fin = nodo;
 		lista->cantidad++;
 	}
 	
