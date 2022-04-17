@@ -4,7 +4,12 @@
 
 lista_t *lista_crear()
 {
-	return NULL;
+	lista_t *lista = malloc(sizeof(lista_t));
+
+	if(lista == NULL)
+		return NULL;
+		
+	return lista;
 }
 
 lista_t *lista_insertar(lista_t *lista, void *elemento)
