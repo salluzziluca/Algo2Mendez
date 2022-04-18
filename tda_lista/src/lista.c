@@ -17,6 +17,9 @@ lista_t *lista_crear()
 
 	if(lista == NULL)
 		return NULL;
+	lista->nodo_inicio = NULL;
+	lista->nodo_fin = NULL;
+	lista->cantidad = 0;
 
 	return lista;
 }
