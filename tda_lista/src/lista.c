@@ -2,19 +2,54 @@
 #include <stddef.h>
 #include <stdlib.h>
 
+/*
+* Recibe un nodo y lo inserta al final de la lista. Asigna el puntero de ese nodo a NULL.
+*/
+int insertar_nodo(lista_t *lista, nodo_t *nodo, void *elemento)
+{
+	nodo->elemento = elemento;
+	nodo->siguiente = NULL;
+
+	return 0;
+}
+
 lista_t *lista_crear()
 {
 	lista_t *lista = malloc(sizeof(lista_t));
 
 	if(lista == NULL)
 		return NULL;
+	lista->nodo_inicio = NULL;
+	lista->nodo_fin = NULL;
+	lista->cantidad = 0;
 
 	return lista;
 }
 
 lista_t *lista_insertar(lista_t *lista, void *elemento)
 {
-	return NULL;
+	if(lista == NULL)
+		return NULL;
+
+	nodo_t *nodo = malloc(sizeof(nodo_t));
+
+	if(nodo == NULL)
+		return NULL;
+	
+	if(lista->cantidad == 0){
+		insertar_nodo(lista, nodo, elemento);
+		lista->nodo_fin = nodo;
+		lista->nodo_inicio = nodo;
+		lista->cantidad++;
+	}
+	else{
+		insertar_nodo(lista, nodo, elemento);
+		lista->nodo_fin->siguiente = nodo;
+		lista->nodo_fin = nodo;
+		lista->cantidad++;
+	}
+	
+	return lista;
 }
 
 lista_t *lista_insertar_en_posicion(lista_t *lista, void *elemento,
@@ -71,7 +106,7 @@ void lista_destruir(lista_t *lista)
 
 void lista_destruir_todo(lista_t *lista, void (*funcion)(void *))
 {
-
+//tener en cuenta en uso de cantidad. 
 }
 
 lista_iterador_t *lista_iterador_crear(lista_t *lista)
