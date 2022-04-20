@@ -41,7 +41,6 @@ lista_t *lista_insertar(lista_t *lista, void *elemento)
 		lista->nodo_fin = nodo;
 		lista->cantidad++;
 	}
-	
 	return lista;
 }
 
@@ -95,10 +94,9 @@ size_t lista_tamanio(lista_t *lista)
 void lista_destruir(lista_t *lista)
 { //TODO: destruir correctamente nodo a nodo.
 	for(size_t i = 0; i < lista->cantidad; i++){
-		nodo_t *bloque_auxiliar = lista->nodo_inicio;
-		lista->nodo_inicio = lista->nodo_inicio->siguiente;
-		free(bloque_auxiliar);
-		
+		nodo_t *bloque_auxiliar = lista->nodo_inicio->siguiente;
+		free(lista->nodo_inicio);
+		lista->nodo_inicio = bloque_auxiliar;
 	}
 	free(lista);
 }
