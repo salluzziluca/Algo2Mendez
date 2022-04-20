@@ -94,6 +94,12 @@ size_t lista_tamanio(lista_t *lista)
 
 void lista_destruir(lista_t *lista)
 {
+	for(size_t i = 0; i < lista->cantidad; i++){
+		nodo_t *bloque_auxiliar = lista->nodo_inicio;
+		lista->nodo_inicio = lista->nodo_inicio->siguiente;
+		free(bloque_auxiliar);
+		
+	}
 	free(lista);
 }
 
