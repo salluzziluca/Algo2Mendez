@@ -3,8 +3,16 @@
 #include "src/cola.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "pa2m.h"
+#include "pa2mm.h"
+void crear_lista_devuelve_lista_cantidad_cero_y_nodos_nulls()
+{
+  lista_t *lista = lista_crear();
 
+  pa2m_afirmar(lista != NULL, "Se puede crear una lista");
+  pa2m_afirmar(lista->cantidad == 0, "La cantidad de elementos es 0");
+  pa2m_afirmar(lista->nodo_inicio == NULL, "El nodo inicio es NULL");
+  pa2m_afirmar(lista->nodo_fin == NULL, "El nodo fin es NULL");
+}
 void pruebas_de_inserccion_de_objeto()
 {
   char a = 'a';
@@ -29,8 +37,12 @@ void pruebas_de_inserccion_de_objeto()
 }
 
 int main() {
+  pa2m_nuevo_grupo("Pruebas de creacion de lista");
+  crear_lista_devuelve_lista_cantidad_cero_y_nodos_nulls();
   pa2m_nuevo_grupo("Pruebas de insercción");
   pruebas_de_inserccion_de_objeto();
+  // TODO: porbar insertar al principio y al final de una lista vacia y no vacia
+  //TODO: porbar eliminar al principio y al final de una lista vacia y no vacia
   
   return pa2m_mostrar_reporte();
 }
