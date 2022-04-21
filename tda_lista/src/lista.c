@@ -41,7 +41,6 @@ lista_t *lista_insertar(lista_t *lista, void *elemento)
 		lista->nodo_fin = nodo;
 		lista->cantidad++;
 	}
-	
 	return lista;
 }
 
@@ -94,12 +93,25 @@ size_t lista_tamanio(lista_t *lista)
 
 void lista_destruir(lista_t *lista)
 {
+	for(size_t i = 0; i < lista->cantidad; i++){
+
+		nodo_t *bloque_auxiliar = lista->nodo_inicio->siguiente;
+		free(lista->nodo_inicio);
+		lista->nodo_inicio = bloque_auxiliar;
+	}
 	free(lista);
 }
 
 void lista_destruir_todo(lista_t *lista, void (*funcion)(void *))
 {
-//tener en cuenta en uso de cantidad. 
+	for(size_t i = 0; i < lista->cantidad; i++){
+
+		nodo_t *bloque_auxiliar = lista->nodo_inicio->siguiente;
+		funcion(lista->nodo_inicio->elemento);
+		free(lista->nodo_inicio);
+		lista->nodo_inicio = bloque_auxiliar;
+	}
+	free(lista);
 }
 
 lista_iterador_t *lista_iterador_crear(lista_t *lista)
