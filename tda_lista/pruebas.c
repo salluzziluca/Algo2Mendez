@@ -39,7 +39,7 @@ void pruebas_de_inserccion_de_objeto()
 
   char d = 'd';  
   lista_insertar_en_posicion(lista, &d, 2);
-  pa2m_afirmar(lista->nodo_inicio->siguiente->elemento == &d, "Se puede insertar en posición correctamente");
+  pa2m_afirmar(lista->nodo_inicio->siguiente->siguiente->siguiente->elemento == &d, "Se puede insertar en posición correctamente");
 
   lista_destruir(lista);
 }
