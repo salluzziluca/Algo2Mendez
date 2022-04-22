@@ -16,7 +16,7 @@ void crear_lista_devuelve_lista_cantidad_cero_y_nodos_nulls()
 }
 
 void pruebas_de_inserccion_de_objeto()
-{
+{ 
   char a = 'a';
 
   lista_t *lista = lista_crear();
@@ -39,8 +39,15 @@ void pruebas_de_inserccion_de_objeto()
 
   char d = 'd';  
   lista_insertar_en_posicion(lista, &d, 2);
-  //TODO: Fijarme por que le digo que me inserte en la 2 pero me lo inserta en la 4
-  pa2m_afirmar(lista->nodo_inicio->siguiente->siguiente->siguiente->elemento == &d, "Se puede insertar en posición correctamente");
+  pa2m_afirmar(lista->nodo_inicio->siguiente->siguiente->elemento == &d, "Se puede insertar en posición correctamente");
+
+  char e = 'e';
+  lista_insertar_en_posicion(lista, &e, 0);
+  pa2m_afirmar(lista->nodo_inicio->elemento == &e, "Se puede insertar en posición 0 correctamente");
+
+  char f = 'f';
+  lista_insertar_en_posicion(lista, &f, 100);
+  pa2m_afirmar(lista->nodo_fin->elemento == &f, "Se puede insertar en posición mayor que cantidad correctamente");
 
   lista_destruir(lista);
 }
