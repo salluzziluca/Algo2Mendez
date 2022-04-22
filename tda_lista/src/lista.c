@@ -74,6 +74,7 @@ lista_t *lista_insertar_en_posicion(lista_t *lista, void *elemento,
 		lista->cantidad++;
 	}
 	else if(posicion == lista->cantidad){
+		free(nodo_actual);
 		lista_insertar(lista, elemento);
 	}
 	else{
