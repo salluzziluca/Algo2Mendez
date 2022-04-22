@@ -55,6 +55,7 @@ lista_t *lista_insertar_en_posicion(lista_t *lista, void *elemento,
 
 	if(nodo_actual == NULL)
 		return NULL;
+		
 	if(posicion > lista->cantidad){
 		posicion = lista->cantidad;
 		printf("Posicion fuera de rango, se insertara al final (%li)\n", posicion);
@@ -85,7 +86,7 @@ lista_t *lista_insertar_en_posicion(lista_t *lista, void *elemento,
 		}
 		llenar_nodo(nodo_actual, elemento);
 
-		nodo_anterior->siguiente = nodo_actual->siguiente;
+		nodo_actual->siguiente = nodo_anterior->siguiente;
 		nodo_anterior->siguiente = nodo_actual;
 		lista->cantidad ++;
 	}
