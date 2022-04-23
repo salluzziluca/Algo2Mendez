@@ -8,7 +8,7 @@ void crear_lista_devuelve_lista_cantidad_cero_y_nodos_nulls()
 {
   lista_t *lista = lista_crear();
 
-  pa2m_afirmar(lista != NULL, "Se puede crear una lista");
+  pa2m_afirmar(lista, "Se puede crear una lista");
   pa2m_afirmar(lista->cantidad == 0, "La cantidad de elementos es 0");
   pa2m_afirmar(lista->nodo_inicio == NULL, "El nodo inicio es NULL");
   pa2m_afirmar(lista->nodo_fin == NULL, "El nodo fin es NULL");
@@ -21,7 +21,6 @@ void pruebas_de_inserccion_de_objeto()
 
   lista_t *lista = lista_crear();
 
-  pa2m_afirmar(lista != NULL, "Se puede crear una lista");
   lista_insertar(lista, &a);
   pa2m_afirmar(lista->nodo_inicio->elemento == &a, "Se puede insertar un elemento en la lista");
   pa2m_afirmar(lista->nodo_fin->siguiente == NULL, "El ultimo elemento apunta a NULL");

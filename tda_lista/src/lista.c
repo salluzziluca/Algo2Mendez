@@ -68,17 +68,13 @@ lista_t *lista_insertar_en_posicion(lista_t *lista, void *elemento,
 		lista->nodo_inicio = nodo_actual;
 		lista->cantidad++;
 	}
-	if(posicion == 0){
+	else if(posicion == 0){
 		llenar_nodo(nodo_actual, elemento);
 		nodo_actual->siguiente = lista->nodo_inicio;
 		lista->nodo_inicio = nodo_actual;
 		lista->cantidad++;
 	}
-	else if(posicion == lista->cantidad){
-		free(nodo_actual);
-		lista_insertar(lista, elemento);
-	}
-	else{
+	else if (posicion > 0 && posicion < lista->cantidad){
 		nodo_t *nodo_anterior = lista->nodo_inicio;
 
 		for(size_t i = 0; i < posicion-1; i++){
@@ -92,6 +88,11 @@ lista_t *lista_insertar_en_posicion(lista_t *lista, void *elemento,
 		nodo_anterior->siguiente = nodo_actual;
 		lista->cantidad ++;
 	}
+	else if(posicion == lista->cantidad){
+		free(nodo_actual);
+		lista_insertar(lista, elemento);
+	}
+	
 	return lista;
 }
 
