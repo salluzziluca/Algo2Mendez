@@ -14,7 +14,27 @@ lista_t *lista_crear()
 
 lista_t *lista_insertar(lista_t *lista, void *elemento)
 {
-	return NULL;
+	nodo_t *nodo = malloc(sizeof(nodo_t));
+
+	if(nodo == NULL)
+		return NULL;
+
+	if(lista->cantidad == 0){
+		nodo->elemento = elemento;
+		nodo->siguiente = NULL;
+		lista->nodo_fin = nodo;
+		lista->nodo_inicio = nodo;
+		lista->cantidad++;
+	}
+	else{
+		nodo->elemento = elemento;
+		nodo->siguiente = NULL;
+		lista->nodo_fin->siguiente = nodo;
+		lista->nodo_fin = nodo;
+		lista->cantidad++;
+	}
+	
+	return lista;
 }
 
 lista_t *lista_insertar_en_posicion(lista_t *lista, void *elemento,
