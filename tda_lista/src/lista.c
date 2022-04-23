@@ -8,7 +8,7 @@ lista_t *lista_crear()
 
 	if(lista == NULL)
 		return NULL;
-		
+
 	return lista;
 }
 
@@ -66,7 +66,7 @@ size_t lista_tamanio(lista_t *lista)
 
 void lista_destruir(lista_t *lista)
 {
-
+	free(lista);
 }
 
 void lista_destruir_todo(lista_t *lista, void (*funcion)(void *))
