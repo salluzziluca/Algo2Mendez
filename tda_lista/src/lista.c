@@ -48,9 +48,10 @@ lista_t *lista_insertar(lista_t *lista, void *elemento)
 lista_t *lista_insertar_en_posicion(lista_t *lista, void *elemento,
 				    size_t posicion)
 {
+	//TODO: Revisar la sintaxis y mejorar la legibilidiad
 	if(lista == NULL)
 		return NULL;
-	//TODO: Fijarme por que pierdo memoria en este bloque "16 bytes in 1 blocks are definitely lost in loss record 1 of 1"
+
 	nodo_t *nodo_actual = malloc(sizeof(nodo_t));
 
 	if(nodo_actual == NULL)
