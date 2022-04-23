@@ -51,6 +51,22 @@ void pruebas_de_inserccion_de_objeto()
   lista_destruir(lista);
 }
 
+void pruebas_de_elementos()
+{
+  lista_t *lista = lista_crear();
+	char a = 'a' , b = 'b', c = 'c', d = 'd', w = 'w';
+
+	lista_insertar(lista, &a);
+	lista_insertar(lista, &c);
+	lista_insertar_en_posicion(lista, &d, 100);
+	lista_insertar_en_posicion(lista, &b, 1);
+	lista_insertar_en_posicion(lista, &w, 3);
+	
+	char *valor_quitado = lista_quitar_de_posicion(lista, 3);
+  pa2m_afirmar(valor_quitado == &w, "Se puede quitar de posición correctamente");
+  lista_destruir(lista);
+}
+
 //TODO: Fijarme de implementar correctamente una prueba de destruir todo
 /*int destructor(void *elemento)
 {
@@ -75,6 +91,10 @@ int main() {
 
   pa2m_nuevo_grupo("Pruebas de insercción");
   pruebas_de_inserccion_de_objeto();
+
+  pa2m_nuevo_grupo("Pruebas de elementos");
+  pruebas_de_elementos();
+
   
   /*pa2m_nuevo_grupo("Pruebas de destrucción");
   pruebas_de_destruccion_de_lista();*/

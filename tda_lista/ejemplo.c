@@ -45,10 +45,10 @@ void probar_operaciones_lista()
 	lista_insertar_en_posicion(lista, &d, 100);
 	lista_insertar_en_posicion(lista, &b, 1);
 	lista_insertar_en_posicion(lista, &w, 3);
-	/*
+	
 	char *valor_quitado = lista_quitar_de_posicion(lista, 3);
 	printf("Elementos quitado de la posicion 3 de la lista: %c\n", *valor_quitado);
-
+	/*
 	printf("Elementos en la lista: ");
 	for (size_t i = 0; i < lista_tamanio(lista); i++)
 		printf("%c ", *(char *)lista_elemento_en_posicion(lista, i));

@@ -97,7 +97,23 @@ lista_t *lista_insertar_en_posicion(lista_t *lista, void *elemento,
 
 void *lista_quitar(lista_t *lista)
 {
-	return NULL;
+	if(lista == NULL)
+		return NULL;
+
+	nodo_t *nodo_anterior = lista->nodo_inicio;
+	
+	for(size_t i = 0; i < lista->cantidad-1; i++){
+		if(nodo_anterior == NULL)
+			return NULL;
+		nodo_anterior = lista->nodo_inicio->siguiente;
+	}
+	void * elemento_a_devolver = lista->nodo_fin->elemento;
+	free(lista->nodo_fin);
+	lista->nodo_fin = nodo_anterior;
+	lista->nodo_fin->siguiente = NULL;
+	lista->cantidad--;
+	return elemento_a_devolver;
+
 }
 
 void *lista_quitar_de_posicion(lista_t *lista, size_t posicion)
