@@ -9,6 +9,13 @@ pila_t *pila_crear()
 pila_t *pila_apilar(pila_t *pila, void *elemento)
 {
 	//Fijarme si tope se estas acercando mucho a tamanio, en ese caso, damos mas memoria. Propongo un 75%
+	// estoy de acuerdo, 75% me parece bien
+	//Yo prefiero 50
+	//75% es una buena idea
+	//50% es una buena idea
+	// 25% es una buena idea
+	//QUE 
+	
 	return NULL;
 }
 
