@@ -45,10 +45,9 @@ void probar_operaciones_lista()
 	lista_insertar_en_posicion(lista, &d, 100);
 	lista_insertar_en_posicion(lista, &b, 1);
 	lista_insertar_en_posicion(lista, &w, 3);
-
+	/*
 	char *valor_quitado = lista_quitar_de_posicion(lista, 3);
-	printf("Elementos quitado de la posicion 3 de la lista: %c\n",
-	       *valor_quitado);
+	printf("Elementos quitado de la posicion 3 de la lista: %c\n", *valor_quitado);
 
 	printf("Elementos en la lista: ");
 	for (size_t i = 0; i < lista_tamanio(lista); i++)
@@ -93,7 +92,7 @@ void probar_operaciones_lista()
 	else
 		printf("NO ENCONTRADO D:\n");
 
-
+	*/
 	lista_destruir(lista);
 }
 
@@ -155,7 +154,7 @@ int main()
 {
 	printf("Ejemplo del uso de lista\n");
 	probar_operaciones_lista();
-
+	/*
 	printf("\nEjemplo del destructor de lista (no debería perder memoria)\n");
 	probar_operaciones_destructor_lista();
 
@@ -164,7 +163,7 @@ int main()
 	probar_operaciones_cola();
 
 	printf("\nEjemplo del uso de pila\n");
-	probar_operaciones_pila();
+	probar_operaciones_pila();*/
 
 	return 0;
 }
