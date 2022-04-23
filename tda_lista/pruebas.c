@@ -13,6 +13,7 @@ int main() {
   pa2m_afirmar(lista != NULL, "se puede crear una lista");
   lista_insertar(lista, &a);
   pa2m_afirmar(lista->nodo_inicio->elemento == &a, "se puede insertar un elemento en la lista");
+  pa2m_afirmar(lista->nodo_fin->siguiente == NULL, "El ultimo elemento apunta a NULL");
 
   return pa2m_mostrar_reporte();
 }
