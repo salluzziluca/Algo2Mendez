@@ -48,7 +48,6 @@ lista_t *lista_insertar(lista_t *lista, void *elemento)
 lista_t *lista_insertar_en_posicion(lista_t *lista, void *elemento,
 				    size_t posicion)
 {
-	//TODO: Revisar la sintaxis y mejorar la legibilidiad
 	if(lista == NULL)
 		return NULL;
 
