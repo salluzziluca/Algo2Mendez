@@ -105,13 +105,16 @@ void *lista_quitar(lista_t *lista)
 	for(size_t i = 0; i < lista->cantidad-1; i++){
 		if(nodo_anterior == NULL)
 			return NULL;
-		nodo_anterior = lista->nodo_inicio->siguiente;
+		nodo_anterior = nodo_anterior->siguiente;
 	}
+
+	nodo_t* aux_para_eliminar = lista->nodo_fin;
 	void * elemento_a_devolver = lista->nodo_fin->elemento;
-	free(lista->nodo_fin);
 	lista->nodo_fin = nodo_anterior;
 	lista->nodo_fin->siguiente = NULL;
 	lista->cantidad--;
+	
+	free(aux_para_eliminar);
 	return elemento_a_devolver;
 
 }
