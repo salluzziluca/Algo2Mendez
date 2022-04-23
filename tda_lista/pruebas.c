@@ -39,6 +39,7 @@ void pruebas_de_inserccion_de_objeto()
 
   char d = 'd';  
   lista_insertar_en_posicion(lista, &d, 2);
+  //TODO: Fijarme por que le digo que me inserte en la 2 pero me lo inserta en la 4
   pa2m_afirmar(lista->nodo_inicio->siguiente->siguiente->siguiente->elemento == &d, "Se puede insertar en posición correctamente");
 
   lista_destruir(lista);
