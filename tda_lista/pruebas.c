@@ -36,6 +36,11 @@ void pruebas_de_inserccion_de_objeto()
   lista_insertar(lista, &c);
   pa2m_afirmar(lista->nodo_inicio->siguiente->siguiente->elemento == &c, "El segundo elemento apunta al tercero");
   pa2m_afirmar(lista->cantidad == 3, "La cantidad de elementos es 3");
+
+  char d = 'd';  
+  lista_insertar_en_posicion(lista, &d, 2);
+  pa2m_afirmar(lista->nodo_inicio->siguiente->elemento == &d, "Se puede insertar en posición correctamente");
+
   lista_destruir(lista);
 }
 
@@ -66,7 +71,7 @@ int main() {
   
   /*pa2m_nuevo_grupo("Pruebas de destrucción");
   pruebas_de_destruccion_de_lista();*/
-  
+
   // TODO: porbar insertar al principio y al final de una lista vacia y no vacia
   //TODO: porbar eliminar al principio y al final de una lista vacia y no vacia
   

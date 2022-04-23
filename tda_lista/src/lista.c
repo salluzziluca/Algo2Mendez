@@ -6,7 +6,7 @@
 * Recibe un nodo y lo inserta a la lista,
 * apunta el puntero "siguiente" del nodo a NULL
 */
-int insertar_nodo(lista_t *lista, nodo_t *nodo, void *elemento)
+int llenar_nodo(nodo_t *nodo, void *elemento)
 {
 	nodo->elemento = elemento;
 	nodo->siguiente = NULL;
@@ -24,21 +24,21 @@ lista_t *lista_insertar(lista_t *lista, void *elemento)
 	if(lista == NULL)
 		return NULL;
 		
-	nodo_t *nodo = malloc(sizeof(nodo_t));
+	nodo_t *nodo_actual = malloc(sizeof(nodo_t));
 
-	if(nodo == NULL)
+	if(nodo_actual == NULL)
 		return NULL;
 	
 	if(lista->cantidad == 0){
-		insertar_nodo(lista, nodo, elemento);
-		lista->nodo_fin = nodo;
-		lista->nodo_inicio = nodo;
+		llenar_nodo(nodo_actual, elemento);
+		lista->nodo_fin = nodo_actual;
+		lista->nodo_inicio = nodo_actual;
 		lista->cantidad++;
 	}
 	else{
-		insertar_nodo(lista, nodo, elemento);
-		lista->nodo_fin->siguiente = nodo;
-		lista->nodo_fin = nodo;
+		llenar_nodo(nodo_actual, elemento);
+		lista->nodo_fin->siguiente = nodo_actual;
+		lista->nodo_fin = nodo_actual;
 		lista->cantidad++;
 	}
 	return lista;
@@ -47,7 +47,36 @@ lista_t *lista_insertar(lista_t *lista, void *elemento)
 lista_t *lista_insertar_en_posicion(lista_t *lista, void *elemento,
 				    size_t posicion)
 {
-	return NULL;
+	if(lista == NULL)
+		return NULL;
+
+	nodo_t *nodo_actual = malloc(sizeof(nodo_t));
+
+	if(nodo_actual == NULL)
+		return NULL;
+
+	if(lista->cantidad == 0){
+		llenar_nodo(nodo_actual, elemento);
+		lista->nodo_fin = nodo_actual;
+		lista->nodo_inicio = nodo_actual;
+		lista->cantidad++;
+	}
+	else{
+		nodo_t *bloque_auxiliar = lista->nodo_inicio;
+
+		for(size_t i = 0; i < posicion; i++){
+			if(lista->nodo_inicio == NULL)
+				return NULL;
+			lista->nodo_inicio = lista->nodo_inicio->siguiente;
+		}
+		llenar_nodo(nodo_actual, elemento);
+
+		lista->nodo_inicio->siguiente = nodo_actual->siguiente;
+		lista->nodo_inicio->siguiente = nodo_actual;
+		lista->nodo_inicio = bloque_auxiliar;
+		lista->cantidad ++;
+	}
+	return lista;
 }
 
 void *lista_quitar(lista_t *lista)
