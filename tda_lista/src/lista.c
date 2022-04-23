@@ -34,19 +34,19 @@ lista_t *lista_insertar(lista_t *lista, void *elemento)
 	//TODO: Revisar la sintaxis, ver si se puede optimizar
 	
 	if(lista->cantidad == 0){
-		insertar_nodo(lista, nodo, elemento);
-		/*nodo->elemento = elemento;
+		/*insertar_nodo(lista, nodo, elemento);*/
+		nodo->elemento = elemento;
 		nodo->siguiente = NULL;
-		lista->nodo_fin = nodo;*/
+		lista->nodo_fin = nodo;
 		lista->nodo_inicio = nodo;
 		lista->cantidad++;
 	}
 	else{
-		insertar_nodo(lista, nodo, elemento);
-		/*nodo->elemento = elemento;
+		/*insertar_nodo(lista, nodo, elemento);*/
+		nodo->elemento = elemento;
 		nodo->siguiente = NULL;
-		lista->nodo_fin = nodo;*/
 		lista->nodo_fin->siguiente = nodo;
+		lista->nodo_fin = nodo;
 		lista->cantidad++;
 	}
 	
