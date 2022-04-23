@@ -31,8 +31,6 @@ void pruebas_de_inserccion_de_objeto()
 int main() {
   pa2m_nuevo_grupo("Pruebas de insercción");
   pruebas_de_inserccion_de_objeto();
-
-  pa2m_nuevo_grupo("Pruebas y mas pruebas");
   
   return pa2m_mostrar_reporte();
 }
