@@ -4,7 +4,8 @@
                 "sala.h": "c",
                 "estructuras.h": "c",
                 "objeto.h": "c",
-                "stdbool.h": "c"
+                "stdbool.h": "c",
+                "stddef.h": "c"
         },
         "C_Cpp.errorSquiggles": "Disabled"
 }
