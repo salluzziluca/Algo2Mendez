@@ -16,15 +16,7 @@ int insertar_nodo(lista_t *lista, nodo_t *nodo, void *elemento)
 
 lista_t *lista_crear()
 {
-	lista_t *lista = malloc(sizeof(lista_t));
-
-	if(lista == NULL)
-		return NULL;
-	lista->nodo_inicio = NULL;
-	lista->nodo_fin = NULL;
-	lista->cantidad = 0;
-
-	return lista;
+	return lista_t *lista = calloc(sizeof(lista_t));
 }
 
 lista_t *lista_insertar(lista_t *lista, void *elemento)
