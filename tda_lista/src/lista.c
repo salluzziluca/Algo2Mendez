@@ -16,8 +16,7 @@ int insertar_nodo(lista_t *lista, nodo_t *nodo, void *elemento)
 
 lista_t *lista_crear()
 {	
-	lista_t *lista = calloc(1, sizeof(lista_t));
-	return lista;
+	return calloc(1, sizeof(lista_t));
 }
 
 lista_t *lista_insertar(lista_t *lista, void *elemento)
