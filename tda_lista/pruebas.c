@@ -12,6 +12,7 @@ void crear_lista_devuelve_lista_cantidad_cero_y_nodos_nulls()
   pa2m_afirmar(lista->cantidad == 0, "La cantidad de elementos es 0");
   pa2m_afirmar(lista->nodo_inicio == NULL, "El nodo inicio es NULL");
   pa2m_afirmar(lista->nodo_fin == NULL, "El nodo fin es NULL");
+  lista_destruir(lista);
 }
 
 void pruebas_de_inserccion_de_objeto()
@@ -35,6 +36,7 @@ void pruebas_de_inserccion_de_objeto()
   lista_insertar(lista, &c);
   pa2m_afirmar(lista->nodo_inicio->siguiente->siguiente->elemento == &c, "El segundo elemento apunta al tercero");
   pa2m_afirmar(lista->cantidad == 3, "La cantidad de elementos es 3");
+  lista_destruir(lista);
 }
 
 void pruebas_de_destruccion_de_lista()
