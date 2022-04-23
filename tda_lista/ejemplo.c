@@ -43,6 +43,7 @@ void probar_operaciones_lista()
 	lista_insertar(lista, &a);
 	lista_insertar(lista, &c);
 	lista_insertar_en_posicion(lista, &d, 100);
+	//TODO: fijarme porque aca me asigna nodo_actual->siguiente como NULL
 	lista_insertar_en_posicion(lista, &b, 1);
 	lista_insertar_en_posicion(lista, &w, 3);
 	/*
