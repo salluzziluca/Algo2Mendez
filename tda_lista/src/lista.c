@@ -3,7 +3,8 @@
 #include <stdlib.h>
 
 /*
-* Recibe un nodo y lo inserta al final de la lista. Asigna el puntero de ese nodo a NULL.
+* Recibe un nodo y lo inserta a la lista,
+* apunta el puntero "siguiente" del nodo a NULL
 */
 int insertar_nodo(lista_t *lista, nodo_t *nodo, void *elemento)
 {
@@ -30,7 +31,7 @@ lista_t *lista_insertar(lista_t *lista, void *elemento)
 {
 	if(lista == NULL)
 		return NULL;
-
+		
 	nodo_t *nodo = malloc(sizeof(nodo_t));
 
 	if(nodo == NULL)
