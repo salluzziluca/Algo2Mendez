@@ -3,7 +3,7 @@
 
 struct _cola_t {
 	lista_t *lista;
-}
+};
 
 cola_t *cola_crear()
 {
