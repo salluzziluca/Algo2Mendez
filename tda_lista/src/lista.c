@@ -64,7 +64,7 @@ lista_t *lista_insertar_en_posicion(lista_t *lista, void *elemento,
 	else{
 		nodo_t *nodo_anterior = lista->nodo_inicio;
 
-		for(size_t i = 0; i < posicion; i++){
+		for(int i = -1; i < posicion; i++){
 			if(nodo_anterior == NULL)
 				return NULL;
 			nodo_anterior = nodo_anterior->siguiente;
