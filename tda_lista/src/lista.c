@@ -81,8 +81,8 @@ lista_t *lista_insertar_en_posicion(lista_t *lista, void *elemento,
 				return NULL;
 			nodo_anterior = nodo_anterior->siguiente;
 		}
-		llenar_nodo(nodo_actual, elemento);
 
+		llenar_nodo(nodo_actual, elemento);
 		nodo_actual->siguiente = nodo_anterior->siguiente;
 		nodo_anterior->siguiente = nodo_actual;
 		lista->cantidad ++;
