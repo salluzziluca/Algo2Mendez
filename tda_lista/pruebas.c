@@ -58,12 +58,14 @@ void pruebas_de_elementos()
 
 	lista_insertar(lista, &a);
 	lista_insertar(lista, &c);
-	lista_insertar_en_posicion(lista, &d, 100);
-	lista_insertar_en_posicion(lista, &b, 1);
-	lista_insertar_en_posicion(lista, &w, 3);
+	lista_insertar(lista, &d);
+	lista_insertar(lista, &b);
+	lista_insertar(lista, &w);
 	
-	char *valor_quitado = lista_quitar_de_posicion(lista, 3);
-  pa2m_afirmar(valor_quitado == &w, "Se puede quitar de posición correctamente");
+	char *valor_quitado = lista_quitar(lista);
+  pa2m_afirmar(valor_quitado == &w, "Se puede quitar elemento correctamente");
+  char* segundo_valor_quitado = lista_quitar_de_posicion(lista, 1);
+  pa2m_afirmar(segundo_valor_quitado == &c, "Se puede quitar elemento de posición correctamente");
   lista_destruir(lista);
 }
 
