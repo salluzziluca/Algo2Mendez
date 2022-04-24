@@ -54,7 +54,7 @@ void probar_operaciones_lista()
 		printf("%c ", *(char *)lista_elemento_en_posicion(lista, i));
 
 	printf("\n\n");
-
+	/*
 	printf("Imprimo TODOS LOS ELEMENTOS DE LA LISTA usando el iterador externo: \n");
 	lista_iterador_t *it = NULL;
 
@@ -91,7 +91,7 @@ void probar_operaciones_lista()
 		printf("ENCONTRADO\n");
 	else
 		printf("NO ENCONTRADO D:\n");
-
+	*/
 	lista_destruir(lista);
 }
 
