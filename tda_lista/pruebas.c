@@ -82,8 +82,8 @@ void pruebas_de_busqueda(){
 	lista_insertar(lista, &b);
 	lista_insertar(lista, &w);
 
- char *elemento1= lista_elemento_en_posicion(lista, 0);
-  pa2m_afirmar(elemento1 == &a, "Se puede obtener el elemento en posición correctamente");
+ char *elemento1= lista_elemento_en_posicion(lista, 1);
+  pa2m_afirmar(elemento1 == &c, "Se puede obtener el elemento en posición correctamente");
 
 }
 

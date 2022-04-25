@@ -151,15 +151,19 @@ void *lista_elemento_en_posicion(lista_t *lista, size_t posicion)
 	if(lista == NULL)
 		return NULL;
 	
-	nodo_t *nodo_a_devolver = lista->nodo_inicio;
+	nodo_t *nodo_anterior = lista->nodo_inicio;
 
-	for(size_t i = 0; i < posicion; i++){
+	for(size_t i = 0; i < posicion-1; i++){
 		if(lista->nodo_inicio == NULL)
 			return NULL;
-		nodo_a_devolver = nodo_a_devolver->siguiente;
+		nodo_anterior = nodo_anterior->siguiente;
 	}
-	void *elemento_a_devolver = nodo_a_devolver->elemento;
-	free(nodo_a_devolver);
+
+	nodo_t *nodo_a_eliminar = nodo_anterior->siguiente;
+	nodo_anterior->siguiente = nodo_a_eliminar->siguiente;
+	void *elemento_a_devolver = nodo_a_eliminar->elemento;
+	lista->cantidad--;
+	free(nodo_a_eliminar);
 	return elemento_a_devolver;
 }
 
