@@ -60,7 +60,7 @@ int pa2m_mostrar_reporte() {
          "%i pruebas corridas, %i errores - %s\n" NORMAL,
          __pa2m_cantidad_de_pruebas_corridas,
          __pa2m_cantidad_de_pruebas_fallidas,
-         __pa2m_cantidad_de_pruebas_fallidas == 0 ? "OK" : "D:");
+         __pa2m_cantidad_de_pruebas_fallidas == 0 ? "Bien ahi capo" : "D:");
   return __pa2m_cantidad_de_pruebas_fallidas;
 }
 
