@@ -19,7 +19,7 @@ int elemento_es_igual_a(void *elemento1, void *elemento2)
 void crear_lista_devuelve_lista_cantidad_cero_y_nodos_nulls()
 {
   lista_t *lista = lista_crear();
-  bool esta_vacia = lista_vacia(lista);
+  bool esta_vacia = lista_esta_vacia(lista);
   pa2m_afirmar(esta_vacia == true, "La lista esta vacia");
   pa2m_afirmar(lista, "Se puede crear una lista");
   pa2m_afirmar(lista->cantidad == 0, "La cantidad de elementos es 0");
