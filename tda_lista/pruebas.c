@@ -68,7 +68,7 @@ void lista_insertar_aumenta_cantidad_Y_pone_elemento_donde_corresponde()
   lista_destruir(lista);
 }
 
-void pruebas_de_quitado()
+void lista_quitar_saca_el_elemento_y_disminuye_cantidad()
 {
   lista_t *lista = NULL;
   char *valor_quitado = lista_quitar(lista);
@@ -93,7 +93,7 @@ void pruebas_de_quitado()
   lista_destruir(lista);
 }
 
-void pruebas_de_busqueda(){
+void lista_elemento_lista_buscar_y_lista_primero_y_segundo_devuelven_elemento_correspondientes(){
 	char a = 'a' , b = 'b', c = 'c', d = 'd', w = 'w';
   lista_t *lista = NULL;
   char *elemento = lista_elemento_en_posicion(lista, 0);
@@ -169,10 +169,10 @@ int main() {
   lista_insertar_aumenta_cantidad_Y_pone_elemento_donde_corresponde();
 
   pa2m_nuevo_grupo("Pruebas de quitados");
-  pruebas_de_quitado();
+  lista_quitar_saca_el_elemento_y_disminuye_cantidad();
 
   pa2m_nuevo_grupo("Pruebas de busqueda");
-  pruebas_de_busqueda();
+  lista_elemento_lista_buscar_y_lista_primero_y_segundo_devuelven_elemento_correspondientes();
   
   /*pa2m_nuevo_grupo("Pruebas de destrucción");
   pruebas_de_destruccion_de_lista();*/
