@@ -148,7 +148,31 @@ void *lista_quitar_de_posicion(lista_t *lista, size_t posicion)
 
 void *lista_elemento_en_posicion(lista_t *lista, size_t posicion)
 {
-	return NULL;
+	if(lista == NULL)
+		return NULL;
+	
+	nodo_t *nodo_a_devolver = lista->nodo_inicio;
+	void *elemento_a_devolver = NULL;
+
+	if(posicion > lista->cantidad){
+		posicion = lista->cantidad;
+		printf("Posicion fuera de rango, se devolverá el final (%li)\n", posicion);
+		nodo_a_devolver = lista->nodo_fin;
+		elemento_a_devolver = nodo_a_devolver->elemento;
+	}
+	else if(posicion == 0){
+		nodo_a_devolver = lista->nodo_inicio;
+		elemento_a_devolver = nodo_a_devolver->elemento;
+	}
+	else{
+		for(size_t i = 0; i < posicion; i++){
+			if(lista->nodo_inicio == NULL)
+				return NULL;
+			nodo_a_devolver = nodo_a_devolver->siguiente;
+		}
+		elemento_a_devolver = nodo_a_devolver->elemento;
+	}
+	return elemento_a_devolver;
 }
 
 void *lista_buscar_elemento(lista_t *lista, int (*comparador)(void *, void *),

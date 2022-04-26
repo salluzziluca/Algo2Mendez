@@ -51,7 +51,7 @@ void pruebas_de_inserccion_de_objeto()
   lista_destruir(lista);
 }
 
-void pruebas_de_elementos()
+void pruebas_de_quitado()
 {
   lista_t *lista = lista_crear();
 	char a = 'a' , b = 'b', c = 'c', d = 'd', w = 'w';
@@ -68,6 +68,26 @@ void pruebas_de_elementos()
   pa2m_afirmar(segundo_valor_quitado == &c, "Se puede quitar elemento de posición correctamente");
   char* tercer_valor_quitado = lista_quitar(lista);
   pa2m_afirmar(tercer_valor_quitado == &b, "Se puede quitar elemento correctamente");
+  lista_destruir(lista);
+}
+
+void pruebas_de_busqueda(){
+
+  lista_t *lista = lista_crear();
+	char a = 'a' , b = 'b', c = 'c', d = 'd', w = 'w';
+
+	lista_insertar(lista, &a);
+	lista_insertar(lista, &c);
+	lista_insertar(lista, &d);
+	lista_insertar(lista, &b);
+	lista_insertar(lista, &w);
+
+  char *elemento1= lista_elemento_en_posicion(lista, 1);
+  pa2m_afirmar(elemento1 == &c, "Se puede obtener el elemento en posición correctamente");
+  char *elemento2= lista_elemento_en_posicion(lista, 0);
+  pa2m_afirmar(elemento2 == &a, "Se puede obtener el elemento en posición 0 correctamente");
+  char *elemento3= lista_elemento_en_posicion(lista, 37);
+  pa2m_afirmar(elemento3 == &w, "Se puede obtener el elemento en posición mayor que cantidad correctamente");
   lista_destruir(lista);
 }
 
@@ -96,9 +116,11 @@ int main() {
   pa2m_nuevo_grupo("Pruebas de insercción");
   pruebas_de_inserccion_de_objeto();
 
-  pa2m_nuevo_grupo("Pruebas de elementos");
-  pruebas_de_elementos();
+  pa2m_nuevo_grupo("Pruebas de quitados");
+  pruebas_de_quitado();
 
+  pa2m_nuevo_grupo("Pruebas de busqueda");
+  pruebas_de_busqueda();
   
   /*pa2m_nuevo_grupo("Pruebas de destrucción");
   pruebas_de_destruccion_de_lista();*/
