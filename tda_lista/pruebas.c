@@ -84,6 +84,10 @@ void pruebas_de_busqueda(){
 
   char *elemento1= lista_elemento_en_posicion(lista, 1);
   pa2m_afirmar(elemento1 == &c, "Se puede obtener el elemento en posición correctamente");
+  char *elemento2= lista_elemento_en_posicion(lista, 0);
+  pa2m_afirmar(elemento2 == &a, "Se puede obtener el elemento en posición 0 correctamente");
+  char *elemento3= lista_elemento_en_posicion(lista, 37);
+  pa2m_afirmar(elemento3 == &w, "Se puede obtener el elemento en posición mayor que cantidad correctamente");
   lista_destruir(lista);
 }
 

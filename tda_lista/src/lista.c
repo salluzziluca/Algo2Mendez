@@ -151,19 +151,27 @@ void *lista_elemento_en_posicion(lista_t *lista, size_t posicion)
 	if(lista == NULL)
 		return NULL;
 	
-	nodo_t *nodo_anterior = lista->nodo_inicio;
+	nodo_t *nodo_a_devolver = lista->nodo_inicio;
+	void *elemento_a_devolver = NULL;
 
-	for(size_t i = 0; i < posicion-1; i++){
-		if(lista->nodo_inicio == NULL)
-			return NULL;
-		nodo_anterior = nodo_anterior->siguiente;
+	if(posicion > lista->cantidad){
+		posicion = lista->cantidad;
+		printf("Posicion fuera de rango, se devolverá el final (%li)\n", posicion);
+		nodo_a_devolver = lista->nodo_fin;
+		elemento_a_devolver = nodo_a_devolver->elemento;
 	}
-
-	nodo_t *nodo_a_eliminar = nodo_anterior->siguiente;
-	nodo_anterior->siguiente = nodo_a_eliminar->siguiente;
-	void *elemento_a_devolver = nodo_a_eliminar->elemento;
-	lista->cantidad--;
-	free(nodo_a_eliminar);
+	else if(posicion == 0){
+		nodo_a_devolver = lista->nodo_inicio;
+		elemento_a_devolver = nodo_a_devolver->elemento;
+	}
+	else{
+		for(size_t i = 0; i < posicion; i++){
+			if(lista->nodo_inicio == NULL)
+				return NULL;
+			nodo_a_devolver = nodo_a_devolver->siguiente;
+		}
+		elemento_a_devolver = nodo_a_devolver->elemento;
+	}
 	return elemento_a_devolver;
 }
 
