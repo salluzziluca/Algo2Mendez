@@ -19,7 +19,8 @@ int elemento_es_igual_a(void *elemento1, void *elemento2)
 void crear_lista_devuelve_lista_cantidad_cero_y_nodos_nulls()
 {
   lista_t *lista = lista_crear();
-
+  bool esta_vacia = lista_vacia(lista);
+  pa2m_afirmar(esta_vacia == true, "La lista esta vacia");
   pa2m_afirmar(lista, "Se puede crear una lista");
   pa2m_afirmar(lista->cantidad == 0, "La cantidad de elementos es 0");
   pa2m_afirmar(lista->nodo_inicio == NULL, "El nodo inicio es NULL");
@@ -112,6 +113,11 @@ void pruebas_de_busqueda(){
   buscado = 'z';
   char *elemento_z = lista_buscar_elemento(lista, elemento_es_igual_a, &buscado);
   pa2m_afirmar(elemento_z == NULL, "No se puede buscar elemento inexistente");
+
+  void *primer_elemento = lista_primero(lista);
+  pa2m_afirmar(primer_elemento == lista_elemento_en_posicion(lista, 0), "Se puede obtener el primer elemento correctamente");
+  void *ultimo_elemento = lista_ultimo(lista);
+  pa2m_afirmar(ultimo_elemento == lista_elemento_en_posicion(lista, lista->cantidad - 1), "Se puede obtener el ultimo elemento correctamente");
 
   lista_destruir(lista);
 }

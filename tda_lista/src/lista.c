@@ -203,22 +203,36 @@ void *lista_buscar_elemento(lista_t *lista, int (*comparador)(void *, void *),
 
 void *lista_primero(lista_t *lista)
 {
-	return NULL;
+	if(lista == NULL)
+		return NULL;
+
+	void *primer_elemento = lista->nodo_inicio->elemento;
+	return primer_elemento;
 }
 
 void *lista_ultimo(lista_t *lista)
 {
-	return NULL;
+	if(lista == NULL)
+		return NULL;
+	void *ultimo_elemento = lista->nodo_fin->elemento;
+	return ultimo_elemento;
 }
 
 bool lista_vacia(lista_t *lista)
 {
-	return false;
+	bool esta_vacia = false;
+	if(lista == NULL)
+		esta_vacia = true;
+	if(lista->cantidad == 0)
+		esta_vacia = true;
+	return esta_vacia;
 }
 
 size_t lista_tamanio(lista_t *lista)
 {
-	return 0;
+	if(lista == NULL)
+		return 0;
+	return lista->cantidad;
 }
 
 void lista_destruir(lista_t *lista)
