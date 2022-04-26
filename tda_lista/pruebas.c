@@ -22,9 +22,9 @@ void crear_lista_devuelve_lista_cantidad_cero_y_nodos_nulls()
   bool esta_vacia = lista_vacia(lista);
   pa2m_afirmar(esta_vacia == true, "La lista esta vacia");
   pa2m_afirmar(lista, "Se puede crear una lista");
-  pa2m_afirmar(lista->cantidad == 0, "La cantidad de elementos es 0");
-  pa2m_afirmar(lista->nodo_inicio == NULL, "El nodo inicio es NULL");
-  pa2m_afirmar(lista->nodo_fin == NULL, "El nodo fin es NULL");
+  pa2m_afirmar(lista_tamanio(lista) == 0, "La cantidad de elementos es 0");
+  pa2m_afirmar(lista_primero(lista) == NULL, "El nodo inicio es NULL");
+  pa2m_afirmar(lista_ultimo(lista) == NULL, "El nodo fin es NULL");
   lista_destruir(lista);
 }
 

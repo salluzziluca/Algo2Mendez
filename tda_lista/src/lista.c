@@ -203,7 +203,7 @@ void *lista_buscar_elemento(lista_t *lista, int (*comparador)(void *, void *),
 
 void *lista_primero(lista_t *lista)
 {
-	if(lista == NULL)
+	if(lista == NULL || lista->nodo_inicio == NULL )
 		return NULL;
 
 	void *primer_elemento = lista->nodo_inicio->elemento;
@@ -212,7 +212,7 @@ void *lista_primero(lista_t *lista)
 
 void *lista_ultimo(lista_t *lista)
 {
-	if(lista == NULL)
+	if(lista == NULL || lista->nodo_fin == NULL )
 		return NULL;
 	void *ultimo_elemento = lista->nodo_fin->elemento;
 	return ultimo_elemento;
