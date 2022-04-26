@@ -4,6 +4,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "pa2mm.h"
+
+int elemento_es_igual_a(void *elemento1, void *elemento2)
+{
+	char *a = elemento1;
+	char *b = elemento2;
+
+	if(a && b && *a == *b)
+		return 0;
+
+	return -1;
+}
+
 void crear_lista_devuelve_lista_cantidad_cero_y_nodos_nulls()
 {
   lista_t *lista = lista_crear();
@@ -90,6 +102,17 @@ void pruebas_de_busqueda(){
   pa2m_afirmar(elemento2 == &a, "Se puede obtener el elemento en posición 0 correctamente");
   char *elemento3= lista_elemento_en_posicion(lista, 37);
   pa2m_afirmar(elemento3 == &w, "Se puede obtener el elemento en posición mayor que cantidad correctamente");
+
+  char buscado = 'c';
+	char *elemento_c = lista_buscar_elemento(lista, elemento_es_igual_a, &buscado);
+	pa2m_afirmar(elemento_c == &c, "Se puede buscar elemento correctamente");
+  buscado = 'w';
+  char *elemento_w = lista_buscar_elemento(lista, elemento_es_igual_a, &buscado);
+  pa2m_afirmar(elemento_w == &w, "Se puede buscar elemento final correctamente");
+  buscado = 'z';
+  char *elemento_z = lista_buscar_elemento(lista, elemento_es_igual_a, &buscado);
+  pa2m_afirmar(elemento_z == NULL, "No se puede buscar elemento inexistente");
+
   lista_destruir(lista);
 }
 
