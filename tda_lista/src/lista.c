@@ -128,20 +128,32 @@ void *lista_quitar_de_posicion(lista_t *lista, size_t posicion)
 		posicion = lista->cantidad;
 		printf("Posicion fuera de rango, se quitará el final (%li)\n", posicion);
 	}
-
 	nodo_t *nodo_anterior = lista->nodo_inicio;
+	nodo_t *nodo_a_eliminar = NULL;
+	void *elemento_a_devolver = NULL;
 
-	for(size_t i = 0; i < posicion-1; i++){
+	if(posicion == 0){
+		nodo_a_eliminar = lista->nodo_inicio;
+		elemento_a_devolver = nodo_a_eliminar->elemento;
+		lista->nodo_inicio = lista->nodo_inicio->siguiente;
+		lista->cantidad--;
+		free(nodo_a_eliminar);
+
+	}
+	else{
+		for(size_t i = 0; i < posicion-1; i++){
 		if(nodo_anterior == NULL)
 			return NULL;
 		nodo_anterior = nodo_anterior->siguiente;
-	}
+		}
 
-	nodo_t *nodo_a_eliminar = nodo_anterior->siguiente;
-	void* elemento_a_devolver = nodo_a_eliminar->elemento;
-	nodo_anterior->siguiente = nodo_a_eliminar->siguiente;
-	lista->cantidad--;
-	free(nodo_a_eliminar);
+		nodo_a_eliminar = nodo_anterior->siguiente;
+		elemento_a_devolver = nodo_a_eliminar->elemento;
+		nodo_anterior->siguiente = nodo_a_eliminar->siguiente;
+		lista->cantidad--;
+		free(nodo_a_eliminar);
+	}
+	
 
 	return elemento_a_devolver;
 }

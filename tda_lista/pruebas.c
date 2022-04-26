@@ -68,6 +68,8 @@ void pruebas_de_quitado()
   pa2m_afirmar(segundo_valor_quitado == &c, "Se puede quitar elemento de posición correctamente");
   char* tercer_valor_quitado = lista_quitar(lista);
   pa2m_afirmar(tercer_valor_quitado == &b, "Se puede quitar elemento correctamente");
+  char* cuarto_valor_quitado = lista_quitar_de_posicion(lista, 0);
+  pa2m_afirmar(cuarto_valor_quitado == &a, "Se puede quitar elemento de posición 0 correctamente");
   lista_destruir(lista);
 }
 
