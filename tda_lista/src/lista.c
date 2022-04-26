@@ -289,5 +289,17 @@ void lista_iterador_destruir(lista_iterador_t *iterador)
 size_t lista_con_cada_elemento(lista_t *lista, bool (*funcion)(void *, void *),
 			       void *contexto)
 {
-	return 0;
+	if(lista == NULL)
+		return 1;
+
+	size_t elementos_recorridos = 0;
+	bool continuar = true;
+	nodo_t* nodo_actual = lista->nodo_inicio;
+
+	while(elementos_recorridos < lista->cantidad && continuar == true){
+		continuar = funcion(nodo_actual->elemento, contexto);
+		nodo_actual = nodo_actual->siguiente;
+		elementos_recorridos++;
+	}
+	return elementos_recorridos;
 }

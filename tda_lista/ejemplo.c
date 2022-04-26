@@ -64,7 +64,7 @@ void probar_operaciones_lista()
 	printf("\n\n");
 
 	lista_iterador_destruir(it);
-
+	*/
 	int contador = 0;
 	size_t elementos_recorridos = 0;
 	printf("Imprimo TODOS LOS ELEMENTOS DE LA LISTA usando el iterador interno: \n");
@@ -76,7 +76,6 @@ void probar_operaciones_lista()
 
 	printf("\n");
 
-	*/
 	printf("Busco el elemento con valor 'd' en la lista: ");
 	char *elemento_d = lista_buscar_elemento(lista, elemento_es_d, NULL);
 	if(elemento_d && *elemento_d == 'd')
