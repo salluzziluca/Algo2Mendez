@@ -19,6 +19,7 @@ int elemento_es_igual_a(void *elemento1, void *elemento2)
 void crear_lista_devuelve_lista_cantidad_cero_y_nodos_nulls()
 {
   lista_t *lista = lista_crear();
+
   bool esta_vacia = lista_vacia(lista);
   pa2m_afirmar(esta_vacia == true, "La lista esta vacia");
   pa2m_afirmar(lista, "Se puede crear una lista");
@@ -28,23 +29,23 @@ void crear_lista_devuelve_lista_cantidad_cero_y_nodos_nulls()
   lista_destruir(lista);
 }
 
-void lista_insertar_carga_los_objetos_correctamente()
+void lista_insertar_aumenta_cantidad_Y_pone_elemento_donde_corresponde()
 { 
+  lista_t *lista = NULL;
   char a = 'a';
+  pa2m_afirmar(lista_insertar(lista, &a) == NULL, "No puedo insertar nada en una lista nula");
+  lista = lista_crear();
 
-  lista_t *lista = lista_crear();
-
+  
   lista_insertar(lista, &a);
   pa2m_afirmar(lista_elemento_en_posicion(lista, 0) == &a, "Se puede insertar un elemento en la lista");
   pa2m_afirmar(lista->nodo_fin->siguiente == NULL, "El ultimo elemento apunta a NULL");
 
   char b = 'b';
-
   lista_insertar(lista, &b);
   pa2m_afirmar(lista_elemento_en_posicion(lista, 1) == &b, "El primer elemento apunta al segundo");
 
   char c = 'c';
-  
   lista_insertar(lista, &c);
   pa2m_afirmar(lista->nodo_inicio->siguiente->siguiente->elemento == &c, "El segundo elemento apunta al tercero");
   pa2m_afirmar(lista_tamanio(lista) == 3, "La cantidad de elementos es 3");
@@ -61,12 +62,18 @@ void lista_insertar_carga_los_objetos_correctamente()
   lista_insertar_en_posicion(lista, &f, 100);
   pa2m_afirmar(lista_ultimo(lista) == &f, "Se puede insertar en posición mayor que cantidad correctamente");
 
+  lista_insertar(lista, NULL);
+  pa2m_afirmar(lista_ultimo(lista) == NULL, "Se puede insertar un elemento nulo");
+
   lista_destruir(lista);
 }
 
 void pruebas_de_quitado()
 {
-  lista_t *lista = lista_crear();
+  lista_t *lista = NULL;
+  char *valor_quitado = lista_quitar(lista);
+  pa2m_afirmar(valor_quitado == NULL, "No puedo quitar nada de una lista nula");
+  lista = lista_crear();
 	char a = 'a' , b = 'b', c = 'c', d = 'd', w = 'w';
 
 	lista_insertar(lista, &a);
@@ -75,7 +82,7 @@ void pruebas_de_quitado()
 	lista_insertar(lista, &b);
 	lista_insertar(lista, &w);
 	
-	char *valor_quitado = lista_quitar(lista);
+	valor_quitado = lista_quitar(lista);
   pa2m_afirmar(valor_quitado == &w, "Se puede quitar elemento correctamente");
   char* segundo_valor_quitado = lista_quitar_de_posicion(lista, 1);
   pa2m_afirmar(segundo_valor_quitado == &c, "Se puede quitar elemento de posición correctamente");
@@ -145,7 +152,7 @@ int main() {
   crear_lista_devuelve_lista_cantidad_cero_y_nodos_nulls();
 
   pa2m_nuevo_grupo("Pruebas de insercción");
-  lista_insertar_carga_los_objetos_correctamente();
+  lista_insertar_aumenta_cantidad_Y_pone_elemento_donde_corresponde();
 
   pa2m_nuevo_grupo("Pruebas de quitados");
   pruebas_de_quitado();
