@@ -28,40 +28,38 @@ void crear_lista_devuelve_lista_cantidad_cero_y_nodos_nulls()
   lista_destruir(lista);
 }
 
-void pruebas_de_inserccion_de_objeto()
+void lista_insertar_carga_los_objetos_correctamente()
 { 
   char a = 'a';
 
   lista_t *lista = lista_crear();
 
   lista_insertar(lista, &a);
-  pa2m_afirmar(lista->nodo_inicio->elemento == &a, "Se puede insertar un elemento en la lista");
+  pa2m_afirmar(lista_elemento_en_posicion(lista, 0) == &a, "Se puede insertar un elemento en la lista");
   pa2m_afirmar(lista->nodo_fin->siguiente == NULL, "El ultimo elemento apunta a NULL");
 
   char b = 'b';
 
   lista_insertar(lista, &b);
-  pa2m_afirmar(lista->nodo_inicio->siguiente->elemento == &b, "El primer elemento apunta al segundo");
+  pa2m_afirmar(lista_elemento_en_posicion(lista, 1) == &b, "El primer elemento apunta al segundo");
 
   char c = 'c';
   
   lista_insertar(lista, &c);
   pa2m_afirmar(lista->nodo_inicio->siguiente->siguiente->elemento == &c, "El segundo elemento apunta al tercero");
-  pa2m_afirmar(lista->cantidad == 3, "La cantidad de elementos es 3");
+  pa2m_afirmar(lista_tamanio(lista) == 3, "La cantidad de elementos es 3");
 
   char d = 'd';  
   lista_insertar_en_posicion(lista, &d, 2);
-  pa2m_afirmar(lista->nodo_inicio->siguiente->siguiente->elemento == &d, "Se puede insertar en posición correctamente");
+  pa2m_afirmar(lista_elemento_en_posicion(lista, 2) == &d, "Se puede insertar en posición correctamente");
 
   char e = 'e';
   lista_insertar_en_posicion(lista, &e, 0);
-  pa2m_afirmar(lista->nodo_inicio->elemento == &e, "Se puede insertar en posición 0 correctamente");
+  pa2m_afirmar(lista_elemento_en_posicion(lista,0) == &e, "Se puede insertar en posición 0 correctamente");
 
   char f = 'f';
   lista_insertar_en_posicion(lista, &f, 100);
-  pa2m_afirmar(lista->nodo_fin->elemento == &f, "Se puede insertar en posición mayor que cantidad correctamente");
-
-  pa2m_afirmar(lista_tamanio(lista) == lista->cantidad, "Lista tamanio funciona piola");
+  pa2m_afirmar(lista_ultimo(lista) == &f, "Se puede insertar en posición mayor que cantidad correctamente");
 
   lista_destruir(lista);
 }
@@ -147,7 +145,7 @@ int main() {
   crear_lista_devuelve_lista_cantidad_cero_y_nodos_nulls();
 
   pa2m_nuevo_grupo("Pruebas de insercción");
-  pruebas_de_inserccion_de_objeto();
+  lista_insertar_carga_los_objetos_correctamente();
 
   pa2m_nuevo_grupo("Pruebas de quitados");
   pruebas_de_quitado();
