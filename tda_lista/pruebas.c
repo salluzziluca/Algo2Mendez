@@ -82,9 +82,9 @@ void pruebas_de_busqueda(){
 	lista_insertar(lista, &b);
 	lista_insertar(lista, &w);
 
- char *elemento1= lista_elemento_en_posicion(lista, 1);
+  char *elemento1= lista_elemento_en_posicion(lista, 1);
   pa2m_afirmar(elemento1 == &c, "Se puede obtener el elemento en posición correctamente");
-
+  lista_destruir(lista);
 }
 
 //TODO: Fijarme de implementar correctamente una prueba de destruir todo
