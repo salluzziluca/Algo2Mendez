@@ -190,6 +190,9 @@ void *lista_elemento_en_posicion(lista_t *lista, size_t posicion)
 void *lista_buscar_elemento(lista_t *lista, int (*comparador)(void *, void *),
 			    void *contexto)
 {
+	if(lista == NULL)
+		return NULL;
+		
 	nodo_t* nodo_actual = lista->nodo_inicio;
 	while(comparador(nodo_actual->elemento, contexto) != 0){
 		if(nodo_actual->siguiente == NULL)
