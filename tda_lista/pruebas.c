@@ -146,16 +146,25 @@ void lista_elemento_lista_buscar_y_lista_primero_y_segundo_devuelven_elemento_co
 void lista_iterador_se_crea_correctamente_itera_y_se_destruye(){  
   lista_t *lista = lista_crear();
 
-  char a ='a', b = 'b';
+  char a ='a', b = 'b', c = 'c', d = 'd', w = 'w';
   lista_insertar(lista, &a);
   lista_insertar(lista, &b);
+  lista_insertar(lista, &c);
+  lista_insertar(lista, &d);
+  lista_insertar(lista, &w);
 
   lista_iterador_t *iterador = lista_iterador_crear(lista);
   pa2m_afirmar(iterador, "Se puede crear un iterador");
   pa2m_afirmar(iterador->corriente == lista->nodo_inicio, "El iterador se iniicializa en la primer posición de la lista");
   pa2m_afirmar(iterador->lista == lista, "El iterador apunta correctamente a la lista");
-  pa2m_afirmar(lista_iterador_avanzar(iterador) == true, "Se puede avanzar en el iterador");
-  pa2m_afirmar(lista_iterador_elemento_actual(iterador) == lista_elemento_en_posicion(lista, 1), "Se puede obtener el elemento actual correctamente");
+  /*pa2m_afirmar(lista_iterador_avanzar(iterador) == true, "Se puede avanzar en el iterador");
+  pa2m_afirmar(lista_iterador_elemento_actual(iterador) == lista_elemento_en_posicion(lista, 1), "Se puede obtener el elemento actual correctamente");*/
+  size_t i = 0;
+  while (lista_iterador_avanzar(iterador) == true) {
+    pa2m_afirmar(lista_iterador_elemento_actual(iterador) == lista_elemento_en_posicion(lista, i), "Se puede obtener el elemento actual correctamente");
+    i++;
+  }
+
   pa2m_afirmar(!lista_iterador_tiene_siguiente(iterador), "El iterador no tiene siguiente");
 
   lista_destruir(lista);
