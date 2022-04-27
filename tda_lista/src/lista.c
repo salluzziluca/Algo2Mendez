@@ -285,7 +285,13 @@ bool lista_iterador_tiene_siguiente(lista_iterador_t *iterador)
 
 bool lista_iterador_avanzar(lista_iterador_t *iterador)
 {
-	return false;
+	if(iterador == NULL)
+		return false;
+	bool avanzado = false;
+	iterador->corriente = iterador->corriente->siguiente;
+	if(iterador->corriente != NULL)
+		avanzado = true;
+	return avanzado;
 }
 
 void *lista_iterador_elemento_actual(lista_iterador_t *iterador)
