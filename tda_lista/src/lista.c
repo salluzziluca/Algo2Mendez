@@ -274,7 +274,13 @@ lista_iterador_t *lista_iterador_crear(lista_t *lista)
 
 bool lista_iterador_tiene_siguiente(lista_iterador_t *iterador)
 {
-	return false;
+	if(iterador == NULL)
+		return false;
+	bool tiene_siguiente = false;
+	if(iterador->corriente->siguiente != NULL)
+		tiene_siguiente = true;
+
+	return tiene_siguiente;
 }
 
 bool lista_iterador_avanzar(lista_iterador_t *iterador)
