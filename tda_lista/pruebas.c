@@ -157,11 +157,13 @@ void lista_iterador_se_crea_correctamente_itera_y_se_destruye(){
   pa2m_afirmar(iterador, "Se puede crear un iterador");
   pa2m_afirmar(iterador->corriente == lista->nodo_inicio, "El iterador se iniicializa en la primer posición de la lista");
   pa2m_afirmar(iterador->lista == lista, "El iterador apunta correctamente a la lista");
+  pa2m_afirmar(lista_iterador_elemento_actual(iterador) == lista_elemento_en_posicion(lista, 0), "El iterador devuelve el elemento correcto");
   /*pa2m_afirmar(lista_iterador_avanzar(iterador) == true, "Se puede avanzar en el iterador");
   pa2m_afirmar(lista_iterador_elemento_actual(iterador) == lista_elemento_en_posicion(lista, 1), "Se puede obtener el elemento actual correctamente");*/
   size_t i = 0;
-  while (lista_iterador_avanzar(iterador) == true) {
+  while (lista_iterador_tiene_siguiente(iterador) == true) {
     pa2m_afirmar(lista_iterador_elemento_actual(iterador) == lista_elemento_en_posicion(lista, i), "Se puede obtener el elemento actual correctamente");
+    lista_iterador_avanzar(iterador);
     i++;
   }
 
@@ -169,6 +171,34 @@ void lista_iterador_se_crea_correctamente_itera_y_se_destruye(){
 
   lista_destruir(lista);
   lista_iterador_destruir(iterador);
+}
+
+void prueba_de_mierda()
+{
+  lista_t *lista = lista_crear();
+	char a = 'a', b = 'b', c = 'c', d = 'd', w = 'w';
+
+	lista_insertar(lista, &a);
+	lista_insertar(lista, &c);
+	lista_insertar(lista, &d);
+  lista_insertar(lista, &b);
+  lista_insertar(lista, &w);
+
+	
+	char *valor_quitado = lista_quitar_de_posicion(lista, 3);
+	printf("Elementos quitado de la posicion 3 de la lista: %c\n", *valor_quitado);
+
+  lista_iterador_t *it = NULL;
+  size_t i = 0;
+	for (it = lista_iterador_crear(lista); lista_iterador_tiene_siguiente(it); lista_iterador_avanzar(it)){
+		printf("%c ", *(char *)lista_iterador_elemento_actual(it));
+    pa2m_afirmar(lista_iterador_elemento_actual(it) == lista_elemento_en_posicion(lista, i), "Se puede obtener el elemento actual correctamente");
+    i ++;
+  }
+	printf("\n\n");
+
+	lista_iterador_destruir(it);
+  lista_destruir(lista);
 }
 
 //TODO: Fijarme de implementar correctamente una prueba de destruir todo
@@ -204,6 +234,9 @@ int main() {
 
   pa2m_nuevo_grupo("Pruebas de creacion de iterador");
   lista_iterador_se_crea_correctamente_itera_y_se_destruye();
+
+  pa2m_nuevo_grupo("Prueba de mierda");
+  prueba_de_mierda();
   
   /*pa2m_nuevo_grupo("Pruebas de destrucción");
   pruebas_de_destruccion_de_lista();*/
