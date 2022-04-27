@@ -155,6 +155,7 @@ void lista_iterador_se_crea_correctamente_itera_y_se_destruye(){
   pa2m_afirmar(iterador->corriente == lista->nodo_inicio, "El iterador se iniicializa en la primer posición de la lista");
   pa2m_afirmar(iterador->lista == lista, "El iterador apunta correctamente a la lista");
   pa2m_afirmar(lista_iterador_avanzar(iterador) == true, "Se puede avanzar en el iterador");
+  pa2m_afirmar(lista_iterador_elemento_actual(iterador) == lista_elemento_en_posicion(lista, 1), "Se puede obtener el elemento actual correctamente");
   pa2m_afirmar(!lista_iterador_tiene_siguiente(iterador), "El iterador no tiene siguiente");
 
   lista_destruir(lista);

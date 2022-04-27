@@ -287,16 +287,25 @@ bool lista_iterador_avanzar(lista_iterador_t *iterador)
 {
 	if(iterador == NULL)
 		return false;
+
 	bool avanzado = false;
 	iterador->corriente = iterador->corriente->siguiente;
+
 	if(iterador->corriente != NULL)
 		avanzado = true;
+
 	return avanzado;
 }
 
 void *lista_iterador_elemento_actual(lista_iterador_t *iterador)
 {
-	return NULL;
+	if(iterador == NULL)
+		return NULL;
+	
+	if(iterador->corriente == NULL)
+		return NULL;
+
+	return iterador->corriente->elemento;	
 }
 
 void lista_iterador_destruir(lista_iterador_t *iterador)
