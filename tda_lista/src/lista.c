@@ -264,11 +264,11 @@ void lista_destruir_todo(lista_t *lista, void (*funcion)(void *))
 lista_iterador_t *lista_iterador_crear(lista_t *lista)
 {
 	lista_iterador_t *iterador = malloc(sizeof(lista_iterador_t));
-	iterador->lista = lista;
-	iterador->corriente = NULL;
 	if(iterador == NULL)
 		return NULL;
-	
+
+	iterador->lista = lista;
+	iterador->corriente = lista->nodo_inicio;
 	return iterador;
 }
 
