@@ -263,7 +263,11 @@ void lista_destruir_todo(lista_t *lista, void (*funcion)(void *))
 
 lista_iterador_t *lista_iterador_crear(lista_t *lista)
 {
-	return NULL;
+	lista_iterador_t *iterador = calloc(1, sizeof(lista_iterador_t));
+	if(iterador == NULL)
+		return NULL;
+	
+	return iterador;
 }
 
 bool lista_iterador_tiene_siguiente(lista_iterador_t *iterador)
@@ -283,7 +287,7 @@ void *lista_iterador_elemento_actual(lista_iterador_t *iterador)
 
 void lista_iterador_destruir(lista_iterador_t *iterador)
 {
-
+	free(iterador);
 }
 
 size_t lista_con_cada_elemento(lista_t *lista, bool (*funcion)(void *, void *),

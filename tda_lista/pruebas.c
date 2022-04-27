@@ -143,6 +143,14 @@ void lista_elemento_lista_buscar_y_lista_primero_y_segundo_devuelven_elemento_co
   lista_destruir(lista);
 }
 
+void lista_iterador_se_crea_correctamente_itera_y_se_destruye(){  
+  lista_t *lista = lista_crear();
+  lista_iterador_t *iterador = lista_iterador_crear(lista);
+  pa2m_afirmar(iterador, "Se puede crear un iterador");
+  lista_destruir(lista);
+  lista_iterador_destruir(iterador);
+}
+
 //TODO: Fijarme de implementar correctamente una prueba de destruir todo
 /*int destructor(void *elemento)
 {
@@ -173,6 +181,9 @@ int main() {
 
   pa2m_nuevo_grupo("Pruebas de busqueda");
   lista_elemento_lista_buscar_y_lista_primero_y_segundo_devuelven_elemento_correspondientes();
+
+  pa2m_nuevo_grupo("Pruebas de creacion de iterador");
+  lista_iterador_se_crea_correctamente_itera_y_se_destruye();
   
   /*pa2m_nuevo_grupo("Pruebas de destrucción");
   pruebas_de_destruccion_de_lista();*/
