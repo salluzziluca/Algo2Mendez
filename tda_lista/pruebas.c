@@ -147,6 +147,9 @@ void lista_iterador_se_crea_correctamente_itera_y_se_destruye(){
   lista_t *lista = lista_crear();
   lista_iterador_t *iterador = lista_iterador_crear(lista);
   pa2m_afirmar(iterador, "Se puede crear un iterador");
+  pa2m_afirmar(iterador->corriente == NULL, "El iterador se iniicializa en NULL");
+  pa2m_afirmar(iterador->lista == lista, "El iterador apunta correctamente a la lista");
+
   lista_destruir(lista);
   lista_iterador_destruir(iterador);
 }
