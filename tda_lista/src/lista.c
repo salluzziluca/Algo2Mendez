@@ -245,7 +245,6 @@ void lista_destruir(lista_t *lista)
 		nodo_t *bloque_auxiliar = lista->nodo_inicio->siguiente;
 		free(lista->nodo_inicio);
 		lista->nodo_inicio = bloque_auxiliar;
-		lista->cantidad--;
 	}
 	free(lista);
 }
