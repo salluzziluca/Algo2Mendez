@@ -130,20 +130,20 @@ void probar_operaciones_cola()
 void probar_operaciones_pila()
 {
 	pila_t *pila = pila_crear();
-	/*
+	
 	char *algo = "somtirogla";
 	
 	for (int i = 0; algo[i] != 0; i++) {
 		printf("Apilo %c\n", algo[i]);
 		pila_apilar(pila, &algo[i]);
 	}
-
+	
 	printf("\nDesapilo y muestro los elementos apilados: ");
 	while (!pila_vacia(pila)) {
 		printf("%c", *(char *)pila_tope(pila));
 		pila_desapilar(pila);
 	}
-	printf("\n");*/
+	printf("\n");
 	pila_destruir(pila);
 }
 

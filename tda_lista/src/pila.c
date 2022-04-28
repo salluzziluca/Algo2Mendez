@@ -13,6 +13,11 @@ pila_t *pila_crear()
 
 pila_t *pila_apilar(pila_t *pila, void *elemento)
 {
+	//TODO: agregar restrciciones
+	if(pila == NULL)
+		return NULL;
+	lista_insertar(pila->lista, elemento);
+
 	//Fijarme si tope se estas acercando mucho a tamanio, en ese caso, damos mas memoria. Propongo un 75%
 	// estoy de acuerdo, 75% me parece bien
 	//Yo prefiero 50
@@ -20,19 +25,27 @@ pila_t *pila_apilar(pila_t *pila, void *elemento)
 	//50% es una buena idea
 	// 25% es una buena idea
 	//QUE 
-	return NULL;
+	return pila;
 	
 }
 
 void *pila_desapilar(pila_t *pila)
-{
+{	
+	//TODO: agregar restricciones
+	if(pila == NULL)
+		return NULL;
+	void *elemento_quitado = lista_quitar(pila->lista);
 	//Fijarme si tope ==0
-	return NULL;
+	return elemento_quitado;
 }
 
 void *pila_tope(pila_t *pila)
 {
-	return NULL;
+	if(pila == NULL)
+		return NULL;
+	void *ultimo_elemento = lista_ultimo(pila->lista);
+
+	return ultimo_elemento;
 }
 
 size_t pila_tamanio(pila_t *pila)
@@ -42,8 +55,11 @@ size_t pila_tamanio(pila_t *pila)
 
 bool pila_vacia(pila_t *pila)
 {
-	//Fijarme si tope == 0
-	return false;
+	//TODO: arreglar el bug por el que si le pongo == 0 no funciona
+	if(pila->lista->cantidad == 1)
+		return true;
+	else
+		return false;
 }
 
 void pila_destruir(pila_t *pila)
