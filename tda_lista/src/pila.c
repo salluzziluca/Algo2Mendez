@@ -59,7 +59,7 @@ size_t pila_tamanio(pila_t *pila)
 bool pila_vacia(pila_t *pila)
 {
 	//TODO: arreglar el bug por el que si le pongo == 0 no funciona
-	if(pila->lista->cantidad == 1)
+	if(pila->lista->cantidad == 0)
 		return true;
 	else
 		return false;

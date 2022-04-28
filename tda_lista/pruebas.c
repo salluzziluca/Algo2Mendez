@@ -289,9 +289,32 @@ void crear_pila_devuelve_pila_cantidad_cero_y_nodos_nulls()
   pa2m_afirmar(pila_tope(pila) == NULL, "El nodo fin es NULL");
   pila_destruir(pila);
 } 
+
+void pila_apilar_y_desapilar_apilan_y_desapilan_correctamente(){
+  pila_t *pila = pila_crear();
+  char *algo = "somtirogla";
+	
+  int cantidad_apilado = 0;
+	for (int i = 0; algo[i] != 0; i++) {
+		pila_apilar(pila, &algo[i]);
+    cantidad_apilado++;
+  }
+  pa2m_afirmar(cantidad_apilado == 10, "Se apila correctamente");
+  
+	while (!pila_vacia(pila)) {
+		pila_desapilar(pila);
+    cantidad_apilado--;
+	}
+  pa2m_afirmar(cantidad_apilado == 0, "Se desapilo correctamente");
+  
+  pila_destruir(pila);
+}
 void pruebas_pila(){
   pa2m_nuevo_grupo("Pruebas de creacion de lista");
   crear_pila_devuelve_pila_cantidad_cero_y_nodos_nulls();
+
+  pa2m_nuevo_grupo("Pruebas de apilado y desapilado");
+  pila_apilar_y_desapilar_apilan_y_desapilan_correctamente();
 }
 //TODO: Fijarme de implementar correctamente una prueba de destruir todo
 /*int destructor(void *elemento)
