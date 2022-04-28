@@ -152,13 +152,14 @@ void lista_elemento_lista_buscar_y_lista_primero_y_segundo_devuelven_elemento_co
   pa2m_afirmar(elemento == &w, "Se puede obtener el elemento en posición mayor que cantidad correctamente");
 
 
-
 	elemento_c = lista_buscar_elemento(lista, elemento_es_igual_a, &buscado);
 	pa2m_afirmar(elemento_c == &c, "Se puede buscar elemento correctamente");
 
+  buscado = 'w';
   char *elemento_w = lista_buscar_elemento(lista, elemento_es_igual_a, &buscado);
   pa2m_afirmar(elemento_w == &w, "Se puede buscar elemento final correctamente");
-
+  
+  buscado = 'z';
   char *elemento_z = lista_buscar_elemento(lista, elemento_es_igual_a, &buscado);
   pa2m_afirmar(elemento_z == NULL, "No se puede buscar elemento inexistente");
 
@@ -239,7 +240,7 @@ void lista_iterador_interno_se_crea_correctamente_itera_y_se_destruye(){
   lista_insertar(lista, &a);
   lista_con_cada_elemento(lista, contar_elementos,(void *)&contador);
   pa2m_afirmar(contador == 1, "Se puede iterar una lista con un elemento");
-  
+
   contador = 0;
 	lista_insertar(lista, &c);
 	lista_insertar(lista, &d);
