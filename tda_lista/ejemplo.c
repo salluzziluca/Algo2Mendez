@@ -45,16 +45,16 @@ void probar_operaciones_lista()
 	lista_insertar_en_posicion(lista, &d, 100);
 	lista_insertar_en_posicion(lista, &b, 1);
 	lista_insertar_en_posicion(lista, &w, 3);
-	/*
+	
 	char *valor_quitado = lista_quitar_de_posicion(lista, 3);
 	printf("Elementos quitado de la posicion 3 de la lista: %c\n", *valor_quitado);
-
+	
 	printf("Elementos en la lista: ");
 	for (size_t i = 0; i < lista_tamanio(lista); i++)
 		printf("%c ", *(char *)lista_elemento_en_posicion(lista, i));
 
 	printf("\n\n");
-
+	
 	printf("Imprimo TODOS LOS ELEMENTOS DE LA LISTA usando el iterador externo: \n");
 	lista_iterador_t *it = NULL;
 
@@ -64,7 +64,6 @@ void probar_operaciones_lista()
 	printf("\n\n");
 
 	lista_iterador_destruir(it);
-
 	int contador = 0;
 	size_t elementos_recorridos = 0;
 	printf("Imprimo TODOS LOS ELEMENTOS DE LA LISTA usando el iterador interno: \n");
@@ -75,7 +74,6 @@ void probar_operaciones_lista()
 	       elementos_recorridos, contador);
 
 	printf("\n");
-
 
 	printf("Busco el elemento con valor 'd' en la lista: ");
 	char *elemento_d = lista_buscar_elemento(lista, elemento_es_d, NULL);
@@ -91,8 +89,6 @@ void probar_operaciones_lista()
 		printf("ENCONTRADO\n");
 	else
 		printf("NO ENCONTRADO D:\n");
-
-	*/
 	lista_destruir(lista);
 }
 
