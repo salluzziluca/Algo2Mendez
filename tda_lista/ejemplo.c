@@ -96,14 +96,12 @@ void probar_operaciones_destructor_lista()
 {
 	lista_t *lista = lista_crear();
 
-	//Inserto varios bloques reservados con malloc
 	lista_insertar(lista, malloc(sizeof(int)));
 	lista_insertar(lista, malloc(sizeof(int)));
 	lista_insertar(lista, malloc(sizeof(int)));
 	lista_insertar(lista, malloc(sizeof(int)));
 	lista_insertar(lista, malloc(sizeof(int)));
 
-	//Esto debería liberar la lista y cada bloque
 	lista_destruir_todo(lista, free);
 }
 

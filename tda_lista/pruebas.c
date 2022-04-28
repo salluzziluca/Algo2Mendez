@@ -282,8 +282,7 @@ void crear_pila_devuelve_pila_cantidad_cero_y_nodos_nulls()
 {
   pila_t *pila= pila_crear();
 
-  // TODO: implementar prueba de pila vacia
-  //pa2m_afirmar(pila->lista->cantidad == 0, "La lista esta vacia");
+  pa2m_afirmar(pila_vacia(pila) == true, "La pila esta vacia");
   pa2m_afirmar(pila, "Se puede crear una pila");
   pa2m_afirmar(pila_tamanio(pila) == 0, "La cantidad de elementos es 0");
   pa2m_afirmar(pila_tope(pila) == NULL, "El nodo fin es NULL");
@@ -300,7 +299,7 @@ void pila_apilar_y_desapilar_apilan_y_desapilan_correctamente(){
     cantidad_apilado++;
   }
   pa2m_afirmar(cantidad_apilado == 10, "Se apila correctamente");
-  
+
 	while (!pila_vacia(pila)) {
 		pila_desapilar(pila);
     cantidad_apilado--;
