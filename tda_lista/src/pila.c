@@ -50,7 +50,10 @@ void *pila_tope(pila_t *pila)
 
 size_t pila_tamanio(pila_t *pila)
 {
-	return 0;
+	if(pila == NULL)
+		return 0;
+	size_t tamanio = lista_tamanio(pila->lista);
+	return tamanio;
 }
 
 bool pila_vacia(pila_t *pila)

@@ -282,13 +282,12 @@ void crear_pila_devuelve_pila_cantidad_cero_y_nodos_nulls()
 {
   pila_t *pila= pila_crear();
 
-  bool esta_vacia = lista_vacia(pila->lista);
-  pa2m_afirmar(esta_vacia == true, "La lista esta vacia");
-  pa2m_afirmar(pila->lista, "Se puede crear una lista");
-  pa2m_afirmar(lista_tamanio(pila->lista) == 0, "La cantidad de elementos es 0");
-  pa2m_afirmar(lista_primero(pila->lista) == NULL, "El nodo inicio es NULL");
-  pa2m_afirmar(lista_ultimo(pila->lista) == NULL, "El nodo fin es NULL");
-  lista_destruir(pila->lista);
+  // TODO: implementar prueba de pila vacia
+  //pa2m_afirmar(pila->lista->cantidad == 0, "La lista esta vacia");
+  pa2m_afirmar(pila, "Se puede crear una pila");
+  pa2m_afirmar(pila_tamanio(pila) == 0, "La cantidad de elementos es 0");
+  pa2m_afirmar(pila_tope(pila) == NULL, "El nodo fin es NULL");
+  pila_destruir(pila);
 } 
 void pruebas_pila(){
   pa2m_nuevo_grupo("Pruebas de creacion de lista");
