@@ -43,12 +43,12 @@ void lista_insertar_aumenta_cantidad_Y_pone_elemento_donde_corresponde()
 { 
   lista_t *lista = NULL;
   char a = 'a';
-  pa2m_afirmar(lista_insertar(lista, &a) == NULL, "No puedo insertar nada en una lista nula");
-  lista = lista_crear();
 
-  // TODO: porbar insertar al principio y al final de una lista vacia y no vacia
-  //TODO: porbar eliminar al principio y al final de una lista vacia y no vacia
+  pa2m_afirmar(lista_insertar(lista, &a) == NULL, "No puedo insertar nada en una lista nula");
+
+  lista = lista_crear();
   lista_insertar(lista, &a);
+
   pa2m_afirmar(lista_elemento_en_posicion(lista, 0) == &a, "Se puede insertar un elemento al principcio en lista vacia");
   pa2m_afirmar(lista->nodo_fin->siguiente == NULL, "El ultimo elemento apunta a NULL");
 
@@ -58,6 +58,7 @@ void lista_insertar_aumenta_cantidad_Y_pone_elemento_donde_corresponde()
 
   char c = 'c';
   lista_insertar(lista, &c);
+
   pa2m_afirmar(lista->nodo_inicio->siguiente->siguiente->elemento == &c, "El segundo elemento apunta al tercero");
   pa2m_afirmar(lista_tamanio(lista) == 3, "La cantidad de elementos es 3");
 
@@ -91,8 +92,10 @@ void lista_quitar_saca_el_elemento_y_disminuye_cantidad()
 {
   lista_t *lista = NULL;
   char *valor_quitado = lista_quitar(lista);
+
   pa2m_afirmar(valor_quitado == NULL, "No puedo quitar nada de una lista nula");
   lista = lista_crear();
+
 	char a = 'a' , b = 'b', c = 'c', d = 'd', w = 'w';
 
 	lista_insertar(lista, &a);
@@ -103,10 +106,13 @@ void lista_quitar_saca_el_elemento_y_disminuye_cantidad()
 	
 	valor_quitado = lista_quitar(lista);
   pa2m_afirmar(valor_quitado == &w, "Se puede quitar elemento correctamente");
+
   valor_quitado = lista_quitar_de_posicion(lista, 1);
   pa2m_afirmar(valor_quitado == &c, "Se puede quitar elemento de posición correctamente");
+
   valor_quitado = lista_quitar(lista);
   pa2m_afirmar(valor_quitado == &b, "Se puede quitar elemento correctamente");
+
   valor_quitado = lista_quitar_de_posicion(lista, 0);
   pa2m_afirmar(valor_quitado == &a, "Se puede quitar elemento de posición 0 correctamente");
   lista_destruir(lista);
@@ -115,6 +121,7 @@ void lista_quitar_saca_el_elemento_y_disminuye_cantidad()
 void lista_elemento_lista_buscar_y_lista_primero_y_segundo_devuelven_elemento_correspondientes(){
 	char a = 'a' , b = 'b', c = 'c', d = 'd', w = 'w';
   lista_t *lista = NULL;
+
   char *elemento = lista_elemento_en_posicion(lista, 0);
   pa2m_afirmar(elemento == NULL, "No puedo buscar elemento en posición en una lista nula");
 
@@ -129,8 +136,6 @@ void lista_elemento_lista_buscar_y_lista_primero_y_segundo_devuelven_elemento_co
   pa2m_afirmar(ultimo_elemento == NULL, "No puedo buscar ultimo elemento en una lista vacia");
 
   lista = lista_crear();
-
-
 	lista_insertar(lista, &a);
 	lista_insertar(lista, &c);
 	lista_insertar(lista, &d);
@@ -139,23 +144,27 @@ void lista_elemento_lista_buscar_y_lista_primero_y_segundo_devuelven_elemento_co
 
   elemento= lista_elemento_en_posicion(lista, 1);
   pa2m_afirmar(elemento == &c, "Se puede obtener el elemento en posición correctamente");
+
   elemento= lista_elemento_en_posicion(lista, 0);
   pa2m_afirmar(elemento == &a, "Se puede obtener el elemento en posición 0 correctamente");
+
   elemento= lista_elemento_en_posicion(lista, 37);
   pa2m_afirmar(elemento == &w, "Se puede obtener el elemento en posición mayor que cantidad correctamente");
 
 
+
 	elemento_c = lista_buscar_elemento(lista, elemento_es_igual_a, &buscado);
 	pa2m_afirmar(elemento_c == &c, "Se puede buscar elemento correctamente");
-  buscado = 'w';
+
   char *elemento_w = lista_buscar_elemento(lista, elemento_es_igual_a, &buscado);
   pa2m_afirmar(elemento_w == &w, "Se puede buscar elemento final correctamente");
-  buscado = 'z';
+
   char *elemento_z = lista_buscar_elemento(lista, elemento_es_igual_a, &buscado);
   pa2m_afirmar(elemento_z == NULL, "No se puede buscar elemento inexistente");
 
   primer_elemento = lista_primero(lista);
   pa2m_afirmar(primer_elemento == lista_elemento_en_posicion(lista, 0), "Se puede obtener el primer elemento correctamente");
+
   ultimo_elemento = lista_ultimo(lista);
   pa2m_afirmar(ultimo_elemento == lista_elemento_en_posicion(lista, lista->cantidad - 1), "Se puede obtener el ultimo elemento correctamente");
 
@@ -203,10 +212,12 @@ void el_iterador_itera_por_toda_la_lista_correctamente()
   lista_iterador_t *it = NULL;
   size_t i = 0;
   printf("Deberia imprimir %li veces\n", lista->cantidad);
+
 	for (it = lista_iterador_crear(lista); lista_iterador_tiene_siguiente(it); lista_iterador_avanzar(it)){
     pa2m_afirmar(lista_iterador_elemento_actual(it) == lista_elemento_en_posicion(lista, i), "Se puede obtener el elemento actual correctamente");
     i ++;
   }
+
   pa2m_afirmar(i == lista->cantidad, "Se puede iterar por toda la lista correctamente");
 	lista_iterador_destruir(it);
   lista_destruir(lista);
@@ -222,11 +233,13 @@ void lista_iterador_interno_se_crea_correctamente_itera_y_se_destruye(){
 
   lista = lista_crear();
   char a = 'a', b = 'b', c = 'c', d = 'd', w = 'w';
+
   lista_con_cada_elemento(lista, contar_elementos,(void *)&contador);
   pa2m_afirmar(contador == 0, "No se puede iterar una lista con 0 elementos");
   lista_insertar(lista, &a);
   lista_con_cada_elemento(lista, contar_elementos,(void *)&contador);
   pa2m_afirmar(contador == 1, "Se puede iterar una lista con un elemento");
+  
   contador = 0;
 	lista_insertar(lista, &c);
 	lista_insertar(lista, &d);
