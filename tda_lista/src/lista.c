@@ -109,7 +109,7 @@ void *lista_quitar(lista_t *lista)
 		if(nodo_anterior == NULL)
 			return NULL;
 		nodo_anterior = nodo_anterior->siguiente;
-	}
+		}
 	}
 
 	nodo_t* aux_para_eliminar = lista->nodo_fin;
