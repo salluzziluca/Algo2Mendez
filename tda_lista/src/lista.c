@@ -263,6 +263,9 @@ void lista_destruir_todo(lista_t *lista, void (*funcion)(void *))
 
 lista_iterador_t *lista_iterador_crear(lista_t *lista)
 {
+	if(lista == NULL)
+		return NULL;
+		
 	lista_iterador_t *iterador = malloc(sizeof(lista_iterador_t));
 	if(iterador == NULL)
 		return NULL;
@@ -276,11 +279,8 @@ bool lista_iterador_tiene_siguiente(lista_iterador_t *iterador)
 {
 	if(iterador == NULL || iterador->corriente == NULL)
 		return false;
-	bool tiene_siguiente = false;
-	if(iterador->corriente->siguiente != NULL)
-		tiene_siguiente = true;
 
-	return tiene_siguiente;
+	return true;
 }
 
 bool lista_iterador_avanzar(lista_iterador_t *iterador)
