@@ -36,9 +36,10 @@ void lista_insertar_aumenta_cantidad_Y_pone_elemento_donde_corresponde()
   pa2m_afirmar(lista_insertar(lista, &a) == NULL, "No puedo insertar nada en una lista nula");
   lista = lista_crear();
 
-  
+  // TODO: porbar insertar al principio y al final de una lista vacia y no vacia
+  //TODO: porbar eliminar al principio y al final de una lista vacia y no vacia
   lista_insertar(lista, &a);
-  pa2m_afirmar(lista_elemento_en_posicion(lista, 0) == &a, "Se puede insertar un elemento en la lista");
+  pa2m_afirmar(lista_elemento_en_posicion(lista, 0) == &a, "Se puede insertar un elemento al principcio en lista vacia");
   pa2m_afirmar(lista->nodo_fin->siguiente == NULL, "El ultimo elemento apunta a NULL");
 
   char b = 'b';
@@ -62,6 +63,14 @@ void lista_insertar_aumenta_cantidad_Y_pone_elemento_donde_corresponde()
   lista_insertar_en_posicion(lista, &f, 100);
   pa2m_afirmar(lista_ultimo(lista) == &f, "Se puede insertar en posición mayor que cantidad correctamente");
 
+  char g = 'g'; 
+  lista_insertar_en_posicion(lista, &g, 0);
+  pa2m_afirmar(lista_elemento_en_posicion(lista,0) == &g, "Se puede insertar en posición 0 de lista no vacia correctamente");
+
+  char h = 'h';
+  lista_insertar_en_posicion(lista, &h, lista->cantidad);
+  pa2m_afirmar(lista_ultimo(lista) == &h, "Se puede insertar al final en lista no vacia correctamente");
+  
   lista_insertar(lista, NULL);
   pa2m_afirmar(lista_ultimo(lista) == NULL, "Se puede insertar un elemento nulo");
 
@@ -234,8 +243,7 @@ int main() {
   /*pa2m_nuevo_grupo("Pruebas de destrucción");
   pruebas_de_destruccion_de_lista();*/
 
-  // TODO: porbar insertar al principio y al final de una lista vacia y no vacia
-  //TODO: porbar eliminar al principio y al final de una lista vacia y no vacia
+  
   
   return pa2m_mostrar_reporte();
 }
