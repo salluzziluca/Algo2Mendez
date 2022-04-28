@@ -299,12 +299,9 @@ bool lista_iterador_avanzar(lista_iterador_t *iterador)
 
 void *lista_iterador_elemento_actual(lista_iterador_t *iterador)
 {
-	if(iterador == NULL)
+	if(iterador == NULL || iterador->corriente == NULL)
 		return NULL;
-	
-	if(iterador->corriente == NULL)
-		return NULL;
-
+		
 	return iterador->corriente->elemento;	
 }
 
@@ -317,7 +314,7 @@ size_t lista_con_cada_elemento(lista_t *lista, bool (*funcion)(void *, void *),
 			       void *contexto)
 {
 	if(lista == NULL)
-		return 1;
+		return 0;
 
 	size_t elementos_recorridos = 0;
 	bool continuar = true;

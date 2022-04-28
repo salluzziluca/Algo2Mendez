@@ -16,6 +16,16 @@ int elemento_es_igual_a(void *elemento1, void *elemento2)
 	return -1;
 }
 
+bool contar_elementos(void *elemento, void *contador)
+{
+  bool continuar = false;
+	if (elemento && contador){
+    (*(int *)contador)++;
+    continuar = true;
+  }
+	return continuar;
+}
+
 void crear_lista_devuelve_lista_cantidad_cero_y_nodos_nulls()
 {
   lista_t *lista = lista_crear();
@@ -197,10 +207,37 @@ void el_iterador_itera_por_toda_la_lista_correctamente()
     pa2m_afirmar(lista_iterador_elemento_actual(it) == lista_elemento_en_posicion(lista, i), "Se puede obtener el elemento actual correctamente");
     i ++;
   }
-	printf("\n\n");
-
+  pa2m_afirmar(i == lista->cantidad, "Se puede iterar por toda la lista correctamente");
 	lista_iterador_destruir(it);
   lista_destruir(lista);
+}
+
+void lista_iterador_interno_se_crea_correctamente_itera_y_se_destruye(){
+  lista_t *lista = NULL;
+
+  int contador = 0;
+	size_t elementos_recorridos = 0;
+  elementos_recorridos = lista_con_cada_elemento(lista, contar_elementos,(void *)&contador);
+  pa2m_afirmar(elementos_recorridos == 0, "No se puede iterar una lista nula");
+
+  lista = lista_crear();
+  char a = 'a', b = 'b', c = 'c', d = 'd', w = 'w';
+  lista_con_cada_elemento(lista, contar_elementos,(void *)&contador);
+  pa2m_afirmar(contador == 0, "No se puede iterar una lista con 0 elementos");
+  lista_insertar(lista, &a);
+  lista_con_cada_elemento(lista, contar_elementos,(void *)&contador);
+  pa2m_afirmar(contador == 1, "Se puede iterar una lista con un elemento");
+  contador = 0;
+	lista_insertar(lista, &c);
+	lista_insertar(lista, &d);
+  lista_insertar(lista, &b);
+  lista_insertar(lista, &w);
+  lista_con_cada_elemento(lista, contar_elementos,(void *)&contador);
+  pa2m_afirmar(contador == 5, "Se puede iterar una lista con mas de 1 elementos");
+
+  
+  lista_destruir(lista);
+ 
 }
 
 //TODO: Fijarme de implementar correctamente una prueba de destruir todo
@@ -234,11 +271,14 @@ int main() {
   pa2m_nuevo_grupo("Pruebas de busqueda");
   lista_elemento_lista_buscar_y_lista_primero_y_segundo_devuelven_elemento_correspondientes();
 
-  pa2m_nuevo_grupo("Pruebas de creacion de iterador");
+  pa2m_nuevo_grupo("Pruebas de creacion de iterador externo");
   lista_iterador_se_crea_correctamente_itera_y_se_destruye();
 
-  pa2m_nuevo_grupo("Prueba de iteracion completa");
+  pa2m_nuevo_grupo("Prueba de iteracion externa completa");
   el_iterador_itera_por_toda_la_lista_correctamente();
+
+  pa2m_nuevo_grupo("Prueba de iterador interno");
+  lista_iterador_interno_se_crea_correctamente_itera_y_se_destruye();
   
   /*pa2m_nuevo_grupo("Pruebas de destrucción");
   pruebas_de_destruccion_de_lista();*/
