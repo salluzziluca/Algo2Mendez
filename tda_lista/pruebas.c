@@ -254,25 +254,7 @@ void lista_iterador_interno_se_crea_correctamente_itera_y_se_destruye(){
  
 }
 
-//TODO: Fijarme de implementar correctamente una prueba de destruir todo
-/*int destructor(void *elemento)
-{
-  free(elemento);
-  return 0;
-}
-
-void pruebas_de_destruccion_de_lista()
-{
-  lista_t *lista = lista_crear();
-
-  lista_insertar(lista, malloc(sizeof(char)));
-	lista_insertar(lista, malloc(sizeof(char)));
-
-  lista_destruir_todo(lista, destructor);
-  pa2m_afirmar(lista == NULL, "Se destruyó la lista");
-}*/ 
-
-int main() {
+void pruebas_lista(){
   pa2m_nuevo_grupo("Pruebas de creacion de lista");
   crear_lista_devuelve_lista_cantidad_cero_y_nodos_nulls();
 
@@ -293,6 +275,49 @@ int main() {
 
   pa2m_nuevo_grupo("Prueba de iterador interno");
   lista_iterador_interno_se_crea_correctamente_itera_y_se_destruye();
+}
+
+
+void crear_pila_devuelve_pila_cantidad_cero_y_nodos_nulls()
+{
+  pila_t *pila= pila_crear();
+
+  bool esta_vacia = lista_vacia(pila->lista);
+  pa2m_afirmar(esta_vacia == true, "La lista esta vacia");
+  pa2m_afirmar(pila->lista, "Se puede crear una lista");
+  pa2m_afirmar(lista_tamanio(pila->lista) == 0, "La cantidad de elementos es 0");
+  pa2m_afirmar(lista_primero(pila->lista) == NULL, "El nodo inicio es NULL");
+  pa2m_afirmar(lista_ultimo(pila->lista) == NULL, "El nodo fin es NULL");
+  lista_destruir(pila->lista);
+} 
+void pruebas_pila(){
+  pa2m_nuevo_grupo("Pruebas de creacion de lista");
+  crear_pila_devuelve_pila_cantidad_cero_y_nodos_nulls();
+}
+//TODO: Fijarme de implementar correctamente una prueba de destruir todo
+/*int destructor(void *elemento)
+{
+  free(elemento);
+  return 0;
+}
+
+void pruebas_de_destruccion_de_lista()
+{
+  lista_t *lista = lista_crear();
+
+  lista_insertar(lista, malloc(sizeof(char)));
+	lista_insertar(lista, malloc(sizeof(char)));
+
+  lista_destruir_todo(lista, destructor);
+  pa2m_afirmar(lista == NULL, "Se destruyó la lista");
+}*/ 
+
+int main() {
+  pa2m_nuevo_grupo("Pruebas Lista");
+  pruebas_lista();
+
+  pa2m_nuevo_grupo("Pruebas Pila");
+  pruebas_pila();
   
   /*pa2m_nuevo_grupo("Pruebas de destrucción");
   pruebas_de_destruccion_de_lista();*/

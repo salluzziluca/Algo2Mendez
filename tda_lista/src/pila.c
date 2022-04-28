@@ -5,8 +5,10 @@ struct _pila_t {
 };
 
 pila_t *pila_crear()
-{
-	return NULL;
+{	
+	pila_t *pila = malloc(sizeof(pila_t));
+	pila->lista = lista_crear();
+	return pila;
 }
 
 pila_t *pila_apilar(pila_t *pila, void *elemento)
@@ -18,8 +20,8 @@ pila_t *pila_apilar(pila_t *pila, void *elemento)
 	//50% es una buena idea
 	// 25% es una buena idea
 	//QUE 
-	
 	return NULL;
+	
 }
 
 void *pila_desapilar(pila_t *pila)
@@ -45,6 +47,7 @@ bool pila_vacia(pila_t *pila)
 }
 
 void pila_destruir(pila_t *pila)
-{
-
+{	
+	free(pila->lista);
+	free(pila);
 }
