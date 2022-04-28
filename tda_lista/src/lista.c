@@ -263,27 +263,54 @@ void lista_destruir_todo(lista_t *lista, void (*funcion)(void *))
 
 lista_iterador_t *lista_iterador_crear(lista_t *lista)
 {
-	return NULL;
+	if(lista == NULL)
+		return NULL;
+		
+	lista_iterador_t *iterador = malloc(sizeof(lista_iterador_t));
+	if(iterador == NULL)
+		return NULL;
+
+	iterador->lista = lista;
+	iterador->corriente = lista->nodo_inicio;
+	return iterador;
 }
 
 bool lista_iterador_tiene_siguiente(lista_iterador_t *iterador)
 {
-	return false;
+	if(iterador == NULL || iterador->corriente == NULL)
+		return false;
+
+	return true;
 }
 
 bool lista_iterador_avanzar(lista_iterador_t *iterador)
 {
-	return false;
+	if(iterador == NULL)
+		return false;
+
+	bool avanzado = false;
+	iterador->corriente = iterador->corriente->siguiente;
+
+	if(iterador->corriente != NULL)
+		avanzado = true;
+
+	return avanzado;
 }
 
 void *lista_iterador_elemento_actual(lista_iterador_t *iterador)
 {
-	return NULL;
+	if(iterador == NULL)
+		return NULL;
+	
+	if(iterador->corriente == NULL)
+		return NULL;
+
+	return iterador->corriente->elemento;	
 }
 
 void lista_iterador_destruir(lista_iterador_t *iterador)
 {
-
+	free(iterador);
 }
 
 size_t lista_con_cada_elemento(lista_t *lista, bool (*funcion)(void *, void *),
