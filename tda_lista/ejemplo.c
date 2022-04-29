@@ -158,7 +158,7 @@ int main()
 	probar_operaciones_cola();
 	*/
 	printf("\nEjemplo del uso de pila\n");
-	probar_operaciones_pila();
+	probar_operaciones_pila();*/
 
 	return 0;
 }
