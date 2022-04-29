@@ -110,7 +110,7 @@ void lista_quitar_saca_el_elemento_y_disminuye_cantidad()
   valor_quitado = lista_quitar_de_posicion(lista, 1);
   pa2m_afirmar(valor_quitado == &c, "Se puede quitar elemento de posición correctamente");
 
-  valor_quitado = lista_quitar(lista);
+  valor_quitado = lista_quitar_de_posicion(lista, 100);
   pa2m_afirmar(valor_quitado == &b, "Se puede quitar elemento correctamente");
 
   valor_quitado = lista_quitar_de_posicion(lista, 0);
