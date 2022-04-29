@@ -259,7 +259,7 @@ void lista_destruir(lista_t *lista)
 void lista_destruir_todo(lista_t *lista, void (*funcion)(void *))
 {
 	if(funcion == NULL || lista == NULL){
-		free(lista);
+		lista_destruir(lista);
 		return;
 	}
 	for(size_t i = 0; i < lista->cantidad; i++){

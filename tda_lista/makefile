@@ -21,7 +21,7 @@ valgrind: ejemplo
 	valgrind $(VALGRIND_FLAGS) ./ejemplo 2>&1
 
 valgrind-pruebas: pruebas
-	valgrind $(VALGRIND_FLAGS) ./pruebas 2>&1
+	valgreen ./pruebas 2>&1
 
 pruebas: src/*.c pruebas.c
 	$(CC) $(CFLAGS) src/*.c pruebas.c -o pruebas 2>&1
