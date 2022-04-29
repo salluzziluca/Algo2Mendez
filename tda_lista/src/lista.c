@@ -58,7 +58,6 @@ lista_t *lista_insertar_en_posicion(lista_t *lista, void *elemento,
 		
 	if(posicion > lista->cantidad){
 		posicion = lista->cantidad;
-		printf("Posicion fuera de rango, se insertara al final (%li)\n", posicion);
 	}
 
 	if(lista->cantidad == 0){
@@ -130,7 +129,6 @@ void *lista_quitar_de_posicion(lista_t *lista, size_t posicion)
 	
 	if(posicion > lista->cantidad){
 		posicion = lista->cantidad-1;
-		printf("Posicion fuera de rango, se quitará el final (%li)\n", posicion);
 	}
 	nodo_t *nodo_anterior = lista->nodo_inicio;
 	nodo_t *nodo_a_eliminar = NULL;
@@ -172,7 +170,6 @@ void *lista_elemento_en_posicion(lista_t *lista, size_t posicion)
 
 	if(posicion > lista->cantidad){
 		posicion = lista->cantidad;
-		printf("Posicion fuera de rango, se devolverá el final (%li)\n", posicion);
 		nodo_a_devolver = lista->nodo_fin;
 		elemento_a_devolver = nodo_a_devolver->elemento;
 	}
@@ -194,7 +191,7 @@ void *lista_elemento_en_posicion(lista_t *lista, size_t posicion)
 void *lista_buscar_elemento(lista_t *lista, int (*comparador)(void *, void *),
 			    void *contexto)
 {
-	if(lista == NULL)
+	if(lista == NULL || lista->cantidad == 0)
 		return NULL;
 		
 	nodo_t* nodo_actual = lista->nodo_inicio;
@@ -243,7 +240,9 @@ size_t lista_tamanio(lista_t *lista)
 }
 
 void lista_destruir(lista_t *lista)
-{
+{	
+	if(lista == NULL)
+		return;
 	for(size_t i = 0; i < lista->cantidad; i++){
 
 		nodo_t *bloque_auxiliar = lista->nodo_inicio->siguiente;
@@ -255,6 +254,10 @@ void lista_destruir(lista_t *lista)
 
 void lista_destruir_todo(lista_t *lista, void (*funcion)(void *))
 {
+	if(funcion == NULL){
+		free(lista);
+		return;
+	}
 	for(size_t i = 0; i < lista->cantidad; i++){
 
 		nodo_t *bloque_auxiliar = lista->nodo_inicio->siguiente;
@@ -289,7 +292,7 @@ bool lista_iterador_tiene_siguiente(lista_iterador_t *iterador)
 
 bool lista_iterador_avanzar(lista_iterador_t *iterador)
 {
-	if(iterador == NULL)
+	if(iterador == NULL || iterador->lista->cantidad == 0)
 		return false;
 
 	bool avanzado = false;
@@ -317,7 +320,7 @@ void lista_iterador_destruir(lista_iterador_t *iterador)
 size_t lista_con_cada_elemento(lista_t *lista, bool (*funcion)(void *, void *),
 			       void *contexto)
 {
-	if(lista == NULL)
+	if(lista == NULL || funcion == NULL)
 		return 0;
 
 	size_t elementos_recorridos = 0;
