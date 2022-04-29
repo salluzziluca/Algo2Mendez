@@ -96,7 +96,7 @@ lista_t *lista_insertar_en_posicion(lista_t *lista, void *elemento,
 
 void *lista_quitar(lista_t *lista)
 {
-	if(lista == NULL)
+	if(lista == NULL || lista->cantidad == 0)
 		return NULL;
 
 	nodo_t *nodo_anterior = lista->nodo_inicio;
@@ -210,7 +210,7 @@ void *lista_buscar_elemento(lista_t *lista, int (*comparador)(void *, void *),
 
 void *lista_primero(lista_t *lista)
 {
-	if(lista == NULL || lista->nodo_inicio == NULL )
+	if(lista == NULL || lista->nodo_inicio == NULL || lista->cantidad == 0)
 		return NULL;
 
 	void *primer_elemento = lista->nodo_inicio->elemento;
@@ -219,7 +219,7 @@ void *lista_primero(lista_t *lista)
 
 void *lista_ultimo(lista_t *lista)
 {
-	if(lista == NULL || lista->nodo_fin == NULL )
+	if(lista == NULL || lista->nodo_fin == NULL || lista->cantidad == 0)
 		return NULL;
 	void *ultimo_elemento = lista->nodo_fin->elemento;
 	return ultimo_elemento;
