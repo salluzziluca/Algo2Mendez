@@ -129,7 +129,7 @@ void *lista_quitar_de_posicion(lista_t *lista, size_t posicion)
 		return NULL;
 	
 	if(posicion > lista->cantidad){
-		posicion = lista->cantidad;
+		posicion = lista->cantidad-1;
 		printf("Posicion fuera de rango, se quitará el final (%li)\n", posicion);
 	}
 	nodo_t *nodo_anterior = lista->nodo_inicio;
