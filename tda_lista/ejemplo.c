@@ -45,17 +45,16 @@ void probar_operaciones_lista()
 	lista_insertar_en_posicion(lista, &d, 100);
 	lista_insertar_en_posicion(lista, &b, 1);
 	lista_insertar_en_posicion(lista, &w, 3);
-
+	
 	char *valor_quitado = lista_quitar_de_posicion(lista, 3);
-	printf("Elementos quitado de la posicion 3 de la lista: %c\n",
-	       *valor_quitado);
-
+	printf("Elementos quitado de la posicion 3 de la lista: %c\n", *valor_quitado);
+	
 	printf("Elementos en la lista: ");
 	for (size_t i = 0; i < lista_tamanio(lista); i++)
 		printf("%c ", *(char *)lista_elemento_en_posicion(lista, i));
 
 	printf("\n\n");
-
+	
 	printf("Imprimo TODOS LOS ELEMENTOS DE LA LISTA usando el iterador externo: \n");
 	lista_iterador_t *it = NULL;
 
@@ -65,7 +64,6 @@ void probar_operaciones_lista()
 	printf("\n\n");
 
 	lista_iterador_destruir(it);
-
 	int contador = 0;
 	size_t elementos_recorridos = 0;
 	printf("Imprimo TODOS LOS ELEMENTOS DE LA LISTA usando el iterador interno: \n");
@@ -76,7 +74,6 @@ void probar_operaciones_lista()
 	       elementos_recorridos, contador);
 
 	printf("\n");
-
 
 	printf("Busco el elemento con valor 'd' en la lista: ");
 	char *elemento_d = lista_buscar_elemento(lista, elemento_es_d, NULL);
@@ -92,8 +89,6 @@ void probar_operaciones_lista()
 		printf("ENCONTRADO\n");
 	else
 		printf("NO ENCONTRADO D:\n");
-
-
 	lista_destruir(lista);
 }
 
@@ -101,14 +96,12 @@ void probar_operaciones_destructor_lista()
 {
 	lista_t *lista = lista_crear();
 
-	//Inserto varios bloques reservados con malloc
 	lista_insertar(lista, malloc(sizeof(int)));
 	lista_insertar(lista, malloc(sizeof(int)));
 	lista_insertar(lista, malloc(sizeof(int)));
 	lista_insertar(lista, malloc(sizeof(int)));
 	lista_insertar(lista, malloc(sizeof(int)));
 
-	//Esto debería liberar la lista y cada bloque
 	lista_destruir_todo(lista, free);
 }
 
@@ -135,13 +128,14 @@ void probar_operaciones_cola()
 void probar_operaciones_pila()
 {
 	pila_t *pila = pila_crear();
+	
 	char *algo = "somtirogla";
-
+	
 	for (int i = 0; algo[i] != 0; i++) {
 		printf("Apilo %c\n", algo[i]);
 		pila_apilar(pila, &algo[i]);
 	}
-
+	
 	printf("\nDesapilo y muestro los elementos apilados: ");
 	while (!pila_vacia(pila)) {
 		printf("%c", *(char *)pila_tope(pila));
@@ -155,10 +149,9 @@ int main()
 {
 	printf("Ejemplo del uso de lista\n");
 	probar_operaciones_lista();
-
+	
 	printf("\nEjemplo del destructor de lista (no debería perder memoria)\n");
 	probar_operaciones_destructor_lista();
-
 
 	printf("\nEjemplo del uso de cola\n");
 	probar_operaciones_cola();
