@@ -106,12 +106,15 @@ void lista_quitar_saca_el_elemento_y_disminuye_cantidad()
 	
 	valor_quitado = lista_quitar(lista);
   pa2m_afirmar(valor_quitado == &w, "Se puede quitar elemento correctamente");
+  pa2m_afirmar(lista->nodo_inicio->siguiente->siguiente->siguiente->siguiente == NULL, "El ultimo elemento apunta a NULL");
+  pa2m_afirmar(lista_elemento_en_posicion(lista, 4) == NULL, "El elemento en posicion 4 es NULL");
 
   valor_quitado = lista_quitar_de_posicion(lista, 1);
   pa2m_afirmar(valor_quitado == &c, "Se puede quitar elemento de posición correctamente");
 
   valor_quitado = lista_quitar_de_posicion(lista, 100);
   pa2m_afirmar(valor_quitado == &b, "Se puede quitar elemento de posicion mayor que cantidad correctamente");
+  pa2m_afirmar(lista->nodo_inicio->siguiente->siguiente == NULL, "El ultimo elemento apunta a NULL");
 
   valor_quitado = lista_quitar_de_posicion(lista, 0);
   pa2m_afirmar(valor_quitado == &a, "Se puede quitar elemento de posición 0 correctamente");
