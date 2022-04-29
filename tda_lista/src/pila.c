@@ -1,5 +1,8 @@
 #include "pila.h"
 #include "lista.h"
+struct _pila_t {
+	lista_t *lista;
+};
 
 pila_t *pila_crear()
 {	

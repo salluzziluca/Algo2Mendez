@@ -343,5 +343,7 @@ int main() {
   /*pa2m_nuevo_grupo("Pruebas de destrucción");
   pruebas_de_destruccion_de_lista();*/
 
+  
+  
   return pa2m_mostrar_reporte();
 }
