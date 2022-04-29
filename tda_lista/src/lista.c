@@ -178,7 +178,7 @@ void *lista_elemento_en_posicion(lista_t *lista, size_t posicion)
 		elemento_a_devolver = nodo_a_devolver->elemento;
 	}
 	else{
-		for(size_t i = 0; i < posicion-1; i++){
+		for(size_t i = 0; i < posicion; i++){
 			if(lista->nodo_inicio == NULL)
 				return NULL;
 			nodo_a_devolver = nodo_a_devolver->siguiente;
@@ -191,7 +191,7 @@ void *lista_elemento_en_posicion(lista_t *lista, size_t posicion)
 void *lista_buscar_elemento(lista_t *lista, int (*comparador)(void *, void *),
 			    void *contexto)
 {
-	if(lista == NULL || lista->cantidad == 0 || comparador == NULL)
+	if(lista == NULL || lista->cantidad == 0)
 		return NULL;
 		
 	nodo_t* nodo_actual = lista->nodo_inicio;
@@ -254,7 +254,7 @@ void lista_destruir(lista_t *lista)
 
 void lista_destruir_todo(lista_t *lista, void (*funcion)(void *))
 {
-	if(funcion == NULL || lista == NULL){
+	if(funcion == NULL){
 		free(lista);
 		return;
 	}
