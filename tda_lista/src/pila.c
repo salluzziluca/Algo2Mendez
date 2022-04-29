@@ -5,46 +5,56 @@ struct _pila_t {
 };
 
 pila_t *pila_crear()
-{
-	return NULL;
+{	
+	pila_t *pila = malloc(sizeof(pila_t));
+	pila->lista = lista_crear();
+	return pila;
 }
 
 pila_t *pila_apilar(pila_t *pila, void *elemento)
 {
-	//Fijarme si tope se estas acercando mucho a tamanio, en ese caso, damos mas memoria. Propongo un 75%
-	// estoy de acuerdo, 75% me parece bien
-	//Yo prefiero 50
-	//75% es una buena idea
-	//50% es una buena idea
-	// 25% es una buena idea
-	//QUE 
+	if(pila == NULL)
+		return NULL;
+	lista_insertar(pila->lista, elemento);
+	return pila;
 	
-	return NULL;
 }
 
 void *pila_desapilar(pila_t *pila)
-{
-	//Fijarme si tope ==0
-	return NULL;
+{	
+	if(pila == NULL)
+		return NULL;
+	void *elemento_quitado = lista_quitar(pila->lista);
+	return elemento_quitado;
 }
 
 void *pila_tope(pila_t *pila)
 {
-	return NULL;
+	if(pila == NULL)
+		return NULL;
+	void *ultimo_elemento = lista_ultimo(pila->lista);
+
+	return ultimo_elemento;
 }
 
 size_t pila_tamanio(pila_t *pila)
 {
-	return 0;
+	if(pila == NULL)
+		return 0;
+	size_t tamanio = lista_tamanio(pila->lista);
+	return tamanio;
 }
 
 bool pila_vacia(pila_t *pila)
 {
-	//Fijarme si tope == 0
-	return false;
+	if(pila->lista->cantidad == 0)
+		return true;
+	else
+		return false;
 }
 
 void pila_destruir(pila_t *pila)
-{
-
+{	
+	free(pila->lista);
+	free(pila);
 }

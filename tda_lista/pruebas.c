@@ -254,25 +254,7 @@ void lista_iterador_interno_se_crea_correctamente_itera_y_se_destruye(){
  
 }
 
-//TODO: Fijarme de implementar correctamente una prueba de destruir todo
-/*int destructor(void *elemento)
-{
-  free(elemento);
-  return 0;
-}
-
-void pruebas_de_destruccion_de_lista()
-{
-  lista_t *lista = lista_crear();
-
-  lista_insertar(lista, malloc(sizeof(char)));
-	lista_insertar(lista, malloc(sizeof(char)));
-
-  lista_destruir_todo(lista, destructor);
-  pa2m_afirmar(lista == NULL, "Se destruyó la lista");
-}*/ 
-
-int main() {
+void pruebas_lista(){
   pa2m_nuevo_grupo("Pruebas de creacion de lista");
   crear_lista_devuelve_lista_cantidad_cero_y_nodos_nulls();
 
@@ -293,6 +275,70 @@ int main() {
 
   pa2m_nuevo_grupo("Prueba de iterador interno");
   lista_iterador_interno_se_crea_correctamente_itera_y_se_destruye();
+}
+
+
+void crear_pila_devuelve_pila_cantidad_cero_y_nodos_nulls()
+{
+  pila_t *pila= pila_crear();
+
+  pa2m_afirmar(pila_vacia(pila) == true, "La pila esta vacia");
+  pa2m_afirmar(pila, "Se puede crear una pila");
+  pa2m_afirmar(pila_tamanio(pila) == 0, "La cantidad de elementos es 0");
+  pa2m_afirmar(pila_tope(pila) == NULL, "El nodo fin es NULL");
+  pila_destruir(pila);
+} 
+
+void pila_apilar_y_desapilar_apilan_y_desapilan_correctamente(){
+  pila_t *pila = pila_crear();
+  char *algo = "somtirogla";
+	
+  int cantidad_apilado = 0;
+	for (int i = 0; algo[i] != 0; i++) {
+		pila_apilar(pila, &algo[i]);
+    cantidad_apilado++;
+  }
+  pa2m_afirmar(cantidad_apilado == 10, "Se apila correctamente");
+
+	while (!pila_vacia(pila)) {
+		pila_desapilar(pila);
+    cantidad_apilado--;
+	}
+  pa2m_afirmar(cantidad_apilado == 0, "Se desapilo correctamente");
+  
+  pila_destruir(pila);
+}
+void pruebas_pila(){
+  pa2m_nuevo_grupo("Pruebas de creacion de lista");
+  crear_pila_devuelve_pila_cantidad_cero_y_nodos_nulls();
+
+  pa2m_nuevo_grupo("Pruebas de apilado y desapilado");
+  pila_apilar_y_desapilar_apilan_y_desapilan_correctamente();
+}
+//TODO: Fijarme de implementar correctamente una prueba de destruir todo
+/*int destructor(void *elemento)
+{
+  free(elemento);
+  return 0;
+}
+
+void pruebas_de_destruccion_de_lista()
+{
+  lista_t *lista = lista_crear();
+
+  lista_insertar(lista, malloc(sizeof(char)));
+	lista_insertar(lista, malloc(sizeof(char)));
+
+  lista_destruir_todo(lista, destructor);
+  pa2m_afirmar(lista == NULL, "Se destruyó la lista");
+}*/ 
+
+int main() {
+  pa2m_nuevo_grupo("Pruebas Lista");
+  pruebas_lista();
+
+  pa2m_nuevo_grupo("Pruebas Pila");
+  pruebas_pila();
   
   /*pa2m_nuevo_grupo("Pruebas de destrucción");
   pruebas_de_destruccion_de_lista();*/

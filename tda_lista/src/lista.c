@@ -101,11 +101,15 @@ void *lista_quitar(lista_t *lista)
 		return NULL;
 
 	nodo_t *nodo_anterior = lista->nodo_inicio;
-	
-	for(size_t i = 0; i < lista->cantidad-2; i++){
+	if(lista->cantidad == 1){
+		nodo_anterior = lista->nodo_inicio;
+	}
+	else{
+		for(size_t i = 0; i < lista->cantidad-2; i++){
 		if(nodo_anterior == NULL)
 			return NULL;
 		nodo_anterior = nodo_anterior->siguiente;
+		}
 	}
 
 	nodo_t* aux_para_eliminar = lista->nodo_fin;

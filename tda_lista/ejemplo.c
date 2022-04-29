@@ -96,14 +96,12 @@ void probar_operaciones_destructor_lista()
 {
 	lista_t *lista = lista_crear();
 
-	//Inserto varios bloques reservados con malloc
 	lista_insertar(lista, malloc(sizeof(int)));
 	lista_insertar(lista, malloc(sizeof(int)));
 	lista_insertar(lista, malloc(sizeof(int)));
 	lista_insertar(lista, malloc(sizeof(int)));
 	lista_insertar(lista, malloc(sizeof(int)));
 
-	//Esto debería liberar la lista y cada bloque
 	lista_destruir_todo(lista, free);
 }
 
@@ -130,13 +128,14 @@ void probar_operaciones_cola()
 void probar_operaciones_pila()
 {
 	pila_t *pila = pila_crear();
+	
 	char *algo = "somtirogla";
-
+	
 	for (int i = 0; algo[i] != 0; i++) {
 		printf("Apilo %c\n", algo[i]);
 		pila_apilar(pila, &algo[i]);
 	}
-
+	
 	printf("\nDesapilo y muestro los elementos apilados: ");
 	while (!pila_vacia(pila)) {
 		printf("%c", *(char *)pila_tope(pila));
@@ -157,7 +156,7 @@ int main()
 	/*
 	printf("\nEjemplo del uso de cola\n");
 	probar_operaciones_cola();
-
+	*/
 	printf("\nEjemplo del uso de pila\n");
 	probar_operaciones_pila();*/
 
