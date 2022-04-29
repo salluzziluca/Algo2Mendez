@@ -152,6 +152,9 @@ void *lista_quitar_de_posicion(lista_t *lista, size_t posicion)
 		nodo_a_eliminar = nodo_anterior->siguiente;
 		elemento_a_devolver = nodo_a_eliminar->elemento;
 		nodo_anterior->siguiente = nodo_a_eliminar->siguiente;
+		if(posicion == lista->cantidad-1){
+			lista->nodo_fin = nodo_anterior;
+		}
 		lista->cantidad--;
 		free(nodo_a_eliminar);
 	}
