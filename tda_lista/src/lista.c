@@ -183,7 +183,10 @@ void *lista_elemento_en_posicion(lista_t *lista, size_t posicion)
 				return NULL;
 			nodo_a_devolver = nodo_a_devolver->siguiente;
 		}
+		if(nodo_a_devolver == NULL)
+			return NULL;
 		elemento_a_devolver = nodo_a_devolver->elemento;
+		
 	}
 	return elemento_a_devolver;
 }
