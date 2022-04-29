@@ -73,7 +73,7 @@ void lista_insertar_aumenta_cantidad_Y_pone_elemento_donde_corresponde()
         char f = 'f';
         lista_insertar_en_posicion(lista, &f, 100);
         pa2m_afirmar(lista_ultimo(lista) == &f, "Se puede insertar en posición mayor que cantidad correctamente");
-
+        pa2m_afirmar(lista_elemento_en_posicion(lista, 99) == NULL, "La posicion inexistente no posee elementos");
         char g = 'g'; 
         lista_insertar_en_posicion(lista, &g, 0);
         pa2m_afirmar(lista_elemento_en_posicion(lista,0) == &g, "Se puede insertar en posición 0 de lista no vacia correctamente");

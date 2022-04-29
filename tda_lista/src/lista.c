@@ -172,9 +172,7 @@ void *lista_elemento_en_posicion(lista_t *lista, size_t posicion)
 	void *elemento_a_devolver = NULL;
 
 	if(posicion > lista->cantidad){
-		posicion = lista->cantidad;
-		nodo_a_devolver = lista->nodo_fin;
-		elemento_a_devolver = nodo_a_devolver->elemento;
+		return NULL;
 	}
 	else if(posicion == 0){
 		nodo_a_devolver = lista->nodo_inicio;
