@@ -230,7 +230,7 @@ bool lista_vacia(lista_t *lista)
 	bool esta_vacia = false;
 	if(lista == NULL)
 		esta_vacia = true;
-	if(lista->cantidad == 0)
+	else if(lista->cantidad == 0)
 		esta_vacia = true;
 	return esta_vacia;
 }
