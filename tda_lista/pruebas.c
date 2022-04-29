@@ -309,7 +309,7 @@ void pila_apilar_y_desapilar_apilan_y_desapilan_correctamente(){
   pila_destruir(pila);
 }
 void pruebas_pila(){
-  pa2m_nuevo_grupo("Pruebas de creacion de lista");
+  pa2m_nuevo_grupo("Pruebas de creacion de pila");
   crear_pila_devuelve_pila_cantidad_cero_y_nodos_nulls();
 
   pa2m_nuevo_grupo("Pruebas de apilado y desapilado");
@@ -333,6 +333,43 @@ void pruebas_de_destruccion_de_lista()
   pa2m_afirmar(lista == NULL, "Se destruyó la lista");
 }*/ 
 
+void crear_cola_devuelve_cola_cantidad_cero_y_nodos_nulls(){
+  cola_t *cola = cola_crear();
+
+  pa2m_afirmar(cola_vacia(cola) == true, "La cola esta vacia");
+  pa2m_afirmar(cola, "Se puede crear una cola");
+  pa2m_afirmar(cola_tamanio(cola) == 0, "La cantidad de elementos es 0");
+  pa2m_afirmar(cola_frente(cola) == NULL, "El nodo inicio es NULL");
+  cola_destruir(cola);
+}
+
+void cola_encolar_y_desencolar_encolan_y_desencolan_correctamente(){
+  cola_t *cola = cola_crear();
+  char *algo = "somtirogla";
+  
+  int cantidad_encolado = 0;
+  for (int i = 0; algo[i] != 0; i++) {
+    cola_encolar(cola, &algo[i]);
+    cantidad_encolado++;
+  }
+  pa2m_afirmar(cantidad_encolado == 10, "Se encola correctamente");
+
+  while (!cola_vacia(cola)) {
+    cola_desencolar(cola);
+    cantidad_encolado--;
+  }
+  pa2m_afirmar(cantidad_encolado == 0, "Se desencola correctamente");
+  
+  cola_destruir(cola);
+}
+void pruebas_cola(){
+  pa2m_nuevo_grupo("Pruebas de creacion de cola");
+  crear_cola_devuelve_cola_cantidad_cero_y_nodos_nulls();
+
+  pa2m_nuevo_grupo("Pruebas de encolar y desencolar");
+  cola_encolar_y_desencolar_encolan_y_desencolan_correctamente();
+}
+
 int main() {
   pa2m_nuevo_grupo("Pruebas Lista");
   pruebas_lista();
@@ -340,6 +377,8 @@ int main() {
   pa2m_nuevo_grupo("Pruebas Pila");
   pruebas_pila();
   
+  pa2m_nuevo_grupo("Pruebas de Cola");
+  pruebas_cola();
   /*pa2m_nuevo_grupo("Pruebas de destrucción");
   pruebas_de_destruccion_de_lista();*/
 
