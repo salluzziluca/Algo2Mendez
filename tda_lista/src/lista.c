@@ -125,7 +125,7 @@ void *lista_quitar(lista_t *lista)
 
 void *lista_quitar_de_posicion(lista_t *lista, size_t posicion)
 {
-	if(lista == NULL)
+	if(lista == NULL || lista->cantidad == 0)
 		return NULL;
 	
 	if(posicion > lista->cantidad){
@@ -164,7 +164,7 @@ void *lista_quitar_de_posicion(lista_t *lista, size_t posicion)
 
 void *lista_elemento_en_posicion(lista_t *lista, size_t posicion)
 {
-	if(lista == NULL)
+	if(lista == NULL || lista->cantidad == 0)
 		return NULL;
 	
 	nodo_t *nodo_a_devolver = lista->nodo_inicio;
