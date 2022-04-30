@@ -1,7 +1,7 @@
     
 ![](https://i.imgur.com/P0aqOMI.jpg)
 
-# **Trabajo Práctico n — NombreTP** 
+# **TDA Lista** 
 
 
 ## [7541/9515] Algoritmos y Programación II
@@ -9,15 +9,15 @@
 
 ### Primer cuatrimestre de 2022
 
-|  Alumno: | APELLIDO, Nombre |
+|  Alumno: | SALLUZZI, Luca |
 | ----------- | ----------- |
-| Número de padrón: | 123456 |
-| Email: | unmail@fi.uba.ar |
+| Número de padrón: | 108088 |
+| Email: | lsalluzzi@fi.uba.ar |
 
 
 #### 1. Introducción
 
-Idea general del TP, un breve resumen de que se pidió y de que forma.
+En este trabajo se buscaba afianzar el manejo y el desarrollo de tres Tipos de Datos Abstractos: lista, pila y cola. Se debía tener una clara vision del funcionamiento de cada uno, sus restricciones y posibles implementaciones, asi como de sus primitivas y el grado de complejidad algorítmica de las mismas. 
 
 #### 2. Teoría
 
