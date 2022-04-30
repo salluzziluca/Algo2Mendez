@@ -200,7 +200,7 @@ void *lista_buscar_elemento(lista_t *lista, int (*comparador)(void *, void *),
 		return NULL;
 		
 	nodo_t* nodo_actual = lista->nodo_inicio;
-	while(comparador(nodo_actual->elemento, contexto) != 0){
+	while(comparador(nodo_actual->elemento, contexto)){
 		if(nodo_actual->siguiente == NULL)
 			return NULL;
 		nodo_actual = nodo_actual->siguiente;
@@ -241,7 +241,8 @@ size_t lista_tamanio(lista_t *lista)
 {
 	if(lista == NULL)
 		return 0;
-	return lista->cantidad;
+	size_t tamanio = lista->cantidad;
+	return tamanio;
 }
 
 void lista_destruir(lista_t *lista)
@@ -332,7 +333,7 @@ size_t lista_con_cada_elemento(lista_t *lista, bool (*funcion)(void *, void *),
 	bool continuar = true;
 	nodo_t* nodo_actual = lista->nodo_inicio;
 
-	while(elementos_recorridos < lista->cantidad && continuar == true){
+	while(elementos_recorridos < lista->cantidad && continuar){
 		continuar = funcion(nodo_actual->elemento, contexto);
 		nodo_actual = nodo_actual->siguiente;
 		elementos_recorridos++;

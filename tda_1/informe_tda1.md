@@ -47,9 +47,28 @@ En este trabajo se buscaba afianzar el manejo y el desarrollo de tres Tipos de D
 #### 3. Detalles de implementación
 
 
+##### Lista
 En mi implementación prioricé la legibilidad a el ahorro de lineas, hay funciones (sobre todo las mas simples), que se podrian hacer en una sola linea con un return, pero preferi crear variables que permitieran entender mejor el paso a paso del código.
-Empecé haciendo las diferentes primitivas de la lista. Implementando desde lo mas simple a lo mas complejo. Primero creando y destruyendo la lista (con sus respectivas pruebas), para pasar luego a la adición y la sutracción de elementos (tomando en cuenta casos especiales como cantidad igual a 0). De ahí pasé a la adición y la eliminación de elementos en posiciones, iterando adecuadamente y tomando tambien en cuenta casos particulares como cantidad mayor a cero, posicion igual a cero o posición mayor a cantidad. Para esto modularicé el llenado de nodos, ya que era algo repetitivo y que, si bien modularizarlo no hace la gran diferencia, en mi opinión mejora la legibilidad del codigo.
+Empecé haciendo las diferentes primitivas de la lista. Implementando desde lo mas simple a lo mas complejo. Primero creando y destruyendo la lista (con sus respectivas pruebas), para pasar luego a la adición y la sutracción de elementos (tomando en cuenta casos especiales como cantidad igual a 0). En el caso de la eliminación, implementé tanto la elminacion de nodos con elementos no cargados en memoria como de elementos que si necesitaran de su liberación para no presentar ningun error de perdida de bytes. 
+De ahí pasé a la adición y la eliminación de elementos en posiciones, iterando adecuadamente y tomando tambien en cuenta casos particulares como cantidad mayor a cero, posicion igual a cero o posición mayor a cantidad. Para esto modularicé el llenado de nodos, ya que era algo repetitivo y que, si bien modularizarlo no hace la gran diferencia, en mi opinión mejora la legibilidad del codigo.
 
+Una vez terminada la parte de carga y descarga de elementos, pasé a la busqueda de elementos en lista. Estas son similares a las de insertar y quitar en posicion, ya que se encargan de iterar nodo a nodo a no que la posicion pedida sea uno de los casos especiales nombrados arriba (cantidad igual a 0, posicion igual a 0 o posicion mayor a cantidad). En el caso de `lista_buscar_elemento`, se itera hasta que el comparador devuelva false.
+
+Las funciones lista_ primero, ultimo, vacio y tamanio son por diferencias las mas simples, ya que requieren solamente buscar un campo del struct lista y compararlo o devolverlo. No hay mucha complejidad.
+
+---
+##### Iteradores
+Los iteradores son una forma de acceder a los elementos de una lista, sin necesidad de recorrerla completa. Esto se logra con la creación de un puntero que apunta al primer elemento de la lista, y que se mueve a traves de los nodos de la misma. 
+
+El primero y mas importante es el iterador externo, que vive dentro de un struct cargado en memoria y tiene un nodo corriente por el que va avanzando segun se le pida. Sus funciones son crear (que se encarga de asignarlo en memoria y apuntar su nodo corriente a nodo inicio), tiene_siguiente (que se fija si el nodo actual es null, de serlo, no tendrá siguiente), avanzar (que avanza una posicion en el nodo_corriente), elemento_actual (que devuelve el elemento del nodo corriente) y destruir (que destruye el nodo, no asi los nodos por los que itero porque esos forman parte de la lista, el iterador solo apunta).
+
+El segundo es el iterador externo, que "pertenece" al usuario. Él decide bajo que condiciones itera y corta, nosotros solo le brindamos la posibilidad de recorrer la lista hasta que la funcion devuelva false, momento en el cual cortamos el ciclo y devolvemos la cantidad de elementos iterados. 
+
+##### Pila
+En la pila, los elementos se almacenan siempre en la primera posición y se quitan tambien por ahí. El ultimo en entrar es el primero en salir. Reutilicé las primitivas de lista con ciertas modificaciones y restricciones, tomando el la posicion de tope, la posición a agregar y la posicion a quitar como 0. De esta forma, todas esas funciones son O(1).
+
+##### Cola
+En la cola, los elementos se almacenan en la ultima posición pero se quitan de la primera, el primero en entrar es el primero en salir. Para lograr esto, encolé utilizando lista_insertar (ya que siempre inserta al final y es O(1)) y desecolé quitando el elemento en la posicion 0, al igual que hice con pila.
 
 
 1. Detalles de alguna función
