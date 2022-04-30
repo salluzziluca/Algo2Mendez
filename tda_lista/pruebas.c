@@ -159,7 +159,7 @@ void lista_elemento_lista_buscar_y_lista_primero_y_segundo_devuelven_elemento_co
         pa2m_afirmar(elemento == &a, "Se puede obtener el elemento en posición 0 correctamente");
 
         elemento= lista_elemento_en_posicion(lista, 37);
-        pa2m_afirmar(elemento == &w, "Se puede obtener el elemento en posición mayor que cantidad correctamente");
+        pa2m_afirmar(elemento == NULL, "No puedo obtener el elemento en posición mayor que cantidad");
 
 
         elemento_c = lista_buscar_elemento(lista, elemento_es_igual_a, &buscado);
