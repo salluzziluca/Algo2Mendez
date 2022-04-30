@@ -16,7 +16,7 @@ cola_t *cola_encolar(cola_t *cola, void *elemento)
 {
 	if(cola == NULL)
 		return NULL;
-	lista_insertar_en_posicion(cola->lista, elemento, 0);
+	lista_insertar(cola->lista, elemento);
 	return cola;
 }
 
@@ -24,14 +24,14 @@ void *cola_desencolar(cola_t *cola)
 {
 	if(cola == NULL)
 		return NULL;
-	void *elemento_quitado = lista_quitar_de_posicion(cola->lista, cola_tamanio(cola) - 1);
+	void *elemento_quitado = lista_quitar_de_posicion(cola->lista, 0);
 	return elemento_quitado;
 
 }
 
 void *cola_frente(cola_t *cola)
 {
-	void *primer_elemento = lista_ultimo(cola->lista);
+	void *primer_elemento = lista_primero(cola->lista);
 	return primer_elemento;
 }
 

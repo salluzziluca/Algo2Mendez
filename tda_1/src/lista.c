@@ -4,11 +4,13 @@
 #include <stdio.h>
 
 /*
-* Recibe un nodo y lo inserta a la lista,
+* Recibe un nodo válido y lo inserta a la lista,
 * apunta el puntero "siguiente" del nodo a NULL
 */
 int llenar_nodo(nodo_t *nodo, void *elemento)
 {
+	if (nodo == NULL)
+		return -1;
 	nodo->elemento = elemento;
 	nodo->siguiente = NULL;
 
@@ -45,8 +47,7 @@ lista_t *lista_insertar(lista_t *lista, void *elemento)
 	return lista;
 }
 
-lista_t *lista_insertar_en_posicion(lista_t *lista, void *elemento,
-				    size_t posicion)
+lista_t *lista_insertar_en_posicion(lista_t *lista, void *elemento, size_t posicion)
 {
 	if(lista == NULL)
 		return NULL;
