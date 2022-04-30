@@ -268,7 +268,6 @@ void lista_destruir_todo(lista_t *lista, void (*funcion)(void *))
 
 		nodo_t *bloque_auxiliar = lista->nodo_inicio->siguiente;
 		funcion(lista->nodo_inicio->elemento);
-		free(lista->nodo_inicio);
 		lista->nodo_inicio = bloque_auxiliar;
 	}
 	free(lista);
