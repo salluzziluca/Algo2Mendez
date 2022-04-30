@@ -23,8 +23,15 @@ En este trabajo se buscaba afianzar el manejo y el desarrollo de tres Tipos de D
 
 Respuestas a las preguntas teóricas (si no las hay podes borrar esta sección!)
 
-1. respuesta1
-2. respuesta2
+1. TDA Pila con nodos enlazados
+	1. explicacion
+	2. complejidad agoritmica
+2. TDA Cola Circular con vectores estáticos
+	1. explicacion
+	2. complejidad agoritmica
+4. TDA Lista con nodos enlazados
+	1. explicacion
+	2. complejidad agoritmica
 
 #### 3. Detalles de implementación
 

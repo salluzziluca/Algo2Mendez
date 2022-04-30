@@ -15,7 +15,7 @@ pila_t *pila_apilar(pila_t *pila, void *elemento)
 {
 	if(pila == NULL)
 		return NULL;
-	lista_insertar(pila->lista, elemento);
+	lista_insertar_en_posicion(pila->lista, elemento,0);
 	return pila;
 	
 }
@@ -24,7 +24,7 @@ void *pila_desapilar(pila_t *pila)
 {	
 	if(pila == NULL)
 		return NULL;
-	void *elemento_quitado = lista_quitar(pila->lista);
+	void *elemento_quitado = lista_quitar_de_posicion(pila->lista, 0);
 	return elemento_quitado;
 }
 
@@ -32,7 +32,7 @@ void *pila_tope(pila_t *pila)
 {
 	if(pila == NULL)
 		return NULL;
-	void *ultimo_elemento = lista_ultimo(pila->lista);
+	void *ultimo_elemento = lista_primero(pila->lista);
 
 	return ultimo_elemento;
 }
