@@ -46,8 +46,7 @@ lista_t *lista_insertar(lista_t *lista, void *elemento)
 	return lista;
 }
 
-lista_t *lista_insertar_en_posicion(lista_t *lista, void *elemento,
-				    size_t posicion)
+lista_t *lista_insertar_en_posicion(lista_t *lista, void *elemento, size_t posicion)
 {
 	if (lista == NULL)
 		return NULL;
@@ -66,11 +65,13 @@ lista_t *lista_insertar_en_posicion(lista_t *lista, void *elemento,
 		lista->nodo_fin = nodo_actual;
 		lista->nodo_inicio = nodo_actual;
 		lista->cantidad++;
+
 	} else if (posicion == 0) {
 		llenar_nodo(nodo_actual, elemento);
 		nodo_actual->siguiente = lista->nodo_inicio;
 		lista->nodo_inicio = nodo_actual;
 		lista->cantidad++;
+
 	} else if (posicion > 0 && posicion < lista->cantidad) {
 		nodo_t *nodo_anterior = lista->nodo_inicio;
 
@@ -84,6 +85,7 @@ lista_t *lista_insertar_en_posicion(lista_t *lista, void *elemento,
 		nodo_actual->siguiente = nodo_anterior->siguiente;
 		nodo_anterior->siguiente = nodo_actual;
 		lista->cantidad++;
+
 	} else if (posicion == lista->cantidad) {
 		free(nodo_actual);
 		lista_insertar(lista, elemento);
@@ -100,6 +102,7 @@ void *lista_quitar(lista_t *lista)
 	nodo_t *nodo_anterior = lista->nodo_inicio;
 	if (lista->cantidad == 1) {
 		nodo_anterior = lista->nodo_inicio;
+
 	} else {
 		for (size_t i = 0; i < lista->cantidad - 2; i++) {
 			if (nodo_anterior == NULL)
@@ -126,6 +129,7 @@ void *lista_quitar_de_posicion(lista_t *lista, size_t posicion)
 	if (posicion > lista->cantidad) {
 		posicion = lista->cantidad - 1;
 	}
+	
 	nodo_t *nodo_anterior = lista->nodo_inicio;
 	nodo_t *nodo_a_eliminar = NULL;
 	void *elemento_a_devolver = NULL;
@@ -167,9 +171,11 @@ void *lista_elemento_en_posicion(lista_t *lista, size_t posicion)
 
 	if (posicion > lista->cantidad) {
 		return NULL;
+
 	} else if (posicion == 0) {
 		nodo_a_devolver = lista->nodo_inicio;
 		elemento_a_devolver = nodo_a_devolver->elemento;
+		
 	} else {
 		for (size_t i = 0; i < posicion; i++) {
 			if (lista->nodo_inicio == NULL)
@@ -222,8 +228,10 @@ bool lista_vacia(lista_t *lista)
 	bool esta_vacia = false;
 	if (lista == NULL)
 		esta_vacia = true;
+
 	else if (lista->cantidad == 0)
 		esta_vacia = true;
+
 	return esta_vacia;
 }
 
@@ -231,6 +239,7 @@ size_t lista_tamanio(lista_t *lista)
 {
 	if (lista == NULL)
 		return 0;
+		
 	size_t tamanio = lista->cantidad;
 	return tamanio;
 }
@@ -239,6 +248,7 @@ void lista_destruir(lista_t *lista)
 {
 	if (lista == NULL)
 		return;
+
 	for (size_t i = 0; i < lista->cantidad; i++) {
 		nodo_t *bloque_auxiliar = lista->nodo_inicio->siguiente;
 		free(lista->nodo_inicio);
@@ -249,7 +259,7 @@ void lista_destruir(lista_t *lista)
 
 void lista_destruir_todo(lista_t *lista, void (*funcion)(void *))
 {
-	if (| lista == NULL) {
+	if (funcion == NULL || lista == NULL) {
 		lista_destruir(lista);
 		return;
 	}
