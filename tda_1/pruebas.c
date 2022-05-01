@@ -5,6 +5,10 @@
 #include <stdlib.h>
 #include "pa2mm.h"
 
+/*
+* Recibe dos punteros a nodos validos y corrobora que sean iguales
+* Devuelve 0 si son iguales, -1 si no. 
+*/
 int elemento_es_igual_a(void *elemento1, void *elemento2)
 {
 	char *a = elemento1;
@@ -15,7 +19,10 @@ int elemento_es_igual_a(void *elemento1, void *elemento2)
 
 	return -1;
 }
-
+/*
+* Recibe un puntero a un elemento y a un contador. Si el elemento y el contador existen y no son nulos, 
+* incrementa el contador en 1.
+*/
 bool contar_elementos(void *elemento, void *contador)
 {
         bool continuar = false;
@@ -23,7 +30,7 @@ bool contar_elementos(void *elemento, void *contador)
                 (*(int *)contador)++;
                 continuar = true;
         }
-return continuar;
+        return continuar;
 }
 
 void crear_lista_devuelve_lista_cantidad_cero_y_nodos_nulls()
