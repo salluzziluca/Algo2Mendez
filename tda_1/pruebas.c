@@ -325,23 +325,7 @@ void pruebas_pila(){
         pa2m_nuevo_grupo("Pruebas de apilado y desapilado");
         pila_apilar_y_desapilar_apilan_y_desapilan_correctamente();
 }
-//TODO: Fijarme de implementar correctamente una prueba de destruir todo
-/*int destructor(void *elemento)
-{
-  free(elemento);
-  return 0;
-}
 
-void pruebas_de_destruccion_de_lista()
-{
-  lista_t *lista = lista_crear();
-
-  lista_insertar(lista, malloc(sizeof(char)));
-	lista_insertar(lista, malloc(sizeof(char)));
-
-  lista_destruir_todo(lista, destructor);
-  pa2m_afirmar(lista == NULL, "Se destruyó la lista");
-}*/ 
 
 void crear_cola_devuelve_cola_cantidad_cero_y_nodos_nulls(){
         cola_t *cola = cola_crear();
@@ -389,10 +373,6 @@ int main() {
 
         pa2m_nuevo_grupo("Pruebas de Cola");
         pruebas_cola();
-  /*pa2m_nuevo_grupo("Pruebas de destrucción");
-  pruebas_de_destruccion_de_lista();*/
 
-  
-  
   return pa2m_mostrar_reporte();
 }
