@@ -260,7 +260,7 @@ void lista_destruir(lista_t *lista)
 
 void lista_destruir_todo(lista_t *lista, void (*funcion)(void *))
 {
-	if(funcion == NULL || lista == NULL){
+	if(	| lista == NULL){
 		lista_destruir(lista);
 		return;
 	}
@@ -322,8 +322,7 @@ void lista_iterador_destruir(lista_iterador_t *iterador)
 	free(iterador);
 }
 
-size_t lista_con_cada_elemento(lista_t *lista, bool (*funcion)(void *, void *),
-			       void *contexto)
+size_t lista_con_cada_elemento(lista_t *lista, bool (*funcion)(void *, void *), void *contexto)
 {
 	if(lista == NULL || funcion == NULL)
 		return 0;
