@@ -24,6 +24,7 @@ int main(int argc, char *argv[])
 	for (int i = 0; i < cantidad_vector_nombres-1; i++){
 		printf("%i: %s\n", i, nombres_objetos[i]);
 	}
+	free(nombres_objetos);
 
 	printf("\n");
 
