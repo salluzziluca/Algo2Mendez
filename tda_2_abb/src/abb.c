@@ -2,6 +2,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 
+
 abb_t *abb_crear(abb_comparador comparador)
 {
 	return NULL;
@@ -9,6 +10,8 @@ abb_t *abb_crear(abb_comparador comparador)
 
 abb_t *abb_insertar(abb_t *arbol, void *elemento)
 {
+	//if comparador > a cero, insertar a la derecha
+	//if comparador < a cero, insertar a la izquierda
 	return arbol;
 }
 
