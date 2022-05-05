@@ -24,6 +24,19 @@ abb_t *abb_insertar(abb_t *arbol, void *elemento)
 {
 	//if comparador > a cero, insertar a la derecha
 	//if comparador < a cero, insertar a la izquierda
+	if(arbol == NULL)
+		return NULL;
+
+	if(arbol->nodo_raiz->elemento == NULL){
+		arbol->nodo_raiz->elemento = elemento;
+		arbol->tamanio++;
+	}
+	else if(arbol->comparador)
+	{
+		
+	}
+
+
 	return arbol;
 }
 
@@ -49,6 +62,8 @@ size_t abb_tamanio(abb_t *arbol)
 
 void abb_destruir(abb_t *arbol)
 {
+	free(arbol->nodo_raiz);
+	free(arbol);
 	return;
 }
 
