@@ -3,7 +3,8 @@
 #include "pa2mm.h"
 #include "string.h"
 
-typedef struct cosa {
+typedef struct cosa
+{
 	int clave;
 	char contenido[10];
 } cosa;
@@ -23,7 +24,8 @@ int comparar_cosas(void *elemento1, void *c2)
 	return cosa1->clave - cosa2->clave;
 }
 
-void abb_crear_crea_e_inicializa_todo_correctamente(){
+void abb_crear_crea_e_inicializa_todo_correctamente()
+{
 	abb_t *arbol = abb_crear(comparar_cosas);
 	pa2m_afirmar(arbol, "El arbol se crea");
 	pa2m_afirmar(arbol->nodo_raiz != NULL, "El arbol se crea con un nodo raiz");
@@ -35,7 +37,8 @@ void abb_crear_crea_e_inicializa_todo_correctamente(){
 	abb_destruir(arbol);
 }
 
-void abb_insertar_inserta_los_elementos_correctamente(){
+void abb_insertar_inserta_los_elementos_correctamente()
+{
 	abb_t *arbol = abb_crear(comparar_cosas);
 	int elemento1 = 1;
 	abb_insertar(arbol, &elemento1);
