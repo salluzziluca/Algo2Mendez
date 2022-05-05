@@ -31,13 +31,13 @@ abb_t *abb_insertar(abb_t *arbol, void *elemento)
 		arbol->nodo_raiz->elemento = elemento;
 		arbol->tamanio++;
 	}
-	else if(arbol->comparador(elemento, arbol->nodo_raiz->elemento) > 0){
+	else if(arbol->comparador(elemento, arbol->nodo_raiz->elemento) > 0){ //si es mayot lo inserta a la derecha
 		abb_insertar(arbol->nodo_raiz->derecha, elemento);
 	}
-	else if(arbol->comparador(elemento, arbol->nodo_raiz->elemento) == 0){
+	else if(arbol->comparador(elemento, arbol->nodo_raiz->elemento) == 0){ //si es igual, cosas. No se si esto deberia estar
 
 	}
-	else if(arbol->comparador(elemento, arbol->nodo_raiz->elemento) < 0){
+	else if(arbol->comparador(elemento, arbol->nodo_raiz->elemento) < 0){ // si es menor lo inserta a la izquierda
 		abb_insertar(arbol->nodo_raiz->izquierda, elemento);
 	}
 
