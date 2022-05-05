@@ -31,9 +31,14 @@ abb_t *abb_insertar(abb_t *arbol, void *elemento)
 		arbol->nodo_raiz->elemento = elemento;
 		arbol->tamanio++;
 	}
-	else if(arbol->comparador)
-	{
-		
+	else if(arbol->comparador(elemento, arbol->nodo_raiz->elemento) > 0){
+		abb_insertar(arbol->nodo_raiz->derecha, elemento);
+	}
+	else if(arbol->comparador(elemento, arbol->nodo_raiz->elemento) == 0){
+
+	}
+	else if(arbol->comparador(elemento, arbol->nodo_raiz->elemento) < 0){
+		abb_insertar(arbol->nodo_raiz->izquierda, elemento);
 	}
 
 
