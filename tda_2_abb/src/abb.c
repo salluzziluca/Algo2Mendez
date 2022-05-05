@@ -5,7 +5,19 @@
 
 abb_t *abb_crear(abb_comparador comparador)
 {
-	return NULL;
+	abb_t *arbol = malloc(sizeof(abb_t));
+	if (arbol == NULL) {
+		return NULL;
+	}
+	arbol->nodo_raiz = calloc(1, sizeof(nodo_abb_t));
+	
+	if (arbol->nodo_raiz == NULL){
+		free(arbol);
+		return NULL;
+	}
+	arbol->comparador = comparador;
+	arbol->tamanio = 0;
+	return arbol;
 }
 
 abb_t *abb_insertar(abb_t *arbol, void *elemento)
@@ -37,6 +49,7 @@ size_t abb_tamanio(abb_t *arbol)
 
 void abb_destruir(abb_t *arbol)
 {
+	return;
 }
 
 void abb_destruir_todo(abb_t *arbol, void (*destructor)(void *))
