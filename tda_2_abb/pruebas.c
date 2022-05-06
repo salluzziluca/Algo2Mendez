@@ -43,6 +43,9 @@ void abb_insertar_inserta_los_elementos_correctamente()
 	int elemento1 = 1;
 	abb_insertar(arbol, &elemento1);
 	pa2m_afirmar(arbol->nodo_raiz->elemento == &elemento1, "Se puede cargar un primer elemento correctamente");
+	int elemento2 = 2;
+	abb_insertar(arbol, &elemento2);
+	pa2m_afirmar(arbol->nodo_raiz->derecha->elemento == &elemento2, "Se puede cargar un segundo elemento correctamente");
 	abb_destruir(arbol);
 }
 int main()

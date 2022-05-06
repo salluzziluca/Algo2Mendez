@@ -31,19 +31,29 @@ abb_t *abb_insertar(abb_t *arbol, void *elemento)
 		arbol->nodo_raiz->elemento = elemento;
 		arbol->tamanio++;
 	}
-	abb_t *subarbol_derecho = calloc(1, sizeof(abb_t));
-	subarbol_derecho->nodo_raiz = arbol->nodo_raiz->derecha;
+	else {	
+		int comparacion = arbol->comparador(elemento, arbol->nodo_raiz->elemento);
 
-	abb_t *subarbol_izquierdo = calloc(1, sizeof(abb_t));
-	subarbol_izquierdo->nodo_raiz = arbol->nodo_raiz->izquierda; 
-	int comparacion = arbol->comparador(elemento, arbol->nodo_raiz->elemento);
-	if(comparacion > 0){ //si es mayot lo inserta a la derecha
-		arbol->nodo_raiz->derecha = abb_insertar(subarbol_derecho, elemento);
-	}
-	else if(comparacion <= 0){ // si es menor lo inserta a la izquierda
-		arbol->nodo_raiz->izquierda = abb_insertar(subarbol_izquierdo, elemento);
-	}
+		if(comparacion > 0){ //si es mayor lo inserta a la derecha
+			abb_t *subarbol_derecho = malloc(sizeof(abb_t));
+			subarbol_derecho->nodo_raiz = arbol->nodo_raiz->derecha;
+			subarbol_derecho->comparador = arbol->comparador;
+			subarbol_derecho->tamanio = arbol->tamanio;
+			subarbol_derecho->nodo_raiz = calloc(1, sizeof(nodo_abb_t));
 
+			arbol->nodo_raiz->derecha = abb_insertar(subarbol_derecho, elemento)->nodo_raiz;
+		}
+		else if(comparacion <= 0){ // si es menor lo inserta a la izquierda
+			abb_t *subarbol_izquierdo = malloc(sizeof(abb_t));
+			subarbol_izquierdo->nodo_raiz = arbol->nodo_raiz->izquierda;
+			subarbol_izquierdo->comparador = arbol->comparador;
+			subarbol_izquierdo->tamanio = arbol->tamanio;
+			subarbol_izquierdo->nodo_raiz = NULL;
+
+			arbol->nodo_raiz->izquierda = abb_insertar(subarbol_izquierdo, elemento)->nodo_raiz;
+		}
+	}
+	
 
 	return arbol;
 }
