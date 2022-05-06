@@ -39,6 +39,7 @@ abb_t *abb_insertar(abb_t *arbol, void *elemento)
 			subarbol_derecho->nodo_raiz = arbol->nodo_raiz->derecha;
 			subarbol_derecho->comparador = arbol->comparador;
 			subarbol_derecho->tamanio = arbol->tamanio;
+			//TODO: Fijarme bien el tema del calloc, como deberia ser para la liberacion. Por ahi conviene directamente asignar todo a NULL
 			subarbol_derecho->nodo_raiz = calloc(1, sizeof(nodo_abb_t));
 
 			arbol->nodo_raiz->derecha = abb_insertar(subarbol_derecho, elemento)->nodo_raiz;
@@ -49,7 +50,7 @@ abb_t *abb_insertar(abb_t *arbol, void *elemento)
 			subarbol_izquierdo->comparador = arbol->comparador;
 			subarbol_izquierdo->tamanio = arbol->tamanio;
 			subarbol_izquierdo->nodo_raiz = NULL;
-
+			
 			arbol->nodo_raiz->izquierda = abb_insertar(subarbol_izquierdo, elemento)->nodo_raiz;
 		}
 	}
