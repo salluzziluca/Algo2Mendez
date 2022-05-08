@@ -79,9 +79,18 @@ size_t abb_tamanio(abb_t *arbol)
 	return 0;
 }
 
+void nodo_destruir(nodo_abb_t *nodo){ //TODO: Revisar los errores de valgrind
+	if(nodo == NULL)
+		return;
+		
+	nodo_destruir(nodo->izquierda);
+	free(nodo);
+	nodo_destruir(nodo->derecha);
+}
 void abb_destruir(abb_t *arbol)
 {
-	free(arbol->nodo_raiz);
+	nodo_destruir(arbol->nodo_raiz);
+
 	free(arbol);
 	return;
 }
