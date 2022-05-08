@@ -17,10 +17,10 @@ cosa *crear_cosa(int clave)
 	return c;
 }
 
-int comparar_cosas(void *elemento1, void *c2)
+int comparar_cosas(void *elemento1, void *elemento2s)
 {
 	cosa *cosa1 = elemento1;
-	cosa *cosa2 = c2;
+	cosa *cosa2 = elemento2s;
 	return cosa1->clave - cosa2->clave;
 }
 
@@ -46,6 +46,12 @@ void abb_insertar_inserta_los_elementos_correctamente()
 	int elemento2 = 2;
 	abb_insertar(arbol, &elemento2);
 	pa2m_afirmar(arbol->nodo_raiz->derecha->elemento == &elemento2, "Se puede cargar un segundo elemento correctamente");
+	int elemento3 = 3;
+	abb_insertar(arbol, &elemento3);
+	pa2m_afirmar(arbol->nodo_raiz->derecha->derecha->elemento == &elemento3, "Se puede cargar un tercer elemento correctamente");
+	int elemento4 = -1;
+	abb_insertar(arbol, &elemento4);
+	pa2m_afirmar(arbol->nodo_raiz->izquierda->elemento == &elemento4, "Se puede cargar un cuarto elemento correctamente");
 	abb_destruir(arbol);
 }
 int main()

@@ -5,13 +5,13 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "/usr/include"
-                //"/usr/include/linux"
             ],
             "defines": [],
             "compilerPath": "/bin/gcc",
             "cStandard": "c99",
             "cppStandard": "c++17",
-            "intelliSenseMode": "linux-gcc-x64"
+            "intelliSenseMode": "linux-gcc-x64",
+            "configurationProvider": "ms-vscode.makefile-tools"
         }
     ],
     "version": 4
