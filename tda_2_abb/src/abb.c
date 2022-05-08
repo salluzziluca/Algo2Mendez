@@ -84,8 +84,9 @@ void nodo_destruir(nodo_abb_t *nodo){ //TODO: Revisar los errores de valgrind
 		return;
 		
 	nodo_destruir(nodo->izquierda);
-	free(nodo);
 	nodo_destruir(nodo->derecha);
+	free(nodo);
+	
 }
 void abb_destruir(abb_t *arbol)
 {
