@@ -31,12 +31,7 @@ abb_t *abb_insertar(abb_t *arbol, void *elemento)
 	if(arbol == NULL)
 		return NULL;
 
-	if(arbol->nodo_raiz == NULL){
-		nodo_abb_t *nodo = calloc(1, sizeof(nodo_abb_t));
-		if(nodo == NULL)
-			return NULL;
-		arbol->nodo_raiz = nodo;
-		nodo->elemento = elemento;
+	if(arbol->nodo_raiz->elemento == NULL){
 		arbol->nodo_raiz->elemento = elemento;
 		arbol->tamanio++;
 	}
