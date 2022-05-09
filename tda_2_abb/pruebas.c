@@ -49,9 +49,11 @@ void abb_insertar_inserta_los_elementos_correctamente()
 	int elemento3 = 3;
 	abb_insertar(arbol, &elemento3);
 	pa2m_afirmar(arbol->nodo_raiz->derecha->derecha->elemento == &elemento3, "Se puede cargar un tercer elemento correctamente");
+	pa2m_afirmar(abb_tamanio(arbol) == 3, "La cantidad de elementos es 3");
 	int elemento4 = -1;
 	abb_insertar(arbol, &elemento4);
 	pa2m_afirmar(arbol->nodo_raiz->izquierda->elemento == &elemento4, "Se puede cargar un cuarto elemento correctamente");
+	pa2m_afirmar(abb_tamanio(arbol) == 4, "La cantidad de elementos es 4");
 	abb_destruir(arbol);
 }
 int main()
@@ -59,7 +61,7 @@ int main()
 	pa2m_nuevo_grupo("Pruebas de Creacion de ABB");
 	abb_crear_crea_e_inicializa_todo_correctamente();
 
-	pa2m_nuevo_grupo("Pruebas de Insertar en ABB");
+	pa2m_nuevo_grupo("Pruebas de Insercción en ABB");
 	abb_insertar_inserta_los_elementos_correctamente();
 
 	return pa2m_mostrar_reporte();

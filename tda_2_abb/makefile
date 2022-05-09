@@ -1,4 +1,4 @@
-VALGREEN_FLAGS= --error-exitcode=2
+VALGREEN_FLAGS= --error-exitcode=2 -s
 CFLAGS =-g -std=c99 -Wall -Wconversion -Wtype-limits -pedantic -Werror -O2
 CC = gcc
 

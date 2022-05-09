@@ -76,7 +76,8 @@ bool abb_vacio(abb_t *arbol)
 
 size_t abb_tamanio(abb_t *arbol)
 {
-	return 0;
+
+	return arbol->tamanio;
 }
 
 void nodo_destruir(nodo_abb_t *nodo){
