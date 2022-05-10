@@ -97,8 +97,7 @@ void *abb_buscar(abb_t *arbol, void *elemento)
 {
 	if (arbol == NULL || arbol->tamanio == 0)
 		return NULL;
-	void *buscado = nodo_buscar(arbol->nodo_raiz, elemento, arbol->comparador);
-	return buscado;	
+	return nodo_buscar(arbol->nodo_raiz, elemento, arbol->comparador);;	
 }
 
 bool abb_vacio(abb_t *arbol)
