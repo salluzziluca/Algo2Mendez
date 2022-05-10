@@ -88,12 +88,15 @@ void *abb_buscar(abb_t *arbol, void *elemento)
 
 bool abb_vacio(abb_t *arbol)
 {
-	return true;
+	if(arbol == NULL || arbol->tamanio == 0)
+		return true;
+	return false;
 }
 
 size_t abb_tamanio(abb_t *arbol)
 {
-
+	if(arbol == NULL || arbol->tamanio == 0)
+		return 0;
 	return arbol->tamanio;
 }
 
