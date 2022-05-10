@@ -63,10 +63,27 @@ void *abb_quitar(abb_t *arbol, void *elemento)
 {
 	return NULL;
 }
+void *nodo_buscar(nodo_abb_t *nodo, void *elemento, abb_comparador comparador){
+	if(nodo == NULL)
+		return NULL;
 
+	int comparacion = comparador(elemento, nodo->elemento);
+
+	if(comparacion == 0){
+		return nodo->elemento;
+	}
+	else if(comparacion > 0)
+		return nodo_buscar(nodo->derecha, elemento, comparador);
+	else if(comparacion < 0)
+		return nodo_buscar(nodo->izquierda, elemento, comparador);
+	return NULL;
+}
 void *abb_buscar(abb_t *arbol, void *elemento)
 {
-	return NULL;
+	if (arbol == NULL)
+		return NULL;
+	void *buscado = nodo_buscar(arbol->nodo_raiz, elemento, arbol->comparador);;
+	return buscado;	
 }
 
 bool abb_vacio(abb_t *arbol)
