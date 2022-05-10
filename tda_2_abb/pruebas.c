@@ -54,6 +54,7 @@ void abb_insertar_inserta_los_elementos_correctamente()
 	abb_insertar(arbol, &elemento4);
 	pa2m_afirmar(arbol->nodo_raiz->izquierda->elemento == &elemento4, "Se puede cargar un cuarto elemento correctamente");
 	pa2m_afirmar(abb_tamanio(arbol) == 4, "La cantidad de elementos es 4");
+	pa2m_afirmar(abb_buscar(arbol, &elemento4) == &elemento4, "Funciona");
 	abb_destruir(arbol);
 }
 int main()

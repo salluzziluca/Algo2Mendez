@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Mon May  9 15:49:51 2022
+# Make data base, printed on Tue May 10 14:33:20 2022
 
 # Variables
 
@@ -23,17 +23,13 @@ SSH_AGENT_LAUNCHER = gnome-keyring
 # environment
 GJS_DEBUG_OUTPUT = stderr
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-cd87c1c1-2da4-4011-bea1-f57197e6bd82.sock
-# environment
-MANDATORY_PATH = /usr/share/gconf/ubuntu.mandatory.path
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-260b37e7-1995-40c1-b846-e7aba6d1b373.sock
 # environment
 LC_NAME = es_AR.UTF-8
 # environment
 LC_NUMERIC = es_AR.UTF-8
 # environment
 VSCODE_CWD = /home/kvothe
-# environment
-WINDOWPATH = 2
 # environment
 LC_ADDRESS = es_AR.UTF-8
 # default
@@ -63,7 +59,7 @@ VSCODE_CODE_CACHE_PATH = /home/kvothe/.config/Code/CachedData/57fd6d0195bb9b9d1b
 # environment
 LANG = C
 # environment
-XAUTHORITY = /run/user/1000/gdm/Xauthority
+XAUTHORITY = /run/user/1000/.mutter-Xwaylandauth.DU0XL1
 # default
 .LOADED := 
 # default
@@ -87,6 +83,8 @@ SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
 # default
 .SHELLFLAGS := -c
 # environment
+WAYLAND_DISPLAY = wayland-0
+# environment
 XDG_CONFIG_DIRS = /etc/xdg/xdg-ubuntu:/etc/xdg
 # automatic
 +D = $(patsubst %/,%,$(dir $+))
@@ -99,13 +97,13 @@ MAKEFILE_LIST :=
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-VSCODE_PID = 9554
+VSCODE_PID = 4233
 # environment
-XDG_SESSION_TYPE = x11
+XDG_SESSION_TYPE = wayland
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # environment
-SESSION_MANAGER = local/kvothe-ubuntu-desktop:@/tmp/.ICE-unix/1941,unix/kvothe-ubuntu-desktop:/tmp/.ICE-unix/1941
+SESSION_MANAGER = local/kvothe-ubuntu-desktop:@/tmp/.ICE-unix/1785,unix/kvothe-ubuntu-desktop:/tmp/.ICE-unix/1785
 # automatic
 *F = $(notdir $*)
 # environment
@@ -132,6 +130,8 @@ GJS_DEBUG_TOPICS = JS ERROR;JS LOG
 SHLVL = 0
 # environment
 MAKELEVEL := 0
+# environment
+IM_CONFIG_CHECK_ENV = 1
 # default
 MAKE = $(MAKE_COMMAND)
 # environment
@@ -145,11 +145,13 @@ LC_MONETARY = es_AR.UTF-8
 # environment
 LC_TIME = es_AR.UTF-8
 # environment
-INVOCATION_ID = 75982cfa490743adb1661ee49593ac94
+INVOCATION_ID = eba078d217914f61b17193fcbdf8b5f4
 # environment
 VSCODE_LOG_NATIVE = false
 # environment
 USERNAME = kvothe
+# environment
+GNOME_SETUP_DISPLAY = :1
 # environment
 LC_TELEPHONE = es_AR.UTF-8
 # environment
@@ -175,23 +177,21 @@ GIO_LAUNCHED_DESKTOP_FILE = /usr/share/applications/code.desktop
 # makefile
 .DEFAULT_GOAL := 
 # environment
-SYSTEMD_EXEC_PID = 1960
+SYSTEMD_EXEC_PID = 1803
 # environment
-DISPLAY = :1
+DISPLAY = :0
 # environment
 USER = kvothe
 # environment
 GTK_MODULES = gail:atk-bridge
-# environment
-DEFAULTS_PATH = /usr/share/gconf/ubuntu.default.path
 # default
 MAKE_VERSION := 4.3
 # environment
-MANAGERPID = 1731
+MANAGERPID = 1650
 # environment
 LC_MEASUREMENT = es_AR.UTF-8
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 9554
+GIO_LAUNCHED_DESKTOP_FILE_PID = 4233
 # environment
 _ = /usr/share/code/code
 # environment
@@ -199,9 +199,7 @@ LC_PAPER = es_AR.UTF-8
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # environment
-GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
-# environment
-JOURNAL_STREAM = 8:46130
+JOURNAL_STREAM = 8:29494
 # environment
 XDG_SESSION_CLASS = user
 # environment
@@ -231,7 +229,7 @@ GDMSESSION = ubuntu
 # environment
 LC_IDENTIFICATION = es_AR.UTF-8
 # variable set hash-table stats:
-# Load=109/1024=11%, Rehash=0, Collisions=5/136=4%
+# Load=108/1024=11%, Rehash=0, Collisions=4/135=3%
 
 # Pattern-specific Variable Values
 
@@ -284,7 +282,6 @@ GNUmakefile:
 #  Failed to be updated.
 
 # files hash-table stats:
- 
 # Load=6/1024=1%, Rehash=0, Collisions=0/15=0%
 # VPATH Search Paths
 
@@ -296,8 +293,9 @@ GNUmakefile:
 # current buf: size = 8162 B / used = 257 B / count = 23 / avg = 11 B
 
 # strcache performance: lookups = 26 / hit rate = 11%
+ 
 # hash-table stats:
 # Load=23/8192=0%, Rehash=0, Collisions=0/26=0%
-# Finished Make data base on Mon May  9 15:49:51 2022
+# Finished Make data base on Tue May 10 14:33:20 2022
 
  
