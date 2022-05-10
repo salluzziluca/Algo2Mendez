@@ -80,7 +80,7 @@ void *nodo_buscar(nodo_abb_t *nodo, void *elemento, abb_comparador comparador){
 }
 void *abb_buscar(abb_t *arbol, void *elemento)
 {
-	if (arbol == NULL)
+	if (arbol == NULL || arbol->tamanio == 0)
 		return NULL;
 	void *buscado = nodo_buscar(arbol->nodo_raiz, elemento, arbol->comparador);;
 	return buscado;	

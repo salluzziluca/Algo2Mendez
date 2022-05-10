@@ -54,8 +54,21 @@ void abb_insertar_inserta_los_elementos_correctamente()
 	abb_insertar(arbol, &elemento4);
 	pa2m_afirmar(arbol->nodo_raiz->izquierda->elemento == &elemento4, "Se puede cargar un cuarto elemento correctamente");
 	pa2m_afirmar(abb_tamanio(arbol) == 4, "La cantidad de elementos es 4");
-	void *busqueda = abb_buscar(arbol, &elemento4);
-	pa2m_afirmar(busqueda == &elemento4, "se encontró el elemento buscado" );
+	abb_destruir(arbol);
+}
+
+void abb_buscar_busca_adecuadamente_en_todo_tipo_de_arbol()
+{
+	int elemento1 = 1, elemento2= 2, elemento3=3, elemento4 = 4;
+	abb_t *arbol = NULL;
+	pa2m_afirmar(abb_buscar(arbol , &elemento1)== NULL, "Buscar elemento en arbol nul devuelve NULL");
+	arbol = abb_crear(comparar_cosas);
+	pa2m_afirmar(abb_buscar(arbol, &elemento1) == NULL, "Se puede buscar elemento en arbol vacio y devuelve NULL");
+	abb_insertar(arbol, &elemento1);
+	abb_insertar(arbol, &elemento2);
+	abb_insertar(arbol, &elemento3);
+	abb_insertar(arbol, &elemento4);
+	pa2m_afirmar(abb_buscar(arbol, &elemento4) == &elemento4, "se encontró el elemento buscado" );
 	abb_destruir(arbol);
 }
 int main()
@@ -63,8 +76,11 @@ int main()
 	pa2m_nuevo_grupo("Pruebas de Creacion de ABB");
 	abb_crear_crea_e_inicializa_todo_correctamente();
 
-	pa2m_nuevo_grupo("Pruebas de Insercción en ABB");
+	pa2m_nuevo_grupo("Pruebas de Inserccion en ABB");
 	abb_insertar_inserta_los_elementos_correctamente();
+
+	pa2m_nuevo_grupo("Pruebas de busqueda");
+	abb_buscar_busca_adecuadamente_en_todo_tipo_de_arbol();
 
 	return pa2m_mostrar_reporte();
 }
