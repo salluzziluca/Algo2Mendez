@@ -35,6 +35,8 @@ nodo_abb_t *nodo_insertar(nodo_abb_t *nodo, void *elemento, abb_comparador compa
 		if (nodo == NULL){
 			return NULL;
 		}
+		nodo->elemento = elemento;
+		return nodo;
 	}
 
 	if(nodo->elemento == NULL){
