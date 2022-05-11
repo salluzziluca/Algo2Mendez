@@ -4,7 +4,7 @@
 
 #define INORDEN 0
 #define PREORDEN 1
-#define POSTODEN 2
+#define POSTORDEN 2
 
 abb_t *abb_crear(abb_comparador comparador)
 {
@@ -135,26 +135,47 @@ void abb_destruir_todo(abb_t *arbol, void (*destructor)(void *))
 {
 }
 
-size_t abb_con_cada_elemento(abb_t *arbol, abb_recorrido recorrido,
-			     bool (*funcion)(void *, void *), void *aux)
+size_t abb_con_cada_elemento(abb_t *arbol, abb_recorrido recorrido, bool (*funcion)(void *, void *), void *aux)
 {
 	return 0;
 }
 
-size_t nodo_recorrer(nodo_abb_t *nodo, abb_recorrido recorrido, void **array,
-		    size_t tamanio_array, size_t elementos_recorridos)
+size_t nodo_recorrer(nodo_abb_t *nodo, abb_recorrido recorrido, void **array, size_t tamanio_array, size_t elementos_recorridos)
 {
 	
 
 	
 	switch (recorrido){
 	case INORDEN:
-		elementos_recorridos = nodo_recorrer(nodo->izquierda, recorrido, array, tamanio_array, elementos_recorridos);
+		if (nodo->izquierda)
+			elementos_recorridos = nodo_recorrer(nodo->izquierda, recorrido, array, tamanio_array, elementos_recorridos);
+
 		array[elementos_recorridos] = nodo->elemento;
 		(elementos_recorridos)++;
-		elementos_recorridos = nodo_recorrer(nodo->derecha, recorrido, array, tamanio_array, elementos_recorridos);
+
+		if (nodo->derecha)
+			elementos_recorridos = nodo_recorrer(nodo->derecha, recorrido, array, tamanio_array, elementos_recorridos);
 		break;
-	
+	case PREORDEN:
+		array[elementos_recorridos] = nodo->elemento;
+		(elementos_recorridos)++;
+		
+		if (nodo->izquierda)
+			elementos_recorridos = nodo_recorrer(nodo->izquierda, recorrido, array, tamanio_array, elementos_recorridos);
+
+		if (nodo->derecha)
+			elementos_recorridos = nodo_recorrer(nodo->derecha, recorrido, array, tamanio_array, elementos_recorridos);
+		break;
+	case POSTORDEN:
+		if (nodo->izquierda)
+			elementos_recorridos = nodo_recorrer(nodo->izquierda, recorrido, array, tamanio_array, elementos_recorridos);
+
+		if (nodo->derecha)
+			elementos_recorridos = nodo_recorrer(nodo->derecha, recorrido, array, tamanio_array, elementos_recorridos);
+		
+		array[elementos_recorridos] = nodo->elemento;
+		(elementos_recorridos)++;
+		break; 
 	default:
 		break;
 	}
