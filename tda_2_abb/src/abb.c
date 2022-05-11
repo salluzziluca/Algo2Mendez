@@ -22,6 +22,7 @@ abb_t *abb_crear(abb_comparador comparador)
 	return arbol;
 }
 
+
 abb_t *abb_insertar(abb_t *arbol, void *elemento)
 {
 	if(arbol == NULL)
@@ -88,7 +89,7 @@ size_t abb_con_cada_elemento(abb_t *arbol, abb_recorrido recorrido, bool (*funci
 
 size_t abb_recorrer(abb_t *arbol, abb_recorrido recorrido, void **array, size_t tamanio_array)
 {
-	if(arbol == NULL)
+	if(arbol == NULL || arbol->tamanio == 0)
 		return 0;
 
 	size_t elementos_recorridos = 0;

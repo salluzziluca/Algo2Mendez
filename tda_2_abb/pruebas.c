@@ -3,6 +3,9 @@
 #include "pa2mm.h"
 #include "string.h"
 
+#define INORDEN 0
+#define PREORDEN 1
+#define POSTORDEN 2
 typedef struct cosa
 {
 	int clave;
@@ -88,8 +91,26 @@ void abb_tamanio_y_vacio_muestran_adecuadamente_el_tamanio_del_arbol(){
 	abb_insertar(arbol, &elemento3);
 	abb_insertar(arbol, &elemento4);
 	abb_destruir(arbol);
+}
 
-	
+void abb_recorrer_devuelve_todos_los_elementos_recorridos()
+{
+	abb_t *arbol = NULL;
+	int *elementos[10];
+	pa2m_afirmar(abb_recorrer(arbol,INORDEN,(void**)elementos, 10) == 0, "Se puede llamar a abb_recorrer con arbol nulo y devuelve 0");
+	arbol = abb_crear(comparar_cosas);
+	pa2m_afirmar(abb_recorrer(arbol,INORDEN,(void**)elementos, 10) == 0, "Se puede llamar a abb_recorrer con arbol vacio y devuelve 0");
+	int elemento1 = 1, elemento2 = 2, elemento3 = 3, elemento4 = 4;
+	abb_insertar(arbol, &elemento1);
+	pa2m_afirmar(abb_recorrer(arbol,INORDEN,(void**)elementos, 10) == 1, "Se puede llamar a abb_recorrer con 1 elemento y devuelve el tamaño correspondiente");
+	abb_insertar(arbol, &elemento2);
+	abb_insertar(arbol, &elemento3);
+	abb_insertar(arbol, &elemento4);
+	pa2m_afirmar(abb_recorrer(arbol,INORDEN,(void**)elementos, 10) == 4, "Se puede llamar a abb_recorrer con arbol no vacio y devuelve el tamaño correspondiente");
+
+
+
+	abb_destruir(arbol);
 }
 int main()
 {
@@ -104,6 +125,9 @@ int main()
 
 	pa2m_nuevo_grupo("Pruebas de tamaño");
 	abb_tamanio_y_vacio_muestran_adecuadamente_el_tamanio_del_arbol();
+
+	pa2m_nuevo_grupo("Pruebas de recorrido");
+	abb_recorrer_devuelve_todos_los_elementos_recorridos();
 
 	return pa2m_mostrar_reporte();
 }
