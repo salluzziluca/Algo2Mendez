@@ -23,5 +23,14 @@ valgrind-pruebas: pruebas
 pruebas: src/*.c pruebas.c
 	$(CC) $(CFLAGS) src/*.c pruebas.c -o pruebas 2>&1
 
+valgreen-interactivo: interactivo
+	valgreen ./interactivo
+
+valgrind-interactivo: interactivo
+	valgrind ./interactivo
+
+interactivo: *.c *.h
+	$(CC) $(CFLAGS) src/abb.c src/interactivo/mostrar_abb.c src/interactivo/interactivo.c -o interactivo 2>&1
+
 clean:
 	rm -f ejemplo *.o pruebas 2>&1

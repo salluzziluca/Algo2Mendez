@@ -82,7 +82,7 @@ void abb_destruir_todo(abb_t *arbol, void (*destructor)(void *))
 {
 }
 
-size_t nodo_con_cada_elemento(nodo_abb_t *nodo, abb_recorrido recorrido, bool (*funcion)(void *, void *), void *aux, size_t elementos_recorridos)
+size_t nodo_con_cada_elemento(nodo_abb_t *nodo, abb_recorrido recorrido, bool (*funcion)(void *, void *), void *aux, size_t elementos_recorridos) //TODO: Revisar por que no itera correctamente, hace dibujito no seas pajero
 {	
 	if(funcion(nodo->elemento, aux) ==false){
 		return elementos_recorridos;
