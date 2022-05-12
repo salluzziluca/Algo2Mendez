@@ -68,10 +68,38 @@ abb_t *abb_insertar(abb_t *arbol, void *elemento)
 	return arbol;
 }
 
+void  *obtener_predecesor_inorden(nodo_abb_t *nodo)
+{
+
+}
+
+void *nodo_quitar (nodo_abb_t *nodo, void *elemento, abb_comparador comparador)
+{
+	if (nodo == NULL)
+		return NULL;
+	int comparacion = arbol->comparador(elemento, arbol->nodo_raiz->elemento);
+
+	if (comparacion > 0)
+
+	if (comparacion == 0){
+		if(nodo->derecha != NULL && nodo->izquierda != NULL){
+			struct nodo_abb_t *nodo_extraido = nodo;
+			nodo->derecha = 
+	}
+
+	if (comparacion < 0)
+	}
+}
+
 void *abb_quitar(abb_t *arbol, void *elemento)
 {
+	if (arbol == NULL)
+		return NULL;
+	
 	return NULL;
 }
+
+
 /*
 * Itera recursivamente por el arbol comparando el elemento igresado por parametro con 
 * el elemento del nodo actual. Si el comparador devuelve 0, los elementos son iguales
@@ -177,6 +205,7 @@ size_t nodo_recorrer(nodo_abb_t *nodo, abb_recorrido recorrido, void **array, si
 		if (nodo->derecha)
 			elementos_recorridos = nodo_recorrer(nodo->derecha, recorrido, array, tamanio_array, elementos_recorridos);
 		break;
+
 	case PREORDEN:
 		array[elementos_recorridos] = nodo->elemento;
 		(elementos_recorridos)++;
@@ -187,6 +216,7 @@ size_t nodo_recorrer(nodo_abb_t *nodo, abb_recorrido recorrido, void **array, si
 		if (nodo->derecha)
 			elementos_recorridos = nodo_recorrer(nodo->derecha, recorrido, array, tamanio_array, elementos_recorridos);
 		break;
+
 	case POSTORDEN:
 		if (nodo->izquierda)
 			elementos_recorridos = nodo_recorrer(nodo->izquierda, recorrido, array, tamanio_array, elementos_recorridos);
@@ -197,6 +227,7 @@ size_t nodo_recorrer(nodo_abb_t *nodo, abb_recorrido recorrido, void **array, si
 		array[elementos_recorridos] = nodo->elemento;
 		(elementos_recorridos)++;
 		break; 
+
 	default:
 		break;
 	}
