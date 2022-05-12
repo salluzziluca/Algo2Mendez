@@ -128,7 +128,7 @@ size_t nodo_con_cada_elemento(nodo_abb_t *nodo, abb_recorrido recorrido, bool (*
 }
 size_t abb_con_cada_elemento(abb_t *arbol, abb_recorrido recorrido, bool (*funcion)(void *, void *), void *aux)
 {
-	if(arbol == NULL || arbol->tamanio == 0)
+	if(arbol == NULL || funcion == NULL || arbol->tamanio == 0)
 		return 0;
 	size_t elementos_recorridos = 0;
 

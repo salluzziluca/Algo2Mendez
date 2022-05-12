@@ -6,6 +6,14 @@
 #define INORDEN 0
 #define PREORDEN 1
 #define POSTORDEN 2
+
+bool funcion_iteradora(void *dato, void *aux)
+{
+	dato = dato;
+	aux = aux;
+	return true;
+}
+
 typedef struct cosa
 {
 	int clave;
@@ -97,18 +105,28 @@ void abb_recorrer_devuelve_todos_los_elementos_recorridos()
 {
 	abb_t *arbol = NULL;
 	int *elementos[10];
+	
 	pa2m_afirmar(abb_recorrer(arbol,INORDEN,(void**)elementos, 10) == 0, "Se puede llamar a abb_recorrer con arbol nulo y devuelve 0");
+	pa2m_afirmar(abb_con_cada_elemento(arbol, INORDEN, funcion_iteradora, NULL) == 0, "Se puede llamar a abb_con_cada_elemento con arbol nulo y devuelve 0");
+	
 	arbol = abb_crear(comparar_cosas);
+	
 	pa2m_afirmar(abb_recorrer(arbol,INORDEN,(void**)elementos, 10) == 0, "Se puede llamar a abb_recorrer con arbol vacio y devuelve 0");
+	pa2m_afirmar(abb_con_cada_elemento(arbol, INORDEN, funcion_iteradora, NULL) == 0, "Se puede llamar a abb_con_cada_elemento con arbol vacio y devuelve 0");
+
 	int elemento1 = 1, elemento2 = 2, elemento3 = 3, elemento4 = 4;
 	abb_insertar(arbol, &elemento1);
+	
 	pa2m_afirmar(abb_recorrer(arbol,INORDEN,(void**)elementos, 10) == 1, "Se puede llamar a abb_recorrer con 1 elemento y devuelve el tamaño correspondiente");
+	pa2m_afirmar(abb_con_cada_elemento(arbol, INORDEN, funcion_iteradora, NULL) == 1, "Se puede llamar a abb_con_cada_elemento con 1 elemento y devuelve el tamaño correspondiente");
+
 	abb_insertar(arbol, &elemento2);
 	abb_insertar(arbol, &elemento3);
 	abb_insertar(arbol, &elemento4);
 	pa2m_afirmar(abb_recorrer(arbol,INORDEN,(void**)elementos, 10) == 4, "Se puede llamar a abb_recorrer con arbol no vacio y devuelve el tamaño correspondiente");
+	pa2m_afirmar(abb_con_cada_elemento(arbol, INORDEN, funcion_iteradora, NULL) == 4, "Se puede llamar a abb_con_cada_elemento con arbol no vacio y devuelve el tamaño correspondiente");
 
-
+	pa2m_afirmar(abb_con_cada_elemento(arbol, INORDEN, NULL, NULL) == 0, "Se puede llamar a abb_con_cada_elemento con funcion NULL y devuelve cero");
 
 	abb_destruir(arbol);
 }
