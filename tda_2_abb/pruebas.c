@@ -66,11 +66,13 @@ void abb_quitar_quita_los_elementos_correctamente()
 
 	arbol = abb_crear(comparar_cosas);
 	abb_insertar(arbol, &elemento1);
-	pa2m_afirmar(*(int *)abb_quitar(arbol, &elemento1) == elemento1, "Se puede quitar un único elemento correctamente");
+	int *destruido = abb_quitar(arbol, &elemento1);
+	pa2m_afirmar(*destruido == elemento1, "Se puede quitar un único elemento correctamente");
 	abb_insertar(arbol, &elemento3);
 	abb_insertar(arbol, &elemento2);
 	abb_insertar(arbol, &elemento4);
-	pa2m_afirmar(*(int *)abb_quitar(arbol, &elemento2) == elemento2, "Se puede quitar un elemento hoja correctamente");
+	destruido = abb_quitar(arbol, &elemento2);
+	pa2m_afirmar(*destruido == elemento2, "Se puede quitar un elemento hoja correctamente");
 	
 	abb_destruir(arbol);
 }

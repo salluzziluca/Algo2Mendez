@@ -77,13 +77,14 @@ void *nodo_quitar (nodo_abb_t *nodo, void *elemento, abb_comparador comparador)
 {
 	if (nodo == NULL)
 		return NULL;
-	int comparacion = comparador(elemento, nodo);
+		
+	int comparacion = comparador(elemento, nodo->elemento);
 		
 	if (comparacion == 0){
 		return NULL;
 	}
 
-	if (comparacion < 0)
+	if (comparacion > 0)
 		nodo->izquierda = nodo_quitar(nodo->izquierda, elemento, comparador);
 
 	nodo->derecha = nodo_quitar(nodo->derecha, elemento, comparador);
@@ -93,9 +94,11 @@ void *nodo_quitar (nodo_abb_t *nodo, void *elemento, abb_comparador comparador)
 
 void *abb_quitar(abb_t *arbol, void *elemento)
 {
-	if (arbol == NULL)
+	if (arbol == NULL|| elemento == NULL || arbol->tamanio == 0)
 		return NULL;
-		
+	if (arbol->tamanio == 1)
+		return arbol->nodo_raiz->elemento;
+
 	return nodo_quitar(arbol->nodo_raiz, elemento, arbol->comparador);
 }
 
