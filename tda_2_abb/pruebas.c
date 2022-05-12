@@ -58,6 +58,23 @@ void abb_insertar_inserta_los_elementos_correctamente()
 	abb_destruir(arbol);
 }
 
+void abb_quitar_quita_los_elementos_correctamente()
+{
+	int elemento1 = 1, elemento2 = 2, elemento3 = 3, elemento4 = 4;
+	abb_t *arbol = NULL;
+	pa2m_afirmar(abb_quitar(arbol, &elemento1) == NULL, "Se puede llamar a abb_quitar en arbol nulo y devuelve NULL");
+
+	arbol = abb_crear(comparar_cosas);
+	abb_insertar(arbol, &elemento1);
+	pa2m_afirmar(*(int *)abb_quitar(arbol, &elemento1) == elemento1, "Se puede quitar un único elemento correctamente");
+	abb_insertar(arbol, &elemento3);
+	abb_insertar(arbol, &elemento2);
+	abb_insertar(arbol, &elemento4);
+	pa2m_afirmar(*(int *)abb_quitar(arbol, &elemento2) == elemento2, "Se puede quitar un elemento hoja correctamente");
+	
+	abb_destruir(arbol);
+}
+
 void abb_buscar_busca_adecuadamente_en_todo_tipo_de_arbol()
 {
 	int elemento1 = 1, elemento2 = 2, elemento3 = 3, elemento4 = 4;
@@ -96,10 +113,13 @@ int main()
 	pa2m_nuevo_grupo("Pruebas de Creacion de ABB");
 	abb_crear_crea_e_inicializa_todo_correctamente();
 
-	pa2m_nuevo_grupo("Pruebas de Inserccion en ABB");
+	pa2m_nuevo_grupo("Pruebas de Inserccion");
 	abb_insertar_inserta_los_elementos_correctamente();
 
-	pa2m_nuevo_grupo("Pruebas de busqueda");
+	pa2m_nuevo_grupo("Pruebas de Quitado");
+	abb_quitar_quita_los_elementos_correctamente();
+
+	pa2m_nuevo_grupo("Pruebas de Busqueda");
 	abb_buscar_busca_adecuadamente_en_todo_tipo_de_arbol();
 
 	pa2m_nuevo_grupo("Pruebas de tamaño");

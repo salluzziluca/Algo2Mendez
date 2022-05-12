@@ -68,35 +68,35 @@ abb_t *abb_insertar(abb_t *arbol, void *elemento)
 	return arbol;
 }
 
-void  *obtener_predecesor_inorden(nodo_abb_t *nodo)
-{
+// void  *obtener_predecesor_inorden(nodo_abb_t *nodo)
+// {
 
-}
+// }
 
 void *nodo_quitar (nodo_abb_t *nodo, void *elemento, abb_comparador comparador)
 {
 	if (nodo == NULL)
 		return NULL;
-	int comparacion = arbol->comparador(elemento, arbol->nodo_raiz->elemento);
-
-	if (comparacion > 0)
-
+	int comparacion = comparador(elemento, nodo);
+		
 	if (comparacion == 0){
-		if(nodo->derecha != NULL && nodo->izquierda != NULL){
-			struct nodo_abb_t *nodo_extraido = nodo;
-			nodo->derecha = 
+		return NULL;
 	}
 
 	if (comparacion < 0)
-	}
+		nodo->izquierda = nodo_quitar(nodo->izquierda, elemento, comparador);
+
+	nodo->derecha = nodo_quitar(nodo->derecha, elemento, comparador);
+
+	return nodo->elemento;
 }
 
 void *abb_quitar(abb_t *arbol, void *elemento)
 {
 	if (arbol == NULL)
 		return NULL;
-	
-	return NULL;
+		
+	return nodo_quitar(arbol->nodo_raiz, elemento, arbol->comparador);
 }
 
 
