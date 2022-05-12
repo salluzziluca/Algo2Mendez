@@ -125,14 +125,35 @@ void nodo_destruir(nodo_abb_t *nodo){
 }
 void abb_destruir(abb_t *arbol)
 {
-	nodo_destruir(arbol->nodo_raiz);
-
-	free(arbol);
+	if(arbol == NULL)
+		return;
+	abb_destruir_todo(arbol, NULL);
 	return;
 }
 
+void nodo_destruir_todo(nodo_abb_t *nodo, void (*destructor)(void *))
+{
+	if(nodo == NULL)
+		return;
+	
+	if(nodo->izquierda != NULL)
+		nodo_destruir_todo(nodo->izquierda, destructor);
+	
+	if(nodo->derecha != NULL)
+		nodo_destruir_todo(nodo->derecha, destructor);
+	
+	if(destructor != NULL)
+		destructor(nodo->elemento);
+		
+	free(nodo);
+
+	return;
+}
 void abb_destruir_todo(abb_t *arbol, void (*destructor)(void *))
 {
+	nodo_destruir_todo(arbol->nodo_raiz, destructor);
+	free(arbol);
+	return;
 }
 
 size_t abb_con_cada_elemento(abb_t *arbol, abb_recorrido recorrido, bool (*funcion)(void *, void *), void *aux)

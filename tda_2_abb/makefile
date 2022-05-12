@@ -5,6 +5,7 @@ CC = gcc
 
 all: clean valgreen-ejemplo, clean valgrind-ejemplo
 
+
 ejemplo: ejemplo.c src/*
 	$(CC) $(CFLAGS) src/*.c ejemplo.c -o ejemplo 2>&1
 
