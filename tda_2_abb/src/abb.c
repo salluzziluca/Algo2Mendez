@@ -73,7 +73,7 @@ abb_t *abb_insertar(abb_t *arbol, void *elemento)
 
 // }
 
-void *nodo_quitar (nodo_abb_t *nodo, void *elemento, abb_comparador comparador)
+void *nodo_quitar (nodo_abb_t *nodo, void *elemento, abb_comparador comparador, nodo_abb_t *nodo_a_quitar)
 {
 	if (nodo == NULL)
 		return NULL;
@@ -81,13 +81,14 @@ void *nodo_quitar (nodo_abb_t *nodo, void *elemento, abb_comparador comparador)
 	int comparacion = comparador(elemento, nodo->elemento);
 		
 	if (comparacion == 0){
+		nodo_a_quitar = nodo;
 		return NULL;
 	}
 
-	if (comparacion > 0)
-		nodo->izquierda = nodo_quitar(nodo->izquierda, elemento, comparador);
+	if (comparacion < 0)
+		nodo->izquierda = nodo_quitar(nodo->izquierda, elemento, comparador, nodo_a_quitar);
 
-	nodo->derecha = nodo_quitar(nodo->derecha, elemento, comparador);
+	nodo->derecha = nodo_quitar(nodo->derecha, elemento, comparador, nodo_a_quitar);
 
 	return nodo->elemento;
 }
@@ -99,7 +100,9 @@ void *abb_quitar(abb_t *arbol, void *elemento)
 	if (arbol->tamanio == 1)
 		return arbol->nodo_raiz->elemento;
 
-	return nodo_quitar(arbol->nodo_raiz, elemento, arbol->comparador);
+	nodo_abb_t *nodo_quitado = malloc(sizeof(nodo_abb_t));
+	nodo_quitar(arbol->nodo_raiz, elemento, arbol->comparador, nodo_quitado);
+	return nodo_quitado;
 }
 
 
