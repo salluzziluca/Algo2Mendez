@@ -60,19 +60,33 @@ void abb_insertar_inserta_los_elementos_correctamente()
 
 void abb_quitar_quita_los_elementos_correctamente()
 {
-	int elemento1 = 1, elemento2 = 2, elemento3 = 3, elemento4 = 4;
+	int elemento10 = 10, elemento9 = 9, elemento11 = 11;
+	//int elemento8 = 8, elemento12 = 12, elemento7 = 7, elemento13 = 13, elemento6 = 6, elemento14 = 14, elemento5 = 5, elemento15 = 15;
 	abb_t *arbol = NULL;
-	pa2m_afirmar(abb_quitar(arbol, &elemento1) == NULL, "Se puede llamar a abb_quitar en arbol nulo y devuelve NULL");
+	pa2m_afirmar(abb_quitar(arbol, &elemento10) == NULL, "Se puede llamar a abb_quitar en arbol nulo y devuelve NULL");
 
 	arbol = abb_crear(comparar_cosas);
-	abb_insertar(arbol, &elemento1);
-	int *destruido = abb_quitar(arbol, &elemento1);
-	pa2m_afirmar(*destruido == elemento1, "Se puede quitar un único elemento correctamente");
-	abb_insertar(arbol, &elemento3);
-	abb_insertar(arbol, &elemento2);
-	abb_insertar(arbol, &elemento4);
-	destruido = abb_quitar(arbol, &elemento2);
-	pa2m_afirmar(*destruido == elemento2, "Se puede quitar un elemento hoja correctamente");
+	abb_insertar(arbol, &elemento10);
+	int *destruido = abb_quitar(arbol, &elemento10);
+	pa2m_afirmar(*destruido == elemento10, "Se puede quitar un único elemento correctamente");
+	abb_insertar(arbol, &elemento10);
+	abb_insertar(arbol, &elemento9);
+	abb_insertar(arbol, &elemento11);
+	destruido = abb_quitar(arbol, &elemento9);
+	pa2m_afirmar(*destruido == elemento9, "Se puede quitar un elemento hoja correctamente");
+
+	/*abb_insertar(arbol, &elemento14);
+	abb_insertar(arbol, &elemento12);
+	abb_insertar(arbol, &elemento15);
+	abb_insertar(arbol, &elemento11);
+	abb_insertar(arbol, &elemento13);
+	abb_insertar(arbol, &elemento6);
+	abb_insertar(arbol, &elemento8);
+	abb_insertar(arbol, &elemento7);
+	abb_insertar(arbol, &elemento5);
+
+	destruido = abb_quitar(arbol, &elemento10);
+	pa2m_afirmar(*destruido == elemento10, "Se puede quitar el nodo raiz correctamente");*/
 	
 	abb_destruir(arbol);
 }
