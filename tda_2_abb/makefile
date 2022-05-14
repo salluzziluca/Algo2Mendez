@@ -3,7 +3,7 @@ VALGRIND_FLAGS=--leak-check=full --track-origins=yes --show-reachable=yes --erro
 CFLAGS =-g -std=c99 -Wall -Wconversion -Wtype-limits -pedantic -Werror -O2
 CC = gcc
 
-all: clean valgreen-ejemplo, clean valgrind-ejemplo
+all: clean valgreen-ejemplo, clean valgrind-ejemplo, clean valgreen-pruebas, clean valgrind-pruebas, clean valgreen-interactivo, clean valgrind-interactivo
 
 
 ejemplo: ejemplo.c src/*
@@ -34,4 +34,4 @@ interactivo: *.c *.h
 	$(CC) $(CFLAGS) src/abb.c mostrar_abb.c interactivo.c -o interactivo 2>&1
 
 clean:
-	rm -f ejemplo *.o pruebas 2>&1
+	rm -f ejemplo *.o pruebas 2>&1 interactivo
