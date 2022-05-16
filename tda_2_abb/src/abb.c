@@ -68,7 +68,7 @@ abb_t *abb_insertar(abb_t *arbol, void *elemento)
 	return arbol;
 }
 
-void *obtener_predecesor_inorder(nodo_abb_t *nodo, void **nodo_reemplazo)
+void *obtener_predecesor_inorder(nodo_abb_t *nodo, nodo_abb_t **nodo_reemplazo)
 {
 	if(nodo->derecha == NULL){
 		*nodo_reemplazo = nodo;
@@ -78,7 +78,7 @@ void *obtener_predecesor_inorder(nodo_abb_t *nodo, void **nodo_reemplazo)
 	return nodo;
 }
 
-nodo_abb_t *nodo_quitar (nodo_abb_t *nodo, void *elemento, abb_comparador comparador, nodo_abb_t **nodo_quitado, abb_t *arbol)
+nodo_abb_t *nodo_quitar (nodo_abb_t *nodo, void *elemento, abb_comparador comparador, void **elemento_quitado, abb_t *arbol)
 {
 	if (nodo == NULL)
 		return NULL;
@@ -86,14 +86,15 @@ nodo_abb_t *nodo_quitar (nodo_abb_t *nodo, void *elemento, abb_comparador compar
 	int comparacion = comparador(elemento, nodo->elemento);
 		
 	if (comparacion == 0){
-		*nodo_quitado = nodo; //este es el elemento que vamos a borrar
+		*elemento_quitado = nodo; //este es el elemento que vamos a borrar
 		
 		if(nodo->izquierda != NULL && nodo->derecha != NULL){
-			void *elemento_reemplazo = NULL; //este va a ser el que pongamos en reemplazo del eliminado
-			nodo->izquierda= obtener_predecesor_inorder(nodo->izquierda, &elemento_reemplazo); // buscamos el predecesor inorder
-			nodo->elemento = elemento_reemplazo; // y lo reemplazamos :)
-			if(arbol->nodo_raiz == *nodo_quitado)
-				arbol->nodo_raiz = nodo;
+			nodo_abb_t *nodo_reemplazo = NULL; //este va a ser el que pongamos en reemplazo del eliminado
+			nodo->izquierda= obtener_predecesor_inorder(nodo->izquierda, &nodo_reemplazo); // buscamos el predecesor inorder
+			nodo->elemento = nodo_reemplazo->elemento; // y lo reemplazamos :)
+			free(nodo_reemplazo);
+			if(arbol->nodo_raiz->elemento == *elemento_quitado)
+				arbol->nodo_raiz->elemento = nodo->elemento;
 			return nodo;
 		}
 		if(nodo->izquierda != NULL)
@@ -103,8 +104,8 @@ nodo_abb_t *nodo_quitar (nodo_abb_t *nodo, void *elemento, abb_comparador compar
 	}
 
 	if (comparacion < 0)
-		nodo->izquierda = nodo_quitar(nodo->izquierda, elemento, comparador, nodo_quitado, arbol);
-	else nodo->derecha = nodo_quitar(nodo->derecha, elemento, comparador, nodo_quitado, arbol);
+		nodo->izquierda = nodo_quitar(nodo->izquierda, elemento, comparador, elemento_quitado, arbol);
+	else nodo->derecha = nodo_quitar(nodo->derecha, elemento, comparador, elemento_quitado, arbol);
 
 	return nodo;
 }
@@ -116,17 +117,11 @@ void *abb_quitar(abb_t *arbol, void *elemento)
 	if (arbol->tamanio == 1)
 		return arbol->nodo_raiz->elemento;
 
-	nodo_abb_t *nodo_quitado = NULL;
-	nodo_quitar(arbol->nodo_raiz, elemento, arbol->comparador, &nodo_quitado, arbol);
+	void *elemento_quitado = NULL;
+	nodo_quitar(arbol->nodo_raiz, elemento, arbol->comparador, &elemento_quitado, arbol);
 	
-	if(nodo_quitado != NULL){
-		arbol->tamanio--;
-		void *elemento_quitado = nodo_quitado->elemento;
-		free(nodo_quitado);
-		return elemento_quitado;
-	}		
-	else
-		return NULL;
+	
+	return elemento_quitado;
 }
 
 
