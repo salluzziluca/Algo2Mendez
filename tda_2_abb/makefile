@@ -1,6 +1,6 @@
 VALGREEN_FLAGS= --error-exitcode=2 -s
 VALGRIND_FLAGS=--leak-check=full --track-origins=yes --show-reachable=yes --error-exitcode=2 -s
-CFLAGS =-g -std=c99 -Wall -Wconversion -Wtype-limits -pedantic -Werror -O2
+CFLAGS =-g -std=c99 -Wall -Wconversion -Wtype-limits -pedantic -Werror -O0
 CC = gcc
 
 all: clean valgreen-ejemplo, clean valgrind-ejemplo, clean valgreen-pruebas, clean valgrind-pruebas, clean valgreen-interactivo, clean valgrind-interactivo
