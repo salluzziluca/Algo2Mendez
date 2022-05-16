@@ -122,18 +122,15 @@ void abb_destruir_todo(abb_t *arbol, void (*destructor)(void *))
 
 size_t nodo_con_cada_elemento(nodo_abb_t *nodo, abb_recorrido recorrido, bool (*funcion)(void *, void *), void *aux, size_t elementos_recorridos) //TODO: Revisar por que no itera correctamente, hace dibujito no seas pajero
 {	
-	if(funcion(nodo->elemento, aux) ==false){
-		return elementos_recorridos;
-	}
 
 	switch (recorrido){
 	case INORDEN:
 		if (nodo->izquierda)
 			elementos_recorridos = nodo_con_cada_elemento(nodo->izquierda, recorrido, funcion, aux, elementos_recorridos);
 
-		
 		(elementos_recorridos)++;
-
+		if (!funcion(nodo->elemento, aux))
+			return elementos_recorridos;
 		if (nodo->derecha)
 			elementos_recorridos = nodo_con_cada_elemento(nodo->derecha,  recorrido, funcion, aux, elementos_recorridos);
 		break;
@@ -141,7 +138,9 @@ size_t nodo_con_cada_elemento(nodo_abb_t *nodo, abb_recorrido recorrido, bool (*
 	case PREORDEN:
 		
 		(elementos_recorridos)++;
-		
+		if (!funcion(nodo->elemento, aux))
+			return elementos_recorridos;
+
 		if (nodo->izquierda)
 			elementos_recorridos = nodo_con_cada_elemento(nodo->izquierda, recorrido, funcion, aux, elementos_recorridos);
 
@@ -158,6 +157,8 @@ size_t nodo_con_cada_elemento(nodo_abb_t *nodo, abb_recorrido recorrido, bool (*
 			elementos_recorridos = nodo_con_cada_elemento(nodo->izquierda, recorrido, funcion, aux, elementos_recorridos);
 	
 		(elementos_recorridos)++;
+		if (!funcion(nodo->elemento, aux))
+			return elementos_recorridos;
 		break; 
 
 	default:
