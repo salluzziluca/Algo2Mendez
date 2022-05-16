@@ -1,9 +1,10 @@
 VALGREEN_FLAGS= --error-exitcode=2 -s
-VALGRIND_FLAGS=--leak-check=full --track-origins=yes --show-reachable=yes --error-exitcode=2
-CFLAGS =-g -std=c99 -Wall -Wconversion -Wtype-limits -pedantic -Werror -O2
+VALGRIND_FLAGS=--leak-check=full --track-origins=yes --show-reachable=yes --error-exitcode=2 -s
+CFLAGS =-g -std=c99 -Wall -Wconversion -Wtype-limits -pedantic -Werror -O0
 CC = gcc
 
-all: clean valgreen-ejemplo, clean valgrind-ejemplo
+all: clean valgreen-ejemplo, clean valgrind-ejemplo, clean valgreen-pruebas, clean valgrind-pruebas, clean valgreen-interactivo, clean valgrind-interactivo
+
 
 ejemplo: ejemplo.c src/*
 	$(CC) $(CFLAGS) src/*.c ejemplo.c -o ejemplo 2>&1
@@ -23,14 +24,14 @@ valgrind-pruebas: pruebas
 pruebas: src/*.c pruebas.c
 	$(CC) $(CFLAGS) src/*.c pruebas.c -o pruebas 2>&1
 
-valgreen-interactivo: interactivo
-	valgreen ./interactivo
-
 valgrind-interactivo: interactivo
-	valgrind ./interactivo
+	valgrind $(VALGREEN_FLAGS) ./interactivo
+
+valgreen-interactivo: interactivo
+	valgreen $(VALGRIND_FLAGS) ./interactivo
 
 interactivo: *.c *.h
-	$(CC) $(CFLAGS) src/abb.c src/interactivo/mostrar_abb.c src/interactivo/interactivo.c -o interactivo 2>&1
+	$(CC) $(CFLAGS) src/abb.c mostrar_abb.c interactivo.c -o interactivo 2>&1
 
 clean:
-	rm -f ejemplo *.o pruebas 2>&1
+	rm -f ejemplo *.o pruebas 2>&1 interactivo

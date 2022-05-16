@@ -69,6 +69,46 @@ void abb_insertar_inserta_los_elementos_correctamente()
 	abb_destruir(arbol);
 }
 
+void abb_quitar_quita_los_elementos_correctamente()
+{
+	int elemento10 = 10, elemento9 = 9, elemento11 = 11;
+	int elemento8 = 8, elemento12 = 12, elemento7 = 7, elemento13 = 13, elemento6 = 6, elemento14 = 14, elemento15 = 15;
+	abb_t *arbol = NULL;
+	pa2m_afirmar(abb_quitar(arbol, &elemento10) == NULL, "Se puede llamar a abb_quitar en arbol nulo y devuelve NULL");
+
+	arbol = abb_crear(comparar_cosas);
+	abb_insertar(arbol, &elemento10);
+	int *destruido = abb_quitar(arbol, &elemento10);
+	pa2m_afirmar(*destruido == elemento10, "Se puede quitar un único elemento correctamente");
+	pa2m_afirmar(arbol->nodo_raiz->elemento == NULL, "el arbol está vacio");
+	abb_insertar(arbol, &elemento10);
+	abb_insertar(arbol, &elemento9);;
+	destruido = abb_quitar(arbol, &elemento9);
+	pa2m_afirmar(*destruido == elemento9, "Se puede quitar un elemento hoja correctamente");
+
+	abb_insertar(arbol, &elemento15);
+	abb_insertar(arbol, &elemento11);
+	abb_insertar(arbol, &elemento12);
+	abb_insertar(arbol, &elemento13);
+	abb_insertar(arbol, &elemento14);
+	pa2m_afirmar(*(int *)arbol->nodo_raiz->derecha->elemento == elemento15, "el elemento 15 esta en la derecha");
+	destruido = abb_quitar(arbol, &elemento15);
+	pa2m_afirmar(*destruido == elemento15, "Se puede quitar un elemento con un hijo derecho correctamente");
+	pa2m_afirmar(*(int *)arbol->nodo_raiz->derecha->elemento == elemento14, "El nodo eliminado fue reemplazado correctamente");
+	abb_insertar(arbol, &elemento6);
+	abb_insertar(arbol, &elemento8);
+	abb_insertar(arbol, &elemento7);
+	destruido = abb_quitar(arbol, &elemento10);
+	pa2m_afirmar(*destruido == elemento10, "Se puede quitar el nodo raiz correctamente");
+	pa2m_afirmar(arbol->tamanio == 7, "El tamanio se actualiza correctamente");
+	pa2m_afirmar(*(int *)arbol->nodo_raiz->elemento == elemento8, "El nodo raiz se reemplaza correctamente");
+	pa2m_afirmar(*(int *)arbol->nodo_raiz->derecha->elemento == elemento14, "El nodo derecho se no se modifica");
+	pa2m_afirmar(*(int *)arbol->nodo_raiz->izquierda->elemento == elemento6, "El nodo izquierdo se no se modifica");
+
+	
+	abb_destruir(arbol);
+}
+
 void abb_buscar_busca_adecuadamente_en_todo_tipo_de_arbol()
 {
 	int elemento1 = 1, elemento2 = 2, elemento3 = 3, elemento4 = 4;
@@ -135,10 +175,13 @@ int main()
 	pa2m_nuevo_grupo("Pruebas de Creacion de ABB");
 	abb_crear_crea_e_inicializa_todo_correctamente();
 
-	pa2m_nuevo_grupo("Pruebas de Inserccion en ABB");
+	pa2m_nuevo_grupo("Pruebas de Inserccion");
 	abb_insertar_inserta_los_elementos_correctamente();
 
-	pa2m_nuevo_grupo("Pruebas de busqueda");
+	pa2m_nuevo_grupo("Pruebas de Quitado");
+	abb_quitar_quita_los_elementos_correctamente();
+
+	pa2m_nuevo_grupo("Pruebas de Busqueda");
 	abb_buscar_busca_adecuadamente_en_todo_tipo_de_arbol();
 
 	pa2m_nuevo_grupo("Pruebas de tamaño");
