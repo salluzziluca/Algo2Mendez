@@ -68,7 +68,7 @@ abb_t *abb_insertar(abb_t *arbol, void *elemento)
 	return arbol;
 }
 
-void *obtener_predecesor_inorder(nodo_abb_t *nodo, void **nodo_reemplazo)
+void *obtener_predecesor_inorder(nodo_abb_t *nodo, nodo_abb_t **nodo_reemplazo)
 {
 	if(nodo->derecha == NULL){
 		*nodo_reemplazo = nodo;
@@ -88,16 +88,14 @@ nodo_abb_t *nodo_quitar (nodo_abb_t *nodo, void *elemento, abb_comparador compar
 	if (comparacion == 0){
 		*nodo_quitado = nodo; //este es el elemento que vamos a borrar
 		
-		if(nodo->izquierda != NULL && nodo->derecha != NULL){
-			void *elemento_reemplazo = NULL; //este va a ser el que pongamos en reemplazo del eliminado
-			nodo->izquierda= obtener_predecesor_inorder(nodo->izquierda, &elemento_reemplazo); // buscamos el predecesor inorder
-			nodo->elemento = elemento_reemplazo; // y lo reemplazamos :)
+		if(nodo->izquierda != NULL){
+			nodo_abb_t *nodo_reemplazo = NULL; //este va a ser el que pongamos en reemplazo del eliminado
+			nodo->izquierda= obtener_predecesor_inorder(nodo->izquierda, &nodo_reemplazo); // buscamos el predecesor inorder
+			nodo->elemento = nodo_reemplazo->elemento; // y lo reemplazamos :)
 			if(arbol->nodo_raiz == *nodo_quitado)
 				arbol->nodo_raiz = nodo;
 			return nodo;
-		}
-		if(nodo->izquierda != NULL)
-			return nodo->izquierda;
+		}	
 		return nodo->derecha;
 			
 	}
