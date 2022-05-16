@@ -67,12 +67,12 @@ nodo_abb_t *nodo_quitar (nodo_abb_t *nodo, void *elemento, abb_comparador compar
 	int comparacion = comparador(elemento, nodo->elemento);
 		
 	if (comparacion == 0){
-		*elemento_quitado = nodo->elemento; //este es el elemento que vamos a borrar
+		*elemento_quitado = nodo->elemento;
 		
 		if(nodo->izquierda != NULL){
-			nodo_abb_t *nodo_reemplazo = NULL; //este va a ser el que pongamos en reemplazo del eliminado
-			nodo->izquierda= obtener_predecesor_inorder(nodo->izquierda, &nodo_reemplazo); // buscamos el predecesor inorder
-			nodo->elemento = nodo_reemplazo->elemento; // y lo reemplazamos :)
+			nodo_abb_t *nodo_reemplazo = NULL;
+			nodo->izquierda= obtener_predecesor_inorder(nodo->izquierda, &nodo_reemplazo);
+			nodo->elemento = nodo_reemplazo->elemento;
 			free(nodo_reemplazo);
 			return nodo;
 		}

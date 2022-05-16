@@ -106,6 +106,7 @@ void abb_quitar_quita_los_elementos_correctamente()
 	pa2m_afirmar(*(int *)arbol->nodo_raiz->izquierda->elemento == elemento6, "El nodo izquierdo se no se modifica");
 	destruido = abb_quitar(arbol, &elemento13);
 	pa2m_afirmar(*destruido == elemento13, "Se puede quitar un elemento otro nodo hoja correctamente");
+	pa2m_afirmar(abb_tamanio(arbol) == 6, "El tamanio se actualiza correctamente");
 
 	
 	abb_destruir(arbol);
