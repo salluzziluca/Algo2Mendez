@@ -49,6 +49,48 @@ void *nodo_buscar(nodo_abb_t *nodo, void *elemento, abb_comparador comparador){
 }
 
 
+void *obtener_predecesor_inorder(nodo_abb_t *nodo, nodo_abb_t **nodo_reemplazo)
+{
+	if(nodo->derecha == NULL){
+		*nodo_reemplazo = nodo;
+		return nodo->izquierda;
+	}
+	nodo->derecha = obtener_predecesor_inorder(nodo->derecha, nodo_reemplazo);
+	return nodo;
+}
+
+nodo_abb_t *nodo_quitar (nodo_abb_t *nodo, void *elemento, abb_comparador comparador, void **elemento_quitado)
+{
+	if (nodo == NULL)
+		return NULL;
+		
+	int comparacion = comparador(elemento, nodo->elemento);
+		
+	if (comparacion == 0){
+		*elemento_quitado = nodo->elemento; //este es el elemento que vamos a borrar
+		
+		if(nodo->izquierda != NULL){
+			nodo_abb_t *nodo_reemplazo = NULL; //este va a ser el que pongamos en reemplazo del eliminado
+			nodo->izquierda= obtener_predecesor_inorder(nodo->izquierda, &nodo_reemplazo); // buscamos el predecesor inorder
+			nodo->elemento = nodo_reemplazo->elemento; // y lo reemplazamos :)
+			free(nodo_reemplazo);
+			return nodo;
+		}
+		else if(nodo->derecha != NULL)
+			return nodo->derecha;
+		else{
+			free(nodo);
+			return NULL;
+		}
+	}
+
+	if (comparacion < 0)
+		nodo->izquierda = nodo_quitar(nodo->izquierda, elemento, comparador, elemento_quitado);
+	else nodo->derecha = nodo_quitar(nodo->derecha, elemento, comparador, elemento_quitado);
+
+	return nodo;
+}
+
 size_t nodo_recorrer(nodo_abb_t *nodo, abb_recorrido recorrido, void **array, size_t tamanio_array, size_t elementos_recorridos)
 {
 	switch (recorrido){
