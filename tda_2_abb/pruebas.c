@@ -3,6 +3,17 @@
 #include "pa2mm.h"
 #include "string.h"
 
+#define INORDEN 0
+#define PREORDEN 1
+#define POSTORDEN 2
+
+bool funcion_iteradora(void *dato, void *aux)
+{
+	dato = dato;
+	aux = aux;
+	return true;
+}
+
 typedef struct cosa
 {
 	int clave;
@@ -58,6 +69,49 @@ void abb_insertar_inserta_los_elementos_correctamente()
 	abb_destruir(arbol);
 }
 
+void abb_quitar_quita_los_elementos_correctamente()
+{
+	int elemento10 = 10, elemento9 = 9, elemento11 = 11;
+	int elemento8 = 8, elemento12 = 12, elemento7 = 7, elemento13 = 13, elemento6 = 6, elemento14 = 14, elemento15 = 15;
+	abb_t *arbol = NULL;
+	pa2m_afirmar(abb_quitar(arbol, &elemento10) == NULL, "Se puede llamar a abb_quitar en arbol nulo y devuelve NULL");
+
+	arbol = abb_crear(comparar_cosas);
+	abb_insertar(arbol, &elemento10);
+	int *destruido = abb_quitar(arbol, &elemento10);
+	pa2m_afirmar(*destruido == elemento10, "Se puede quitar un único elemento correctamente");
+	pa2m_afirmar(arbol->nodo_raiz->elemento == NULL, "el arbol está vacio");
+	abb_insertar(arbol, &elemento10);
+	abb_insertar(arbol, &elemento9);;
+	destruido = abb_quitar(arbol, &elemento9);
+	pa2m_afirmar(*destruido == elemento9, "Se puede quitar un elemento hoja correctamente");
+
+	abb_insertar(arbol, &elemento15);
+	abb_insertar(arbol, &elemento11);
+	abb_insertar(arbol, &elemento12);
+	abb_insertar(arbol, &elemento13);
+	abb_insertar(arbol, &elemento14);
+	pa2m_afirmar(*(int *)arbol->nodo_raiz->derecha->elemento == elemento15, "el elemento 15 esta en la derecha");
+	destruido = abb_quitar(arbol, &elemento15);
+	pa2m_afirmar(*destruido == elemento15, "Se puede quitar un elemento con un hijo derecho correctamente");
+	pa2m_afirmar(*(int *)arbol->nodo_raiz->derecha->elemento == elemento14, "El nodo eliminado fue reemplazado correctamente");
+	abb_insertar(arbol, &elemento6);
+	abb_insertar(arbol, &elemento8);
+	abb_insertar(arbol, &elemento7);
+	destruido = abb_quitar(arbol, &elemento10);
+	pa2m_afirmar(*destruido == elemento10, "Se puede quitar el nodo raiz correctamente");
+	pa2m_afirmar(arbol->tamanio == 7, "El tamanio se actualiza correctamente");
+	pa2m_afirmar(*(int *)arbol->nodo_raiz->elemento == elemento8, "El nodo raiz se reemplaza correctamente");
+	pa2m_afirmar(*(int *)arbol->nodo_raiz->derecha->elemento == elemento14, "El nodo derecho se no se modifica");
+	pa2m_afirmar(*(int *)arbol->nodo_raiz->izquierda->elemento == elemento6, "El nodo izquierdo se no se modifica");
+	destruido = abb_quitar(arbol, &elemento13);
+	pa2m_afirmar(*destruido == elemento13, "Se puede quitar un elemento otro nodo hoja correctamente");
+	pa2m_afirmar(abb_tamanio(arbol) == 6, "El tamanio se actualiza correctamente");
+
+	
+	abb_destruir(arbol);
+}
+
 void abb_buscar_busca_adecuadamente_en_todo_tipo_de_arbol()
 {
 	int elemento1 = 1, elemento2 = 2, elemento3 = 3, elemento4 = 4;
@@ -88,22 +142,56 @@ void abb_tamanio_y_vacio_muestran_adecuadamente_el_tamanio_del_arbol(){
 	abb_insertar(arbol, &elemento3);
 	abb_insertar(arbol, &elemento4);
 	abb_destruir(arbol);
+}
 
+void abb_recorrer_devuelve_todos_los_elementos_recorridos()
+{
+	abb_t *arbol = NULL;
+	int *elementos[10];
 	
+	pa2m_afirmar(abb_recorrer(arbol,INORDEN,(void**)elementos, 10) == 0, "Se puede llamar a abb_recorrer con arbol nulo y devuelve 0");
+	pa2m_afirmar(abb_con_cada_elemento(arbol, INORDEN, funcion_iteradora, NULL) == 0, "Se puede llamar a abb_con_cada_elemento con arbol nulo y devuelve 0");
+	
+	arbol = abb_crear(comparar_cosas);
+	
+	pa2m_afirmar(abb_recorrer(arbol,INORDEN,(void**)elementos, 10) == 0, "Se puede llamar a abb_recorrer con arbol vacio y devuelve 0");
+	pa2m_afirmar(abb_con_cada_elemento(arbol, INORDEN, funcion_iteradora, NULL) == 0, "Se puede llamar a abb_con_cada_elemento con arbol vacio y devuelve 0");
+
+	int elemento1 = 1, elemento2 = 2, elemento3 = 3, elemento4 = 4;
+	abb_insertar(arbol, &elemento1);
+	
+	pa2m_afirmar(abb_recorrer(arbol,INORDEN,(void**)elementos, 10) == 1, "Se puede llamar a abb_recorrer con 1 elemento y devuelve el tamaño correspondiente");
+	pa2m_afirmar(abb_con_cada_elemento(arbol, INORDEN, funcion_iteradora, NULL) == 1, "Se puede llamar a abb_con_cada_elemento con 1 elemento y devuelve el tamaño correspondiente");
+
+	abb_insertar(arbol, &elemento2);
+	abb_insertar(arbol, &elemento3);
+	abb_insertar(arbol, &elemento4);
+	pa2m_afirmar(abb_recorrer(arbol,INORDEN,(void**)elementos, 10) == 4, "Se puede llamar a abb_recorrer con arbol no vacio y devuelve el tamaño correspondiente");
+	pa2m_afirmar(abb_con_cada_elemento(arbol, INORDEN, funcion_iteradora, NULL) == 4, "Se puede llamar a abb_con_cada_elemento con arbol no vacio y devuelve el tamaño correspondiente");
+
+	pa2m_afirmar(abb_con_cada_elemento(arbol, INORDEN, NULL, NULL) == 0, "Se puede llamar a abb_con_cada_elemento con funcion NULL y devuelve cero");
+
+	abb_destruir(arbol);
 }
 int main()
 {
 	pa2m_nuevo_grupo("Pruebas de Creacion de ABB");
 	abb_crear_crea_e_inicializa_todo_correctamente();
 
-	pa2m_nuevo_grupo("Pruebas de Inserccion en ABB");
+	pa2m_nuevo_grupo("Pruebas de Inserccion");
 	abb_insertar_inserta_los_elementos_correctamente();
 
-	pa2m_nuevo_grupo("Pruebas de busqueda");
+	pa2m_nuevo_grupo("Pruebas de Quitado");
+	abb_quitar_quita_los_elementos_correctamente();
+
+	pa2m_nuevo_grupo("Pruebas de Busqueda");
 	abb_buscar_busca_adecuadamente_en_todo_tipo_de_arbol();
 
 	pa2m_nuevo_grupo("Pruebas de tamaño");
 	abb_tamanio_y_vacio_muestran_adecuadamente_el_tamanio_del_arbol();
+
+	pa2m_nuevo_grupo("Pruebas de recorrido");
+	abb_recorrer_devuelve_todos_los_elementos_recorridos();
 
 	return pa2m_mostrar_reporte();
 }
