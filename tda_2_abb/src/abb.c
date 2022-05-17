@@ -120,60 +120,65 @@ void abb_destruir_todo(abb_t *arbol, void (*destructor)(void *))
 	return;
 }
 
-size_t nodo_con_cada_elemento(nodo_abb_t *nodo, abb_recorrido recorrido, bool (*funcion)(void *, void *), void *aux, size_t elementos_recorridos) //TODO: Revisar por que no itera correctamente, hace dibujito no seas pajero
+bool nodo_con_cada_elemento(nodo_abb_t *nodo, abb_recorrido recorrido, bool (*funcion)(void *, void *), void *aux, size_t *elementos_recorridos, bool continuar) //TODO: Revisar por que no itera correctamente, hace dibujito no seas pajero
 {	
-
+	if(continuar == false)
+		return false;
 	switch (recorrido){
 	case INORDEN:
-		if (nodo->izquierda)
-			elementos_recorridos = nodo_con_cada_elemento(nodo->izquierda, recorrido, funcion, aux, elementos_recorridos);
+		if(nodo->izquierda != NULL)
+			continuar = nodo_con_cada_elemento(nodo->izquierda, recorrido, funcion, aux, elementos_recorridos, continuar);
 
-		(elementos_recorridos)++;
 		if (!funcion(nodo->elemento, aux))
-			return elementos_recorridos;
-		if (nodo->derecha)
-			elementos_recorridos = nodo_con_cada_elemento(nodo->derecha,  recorrido, funcion, aux, elementos_recorridos);
+			return false;
+		(*elementos_recorridos)++;
+		
+		if(nodo->derecha != NULL)
+			continuar = nodo_con_cada_elemento(nodo->derecha,  recorrido, funcion, aux, elementos_recorridos, continuar);
 		break;
 
 	case PREORDEN:
 		
-		(elementos_recorridos)++;
 		if (!funcion(nodo->elemento, aux))
-			return elementos_recorridos;
-
-		if (nodo->izquierda)
-			elementos_recorridos = nodo_con_cada_elemento(nodo->izquierda, recorrido, funcion, aux, elementos_recorridos);
-
-
-		if (nodo->derecha)
-			elementos_recorridos = nodo_con_cada_elemento(nodo->izquierda, recorrido, funcion, aux, elementos_recorridos);
+			return false;
+		(*elementos_recorridos)++;
+		if(nodo->izquierda != NULL)
+			continuar = nodo_con_cada_elemento(nodo->izquierda, recorrido, funcion, aux, elementos_recorridos, continuar);
+		if(nodo->derecha != NULL)
+			continuar = nodo_con_cada_elemento(nodo->derecha,  recorrido, funcion, aux, elementos_recorridos, continuar);
 		break;
 
 	case POSTORDEN:
-		if (nodo->izquierda)
-			elementos_recorridos = nodo_con_cada_elemento(nodo->izquierda, recorrido, funcion, aux, elementos_recorridos);
+		
+		if(!nodo)
+			return true;
+			
+		if(!nodo_con_cada_elemento(nodo->izquierda, recorrido, funcion, aux, elementos_recorridos, continuar))
+			return false;
 
-		if (nodo->derecha)
-			elementos_recorridos = nodo_con_cada_elemento(nodo->izquierda, recorrido, funcion, aux, elementos_recorridos);
-	
-		(elementos_recorridos)++;
+		if(!nodo_con_cada_elemento(nodo->derecha,  recorrido, funcion, aux, elementos_recorridos, continuar))
+			return false;
+		
+		(*elementos_recorridos)++;
+
 		if (!funcion(nodo->elemento, aux))
-			return elementos_recorridos;
-		break; 
+			return false;
+
+		break;
 
 	default:
 		break;
 	}
-	return elementos_recorridos;		
+	return true;		
 }
 size_t abb_con_cada_elemento(abb_t *arbol, abb_recorrido recorrido, bool (*funcion)(void *, void *), void *aux)
 {
 	if(arbol == NULL || funcion == NULL || arbol->tamanio == 0)
 		return 0;
 	size_t elementos_recorridos = 0;
-
-	elementos_recorridos = nodo_con_cada_elemento(arbol->nodo_raiz, recorrido, funcion, aux, elementos_recorridos);
-	return elementos_recorridos;
+	bool continuar = true;
+	nodo_con_cada_elemento(arbol->nodo_raiz, recorrido, funcion, aux, &elementos_recorridos, continuar);
+	return false;
 }
 
 size_t abb_recorrer(abb_t *arbol, abb_recorrido recorrido, void **array, size_t tamanio_array)
@@ -182,7 +187,7 @@ size_t abb_recorrer(abb_t *arbol, abb_recorrido recorrido, void **array, size_t 
 		return 0;
 
 	size_t elementos_recorridos = 0;
-	elementos_recorridos = nodo_recorrer(arbol->nodo_raiz, recorrido, array, tamanio_array, elementos_recorridos);
-	return elementos_recorridos;
+	nodo_recorrer(arbol->nodo_raiz, recorrido, array, tamanio_array, elementos_recorridos);
+	return false;
 	
 }
