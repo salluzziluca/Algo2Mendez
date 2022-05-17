@@ -7,18 +7,12 @@
 
 abb_t *abb_crear(abb_comparador comparador)
 {
-	abb_t *arbol = malloc(sizeof(abb_t));
+	abb_t *arbol = calloc(1, sizeof(abb_t));
 	if (arbol == NULL) {
 		return NULL;
 	}
-	arbol->nodo_raiz = calloc(1, sizeof(nodo_abb_t));
 	
-	if (arbol->nodo_raiz == NULL){
-		free(arbol);
-		return NULL;
-	}
 	arbol->comparador = comparador;
-	arbol->tamanio = 0;
 	return arbol;
 }
 
@@ -27,7 +21,14 @@ abb_t *abb_insertar(abb_t *arbol, void *elemento)
 {
 	if(arbol == NULL)
 		return NULL;
-
+	if(arbol->nodo_raiz == NULL){
+		arbol->nodo_raiz = calloc(1, sizeof(nodo_abb_t));
+	
+		if (arbol->nodo_raiz == NULL){
+			free(arbol);
+			return NULL;
+		}
+	}
 	arbol->nodo_raiz = nodo_insertar(arbol->nodo_raiz, elemento, arbol->comparador);
 	arbol->tamanio++;
 
