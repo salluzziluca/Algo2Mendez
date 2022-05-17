@@ -120,49 +120,72 @@ void abb_destruir_todo(abb_t *arbol, void (*destructor)(void *))
 	return;
 }
 
+bool recorrer_postorden(nodo_abb_t *nodo, abb_recorrido recorrido, bool (*funcion)(void *, void *), void *aux, size_t *elementos_recorridos)
+{
+	if(!nodo)
+		return true;
+			
+	if(recorrer_postorden(nodo->izquierda, recorrido, funcion, aux, elementos_recorridos) == false)
+		return false;
+
+	if(recorrer_postorden(nodo->derecha,  recorrido, funcion, aux, elementos_recorridos) == false)
+		return false;
+	
+	(*elementos_recorridos)++;
+
+	if (!funcion(nodo->elemento, aux))
+		return false;
+	return true;
+}
+
+bool recorrer_preorder(nodo_abb_t *nodo, abb_recorrido recorrido, bool (*funcion)(void *, void *), void *aux, size_t *elementos_recorridos){
+
+	if(!nodo)
+		return true;
+
+	(*elementos_recorridos)++;
+	if (!funcion(nodo->elemento, aux))
+			return false;
+	if(recorrer_preorder(nodo->izquierda, recorrido, funcion, aux, elementos_recorridos) == false)
+		return false;
+	if(recorrer_preorder(nodo->derecha,  recorrido, funcion, aux, elementos_recorridos) == false)
+		return false;
+	return true;
+}
+
+bool recorrer_inorder(nodo_abb_t *nodo, abb_recorrido recorrido, bool (*funcion)(void *, void *), void *aux, size_t *elementos_recorridos){
+	if(!nodo)
+		return true;
+	if(recorrer_inorder(nodo->izquierda, recorrido, funcion, aux, elementos_recorridos)== false)
+		return false;
+
+	(*elementos_recorridos)++;
+	if (!funcion(nodo->elemento, aux))
+		return false;
+	
+	if(recorrer_inorder(nodo->derecha,  recorrido, funcion, aux, elementos_recorridos) == false)
+		return false;
+	return true;
+}
+
 bool nodo_con_cada_elemento(nodo_abb_t *nodo, abb_recorrido recorrido, bool (*funcion)(void *, void *), void *aux, size_t *elementos_recorridos, bool continuar) //TODO: Revisar por que no itera correctamente, hace dibujito no seas pajero
 {	
 	if(continuar == false)
 		return false;
 	switch (recorrido){
 	case INORDEN:
-		if(nodo->izquierda != NULL)
-			continuar = nodo_con_cada_elemento(nodo->izquierda, recorrido, funcion, aux, elementos_recorridos, continuar);
-
-		if (!funcion(nodo->elemento, aux))
-			return false;
-		(*elementos_recorridos)++;
-		
-		if(nodo->derecha != NULL)
-			continuar = nodo_con_cada_elemento(nodo->derecha,  recorrido, funcion, aux, elementos_recorridos, continuar);
+		recorrer_inorder(nodo, recorrido, funcion, aux, elementos_recorridos);
 		break;
 
 	case PREORDEN:
 		
-		if (!funcion(nodo->elemento, aux))
-			return false;
-		(*elementos_recorridos)++;
-		if(nodo->izquierda != NULL)
-			continuar = nodo_con_cada_elemento(nodo->izquierda, recorrido, funcion, aux, elementos_recorridos, continuar);
-		if(nodo->derecha != NULL)
-			continuar = nodo_con_cada_elemento(nodo->derecha,  recorrido, funcion, aux, elementos_recorridos, continuar);
+		recorrer_preorder(nodo, recorrido, funcion, aux, elementos_recorridos);
+
 		break;
 
 	case POSTORDEN:
 		
-		if(!nodo)
-			return true;
-			
-		if(!nodo_con_cada_elemento(nodo->izquierda, recorrido, funcion, aux, elementos_recorridos, continuar))
-			return false;
-
-		if(!nodo_con_cada_elemento(nodo->derecha,  recorrido, funcion, aux, elementos_recorridos, continuar))
-			return false;
-		
-		(*elementos_recorridos)++;
-
-		if (!funcion(nodo->elemento, aux))
-			return false;
+		recorrer_postorden(nodo, recorrido, funcion, aux, elementos_recorridos);
 
 		break;
 
