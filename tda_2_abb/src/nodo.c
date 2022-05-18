@@ -78,7 +78,6 @@ nodo_abb_t *nodo_quitar (nodo_abb_t *nodo, void *elemento, abb_comparador compar
 		}
 		else if(nodo->derecha != NULL){
 			nodo->elemento = nodo->derecha->elemento;
-			nodo->derecha = NULL;
 			return nodo;
 		}
 		else{
