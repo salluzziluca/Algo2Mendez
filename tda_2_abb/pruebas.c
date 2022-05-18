@@ -40,9 +40,6 @@ void abb_crear_crea_e_inicializa_todo_correctamente()
 	abb_t *arbol = abb_crear(comparar_cosas);
 	pa2m_afirmar(arbol, "El arbol se crea");
 	pa2m_afirmar(arbol->nodo_raiz == NULL, "El arbol se crea con nodo raiz nulo");
-	// pa2m_afirmar(arbol->nodo_raiz->izquierda == NULL, "El nodo raiz se inicializa con un hijo izquierdo NULL");
-	// pa2m_afirmar(arbol->nodo_raiz->derecha == NULL, "El nodo raiz se inicializa con un hijo derecho NULL");
-	// pa2m_afirmar(arbol->nodo_raiz->elemento == NULL, "El nodo raiz se inicializa con un elemento NULL");
 	pa2m_afirmar(arbol->comparador == comparar_cosas, "El arbol se inicializa con un comparador correcto");
 	pa2m_afirmar(arbol->tamanio == 0, "El arbol se inicializa con un tamanio 0");
 	abb_destruir(arbol);
@@ -117,6 +114,20 @@ void abb_quitar_quita_los_elementos_correctamente()
 	destruido = abb_quitar(arbol, &elemento13);
 	pa2m_afirmar(*destruido == elemento13, "Se puede quitar un elemento otro nodo hoja correctamente");
 	pa2m_afirmar(abb_tamanio(arbol) == 6, "El tamanio se actualiza correctamente");
+	abb_quitar(arbol, &elemento8);
+	pa2m_afirmar(abb_tamanio(arbol) == 5, "El tamanio se actualiza correctamente");
+	abb_quitar(arbol, &elemento7);
+	pa2m_afirmar(abb_tamanio(arbol) == 4, "El tamanio se actualiza correctamente");
+	abb_quitar(arbol, &elemento14);
+	pa2m_afirmar(abb_tamanio(arbol) == 3, "El tamanio se actualiza correctamente");
+	abb_quitar(arbol, &elemento12);
+	pa2m_afirmar(abb_tamanio(arbol) == 2, "El tamanio se actualiza correctamente");
+	abb_quitar(arbol, &elemento11);
+	pa2m_afirmar(abb_tamanio(arbol) == 1, "El tamanio se actualiza correctamente");
+	abb_quitar(arbol, &elemento6); //TODO: ver por que si cambio este quitar y lo pongo antes se rompe todo
+	pa2m_afirmar(abb_tamanio(arbol) == 0, "El abb esta vacío");
+
+
 
 	
 	abb_destruir(arbol);

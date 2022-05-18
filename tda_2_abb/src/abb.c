@@ -7,6 +7,8 @@
 
 abb_t *abb_crear(abb_comparador comparador)
 {
+	if(comparador == NULL)
+		return NULL;
 	abb_t *arbol = calloc(1, sizeof(abb_t));
 	if (arbol == NULL) {
 		return NULL;
