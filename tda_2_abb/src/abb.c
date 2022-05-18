@@ -52,7 +52,8 @@ void *abb_quitar(abb_t *arbol, void *elemento)
 	
 	nodo_quitar(arbol->nodo_raiz, elemento, arbol->comparador, &elemento_quitado);
 	
-	if(*(int*)elemento_quitado == *(int*)elemento)
+	
+	if((elemento_quitado != NULL) && (*(int*)elemento_quitado == *(int*)elemento))
 		arbol->tamanio--;
 
 	return elemento_quitado;

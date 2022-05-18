@@ -83,8 +83,18 @@ void abb_quitar_quita_los_elementos_correctamente()
 	pa2m_afirmar(arbol->nodo_raiz->elemento == NULL, "el arbol está vacio");
 	abb_insertar(arbol, &elemento10);
 	abb_insertar(arbol, &elemento9);;
+
 	destruido = abb_quitar(arbol, &elemento9);
 	pa2m_afirmar(*destruido == elemento9, "Se puede quitar un elemento hoja correctamente");
+
+	abb_insertar(arbol, &elemento11);
+	destruido = abb_quitar(arbol, &elemento10);
+	pa2m_afirmar(*destruido == elemento10, "Se puede quitar un nodo raiz con hijo derecho correctamente");
+	pa2m_afirmar(arbol->nodo_raiz->elemento == &elemento11, "El nodo raiz es el hijo derecho del quitado");
+
+	abb_quitar(arbol, &elemento11);
+	pa2m_afirmar(arbol->nodo_raiz->elemento == NULL, "El arbol está vacio");
+	abb_insertar(arbol, &elemento10);
 
 	abb_insertar(arbol, &elemento15);
 	abb_insertar(arbol, &elemento11);
