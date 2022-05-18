@@ -159,8 +159,8 @@ void abb_recorrer_devuelve_todos_los_elementos_recorridos()
 
 	int elemento1 = 1, elemento2 = 2, elemento3 = 3, elemento4 = 4;
 	abb_insertar(arbol, &elemento1);
-	
 	pa2m_afirmar(abb_recorrer(arbol,INORDEN,(void**)elementos, 10) == 1, "Se puede llamar a abb_recorrer con 1 elemento y devuelve el tamaño correspondiente");
+	
 	pa2m_afirmar(abb_con_cada_elemento(arbol, INORDEN, funcion_iteradora, NULL) == 1, "Se puede llamar a abb_con_cada_elemento con 1 elemento y devuelve el tamaño correspondiente");
 
 	abb_insertar(arbol, &elemento2);
