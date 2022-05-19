@@ -39,15 +39,11 @@ abb_t *abb_insertar(abb_t *arbol, void *elemento)
 
 void *abb_quitar(abb_t *arbol, void *elemento)
 {
-	if (arbol == NULL|| elemento == NULL || arbol->tamanio == 0)
+	if (arbol == NULL || arbol->tamanio == 0)
 		return NULL;
 	void *elemento_quitado = NULL;
 	
-	arbol->nodo_raiz =  nodo_quitar(arbol->nodo_raiz, elemento, arbol->comparador, &elemento_quitado);
-	
-	
-	if((elemento_quitado != NULL) && (*(int*)elemento_quitado == *(int*)elemento))
-		arbol->tamanio--;
+	arbol->nodo_raiz =  nodo_quitar(arbol->nodo_raiz, elemento, arbol->comparador, &elemento_quitado, &arbol->tamanio);
 
 	return elemento_quitado;
 }

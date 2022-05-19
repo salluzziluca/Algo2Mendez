@@ -59,7 +59,7 @@ void *obtener_predecesor_inorder(nodo_abb_t *nodo, nodo_abb_t **nodo_reemplazo)
 	return nodo;
 }
 
-nodo_abb_t *nodo_quitar (nodo_abb_t *nodo, void *elemento, abb_comparador comparador, void **elemento_quitado)
+nodo_abb_t *nodo_quitar (nodo_abb_t *nodo, void *elemento, abb_comparador comparador, void **elemento_quitado, size_t *tamanio)
 {
 	if (nodo == NULL)
 		return NULL;
@@ -74,6 +74,7 @@ nodo_abb_t *nodo_quitar (nodo_abb_t *nodo, void *elemento, abb_comparador compar
 			nodo->izquierda= obtener_predecesor_inorder(nodo->izquierda, &nodo_reemplazo);
 			nodo->elemento = nodo_reemplazo->elemento;
 			free(nodo_reemplazo);
+			(*tamanio)--;
 			return nodo;
 		}
 		else{
@@ -85,15 +86,17 @@ nodo_abb_t *nodo_quitar (nodo_abb_t *nodo, void *elemento, abb_comparador compar
 				nodo = nodo->derecha;
 			else
 				nodo = NULL;
+			(*tamanio)--;
 			free(nodo_aux);
+
 			return nodo;
 		}
 	
 	}
 
 	if (comparacion < 0)
-		nodo->izquierda = nodo_quitar(nodo->izquierda, elemento, comparador, elemento_quitado);
-	else nodo->derecha = nodo_quitar(nodo->derecha, elemento, comparador, elemento_quitado);
+		nodo->izquierda = nodo_quitar(nodo->izquierda, elemento, comparador, elemento_quitado, tamanio);
+	else nodo->derecha = nodo_quitar(nodo->derecha, elemento, comparador, elemento_quitado, tamanio);
 
 	return nodo;
 }
@@ -119,7 +122,7 @@ size_t nodo_recorrer(nodo_abb_t *nodo, abb_recorrido recorrido, void **array, si
 	case PREORDEN:
 		if(elementos_recorridos >= tamanio_array)
 		return elementos_recorridos;
-		
+
 		array[elementos_recorridos] = nodo->elemento;
 		(elementos_recorridos)++;
 		
