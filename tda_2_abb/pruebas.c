@@ -77,12 +77,17 @@ void abb_quitar_quita_los_elementos_correctamente()
 	abb_insertar(arbol, &elemento10);
 	int *destruido = abb_quitar(arbol, &elemento10);
 	pa2m_afirmar(*destruido == elemento10, "Se puede quitar un único elemento correctamente");
-	pa2m_afirmar(arbol->nodo_raiz->elemento == NULL, "el arbol está vacio");
+	pa2m_afirmar(arbol->nodo_raiz == NULL, "el arbol está vacio");
 	abb_insertar(arbol, &elemento10);
 	abb_insertar(arbol, &elemento9);;
 
 	destruido = abb_quitar(arbol, &elemento9);
 	pa2m_afirmar(*destruido == elemento9, "Se puede quitar un elemento hoja correctamente");
+	abb_insertar(arbol, &elemento9);
+	destruido = abb_quitar(arbol, &elemento10);
+	pa2m_afirmar(*destruido == elemento10, "Se puede quitar un elemento con un hijo izquierdo correctamente");
+	abb_quitar(arbol, &elemento9);
+	abb_insertar(arbol, &elemento10);
 
 	abb_insertar(arbol, &elemento11);
 	destruido = abb_quitar(arbol, &elemento10);
@@ -90,8 +95,9 @@ void abb_quitar_quita_los_elementos_correctamente()
 	pa2m_afirmar(arbol->nodo_raiz->elemento == &elemento11, "El nodo raiz es el hijo derecho del quitado");
 
 	abb_quitar(arbol, &elemento11);
-	pa2m_afirmar(arbol->nodo_raiz->elemento == NULL, "El arbol está vacio");
+	pa2m_afirmar(arbol->nodo_raiz == NULL, "El arbol está vacio");
 	abb_insertar(arbol, &elemento10);
+
 
 	abb_insertar(arbol, &elemento15);
 	abb_insertar(arbol, &elemento11);
@@ -114,7 +120,7 @@ void abb_quitar_quita_los_elementos_correctamente()
 	destruido = abb_quitar(arbol, &elemento13);
 	pa2m_afirmar(*destruido == elemento13, "Se puede quitar un elemento otro nodo hoja correctamente");
 	pa2m_afirmar(abb_tamanio(arbol) == 6, "El tamanio se actualiza correctamente");
-	abb_quitar(arbol, &elemento8);
+	abb_quitar(arbol, &elemento6); //TODO: ver por que si cambio este quitar y lo pongo antes se rompe todo
 	pa2m_afirmar(abb_tamanio(arbol) == 5, "El tamanio se actualiza correctamente");
 	abb_quitar(arbol, &elemento7);
 	pa2m_afirmar(abb_tamanio(arbol) == 4, "El tamanio se actualiza correctamente");
@@ -124,12 +130,91 @@ void abb_quitar_quita_los_elementos_correctamente()
 	pa2m_afirmar(abb_tamanio(arbol) == 2, "El tamanio se actualiza correctamente");
 	abb_quitar(arbol, &elemento11);
 	pa2m_afirmar(abb_tamanio(arbol) == 1, "El tamanio se actualiza correctamente");
-	abb_quitar(arbol, &elemento6); //TODO: ver por que si cambio este quitar y lo pongo antes se rompe todo
-	pa2m_afirmar(abb_tamanio(arbol) == 0, "El abb esta vacío");
+	abb_quitar(arbol, &elemento8);
+	pa2m_afirmar(abb_tamanio(arbol) == 0, "El tamaño es cero");
+	pa2m_afirmar(abb_vacio(arbol)==true, "El arbol está vacio");
+	pa2m_afirmar(arbol->nodo_raiz == NULL, "El nodo raiz es NULL");
 
 
 
 	
+	abb_destruir(arbol);
+}
+
+void abb_elminiar_sigue_eliminando(){
+	abb_t* arbol = abb_crear(comparar_cosas);
+
+	int elemento10 = 10, elemento9 = 9, elemento11 = 11;
+	int elemento8 = 8, elemento12 = 12, elemento7 = 7, elemento13 = 13, elemento6 = 6, elemento14 = 14, elemento15 = 15;
+	abb_insertar(arbol, &elemento10);
+	abb_insertar(arbol, &elemento9);
+	abb_insertar(arbol, &elemento11);
+	abb_insertar(arbol, &elemento8);
+	abb_insertar(arbol, &elemento12);
+	abb_insertar(arbol, &elemento7);
+	abb_insertar(arbol, &elemento13);
+	abb_insertar(arbol, &elemento6);
+	abb_insertar(arbol, &elemento14);
+	abb_insertar(arbol, &elemento15);
+
+	int *destruido = abb_quitar(arbol, &elemento15);
+	pa2m_afirmar(*destruido == elemento15, "Puedo borrar un nodo hoja");
+
+	pa2m_afirmar(abb_tamanio(arbol) == 9, "La cantidad de elementos es 9");
+
+	abb_destruir(arbol);
+}
+
+void abb_eliminar_raiz_elimina_la_raiz_correctamente()
+{
+	abb_t *arbol = abb_crear(comparar_cosas);
+	int elemento10 = 10, elemento9 = 9, elemento11 = 11;
+	int elemento8 = 8, elemento12 = 12, elemento7 = 7, elemento13 = 13, elemento6 = 6, elemento14 = 14, elemento15 = 15;
+	abb_insertar(arbol, &elemento10);
+	abb_insertar(arbol, &elemento9);
+	abb_insertar(arbol, &elemento11);
+	abb_insertar(arbol, &elemento12);
+	abb_insertar(arbol, &elemento15);
+	abb_insertar(arbol, &elemento14);
+	abb_insertar(arbol, &elemento13);
+	abb_insertar(arbol, &elemento7);
+	abb_insertar(arbol, &elemento8);
+	abb_insertar(arbol, &elemento6);
+	pa2m_afirmar(*(int*)arbol->nodo_raiz->elemento == elemento10, "El nodo raiz es 10");
+	int *destruido = abb_quitar(arbol, &elemento10);
+	pa2m_afirmar(*destruido == elemento10, "Se puede quitar un nodo raiz correctamente");
+	pa2m_afirmar(*(int*)arbol->nodo_raiz->elemento == elemento9, "El nodo raiz es 9");
+	destruido = abb_quitar(arbol, &elemento9);
+	pa2m_afirmar(*destruido == elemento9, "Se puede quitar un nodo raiz correctamente");
+	pa2m_afirmar(*(int*)arbol->nodo_raiz->elemento == elemento8, "El nodo raiz es 8");
+	destruido = abb_quitar(arbol, &elemento8);
+	pa2m_afirmar(*destruido == elemento8, "Se puede quitar un nodo raiz correctamente");
+	pa2m_afirmar(*(int*)arbol->nodo_raiz->elemento == elemento7, "El nodo raiz es 7");
+	destruido = abb_quitar(arbol, &elemento7);
+	pa2m_afirmar(*destruido == elemento7, "Se puede quitar un nodo raiz correctamente");
+	pa2m_afirmar(*(int*)arbol->nodo_raiz->elemento == elemento6, "El nodo raiz es 6");
+	destruido = abb_quitar(arbol, &elemento6);
+	pa2m_afirmar(*destruido == elemento6, "Se puede quitar un nodo raiz correctamente");
+	pa2m_afirmar(*(int*)arbol->nodo_raiz->elemento == elemento11, "El nodo raiz es 11");
+	destruido = abb_quitar(arbol, &elemento11);
+	pa2m_afirmar(*destruido == elemento11, "Se puede quitar un nodo raiz correctamente");
+	pa2m_afirmar(*(int*)arbol->nodo_raiz->elemento == elemento12, "El nodo raiz es 12");
+	destruido = abb_quitar(arbol, &elemento12);
+	pa2m_afirmar(*destruido == elemento12, "Se puede quitar un nodo raiz correctamente");
+	pa2m_afirmar(*(int*)arbol->nodo_raiz->elemento == elemento15, "El nodo raiz es 15");
+	destruido = abb_quitar(arbol, &elemento15);
+	pa2m_afirmar(*destruido == elemento15, "Se puede quitar un nodo raiz correctamente");
+	pa2m_afirmar(*(int*)arbol->nodo_raiz->elemento == elemento13, "El nodo raiz es 14");
+	destruido = abb_quitar(arbol, &elemento13);
+	pa2m_afirmar(*destruido == elemento13, "Se puede quitar un nodo raiz correctamente");
+	pa2m_afirmar(*(int*)arbol->nodo_raiz->elemento == elemento14, "El nodo raiz es 13");
+	destruido = abb_quitar(arbol, &elemento14);
+	pa2m_afirmar(*destruido == elemento14, "Se puede quitar un nodo raiz correctamente");
+	pa2m_afirmar(abb_tamanio(arbol) == 0, "El arbol esta vacio");
+	
+
+
+
 	abb_destruir(arbol);
 }
 
@@ -204,6 +289,12 @@ int main()
 
 	pa2m_nuevo_grupo("Pruebas de Quitado");
 	abb_quitar_quita_los_elementos_correctamente();
+
+	pa2m_nuevo_grupo("Mas Pruebas de Quitado");
+	abb_elminiar_sigue_eliminando();
+
+	pa2m_nuevo_grupo("Pruebas de quitar raiz");
+	abb_eliminar_raiz_elimina_la_raiz_correctamente();
 
 	pa2m_nuevo_grupo("Pruebas de Busqueda");
 	abb_buscar_busca_adecuadamente_en_todo_tipo_de_arbol();

@@ -84,7 +84,8 @@ nodo_abb_t *nodo_quitar (nodo_abb_t *nodo, void *elemento, abb_comparador compar
 			return nodo;
 		}
 		else{
-			free(nodo);
+			if(nodo)
+				free(nodo);
 			return NULL;
 		}
 	}

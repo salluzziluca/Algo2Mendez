@@ -45,10 +45,12 @@ void *abb_quitar(abb_t *arbol, void *elemento)
 		return NULL;
 	void *elemento_quitado = NULL;
 
-	if (arbol->tamanio == 1){
-		elemento_quitado = arbol->nodo_raiz->elemento;
-		arbol->nodo_raiz->elemento = NULL;
+	if (arbol->tamanio == 1){ 
+		nodo_abb_t *nodo_quitado = arbol->nodo_raiz;
+		elemento_quitado = nodo_quitado->elemento;
+		arbol->nodo_raiz = NULL;
 		arbol->tamanio--;
+		free(nodo_quitado);
 		return elemento_quitado;
 	}
 	
@@ -82,15 +84,6 @@ size_t abb_tamanio(abb_t *arbol)
 	return arbol->tamanio;
 }
 
-void nodo_destruir(nodo_abb_t *nodo){
-	if(nodo == NULL)
-		return;
-		
-	nodo_destruir(nodo->izquierda);
-	nodo_destruir(nodo->derecha);
-	free(nodo);
-	
-}
 void abb_destruir(abb_t *arbol)
 {
 	if(arbol == NULL)
