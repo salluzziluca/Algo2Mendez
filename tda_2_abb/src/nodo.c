@@ -69,7 +69,7 @@ nodo_abb_t *nodo_quitar (nodo_abb_t *nodo, void *elemento, abb_comparador compar
 	if (comparacion == 0){
 		*elemento_quitado = nodo->elemento;
 		
-		if(nodo->izquierda != NULL && 	nodo->derecha != NULL){
+		if(nodo->izquierda != NULL ||(nodo->izquierda != NULL &&	nodo->derecha != NULL)){
 			nodo_abb_t *nodo_reemplazo = NULL;
 			nodo->izquierda= obtener_predecesor_inorder(nodo->izquierda, &nodo_reemplazo);
 			nodo->elemento = nodo_reemplazo->elemento;
