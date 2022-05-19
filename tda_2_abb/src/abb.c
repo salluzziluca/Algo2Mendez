@@ -101,6 +101,8 @@ void nodo_destruir_todo(nodo_abb_t *nodo, void (*destructor)(void *))
 }
 void abb_destruir_todo(abb_t *arbol, void (*destructor)(void *))
 {
+	if(arbol == NULL)
+		return;
 	nodo_destruir_todo(arbol->nodo_raiz, destructor);
 	free(arbol);
 	return;
@@ -159,7 +161,7 @@ bool recorrer_postorden(nodo_abb_t *nodo, abb_recorrido recorrido, bool (*funcio
 
 
 
-bool nodo_con_cada_elemento(nodo_abb_t *nodo, abb_recorrido recorrido, bool (*funcion)(void *, void *), void *aux, size_t *elementos_recorridos) //TODO: Revisar por que no itera correctamente, hace dibujito no seas pajero
+bool nodo_con_cada_elemento(nodo_abb_t *nodo, abb_recorrido recorrido, bool (*funcion)(void *, void *), void *aux, size_t *elementos_recorridos)
 {
 	switch (recorrido){
 	case INORDEN:

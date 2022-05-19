@@ -100,12 +100,14 @@ nodo_abb_t *nodo_quitar (nodo_abb_t *nodo, void *elemento, abb_comparador compar
 
 size_t nodo_recorrer(nodo_abb_t *nodo, abb_recorrido recorrido, void **array, size_t tamanio_array, size_t elementos_recorridos)
 {
-	if(elementos_recorridos >= tamanio_array)
-		return elementos_recorridos;
+	
 	switch (recorrido){
 	case INORDEN:
 		if (nodo->izquierda)
 			elementos_recorridos = nodo_recorrer(nodo->izquierda, recorrido, array, tamanio_array, elementos_recorridos);
+
+		if(elementos_recorridos >= tamanio_array)
+		return elementos_recorridos;
 
 		array[elementos_recorridos] = nodo->elemento;
 		(elementos_recorridos)++;
@@ -115,6 +117,9 @@ size_t nodo_recorrer(nodo_abb_t *nodo, abb_recorrido recorrido, void **array, si
 		break;
 
 	case PREORDEN:
+		if(elementos_recorridos >= tamanio_array)
+		return elementos_recorridos;
+		
 		array[elementos_recorridos] = nodo->elemento;
 		(elementos_recorridos)++;
 		
@@ -131,6 +136,8 @@ size_t nodo_recorrer(nodo_abb_t *nodo, abb_recorrido recorrido, void **array, si
 
 		if (nodo->derecha)
 			elementos_recorridos = nodo_recorrer(nodo->derecha, recorrido, array, tamanio_array, elementos_recorridos);
+		if(elementos_recorridos >= tamanio_array)
+		return elementos_recorridos;
 		
 		array[elementos_recorridos] = nodo->elemento;
 		(elementos_recorridos)++;

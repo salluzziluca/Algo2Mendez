@@ -77,7 +77,15 @@ void abb_quitar_quita_los_elementos_correctamente()
 	abb_insertar(arbol, &elemento10);
 	int *destruido = abb_quitar(arbol, &elemento10);
 	pa2m_afirmar(*destruido == elemento10, "Se puede quitar un único elemento correctamente");
-	pa2m_afirmar(arbol->nodo_raiz == NULL, "el arbol está vacio");
+	pa2m_afirmar(abb_vacio(arbol) == true, "el arbol está vacio");
+	abb_destruir(arbol);
+
+	arbol = abb_crear(comparar_cosas);
+	abb_insertar(arbol, &elemento10);
+	destruido = abb_quitar(arbol, &elemento10);
+	pa2m_afirmar(*destruido == elemento10, "Se puede quitar un único elemento correctamente");
+	pa2m_afirmar(abb_vacio(arbol) == true, "el arbol está vacio");
+
 	abb_insertar(arbol, &elemento10);
 	abb_insertar(arbol, &elemento9);;
 
@@ -288,7 +296,11 @@ void abb_recorrer_devuelve_todos_los_elementos_recorridos()
 	abb_insertar(arbol, &elemento3);
 	abb_insertar(arbol, &elemento4);
 	size_t recorridos = abb_recorrer(arbol,INORDEN,(void**)elementoss, 2);
-	pa2m_afirmar(recorridos == 2, "Puedo recorrer menos elementos del total");
+	pa2m_afirmar(recorridos == 2, "Puedo recorrer inorder menos elementos del total");
+	recorridos = abb_recorrer(arbol,POSTORDEN,(void**)elementoss, 2);
+	pa2m_afirmar(recorridos == 2, "Puedo recorrer postorden menos elementos del total");
+	recorridos = abb_recorrer(arbol,PREORDEN,(void**)elementoss, 2);
+	pa2m_afirmar(recorridos == 2, "Puedo recorrer preorder menos elementos del total");
 
 	abb_destruir(arbol);
 
