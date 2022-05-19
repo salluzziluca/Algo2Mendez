@@ -256,6 +256,7 @@ void abb_recorrer_devuelve_todos_los_elementos_recorridos()
 	abb_t *arbol = NULL;
 	int *elementos[10];
 	
+	
 	pa2m_afirmar(abb_recorrer(arbol,INORDEN,(void**)elementos, 10) == 0, "Se puede llamar a abb_recorrer con arbol nulo y devuelve 0");
 	pa2m_afirmar(abb_con_cada_elemento(arbol, INORDEN, funcion_iteradora, NULL) == 0, "Se puede llamar a abb_con_cada_elemento con arbol nulo y devuelve 0");
 	
@@ -279,6 +280,20 @@ void abb_recorrer_devuelve_todos_los_elementos_recorridos()
 	pa2m_afirmar(abb_con_cada_elemento(arbol, INORDEN, NULL, NULL) == 0, "Se puede llamar a abb_con_cada_elemento con funcion NULL y devuelve cero");
 
 	abb_destruir(arbol);
+
+	int *elementoss[2];
+	arbol = abb_crear(comparar_cosas);
+
+	abb_insertar(arbol, &elemento2);
+	abb_insertar(arbol, &elemento3);
+	abb_insertar(arbol, &elemento4);
+	size_t recorridos = abb_recorrer(arbol,INORDEN,(void**)elementoss, 2);
+	pa2m_afirmar(recorridos == 2, "Puedo recorrer menos elementos del total");
+
+	abb_destruir(arbol);
+
+
+
 }
 int main()
 {

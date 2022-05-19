@@ -69,7 +69,7 @@ nodo_abb_t *nodo_quitar (nodo_abb_t *nodo, void *elemento, abb_comparador compar
 	if (comparacion == 0){
 		*elemento_quitado = nodo->elemento;
 		
-		if(nodo->izquierda != NULL && 	nodo->derecha != NULL){
+		if(nodo->izquierda != NULL || (nodo->izquierda != NULL && 	nodo->derecha != NULL)){
 			nodo_abb_t *nodo_reemplazo = NULL;
 			nodo->izquierda= obtener_predecesor_inorder(nodo->izquierda, &nodo_reemplazo);
 			nodo->elemento = nodo_reemplazo->elemento;
@@ -100,6 +100,8 @@ nodo_abb_t *nodo_quitar (nodo_abb_t *nodo, void *elemento, abb_comparador compar
 
 size_t nodo_recorrer(nodo_abb_t *nodo, abb_recorrido recorrido, void **array, size_t tamanio_array, size_t elementos_recorridos)
 {
+	if(elementos_recorridos >= tamanio_array)
+		return elementos_recorridos;
 	switch (recorrido){
 	case INORDEN:
 		if (nodo->izquierda)
