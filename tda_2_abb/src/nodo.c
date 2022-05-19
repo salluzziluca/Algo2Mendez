@@ -69,25 +69,26 @@ nodo_abb_t *nodo_quitar (nodo_abb_t *nodo, void *elemento, abb_comparador compar
 	if (comparacion == 0){
 		*elemento_quitado = nodo->elemento;
 		
-		if(nodo->izquierda != NULL){
+		if(nodo->izquierda != NULL && 	nodo->derecha != NULL){
 			nodo_abb_t *nodo_reemplazo = NULL;
 			nodo->izquierda= obtener_predecesor_inorder(nodo->izquierda, &nodo_reemplazo);
 			nodo->elemento = nodo_reemplazo->elemento;
 			free(nodo_reemplazo);
 			return nodo;
 		}
-		else if(nodo->derecha != NULL){
-			nodo_abb_t *nodo_aux = nodo->derecha;
-			nodo->elemento = nodo->derecha->elemento;
-			nodo->derecha = nodo->derecha->derecha;
+		else{
+			nodo_abb_t *nodo_aux = nodo;
+
+			if(nodo->izquierda != NULL)
+				nodo = nodo->izquierda;
+			else if(nodo->derecha != NULL)
+				nodo = nodo->derecha;
+			else
+				nodo = NULL;
 			free(nodo_aux);
 			return nodo;
 		}
-		else{
-			if(nodo)
-				free(nodo);
-			return NULL;
-		}
+	
 	}
 
 	if (comparacion < 0)

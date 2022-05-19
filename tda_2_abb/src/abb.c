@@ -3,8 +3,6 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-
-
 abb_t *abb_crear(abb_comparador comparador)
 {
 	if(comparador == NULL)
@@ -54,7 +52,7 @@ void *abb_quitar(abb_t *arbol, void *elemento)
 		return elemento_quitado;
 	}
 	
-	nodo_quitar(arbol->nodo_raiz, elemento, arbol->comparador, &elemento_quitado);
+	arbol->nodo_raiz =  nodo_quitar(arbol->nodo_raiz, elemento, arbol->comparador, &elemento_quitado);
 	
 	
 	if((elemento_quitado != NULL) && (*(int*)elemento_quitado == *(int*)elemento))

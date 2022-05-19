@@ -1,7 +1,7 @@
 #ifndef MOSTRAR_ABB_H_
 #define MOSTRAR_ABB_H_
 
-#include "abb.h"
+#include "src/abb.h"
 
 #define MAX_ARBOL 1500
 
