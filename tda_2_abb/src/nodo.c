@@ -90,6 +90,28 @@ void *nodo_buscar(nodo_abb_t *nodo, void *elemento, abb_comparador comparador){
 	return NULL;
 }
 
+/*
+* Recorre ie
+*
+*/
+void nodo_destruir_todo(nodo_abb_t *nodo, void (*destructor)(void *))
+{
+	if(nodo == NULL)
+		return;
+	
+	if(nodo->izquierda != NULL)
+		nodo_destruir_todo(nodo->izquierda, destructor);
+	
+	if(nodo->derecha != NULL)
+		nodo_destruir_todo(nodo->derecha, destructor);
+	
+	if(destructor != NULL)
+		destructor(nodo->elemento);
+		
+	free(nodo);
+
+	return;
+}
 
 void *obtener_predecesor_inorder(nodo_abb_t *nodo, nodo_abb_t **nodo_reemplazo)
 {
