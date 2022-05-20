@@ -1,2 +1,6 @@
-**/tda_lista/ejemplo
-**/tda_lista/pruebas
+.lst
+*.o
+*.eep
+*.lss
+*.map
+*.sym
