@@ -50,7 +50,7 @@ void *abb_quitar(abb_t *arbol, void *elemento)
 
 void *abb_buscar(abb_t *arbol, void *elemento)
 {
-	if (arbol == NULL || arbol->tamanio == 0)
+	if (arbol == NULL || arbol->tamanio == 0 || arbol->comparador == NULL)
 		return NULL;
 	return nodo_buscar(arbol->nodo_raiz, elemento, arbol->comparador);;	
 }

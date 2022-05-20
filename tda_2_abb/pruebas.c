@@ -76,8 +76,7 @@ void abb_quitar_quita_los_elementos_correctamente()
 	arbol = abb_crear(comparar_cosas);
 	arbol->comparador = NULL;
 	abb_insertar(arbol, &elemento10);
-	void *destruido_null = abb_quitar(arbol, &elemento10);
-	pa2m_afirmar(destruido_null == NULL, "Se puede llamar a quitar con comparador nulo y devuelve NULL");
+	pa2m_afirmar(abb_quitar(arbol, &elemento10) == NULL, "Se puede llamar a quitar con comparador nulo y devuelve NULL");
 
 	arbol->comparador = comparar_cosas;
 	int *destruido = abb_quitar(arbol, &elemento10);
@@ -238,6 +237,9 @@ void abb_buscar_busca_adecuadamente_en_todo_tipo_de_arbol()
 	abb_t *arbol = NULL;
 	pa2m_afirmar(abb_buscar(arbol , &elemento1)== NULL, "Buscar elemento en arbol nulo devuelve NULL");
 	arbol = abb_crear(comparar_cosas);
+	arbol->comparador = NULL;
+	pa2m_afirmar(abb_buscar(arbol , &elemento1)== NULL, "Buscar elemento en arbol con comparador nulo devuelve NULL");
+	arbol->comparador = comparar_cosas;
 	pa2m_afirmar(abb_buscar(arbol, &elemento1) == NULL, "Se puede buscar elemento en arbol vacio y devuelve NULL");
 	abb_insertar(arbol, &elemento1);
 	abb_insertar(arbol, &elemento2);
