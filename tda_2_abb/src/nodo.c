@@ -15,7 +15,7 @@ nodo_abb_t *nodo_insertar(nodo_abb_t *nodo, void *elemento, abb_comparador compa
 		return nodo;
 	}
 
-	if(nodo->elemento == NULL){
+	if(nodo->elemento == NULL){ //TODO: ver si puedo hacer que llene el nodo pero sin que no pueda cargar elementos nulos, fijame bajo que condicion
 		nodo->elemento = elemento;
 		return nodo;
 	}
@@ -29,33 +29,6 @@ nodo_abb_t *nodo_insertar(nodo_abb_t *nodo, void *elemento, abb_comparador compa
 		nodo->izquierda = nodo_insertar(nodo->izquierda, elemento, comparador);
 
 	
-	return nodo;
-}
-
-void *nodo_buscar(nodo_abb_t *nodo, void *elemento, abb_comparador comparador){
-	if(nodo == NULL)
-		return NULL;
-
-	int comparacion = comparador(elemento, nodo->elemento);
-
-	if(comparacion == 0){
-		return nodo->elemento;
-	}
-	else if(comparacion > 0)
-		return nodo_buscar(nodo->derecha, elemento, comparador);
-	else if(comparacion < 0)
-		return nodo_buscar(nodo->izquierda, elemento, comparador);
-	return NULL;
-}
-
-
-void *obtener_predecesor_inorder(nodo_abb_t *nodo, nodo_abb_t **nodo_reemplazo)
-{
-	if(nodo->derecha == NULL){
-		*nodo_reemplazo = nodo;
-		return nodo->izquierda;
-	}
-	nodo->derecha = obtener_predecesor_inorder(nodo->derecha, nodo_reemplazo);
 	return nodo;
 }
 
@@ -100,6 +73,34 @@ nodo_abb_t *nodo_quitar (nodo_abb_t *nodo, void *elemento, abb_comparador compar
 
 	return nodo;
 }
+
+void *nodo_buscar(nodo_abb_t *nodo, void *elemento, abb_comparador comparador){
+	if(nodo == NULL)
+		return NULL;
+
+	int comparacion = comparador(elemento, nodo->elemento);
+
+	if(comparacion == 0){
+		return nodo->elemento;
+	}
+	else if(comparacion > 0)
+		return nodo_buscar(nodo->derecha, elemento, comparador);
+	else if(comparacion < 0)
+		return nodo_buscar(nodo->izquierda, elemento, comparador);
+	return NULL;
+}
+
+
+void *obtener_predecesor_inorder(nodo_abb_t *nodo, nodo_abb_t **nodo_reemplazo)
+{
+	if(nodo->derecha == NULL){
+		*nodo_reemplazo = nodo;
+		return nodo->izquierda;
+	}
+	nodo->derecha = obtener_predecesor_inorder(nodo->derecha, nodo_reemplazo);
+	return nodo;
+}
+
 
 size_t nodo_recorrer(nodo_abb_t *nodo, abb_recorrido recorrido, void **array, size_t tamanio_array, size_t elementos_recorridos)
 {

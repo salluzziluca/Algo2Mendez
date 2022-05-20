@@ -74,7 +74,12 @@ void abb_quitar_quita_los_elementos_correctamente()
 	pa2m_afirmar(abb_quitar(arbol, &elemento10) == NULL, "Se puede llamar a abb_quitar en arbol nulo y devuelve NULL");
 
 	arbol = abb_crear(comparar_cosas);
+	arbol->comparador = NULL;
 	abb_insertar(arbol, &elemento10);
+	void *destruido_null = abb_quitar(arbol, &elemento10);
+	pa2m_afirmar(destruido_null == NULL, "Se puede llamar a quitar con comparador nulo y devuelve NULL");
+
+	arbol->comparador = comparar_cosas;
 	int *destruido = abb_quitar(arbol, &elemento10);
 	pa2m_afirmar(*destruido == elemento10, "Se puede quitar un único elemento correctamente");
 	pa2m_afirmar(abb_vacio(arbol) == true, "el arbol está vacio");

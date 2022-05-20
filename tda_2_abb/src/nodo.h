@@ -14,6 +14,14 @@
 nodo_abb_t *nodo_insertar(nodo_abb_t *nodo, void *elemento, abb_comparador comparador);
 
 /*
+* Recibe el nodo actual, el elemento a quitar, el comparador, y un puntero a elemento.
+* Si el nodo actual es válido, se compara el elemento con el elemento del nodo actual.
+* De no se iguales, se iterara recursivamente a la derecha o a la izquierda, respectivamente.
+* Si se encuentra el elemento a quitar, 
+*/
+nodo_abb_t *nodo_quitar(nodo_abb_t *nodo, void *elemento, abb_comparador comparador, void **elemento_quitado, size_t *tamanio);
+
+/*
 * Itera recursivamente por el arbol comparando el elemento igresado por parametro con 
 * el elemento del nodo actual. Si el comparador devuelve 0, los elementos son iguales
 * y la funcion lo duelve. De lo contrario, itera al proximo nodo. Al derecho si
@@ -30,13 +38,6 @@ void *nodo_buscar(nodo_abb_t *nodo, void *elemento, abb_comparador comparador);
 */
 void *obtener_predecesor_inorder(nodo_abb_t *nodo, nodo_abb_t **nodo_reemplazo);
 
-/*
-* Recibe el nodo actual, el elemento a quitar, el comparador, y un puntero a elemento.
-* Si el nodo actual es válido, se compara el elemento con el elemento del nodo actual.
-* De no se iguales, se iterara recursivamente a la derecha o a la izquierda, respectivamente.
-* Si se encuentra el elemento a quitar, 
-*/
-nodo_abb_t *nodo_quitar(nodo_abb_t *nodo, void *elemento, abb_comparador comparador, void **elemento_quitado, size_t *tamanio);
 
 /*
 * Recibe un arbol, si no es nulo ni vacio, recorre los nodos segun el tipo de recorrido especificado, 
