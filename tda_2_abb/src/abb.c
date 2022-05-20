@@ -39,22 +39,18 @@ abb_t *abb_insertar(abb_t *arbol, void *elemento)
 
 void *abb_quitar(abb_t *arbol, void *elemento)
 {
-	if (arbol == NULL|| elemento == NULL || arbol->tamanio == 0)
+	if (arbol == NULL || arbol->tamanio == 0 || arbol->comparador == NULL)
 		return NULL;
 	void *elemento_quitado = NULL;
 	
-	arbol->nodo_raiz =  nodo_quitar(arbol->nodo_raiz, elemento, arbol->comparador, &elemento_quitado);
-	
-	
-	if((elemento_quitado != NULL) && (*(int*)elemento_quitado == *(int*)elemento))
-		arbol->tamanio--;
+	arbol->nodo_raiz =  nodo_quitar(arbol->nodo_raiz, elemento, arbol->comparador, &elemento_quitado, &arbol->tamanio);
 
 	return elemento_quitado;
 }
 
 void *abb_buscar(abb_t *arbol, void *elemento)
 {
-	if (arbol == NULL || arbol->tamanio == 0)
+	if (arbol == NULL || arbol->tamanio == 0 || arbol->comparador == NULL)
 		return NULL;
 	return nodo_buscar(arbol->nodo_raiz, elemento, arbol->comparador);;	
 }
@@ -68,7 +64,7 @@ bool abb_vacio(abb_t *arbol)
 
 size_t abb_tamanio(abb_t *arbol)
 {
-	if(arbol == NULL || arbol->tamanio == 0)
+	if(arbol == NULL)
 		return 0;
 	return arbol->tamanio;
 }
@@ -81,26 +77,11 @@ void abb_destruir(abb_t *arbol)
 	return;
 }
 
-void nodo_destruir_todo(nodo_abb_t *nodo, void (*destructor)(void *))
-{
-	if(nodo == NULL)
-		return;
-	
-	if(nodo->izquierda != NULL)
-		nodo_destruir_todo(nodo->izquierda, destructor);
-	
-	if(nodo->derecha != NULL)
-		nodo_destruir_todo(nodo->derecha, destructor);
-	
-	if(destructor != NULL)
-		destructor(nodo->elemento);
-		
-	free(nodo);
 
-	return;
-}
 void abb_destruir_todo(abb_t *arbol, void (*destructor)(void *))
 {
+	if(arbol == NULL)
+		return;
 	nodo_destruir_todo(arbol->nodo_raiz, destructor);
 	free(arbol);
 	return;
@@ -159,7 +140,7 @@ bool recorrer_postorden(nodo_abb_t *nodo, abb_recorrido recorrido, bool (*funcio
 
 
 
-bool nodo_con_cada_elemento(nodo_abb_t *nodo, abb_recorrido recorrido, bool (*funcion)(void *, void *), void *aux, size_t *elementos_recorridos) //TODO: Revisar por que no itera correctamente, hace dibujito no seas pajero
+bool nodo_con_cada_elemento(nodo_abb_t *nodo, abb_recorrido recorrido, bool (*funcion)(void *, void *), void *aux, size_t *elementos_recorridos)
 {
 	switch (recorrido){
 	case INORDEN:
