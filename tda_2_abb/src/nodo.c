@@ -200,7 +200,8 @@ bool nodo_con_cada_elemento(nodo_abb_t *nodo, abb_recorrido recorrido, bool (*fu
 	return true;		
 }
 
-size_t inorder_recorrer(nodo_abb_t *nodo, void **array, size_t tamanio_array, size_t elementos_recorridos){
+size_t inorder_recorrer(nodo_abb_t *nodo, void **array, size_t tamanio_array, size_t elementos_recorridos)
+{
 	if (nodo->izquierda)
 		elementos_recorridos = inorder_recorrer(nodo->izquierda, array, tamanio_array, elementos_recorridos);
 
@@ -215,7 +216,8 @@ size_t inorder_recorrer(nodo_abb_t *nodo, void **array, size_t tamanio_array, si
 	return elementos_recorridos;
 }
 
-size_t preorder_recorrer(nodo_abb_t *nodo, void **array, size_t tamanio_array, size_t elementos_recorridos){
+size_t preorder_recorrer(nodo_abb_t *nodo, void **array, size_t tamanio_array, size_t elementos_recorridos)
+{
 
 	if(elementos_recorridos >= tamanio_array)
 		return elementos_recorridos;
@@ -231,6 +233,22 @@ size_t preorder_recorrer(nodo_abb_t *nodo, void **array, size_t tamanio_array, s
 	
 	return elementos_recorridos;
 }
+
+size_t postorder_recorrer(nodo_abb_t *nodo, void **array, size_t tamanio_array, size_t elementos_recorridos)
+{
+	if (nodo->izquierda)
+		elementos_recorridos = postorder_recorrer(nodo->izquierda, array, tamanio_array, elementos_recorridos);
+
+	if (nodo->derecha)
+		elementos_recorridos = postorder_recorrer(nodo->derecha, array, tamanio_array, elementos_recorridos);
+	if(elementos_recorridos >= tamanio_array)
+		return elementos_recorridos;
+	
+	array[elementos_recorridos] = nodo->elemento;
+	(elementos_recorridos)++;
+	return elementos_recorridos;
+}
+
 size_t nodo_recorrer(nodo_abb_t *nodo, abb_recorrido recorrido, void **array, size_t tamanio_array, size_t elementos_recorridos)
 {
 	
@@ -244,16 +262,7 @@ size_t nodo_recorrer(nodo_abb_t *nodo, abb_recorrido recorrido, void **array, si
 		break;
 
 	case POSTORDEN:
-		if (nodo->izquierda)
-			elementos_recorridos = nodo_recorrer(nodo->izquierda, recorrido, array, tamanio_array, elementos_recorridos);
-
-		if (nodo->derecha)
-			elementos_recorridos = nodo_recorrer(nodo->derecha, recorrido, array, tamanio_array, elementos_recorridos);
-		if(elementos_recorridos >= tamanio_array)
-		return elementos_recorridos;
-		
-		array[elementos_recorridos] = nodo->elemento;
-		(elementos_recorridos)++;
+		elementos_recorridos = postorder_recorrer(nodo, array, tamanio_array, elementos_recorridos);
 		break; 
 	default:
 		break;

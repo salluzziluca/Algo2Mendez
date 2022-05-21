@@ -96,6 +96,14 @@ size_t inorder_recorrer(nodo_abb_t *nodo, void **array, size_t tamanio_array, si
 size_t preorder_recorrer(nodo_abb_t *nodo, void **array, size_t tamanio_array, size_t elementos_recorridos);
 
 /*
+* Recibe un array de punteros a nodos y la cantidad maxima del mismo.
+* Recorre el arbol en forma postorden y a medida que avanza entre elementos
+* almacena los nodos recorridos en el array.
+* Finaliza la iteración cuando no hay mas nodos por recorrer o cuando se alcanza
+* el tamanio maximo del array.
+*/
+size_t postorder_recorrer(nodo_abb_t *nodo, void **array, size_t tamanio_array, size_t elementos_recorridos);
+/*
 * Recibe un arbol, si no es nulo ni vacio, recorre los nodos segun el tipo de recorrido especificado, 
 * a medida que avanza entre nodos, incrementa el contador de elementos recorridos.
 * Devuelve el contador de elementos recorridos. Si el arbol es nulo o vacio, devuelve 0.
