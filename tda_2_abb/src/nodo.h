@@ -45,12 +45,36 @@ void nodo_destruir_todo(nodo_abb_t *nodo, void (*destructor)(void *));
 */
 void *obtener_predecesor_inorder(nodo_abb_t *nodo, nodo_abb_t **nodo_reemplazo);
 
-bool recorrer_inorder(nodo_abb_t *nodo, bool (*funcion)(void *, void *), void *aux, size_t *elementos_recorridos);
+/*
+* Itera recursivamente de forma inorden (izquierda, elemento, derecha) invocando a la funcion
+* pasada como parametro en cada uno de los elementos del arbol.
+* Si la funcion devuelve false, corta la iteracion.
+* A medida que se recorre el arbol, se incrementa el contador de elementos recorridos.
+*/
+bool inorder_con_cada_elemento(nodo_abb_t *nodo, bool (*funcion)(void *, void *), void *aux, size_t *elementos_recorridos);
 
-bool recorrer_preorder(nodo_abb_t *nodo, bool (*funcion)(void *, void *), void *aux, size_t *elementos_recorridos);
+/*
+* Itera recursivamente de forma preorden (elemento, izquierda, derecha) invocando a la funcion
+* pasada como parametro en cada uno de los elementos del arbol.
+* Si la funcion devuelve false, corta la iteracion.
+* A medida que se recorre el arbol, se incrementa el contador de elementos recorridos.
+*/
+bool preorder_con_cada_elemento(nodo_abb_t *nodo, bool (*funcion)(void *, void *), void *aux, size_t *elementos_recorridos);
 
-bool recorrer_postorden(nodo_abb_t *nodo, bool (*funcion)(void *, void *), void *aux, size_t *elementos_recorridos);
+/*
+* Itera recursivamente de forma postorden (izquierda, derecha, elemento) invocando a la funcion
+* pasada como parametro en cada uno de los elementos del arbol.
+* Si la funcion devuelve false, corta la iteracion.
+* A medida que se recorre el arbol, se incrementa el contador de elementos recorridos.
+*/
+bool postorden_con_cada_elemento(nodo_abb_t *nodo, bool (*funcion)(void *, void *), void *aux, size_t *elementos_recorridos);
 
+/*
+* Recibe un tipo de recorrido especificado por el usuario y una funcion.
+* Segun el tipo de recorrido, invoca a la funcion 
+* en cada uno de los elementos del arbol en diferente orden.
+* A medida que se recorre el arbol, se incrementa el contador de elementos recorridos.
+*/
 bool nodo_con_cada_elemento(nodo_abb_t *nodo, abb_recorrido , bool (*funcion)(void *, void *), void *aux, size_t *elementos_recorridos);
 
 
