@@ -31,12 +31,27 @@ nodo_abb_t *nodo_quitar(nodo_abb_t *nodo, void *elemento, abb_comparador compara
 void *nodo_buscar(nodo_abb_t *nodo, void *elemento, abb_comparador comparador);
 
 /*
+* Recibe un nodo y una funcion destructora.
+* Recorre el arbol de forma postorden y destruye, segun el criterio del usuario, 
+* los elementos de los nodos. Luego, libera la memoria asignada al nodo.
+*/
+void nodo_destruir_todo(nodo_abb_t *nodo, void (*destructor)(void *));
+
+/*
 * Recibe un nodo y un puntero a un nodo.
 * Itera recursivamente el arbol hasta encontrar el nodo mas grande dentro de la rama actual.
 * De encontrarlo, se apunta el puntero pasado por parametro al nodo actual.
 * Devuelve el nodo izquierda del nodo mayor de esa rama, este puede ser o no NULL.
 */
 void *obtener_predecesor_inorder(nodo_abb_t *nodo, nodo_abb_t **nodo_reemplazo);
+
+bool recorrer_inorder(nodo_abb_t *nodo, bool (*funcion)(void *, void *), void *aux, size_t *elementos_recorridos);
+
+bool recorrer_preorder(nodo_abb_t *nodo, bool (*funcion)(void *, void *), void *aux, size_t *elementos_recorridos);
+
+bool recorrer_postorden(nodo_abb_t *nodo, bool (*funcion)(void *, void *), void *aux, size_t *elementos_recorridos);
+
+bool nodo_con_cada_elemento(nodo_abb_t *nodo, abb_recorrido , bool (*funcion)(void *, void *), void *aux, size_t *elementos_recorridos);
 
 
 /*

@@ -90,10 +90,6 @@ void *nodo_buscar(nodo_abb_t *nodo, void *elemento, abb_comparador comparador){
 	return NULL;
 }
 
-/*
-* Recorre ie
-*
-*/
 void nodo_destruir_todo(nodo_abb_t *nodo, void (*destructor)(void *))
 {
 	if(nodo == NULL)
@@ -122,7 +118,90 @@ void *obtener_predecesor_inorder(nodo_abb_t *nodo, nodo_abb_t **nodo_reemplazo)
 	nodo->derecha = obtener_predecesor_inorder(nodo->derecha, nodo_reemplazo);
 	return nodo;
 }
+/*
+* Recibe un nodo, 
+* Itera recursivamente de forma inorden (izquierda, elemento, derecha) hasta que la comparacion devuelva false.
+*
+*/
+bool recorrer_inorder(nodo_abb_t *nodo, bool (*funcion)(void *, void *), void *aux, size_t *elementos_recorridos){
+	if(!nodo)
+		return true;
+		
+	if(recorrer_inorder(nodo->izquierda, funcion, aux, elementos_recorridos)== false)
+		return false;
 
+	(*elementos_recorridos)++;
+	if (!funcion(nodo->elemento, aux))
+		return false;
+	
+	if(recorrer_inorder(nodo->derecha, funcion, aux, elementos_recorridos) == false)
+		return false;
+	return true;
+}
+
+bool recorrer_preorder(nodo_abb_t *nodo, bool (*funcion)(void *, void *), void *aux, size_t *elementos_recorridos){
+
+	if(!nodo)
+		return true;
+
+	(*elementos_recorridos)++;
+	if (!funcion(nodo->elemento, aux))
+			return false;
+	if(recorrer_preorder(nodo->izquierda, funcion, aux, elementos_recorridos) == false)
+		return false;
+	if(recorrer_preorder(nodo->derecha, funcion, aux, elementos_recorridos) == false)
+		return false;
+	return true;
+}
+
+bool recorrer_postorden(nodo_abb_t *nodo, bool (*funcion)(void *, void *), void *aux, size_t *elementos_recorridos)
+{
+	if(!nodo)
+		return true;
+			
+	if(recorrer_postorden(nodo->izquierda, funcion, aux, elementos_recorridos) == false)
+		return false;
+
+	if(recorrer_postorden(nodo->derecha, funcion, aux, elementos_recorridos) == false)
+		return false;
+	
+	(*elementos_recorridos)++;
+
+	if (!funcion(nodo->elemento, aux))
+		return false;
+
+	return true;
+}
+
+
+
+
+
+bool nodo_con_cada_elemento(nodo_abb_t *nodo, abb_recorrido recorrido, bool (*funcion)(void *, void *), void *aux, size_t *elementos_recorridos)
+{
+	switch (recorrido){
+	case INORDEN:
+
+		recorrer_inorder(nodo, funcion, aux, elementos_recorridos);
+		break;
+
+	case PREORDEN:
+		
+		recorrer_preorder(nodo, funcion, aux, elementos_recorridos);
+
+		break;
+
+	case POSTORDEN:
+		
+		recorrer_postorden(nodo, funcion, aux, elementos_recorridos);
+
+		break;
+
+	default:
+		break;
+	}
+	return true;		
+}
 
 size_t nodo_recorrer(nodo_abb_t *nodo, abb_recorrido recorrido, void **array, size_t tamanio_array, size_t elementos_recorridos)
 {
