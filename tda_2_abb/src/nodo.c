@@ -6,16 +6,12 @@
 #define POSTORDEN 2
 
 nodo_abb_t *nodo_insertar(nodo_abb_t *nodo, void *elemento, abb_comparador comparador){
+	
 	if (nodo == NULL){
 		nodo_abb_t *nodo = calloc(1, sizeof(nodo_abb_t));
 		if (nodo == NULL){
 			return NULL;
 		}
-		nodo->elemento = elemento;
-		return nodo;
-	}
-
-	if(nodo->elemento == NULL){ //TODO: ver si puedo hacer que llene el nodo pero sin que no pueda cargar elementos nulos, fijame bajo que condicion
 		nodo->elemento = elemento;
 		return nodo;
 	}
@@ -44,10 +40,13 @@ nodo_abb_t *nodo_quitar (nodo_abb_t *nodo, void *elemento, abb_comparador compar
 		
 		if(nodo->izquierda != NULL || (nodo->izquierda != NULL && nodo->derecha != NULL)){
 			nodo_abb_t *nodo_reemplazo = NULL;
+
 			nodo->izquierda= obtener_predecesor_inorder(nodo->izquierda, &nodo_reemplazo);
 			nodo->elemento = nodo_reemplazo->elemento;
+
 			free(nodo_reemplazo);
 			(*tamanio)--;
+
 			return nodo;
 		}
 		else{
@@ -55,10 +54,13 @@ nodo_abb_t *nodo_quitar (nodo_abb_t *nodo, void *elemento, abb_comparador compar
 
 			if(nodo->izquierda != NULL)
 				nodo = nodo->izquierda;
+
 			else if(nodo->derecha != NULL)
 				nodo = nodo->derecha;
+
 			else
 				nodo = NULL;
+
 			(*tamanio)--;
 			free(nodo_aux);
 
@@ -69,6 +71,7 @@ nodo_abb_t *nodo_quitar (nodo_abb_t *nodo, void *elemento, abb_comparador compar
 
 	if (comparacion < 0)
 		nodo->izquierda = nodo_quitar(nodo->izquierda, elemento, comparador, elemento_quitado, tamanio);
+
 	else nodo->derecha = nodo_quitar(nodo->derecha, elemento, comparador, elemento_quitado, tamanio);
 
 	return nodo;
@@ -132,6 +135,7 @@ bool inorder_con_cada_elemento(nodo_abb_t *nodo, bool (*funcion)(void *, void *)
 	
 	if(inorder_con_cada_elemento(nodo->derecha, funcion, aux, elementos_recorridos) == false)
 		return false;
+		
 	return true;
 }
 
@@ -143,8 +147,10 @@ bool preorder_con_cada_elemento(nodo_abb_t *nodo, bool (*funcion)(void *, void *
 	(*elementos_recorridos)++;
 	if (!funcion(nodo->elemento, aux))
 			return false;
+
 	if(preorder_con_cada_elemento(nodo->izquierda, funcion, aux, elementos_recorridos) == false)
 		return false;
+
 	if(preorder_con_cada_elemento(nodo->derecha, funcion, aux, elementos_recorridos) == false)
 		return false;
 	return true;
@@ -237,6 +243,7 @@ size_t postorder_recorrer(nodo_abb_t *nodo, void **array, size_t tamanio_array, 
 
 	if (nodo->derecha)
 		elementos_recorridos = postorder_recorrer(nodo->derecha, array, tamanio_array, elementos_recorridos);
+
 	if(elementos_recorridos >= tamanio_array)
 		return elementos_recorridos;
 	
@@ -251,16 +258,20 @@ size_t nodo_recorrer(nodo_abb_t *nodo, abb_recorrido recorrido, void **array, si
 	
 	switch (recorrido){
 	case INORDEN:
+
 		elementos_recorridos = inorder_recorrer(nodo, array, tamanio_array, elementos_recorridos);
 		break;
 
 	case PREORDEN:
+
 		elementos_recorridos = preorder_recorrer(nodo, array, tamanio_array, elementos_recorridos);
 		break;
 
 	case POSTORDEN:
+
 		elementos_recorridos = postorder_recorrer(nodo, array, tamanio_array, elementos_recorridos);
 		break; 
+
 	default:
 		break;
 	}
