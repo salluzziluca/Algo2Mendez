@@ -86,6 +86,13 @@ bool nodo_con_cada_elemento(nodo_abb_t *nodo, abb_recorrido , bool (*funcion)(vo
 */
 size_t inorder_recorrer(nodo_abb_t *nodo, void **array, size_t tamanio_array, size_t elementos_recorridos);
 
+/*
+* Recibe un array de punteros a nodos y la cantidad maxima del mismo.
+* Recorre el arbol en forma preorder y a medida que avanza entre elementos
+* almacena los nodos recorridos en el array.
+* Finaliza la iteración cuando no hay mas nodos por recorrer o cuando se alcanza
+* el tamanio maximo del array.
+*/
 size_t preorder_recorrer(nodo_abb_t *nodo, void **array, size_t tamanio_array, size_t elementos_recorridos);
 
 /*
