@@ -178,20 +178,16 @@ bool nodo_con_cada_elemento(nodo_abb_t *nodo, abb_recorrido recorrido, bool (*fu
 {
 	switch (recorrido){
 	case INORDEN:
-
 		inorder_con_cada_elemento(nodo, funcion, aux, elementos_recorridos);
 		break;
 
 	case PREORDEN:
-		
+	
 		preorder_con_cada_elemento(nodo, funcion, aux, elementos_recorridos);
-
 		break;
 
 	case POSTORDEN:
-		
 		postorden_con_cada_elemento(nodo, funcion, aux, elementos_recorridos);
-
 		break;
 
 	default:
@@ -246,6 +242,7 @@ size_t postorder_recorrer(nodo_abb_t *nodo, void **array, size_t tamanio_array, 
 	
 	array[elementos_recorridos] = nodo->elemento;
 	(elementos_recorridos)++;
+
 	return elementos_recorridos;
 }
 

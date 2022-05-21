@@ -83,6 +83,7 @@ bool nodo_con_cada_elemento(nodo_abb_t *nodo, abb_recorrido , bool (*funcion)(vo
 * almacena los nodos recorridos en el array.
 * Finaliza la iteración cuando no hay mas nodos por recorrer o cuando se alcanza
 * el tamanio maximo del array.
+* Devuelve la cantidad de elementos recorridos
 */
 size_t inorder_recorrer(nodo_abb_t *nodo, void **array, size_t tamanio_array, size_t elementos_recorridos);
 
@@ -92,6 +93,7 @@ size_t inorder_recorrer(nodo_abb_t *nodo, void **array, size_t tamanio_array, si
 * almacena los nodos recorridos en el array.
 * Finaliza la iteración cuando no hay mas nodos por recorrer o cuando se alcanza
 * el tamanio maximo del array.
+* Devuelve la cantidad de elementos recorridos
 */
 size_t preorder_recorrer(nodo_abb_t *nodo, void **array, size_t tamanio_array, size_t elementos_recorridos);
 
@@ -101,13 +103,15 @@ size_t preorder_recorrer(nodo_abb_t *nodo, void **array, size_t tamanio_array, s
 * almacena los nodos recorridos en el array.
 * Finaliza la iteración cuando no hay mas nodos por recorrer o cuando se alcanza
 * el tamanio maximo del array.
+* Devuelve la cantidad de elementos recorridos
 */
 size_t postorder_recorrer(nodo_abb_t *nodo, void **array, size_t tamanio_array, size_t elementos_recorridos);
 /*
 * Recibe un arbol, si no es nulo ni vacio, recorre los nodos segun el tipo de recorrido especificado, 
-* a medida que avanza entre nodos, incrementa el contador de elementos recorridos.
+* a medida que avanza entre nodos, los agrega al vector e incrementa el contador de elementos recorridos.
+* La iteración finaliza cuando no hay mas nodos por recorrer o cuando se alcanza el tamanio maximo del vector.
 * Devuelve el contador de elementos recorridos. Si el arbol es nulo o vacio, devuelve 0.
-*/ //TODO: arreglar y revisar este comentario
+*/
 
 size_t nodo_recorrer(nodo_abb_t *nodo, abb_recorrido recorrido, void **array, size_t tamanio_array, size_t elementos_recorridos);
 
