@@ -31,7 +31,7 @@ valgreen-interactivo: interactivo
 	valgreen $(VALGRIND_FLAGS) ./interactivo
 
 interactivo: *.c *.h
-	$(CC) $(CFLAGS) src/abb.c mostrar_abb.c interactivo.c -o interactivo 2>&1
+	$(CC) $(CFLAGS) src/abb.c src/nodo.c mostrar_abb.c interactivo.c -o interactivo 2>&1
 
 clean:
 	rm -f ejemplo *.o pruebas 2>&1 interactivo
