@@ -101,7 +101,7 @@ int main()
 
 	printf("El arbol tiene %zu elementos, debería tener 6\n",
 	       abb_tamanio(arbol));
-
+	
 	auxiliar->clave = 6;
 	printf("Quito nodo con un hijo (6): %s\n",
 	       abb_quitar(arbol, auxiliar) == c6 ? "OK" : "ERROR");
@@ -109,7 +109,7 @@ int main()
 
 	printf("El arbol tiene %zu elementos, debería tener 5\n",
 	       abb_tamanio(arbol));
-
+	
 	auxiliar->clave = 2;
 	printf("Quito nodo con dos hijos (2): %s\n",
 	       abb_quitar(arbol, auxiliar) == c2 ? "OK" : "ERROR");
