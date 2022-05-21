@@ -95,7 +95,7 @@ size_t abb_con_cada_elemento(abb_t *arbol, abb_recorrido recorrido,
 size_t abb_recorrer(abb_t *arbol, abb_recorrido recorrido, void **array,
 		    size_t tamanio_array)
 {
-	if (arbol == NULL || arbol->tamanio == 0)
+	if (arbol == NULL || arbol->tamanio == 0 || array == NULL)
 		return 0;
 
 	size_t elementos_recorridos = 0;
