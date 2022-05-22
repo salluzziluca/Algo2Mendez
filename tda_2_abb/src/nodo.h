@@ -51,7 +51,7 @@ void *obtener_predecesor_inorder(nodo_abb_t *nodo, nodo_abb_t **nodo_reemplazo);
 * Si la funcion devuelve false, corta la iteracion.
 * A medida que se recorre el arbol, se incrementa el contador de elementos recorridos.
 */
-bool inorder_con_cada_elemento(nodo_abb_t *nodo, bool (*funcion)(void *, void *), void *aux, size_t *elementos_recorridos);
+bool recorrer_inorder_con_cada_elemento(nodo_abb_t *nodo, bool (*funcion)(void *, void *), void *aux, size_t *elementos_recorridos);
 
 /*
 * Itera recursivamente de forma preorden (elemento, izquierda, derecha) invocando a la funcion
@@ -59,7 +59,7 @@ bool inorder_con_cada_elemento(nodo_abb_t *nodo, bool (*funcion)(void *, void *)
 * Si la funcion devuelve false, corta la iteracion.
 * A medida que se recorre el arbol, se incrementa el contador de elementos recorridos.
 */
-bool preorder_con_cada_elemento(nodo_abb_t *nodo, bool (*funcion)(void *, void *), void *aux, size_t *elementos_recorridos);
+bool recorrer_preorder_con_cada_elemento(nodo_abb_t *nodo, bool (*funcion)(void *, void *), void *aux, size_t *elementos_recorridos);
 
 /*
 * Itera recursivamente de forma postorden (izquierda, derecha, elemento) invocando a la funcion
@@ -67,7 +67,7 @@ bool preorder_con_cada_elemento(nodo_abb_t *nodo, bool (*funcion)(void *, void *
 * Si la funcion devuelve false, corta la iteracion.
 * A medida que se recorre el arbol, se incrementa el contador de elementos recorridos.
 */
-bool postorden_con_cada_elemento(nodo_abb_t *nodo, bool (*funcion)(void *, void *), void *aux, size_t *elementos_recorridos);
+bool recorrer_postorden_con_cada_elemento(nodo_abb_t *nodo, bool (*funcion)(void *, void *), void *aux, size_t *elementos_recorridos);
 
 /*
 * Recibe un tipo de recorrido especificado por el usuario y una funcion.
@@ -85,7 +85,7 @@ bool nodo_con_cada_elemento(nodo_abb_t *nodo, abb_recorrido , bool (*funcion)(vo
 * el tamanio maximo del array.
 * Devuelve la cantidad de elementos recorridos
 */
-size_t inorder_recorrer(nodo_abb_t *nodo, void **array, size_t tamanio_array, size_t elementos_recorridos);
+size_t recorrer_inorder(nodo_abb_t *nodo, void **array, size_t tamanio_array, size_t elementos_recorridos);
 
 /*
 * Recibe un array de punteros a nodos y la cantidad maxima del mismo.
@@ -95,7 +95,7 @@ size_t inorder_recorrer(nodo_abb_t *nodo, void **array, size_t tamanio_array, si
 * el tamanio maximo del array.
 * Devuelve la cantidad de elementos recorridos
 */
-size_t preorder_recorrer(nodo_abb_t *nodo, void **array, size_t tamanio_array, size_t elementos_recorridos);
+size_t recorrer_preorder(nodo_abb_t *nodo, void **array, size_t tamanio_array, size_t elementos_recorridos);
 
 /*
 * Recibe un array de punteros a nodos y la cantidad maxima del mismo.
@@ -105,7 +105,7 @@ size_t preorder_recorrer(nodo_abb_t *nodo, void **array, size_t tamanio_array, s
 * el tamanio maximo del array.
 * Devuelve la cantidad de elementos recorridos
 */
-size_t postorder_recorrer(nodo_abb_t *nodo, void **array, size_t tamanio_array, size_t elementos_recorridos);
+size_t recorrer_postorder(nodo_abb_t *nodo, void **array, size_t tamanio_array, size_t elementos_recorridos);
 /*
 * Recibe un arbol, si no es nulo ni vacio, recorre los nodos segun el tipo de recorrido especificado, 
 * a medida que avanza entre nodos, los agrega al vector e incrementa el contador de elementos recorridos.

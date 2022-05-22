@@ -131,14 +131,14 @@ void *obtener_predecesor_inorder(nodo_abb_t *nodo, nodo_abb_t **nodo_reemplazo)
 	return nodo;
 }
 
-bool inorder_con_cada_elemento(nodo_abb_t *nodo,
+bool recorrer_inorder_con_cada_elemento(nodo_abb_t *nodo,
 			       bool (*funcion)(void *, void *), void *aux,
 			       size_t *elementos_recorridos)
 {
 	if (!nodo)
 		return true;
 
-	if (inorder_con_cada_elemento(nodo->izquierda, funcion, aux,
+	if (recorrer_inorder_con_cada_elemento(nodo->izquierda, funcion, aux,
 				      elementos_recorridos) == false)
 		return false;
 
@@ -146,14 +146,14 @@ bool inorder_con_cada_elemento(nodo_abb_t *nodo,
 	if (!funcion(nodo->elemento, aux))
 		return false;
 
-	if (inorder_con_cada_elemento(nodo->derecha, funcion, aux,
+	if (recorrer_inorder_con_cada_elemento(nodo->derecha, funcion, aux,
 				      elementos_recorridos) == false)
 		return false;
 
 	return true;
 }
 
-bool preorder_con_cada_elemento(nodo_abb_t *nodo,
+bool recorrer_preorder_con_cada_elemento(nodo_abb_t *nodo,
 				bool (*funcion)(void *, void *), void *aux,
 				size_t *elementos_recorridos)
 {
@@ -164,28 +164,28 @@ bool preorder_con_cada_elemento(nodo_abb_t *nodo,
 	if (!funcion(nodo->elemento, aux))
 		return false;
 
-	if (preorder_con_cada_elemento(nodo->izquierda, funcion, aux,
+	if (recorrer_preorder_con_cada_elemento(nodo->izquierda, funcion, aux,
 				       elementos_recorridos) == false)
 		return false;
 
-	if (preorder_con_cada_elemento(nodo->derecha, funcion, aux,
+	if (recorrer_preorder_con_cada_elemento(nodo->derecha, funcion, aux,
 				       elementos_recorridos) == false)
 		return false;
 	return true;
 }
 
-bool postorden_con_cada_elemento(nodo_abb_t *nodo,
+bool recorrer_postorden_con_cada_elemento(nodo_abb_t *nodo,
 				 bool (*funcion)(void *, void *), void *aux,
 				 size_t *elementos_recorridos)
 {
 	if (!nodo)
 		return true;
 
-	if (postorden_con_cada_elemento(nodo->izquierda, funcion, aux,
+	if (recorrer_postorden_con_cada_elemento(nodo->izquierda, funcion, aux,
 					elementos_recorridos) == false)
 		return false;
 
-	if (postorden_con_cada_elemento(nodo->derecha, funcion, aux,
+	if (recorrer_postorden_con_cada_elemento(nodo->derecha, funcion, aux,
 					elementos_recorridos) == false)
 		return false;
 
@@ -203,18 +203,18 @@ bool nodo_con_cada_elemento(nodo_abb_t *nodo, abb_recorrido recorrido,
 {
 	switch (recorrido) {
 	case INORDEN:
-		inorder_con_cada_elemento(nodo, funcion, aux,
+		recorrer_inorder_con_cada_elemento(nodo, funcion, aux,
 					  elementos_recorridos);
 		break;
 
 	case PREORDEN:
 
-		preorder_con_cada_elemento(nodo, funcion, aux,
+		recorrer_preorder_con_cada_elemento(nodo, funcion, aux,
 					   elementos_recorridos);
 		break;
 
 	case POSTORDEN:
-		postorden_con_cada_elemento(nodo, funcion, aux,
+		recorrer_postorden_con_cada_elemento(nodo, funcion, aux,
 					    elementos_recorridos);
 		break;
 
@@ -224,12 +224,12 @@ bool nodo_con_cada_elemento(nodo_abb_t *nodo, abb_recorrido recorrido,
 	return true;
 }
 
-size_t inorder_recorrer(nodo_abb_t *nodo, void **array, size_t tamanio_array,
+size_t recorrer_inorder(nodo_abb_t *nodo, void **array, size_t tamanio_array,
 			size_t elementos_recorridos)
 {
 	if (nodo->izquierda)
 		elementos_recorridos =
-			inorder_recorrer(nodo->izquierda, array, tamanio_array,
+			recorrer_inorder(nodo->izquierda, array, tamanio_array,
 					 elementos_recorridos);
 
 	if (elementos_recorridos >= tamanio_array)
@@ -240,12 +240,12 @@ size_t inorder_recorrer(nodo_abb_t *nodo, void **array, size_t tamanio_array,
 
 	if (nodo->derecha)
 		elementos_recorridos =
-			inorder_recorrer(nodo->derecha, array, tamanio_array,
+			recorrer_inorder(nodo->derecha, array, tamanio_array,
 					 elementos_recorridos);
 	return elementos_recorridos;
 }
 
-size_t preorder_recorrer(nodo_abb_t *nodo, void **array, size_t tamanio_array,
+size_t recorrer_preorder(nodo_abb_t *nodo, void **array, size_t tamanio_array,
 			 size_t elementos_recorridos)
 {
 	if (elementos_recorridos >= tamanio_array)
@@ -256,28 +256,28 @@ size_t preorder_recorrer(nodo_abb_t *nodo, void **array, size_t tamanio_array,
 
 	if (nodo->izquierda)
 		elementos_recorridos =
-			preorder_recorrer(nodo->izquierda, array, tamanio_array,
+			recorrer_preorder(nodo->izquierda, array, tamanio_array,
 					  elementos_recorridos);
 
 	if (nodo->derecha)
 		elementos_recorridos =
-			preorder_recorrer(nodo->derecha, array, tamanio_array,
+			recorrer_preorder(nodo->derecha, array, tamanio_array,
 					  elementos_recorridos);
 
 	return elementos_recorridos;
 }
 
-size_t postorder_recorrer(nodo_abb_t *nodo, void **array, size_t tamanio_array,
+size_t recorrer_postorder(nodo_abb_t *nodo, void **array, size_t tamanio_array,
 			  size_t elementos_recorridos)
 {
 	if (nodo->izquierda)
 		elementos_recorridos =
-			postorder_recorrer(nodo->izquierda, array,
+			recorrer_postorder(nodo->izquierda, array,
 					   tamanio_array, elementos_recorridos);
 
 	if (nodo->derecha)
 		elementos_recorridos =
-			postorder_recorrer(nodo->derecha, array, tamanio_array,
+			recorrer_postorder(nodo->derecha, array, tamanio_array,
 					   elementos_recorridos);
 
 	if (elementos_recorridos >= tamanio_array)
@@ -295,19 +295,19 @@ size_t nodo_recorrer(nodo_abb_t *nodo, abb_recorrido recorrido, void **array,
 	switch (recorrido) {
 	case INORDEN:
 
-		elementos_recorridos = inorder_recorrer(
+		elementos_recorridos = recorrer_inorder(
 			nodo, array, tamanio_array, elementos_recorridos);
 		break;
 
 	case PREORDEN:
 
-		elementos_recorridos = preorder_recorrer(
+		elementos_recorridos = recorrer_preorder(
 			nodo, array, tamanio_array, elementos_recorridos);
 		break;
 
 	case POSTORDEN:
 
-		elementos_recorridos = postorder_recorrer(
+		elementos_recorridos = recorrer_postorder(
 			nodo, array, tamanio_array, elementos_recorridos);
 		break;
 
