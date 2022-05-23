@@ -50,7 +50,8 @@
                 "stdexcept": "cpp",
                 "streambuf": "cpp",
                 "typeinfo": "cpp",
-                "abb.h": "c"
+                "abb.h": "c",
+                "nodo.h": "c"
         },
         "C_Cpp.errorSquiggles": "Disabled"
 }
