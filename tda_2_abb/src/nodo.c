@@ -29,6 +29,17 @@ nodo_abb_t *nodo_insertar(nodo_abb_t *nodo, void *elemento, abb_comparador compa
 	return nodo;
 }
 
+void *obtener_elemento_mayor(nodo_abb_t *nodo, nodo_abb_t **nodo_reemplazo)
+{
+	if (nodo->derecha == NULL) {
+		*nodo_reemplazo = nodo;
+		return nodo->izquierda;
+	}
+	nodo->derecha =
+		obtener_elemento_mayor(nodo->derecha, nodo_reemplazo);
+	return nodo;
+}
+
 nodo_abb_t *nodo_quitar(nodo_abb_t *nodo, void *elemento, abb_comparador comparador, void **elemento_quitado, size_t *tamanio)
 {
 	if (nodo == NULL)
@@ -39,45 +50,31 @@ nodo_abb_t *nodo_quitar(nodo_abb_t *nodo, void *elemento, abb_comparador compara
 	if (comparacion == 0) {
 		*elemento_quitado = nodo->elemento;
 
-		if (nodo->izquierda != NULL ||
-		    (nodo->izquierda != NULL && nodo->derecha != NULL)) {
+		if (nodo->izquierda != NULL){
 			nodo_abb_t *nodo_reemplazo = NULL;
 
-			nodo->izquierda = obtener_predecesor_inorder(
-				nodo->izquierda, &nodo_reemplazo);
+			nodo->izquierda = obtener_elemento_mayor(nodo->izquierda, &nodo_reemplazo);
 			nodo->elemento = nodo_reemplazo->elemento;
 
 			free(nodo_reemplazo);
-			(*tamanio)--;
 
-			return nodo;
 		} else {
 			nodo_abb_t *nodo_aux = nodo;
 
-			if (nodo->izquierda != NULL)
-				nodo = nodo->izquierda;
-
-			else if (nodo->derecha != NULL)
-				nodo = nodo->derecha;
-
-			else
-				nodo = NULL;
-
-			(*tamanio)--;
+			nodo = nodo->derecha;
+			
 			free(nodo_aux);
-
-			return nodo;
 		}
+
+		(*tamanio)--;
+		return nodo;
 	}
 
 	if (comparacion < 0)
-		nodo->izquierda =
-			nodo_quitar(nodo->izquierda, elemento, comparador,
-				    elemento_quitado, tamanio);
+		nodo->izquierda = nodo_quitar(nodo->izquierda, elemento, comparador, elemento_quitado, tamanio);
 
 	else
-		nodo->derecha = nodo_quitar(nodo->derecha, elemento, comparador,
-					    elemento_quitado, tamanio);
+		nodo->derecha = nodo_quitar(nodo->derecha, elemento, comparador, elemento_quitado, tamanio);
 
 	return nodo;
 }
@@ -117,16 +114,6 @@ void nodo_destruir_todo(nodo_abb_t *nodo, void (*destructor)(void *))
 	return;
 }
 
-void *obtener_predecesor_inorder(nodo_abb_t *nodo, nodo_abb_t **nodo_reemplazo)
-{
-	if (nodo->derecha == NULL) {
-		*nodo_reemplazo = nodo;
-		return nodo->izquierda;
-	}
-	nodo->derecha =
-		obtener_predecesor_inorder(nodo->derecha, nodo_reemplazo);
-	return nodo;
-}
 
 bool recorrer_inorder_con_cada_elemento(nodo_abb_t *nodo, bool (*funcion)(void *, void *), void *aux, size_t *elementos_recorridos)
 {

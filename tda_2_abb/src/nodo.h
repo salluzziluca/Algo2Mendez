@@ -43,7 +43,7 @@ void nodo_destruir_todo(nodo_abb_t *nodo, void (*destructor)(void *));
 * De encontrarlo, se apunta el puntero pasado por parametro al nodo actual.
 * Devuelve el nodo izquierda del nodo mayor de esa rama, este puede ser o no NULL.
 */
-void *obtener_predecesor_inorder(nodo_abb_t *nodo, nodo_abb_t **nodo_reemplazo);
+void *obtener_elemento_mayor(nodo_abb_t *nodo, nodo_abb_t **nodo_reemplazo);
 
 /*
 * Itera recursivamente de forma inorden (izquierda, elemento, derecha) invocando a la funcion
