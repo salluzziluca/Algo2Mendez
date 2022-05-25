@@ -1,7 +1,7 @@
     
 ![](https://i.imgur.com/P0aqOMI.jpg)
 
-# **Trabajo Práctico n°1 — Sala de escape Pokemon** 
+# **TDA N°2 — Arbol Binario de Búsqueda (ABB)** 
 ---
 ##### [7541/9515] Algoritmos y Programación II
 ---
@@ -15,7 +15,7 @@
 
 
 ## 1. Introducción
-En este TP se buscaba primero terminar de afianzar los conceptos de lecturas de archivos vistos en Algoritmos y Programacion I, tema de vital importancia para el desarrollo productivo como programadores. Asimismo y como tema central, se buscaba introducir las funcionalidades de manejo de memoria propias del lenguaje C. 
+En este trabajo se busacaba afianzar los conceptos teorico-
 
 ## 2. Teoría
 
