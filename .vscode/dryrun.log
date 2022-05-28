@@ -1,6 +1,0 @@
-make --dry-run --keep-going --print-directory
-make: Entering directory '/home/kvothe/repos/Algo2Mendez'
-make: Leaving directory '/home/kvothe/repos/Algo2Mendez'
- 
-make: *** No targets specified and no makefile found.  Stop.
-
