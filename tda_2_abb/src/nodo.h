@@ -5,11 +5,11 @@
 #include <stdlib.h>
 
 /*
-* Recibe un nodo, un elemento a agregar y una forma de compararlo. Si el nodo es nulo, 
-* lo crea. Si es nodo no tiene elemento, le asigna el elemento actual.
-* Por ultimo, si el nodo tiene elemento, lo compara con el actual y
-* segun si es la comparación devuelve mayor, menor o igual a 0,se desplaza hacia
-* el siguiente nodo en el arbol. Nodo derecho o izquierdo respectivaemente.
+* Recibe un nodo, un elemento a agregar y una forma de compararlo. 
+* Compara con el nodo actual y segun si la comparación devuelve mayor, menor o igual a 0,
+* se desplaza hacia el siguiente nodo en el arbol. Nodo derecho o izquierdo respectivaemente.
+* cuando no encuenra mas nodos hacia los que desplazarse, se crea un nuevo nodo 
+* y se lo asigna al elemento.
 */
 nodo_abb_t *nodo_insertar(nodo_abb_t *nodo, void *elemento, abb_comparador comparador);
 
