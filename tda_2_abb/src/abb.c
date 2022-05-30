@@ -20,8 +20,10 @@ abb_t *abb_insertar(abb_t *arbol, void *elemento)
 	if (arbol == NULL)
 		return NULL;
 
-	arbol->nodo_raiz =
-		nodo_insertar(arbol->nodo_raiz, elemento, arbol->comparador);
+	nodo_abb_t *nodo_raiz = nodo_insertar(arbol->nodo_raiz, elemento, arbol->comparador);
+	if(nodo_raiz == NULL)
+		return NULL;
+	arbol->nodo_raiz = nodo_raiz;
 	arbol->tamanio++;
 
 	return arbol;
