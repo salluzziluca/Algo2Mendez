@@ -19,14 +19,18 @@ nodo_abb_t *nodo_insertar(nodo_abb_t *nodo, void *elemento,
 
 	int comparacion = comparador(elemento, nodo->elemento);
 
-	if (comparacion > 0)
-		nodo->derecha =
-			nodo_insertar(nodo->derecha, elemento, comparador);
-
-	else if (comparacion <= 0)
-		nodo->izquierda =
-			nodo_insertar(nodo->izquierda, elemento, comparador);
-
+	if (comparacion > 0){
+		nodo_abb_t *nodo_derecha = nodo_insertar(nodo->derecha, elemento, comparador);
+		if (nodo_derecha == NULL)
+			return NULL;
+		nodo->derecha = nodo_derecha;
+	}
+	else if (comparacion <= 0){
+		nodo_abb_t *nodo_izquierda = nodo_insertar(nodo->izquierda, elemento, comparador); 
+		if (nodo_izquierda == NULL)
+			return NULL;
+		nodo->izquierda = nodo_izquierda;
+	}
 	return nodo;
 }
 
