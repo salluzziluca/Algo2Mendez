@@ -8,6 +8,7 @@
 nodo_abb_t *nodo_insertar(nodo_abb_t *nodo, void *elemento,
 			  abb_comparador comparador)
 {
+
 	if (nodo == NULL) {
 		nodo_abb_t *nodo = calloc(1, sizeof(nodo_abb_t));
 		if (nodo == NULL) {
@@ -19,14 +20,18 @@ nodo_abb_t *nodo_insertar(nodo_abb_t *nodo, void *elemento,
 
 	int comparacion = comparador(elemento, nodo->elemento);
 
-	if (comparacion > 0)
-		nodo->derecha =
-			nodo_insertar(nodo->derecha, elemento, comparador);
-
-	else if (comparacion <= 0)
-		nodo->izquierda =
-			nodo_insertar(nodo->izquierda, elemento, comparador);
-
+	if (comparacion > 0){
+		nodo_abb_t *nodo_derecha = nodo_insertar(nodo->derecha, elemento, comparador);
+		if (nodo_derecha == NULL)
+			return NULL;
+		nodo->derecha = nodo_derecha;
+	}
+	else if (comparacion <= 0){
+		nodo_abb_t *nodo_izquierda = nodo_insertar(nodo->izquierda, elemento, comparador); 
+		if (nodo_izquierda == NULL)
+			return NULL;
+		nodo->izquierda = nodo_izquierda;
+	}
 	return nodo;
 }
 
@@ -44,9 +49,6 @@ nodo_abb_t *nodo_quitar(nodo_abb_t *nodo, void *elemento,
 			abb_comparador comparador, void **elemento_quitado,
 			size_t *tamanio)
 {
-	if (nodo == NULL)
-		return NULL;
-
 	int comparacion = comparador(elemento, nodo->elemento);
 
 	if (comparacion == 0) {
@@ -92,13 +94,11 @@ void *nodo_buscar(nodo_abb_t *nodo, void *elemento, abb_comparador comparador)
 
 	int comparacion = comparador(elemento, nodo->elemento);
 
-	if (comparacion == 0) {
+	if (comparacion == 0)
 		return nodo->elemento;
-	} else if (comparacion > 0)
+	if (comparacion > 0)
 		return nodo_buscar(nodo->derecha, elemento, comparador);
-	else if (comparacion < 0)
-		return nodo_buscar(nodo->izquierda, elemento, comparador);
-	return NULL;
+	return nodo_buscar(nodo->izquierda, elemento, comparador);
 }
 
 void nodo_destruir_todo(nodo_abb_t *nodo, void (*destructor)(void *))
