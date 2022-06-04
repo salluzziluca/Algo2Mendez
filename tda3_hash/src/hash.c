@@ -13,6 +13,7 @@ hash_t *hash_crear(size_t capacidad)
 hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
 		      void **anterior)
 {
+	// fijarme primero si me voy a pasar. Si me paso, rehasear y despues insertar
 	return hash;
 }
 
@@ -49,4 +50,11 @@ size_t hash_con_cada_clave(hash_t *hash,
 			   void *aux)
 {
 	return 0;
+}
+
+hash_t *rehash(hash_t *hash, size_t capacidad)
+{
+	//esta funcion se deberia aplicar cuando llegamos al 75% de la capacidad
+	//mirar ultimos minutos de la clase del 2 de junio
+	return hash;
 }
