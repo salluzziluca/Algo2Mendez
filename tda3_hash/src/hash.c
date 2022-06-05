@@ -7,6 +7,8 @@ hash_t *hash_crear(size_t capacidad)
 	hash_t *hash = malloc(sizeof(hash_t));
 	if(!hash)
 		return NULL;
+	if (capacidad < 3)
+		capacidad = 3;
 	hash->pares = calloc(capacidad, sizeof(pares_t));
 	if(!hash->pares)
 		return NULL;
@@ -51,6 +53,7 @@ void hash_destruir(hash_t *hash)
 
 void hash_destruir_todo(hash_t *hash, void (*destructor)(void *))
 {
+
 }
 
 size_t hash_con_cada_clave(hash_t *hash,
