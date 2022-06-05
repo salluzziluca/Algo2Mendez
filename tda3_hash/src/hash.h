@@ -4,8 +4,15 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-typedef struct hash hash_t;
-
+typedef struct pares{
+	char *clave;
+	void *elemento;
+}pares_t;
+typedef struct hash {
+	size_t capacidad;
+	size_t tamanio;
+	pares_t *pares;	
+}hash_t;
 /*
  * Crea el hash reservando la memoria necesaria para el.
  *

@@ -1,12 +1,18 @@
 #include "hash.h"
+#include <stdlib.h>
 
-struct hash {
-	int a;
-};
 
 hash_t *hash_crear(size_t capacidad)
-{
-	return NULL;
+{	
+	hash_t *hash = malloc(sizeof(hash_t));
+	if(!hash)
+		return NULL;
+	hash->pares = calloc(capacidad, sizeof(pares_t));
+	if(!hash->pares)
+		return NULL;
+	hash->capacidad = capacidad;
+	hash->tamanio = 0;
+	return hash;
 }
 
 
