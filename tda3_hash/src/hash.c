@@ -45,6 +45,8 @@ size_t hash_cantidad(hash_t *hash)
 
 void hash_destruir(hash_t *hash)
 {
+	free(hash->pares);
+	free(hash);
 }
 
 void hash_destruir_todo(hash_t *hash, void (*destructor)(void *))
