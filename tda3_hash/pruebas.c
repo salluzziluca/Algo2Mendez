@@ -26,11 +26,21 @@ void hash_crear_crea_e_inicializa_correctamente(){
 
 }
 
+void hash_insertar_inserta_correctamente(){
+	hash_t *hash = hash_crear(3);
+	int numero = 1;
+	pa2m_afirmar(hash_insertar(hash, "hola",&numero , NULL) != NULL, "Se inserta correctamente");
+	pa2m_afirmar(strcmp(hash->pares[0].clave, "hola") == 0, "Se inserta la clave correctamente");
+	pa2m_afirmar(*(int *)hash->pares[0].elemento == 1, "Se inserta el elemento correctamente");
+	hash_destruir(hash);
+}
 
 int main()
 {
 	pa2m_nuevo_grupo("Pruebas de Creación");
 	hash_crear_crea_e_inicializa_correctamente();
+	pa2m_nuevo_grupo("Pruebas de Insercion");
+	hash_insertar_inserta_correctamente();
 
 	return pa2m_mostrar_reporte();
 }

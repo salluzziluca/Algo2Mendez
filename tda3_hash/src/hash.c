@@ -1,12 +1,17 @@
 #include "hash.h"
 #include <stdlib.h>
 #include <string.h>
-#define MAX_CLAVE 25
 
 
 
-int funcion_hash(char clave[MAX_CLAVE]) {
-	return (int)strlen(clave);
+int funcion_hash(const char *clave) {
+	int i = 0;
+	int suma = 0;
+	while (clave[i] != '\0') {
+		suma += clave[i];
+		i++;
+	}
+	return suma;
 }
 
 hash_t *hash_crear(size_t capacidad)
@@ -28,7 +33,15 @@ hash_t *hash_crear(size_t capacidad)
 hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
 		      void **anterior)
 {
+	if(!hash || !clave || !elemento)
+		return NULL;
 	//TODO: fijarme primero si me voy a pasar. Si me paso, rehasear y despues insertar
+	if(hash_cantidad(hash) == (double)hash->capacidad *0.75)
+		return NULL;
+		//TODO: return rehash(hash);
+	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
+	hash->pares[posicion].clave = clave;
+	hash->pares[posicion].elemento = elemento;
 
 	return hash;
 }

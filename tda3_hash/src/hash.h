@@ -5,7 +5,7 @@
 #include <stddef.h>
 
 typedef struct pares{
-	char *clave;
+	const char *clave;
 	void *elemento;
 }pares_t;
 typedef struct hash {
