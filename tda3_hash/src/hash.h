@@ -10,7 +10,7 @@ typedef struct pares{
 }pares_t;
 typedef struct hash {
 	size_t capacidad;
-	size_t tamanio;
+	size_t cantidad;
 	pares_t *pares;	
 }hash_t;
 /*
