@@ -14,4 +14,6 @@ In this proyect, the student had to develop and implement a BST. The goal of thi
 ### TDA3 Hash
 
 ![image](https://user-images.githubusercontent.com/63552496/172411206-02e2b304-f74b-451f-b753-13ea0dab06f4.png)
+![image](https://user-images.githubusercontent.com/63552496/172411343-aafb7a46-7f68-4d83-aacf-55982a63b790.png)
+
 
