@@ -29,6 +29,13 @@ hash_t *hash_crear(size_t capacidad)
 	return hash;
 }
 
+pares_t llenar_par(const char *clave, void *elemento)
+{
+	pares_t par;
+	par.clave = clave;
+	par.elemento = elemento;
+	return par;
+}
 
 hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
 		      void **anterior)
@@ -40,8 +47,7 @@ hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
 		return NULL;
 		//TODO: return rehash(hash);
 	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
-	hash->pares[posicion].clave = clave;
-	hash->pares[posicion].elemento = elemento;
+	hash->pares[posicion] = llenar_par(clave, elemento);
 
 	return hash;
 }
