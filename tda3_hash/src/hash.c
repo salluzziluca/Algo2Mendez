@@ -20,7 +20,7 @@ hash_t *hash_crear(size_t capacidad)
 	if(!hash->pares)
 		return NULL;
 	hash->capacidad = capacidad;
-	hash->tamanio = 0;
+	hash->cantidad = 0;
 	return hash;
 }
 
@@ -52,7 +52,7 @@ size_t hash_cantidad(hash_t *hash)
 {
 	if(!hash)
 		return 0;
-	return hash->capacidad;
+	return hash->cantidad;
 }
 
 void hash_destruir(hash_t *hash)
