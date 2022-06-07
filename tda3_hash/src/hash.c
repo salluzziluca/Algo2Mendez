@@ -29,6 +29,7 @@ hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
 		      void **anterior)
 {
 	//TODO: fijarme primero si me voy a pasar. Si me paso, rehasear y despues insertar
+
 	return hash;
 }
 
@@ -49,7 +50,9 @@ bool hash_contiene(hash_t *hash, const char *clave)
 
 size_t hash_cantidad(hash_t *hash)
 {
-	return 0;
+	if(!hash)
+		return 0;
+	return hash->capacidad;
 }
 
 void hash_destruir(hash_t *hash)
