@@ -1,6 +1,17 @@
 #include "hash.h"
 #include <stdlib.h>
 
+#define MAX_CLAVE 25
+
+
+int funcion_hash(char clave[MAX_CLAVE]) {
+	int i;
+	int suma = 0;
+	for (i = 0; i < MAX_CLAVE; i++) {
+		suma = suma + clave[i];
+	}
+	return suma;
+}
 
 hash_t *hash_crear(size_t capacidad)
 {	
