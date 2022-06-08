@@ -28,10 +28,14 @@ void hash_crear_crea_e_inicializa_correctamente(){
 
 void hash_insertar_inserta_correctamente(){
 	hash_t *hash = hash_crear(3);
-	int numero = 1;
-	pa2m_afirmar(hash_insertar(hash, "hola",&numero , NULL) != NULL, "Se inserta correctamente");
+	void *anterior = NULL;
+	int uno = 1, dos = 2;
+	pa2m_afirmar(hash_insertar(hash, "hola",&uno , &anterior) != NULL, "Se inserta correctamente");
 	pa2m_afirmar(strcmp(hash->pares[0].clave, "hola") == 0, "Se inserta la clave correctamente");
-	pa2m_afirmar(*(int *)hash->pares[0].elemento == 1, "Se inserta el elemento correctamente");
+	pa2m_afirmar(*(int *)hash->pares[0].elemento == 1, "Se inserta el elemento correctamente");	
+	pa2m_afirmar(hash_insertar(hash, "hola",&dos , &anterior) != NULL, "Se inserta correctamente");
+	pa2m_afirmar(*(int*)hash->pares[0].elemento == 2, "Se sobreescribio la el valor correctamente");
+	pa2m_afirmar(*(int*) anterior == 1, "El elemento sobreescribido es almacenado correctamente");
 	hash_destruir(hash);
 }
 

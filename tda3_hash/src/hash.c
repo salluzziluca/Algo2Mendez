@@ -1,4 +1,5 @@
 #include "hash.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -47,8 +48,14 @@ hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
 		return NULL;
 		//TODO: return rehash(hash);
 	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
-	hash->pares[posicion] = llenar_par(clave, elemento);
-
+	if(hash->pares[posicion].clave){
+		*anterior = hash->pares[posicion].elemento;
+		hash->pares[posicion] = llenar_par(clave, elemento);
+	}
+	else{
+		hash->pares[posicion] = llenar_par(clave, elemento);
+		hash->cantidad++;
+	}
 	return hash;
 }
 
