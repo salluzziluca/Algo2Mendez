@@ -62,17 +62,36 @@ hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
 
 void *hash_quitar(hash_t *hash, const char *clave)
 {
-	return NULL;
+	if(!hash || !clave)
+		return NULL;
+	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
+	if(!hash->pares[posicion].clave)
+		return NULL;
+	void *elemento = hash->pares[posicion].elemento;
+	hash->pares[posicion].clave = NULL;
+	hash->pares[posicion].elemento = NULL;
+	hash->cantidad--;
+	return elemento;
 }
 
 void *hash_obtener(hash_t *hash, const char *clave)
 {
-	return NULL;
+	if(!hash || !clave)
+		return NULL;
+	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
+	if(!hash->pares[posicion].clave)
+		return NULL;
+	return hash->pares[posicion].elemento;
 }
 
 bool hash_contiene(hash_t *hash, const char *clave)
 {
-	return false;
+	if(!hash || !clave)
+		return false;
+	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
+	if(!hash->pares[posicion].clave)
+		return false;
+	return true;
 }
 
 size_t hash_cantidad(hash_t *hash)
