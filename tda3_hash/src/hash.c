@@ -96,14 +96,19 @@ hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
 	return elemento;
 }
 
-void *hash_obtener(hash_t *hash, const char *clave)
+*/void *hash_obtener(hash_t *hash, const char *clave)
 {
 	if(!hash || !clave)
 		return NULL;
 	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
-	if(!hash->pares[posicion].clave)
-		return NULL;
-	return hash->pares[posicion].elemento;
+	pares_t lista_pares = hash->pares[posicion];
+	for(size_t i = 0; i < lista_pares.cantidad; i++){
+		if(strcmp(lista_pares.par_inicio->clave, clave) == 0)
+			return lista_pares.par_inicio->elemento;
+		lista_pares.par_inicio = hash->pares[posicion].par_inicio->siguiente;
+	}
+	return NULL;
+
 }
 
 bool hash_contiene(hash_t *hash, const char *clave)
@@ -111,11 +116,14 @@ bool hash_contiene(hash_t *hash, const char *clave)
 	if(!hash || !clave)
 		return false;
 	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
-	if(!hash->pares[posicion].clave)
-		return false;
-	return true;
-}*/
-
+	pares_t lista_pares = hash->pares[posicion];
+	for(size_t i = 0; i < lista_pares.cantidad; i++){
+		if(strcmp(lista_pares.par_inicio->clave, clave) == 0)
+			return true;
+		lista_pares.par_inicio = hash->pares[posicion].par_inicio->siguiente;
+	}
+	return false;
+}
 size_t hash_cantidad(hash_t *hash)
 {
 	if(!hash)

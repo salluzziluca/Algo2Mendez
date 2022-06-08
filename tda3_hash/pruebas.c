@@ -6,6 +6,8 @@ void hash_insertar_inserta_correctamente(){
 	int numero = 1;
 	hash_insertar(hash, "hola", &numero, NULL);
 	pa2m_afirmar(hash->pares[0].par_inicio->elemento == &numero, "hash_insertar_inserta_correctamente");
+	pa2m_afirmar(hash_obtener(hash, "hola") == &numero, "el elemento se encuentra en el hash");
+	pa2m_afirmar(hash_contiene(hash, "hola"), "el elemento se encuentra en el hash");
 	hash_destruir(hash);
 	
 
