@@ -29,14 +29,30 @@ hash_t *hash_crear(size_t capacidad)
 	return hash;
 }
 
-pares_t llenar_par(const char *clave, void *elemento)
+par_t *llenar_par(const char *clave, void *elemento)
 {
-	pares_t par;
-	par.clave = clave;
-	par.elemento = elemento;
+	par_t *par = malloc(sizeof(par_t));
+	par->clave = clave;
+	par->elemento = elemento;
 	return par;
 }
 
+pares_t par_insertar(pares_t *pares, par_t *par)
+{
+	//	if (pares == NULL)
+		//return NULL;
+
+	if (pares->cantidad == 0) {
+		pares->par_fin = par;
+		pares->par_inicio = par;
+		pares->cantidad++;
+	} else {
+		pares->par_fin->siguiente = par;
+		pares->par_fin = par;
+		pares->cantidad++;
+	}
+	return *pares;
+}
 hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
 		      void **anterior)
 {
@@ -48,7 +64,13 @@ hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
 		//TODO: return rehash(hash);
 
 	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
-	//TODO: Si la posicion esta ocupada y no es la misma clave, colisionar con lista
+	par_t *par = llenar_par(clave, elemento);
+	hash->pares[posicion] = par_insertar(&hash->pares[posicion], par);
+	//TODO: Si la posicion esta ocupada y no es la misma clave, colisionar conpares 
+
+
+	/*if(hash-> pares[posicion].clave != NULL && strcmp(hash->pares[posicion].clave, clave) != 0)
+		
 	if(hash->pares[posicion].clave){
 		*anterior = hash->pares[posicion].elemento;
 		hash->pares[posicion] = llenar_par(clave, elemento);
@@ -56,11 +78,11 @@ hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
 	else{
 		hash->pares[posicion] = llenar_par(clave, elemento);
 		hash->cantidad++;
-	}
+	}*/
 	return hash;
 }
 
-void *hash_quitar(hash_t *hash, const char *clave)
+/* void *hash_quitar(hash_t *hash, const char *clave)
 {
 	if(!hash || !clave)
 		return NULL;
@@ -92,7 +114,7 @@ bool hash_contiene(hash_t *hash, const char *clave)
 	if(!hash->pares[posicion].clave)
 		return false;
 	return true;
-}
+}*/
 
 size_t hash_cantidad(hash_t *hash)
 {
@@ -103,6 +125,15 @@ size_t hash_cantidad(hash_t *hash)
 
 void hash_destruir(hash_t *hash)
 {
+	if(!hash)
+		return;
+	for(size_t i = 0; i < hash->capacidad; i++){
+		for(size_t j = 0; j < hash->pares[i].cantidad; j++){
+			par_t *uxiliar = hash->pares[i].par_inicio->siguiente;
+			free(hash->pares[i].par_inicio);
+			hash->pares[i].par_inicio = uxiliar;
+		}
+	}
 	free(hash->pares);
 	free(hash);
 }

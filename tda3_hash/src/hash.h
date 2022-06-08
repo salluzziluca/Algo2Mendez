@@ -4,9 +4,16 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-typedef struct pares{
+typedef struct par{
 	const char *clave;
 	void *elemento;
+	struct par *siguiente;
+}par_t;
+
+typedef struct pares{
+	par_t *par_inicio;
+	par_t *par_fin;
+	size_t cantidad;
 }pares_t;
 typedef struct hash {
 	size_t capacidad;
