@@ -45,16 +45,21 @@ void hash_insertar_inserta_correctamente(){
 	pa2m_afirmar(hash_insertar(hash, NULL,&dos , &anterior) == NULL, "No se puede insertar par con clave nula");
 	hash_destruir(hash);
 }
-/*void hash_quitar_quita_correctamente(){
+void hash_quitar_quita_correctamente(){
 	hash_t *hash = NULL;
-	int uno = 1, dos = 2;
-	hash_insertar(hash, "hola", &uno, NULL);
-
-	hash_quitar(hash, "hola");
+	int uno = 1;
+	pa2m_afirmar(hash_quitar(hash, "hola") == NULL, "No se puede quitar un par en un hash nulo");
 	hash = hash_crear(3);
+	hash_insertar(hash, "hola", &uno, NULL);
+	pa2m_afirmar(hash_quitar(hash, NULL) == NULL, "No se puede quitar un par pasando una clave nula");
+	pa2m_afirmar(hash_contiene(hash, "hola") == true, "El elemento existe");
+	pa2m_afirmar(hash_cantidad(hash) == 1, "La cantidad es 1");
+	pa2m_afirmar(*(int*)hash_quitar(hash, "hola") == 1, "Se puede quitar el elemento");
+	pa2m_afirmar(hash_contiene(hash, "hola") == false,"El elemento no se encuentra en el hash");
+	pa2m_afirmar(hash_cantidad(hash) == 0, "La cantidad es 0");
 
 	hash_destruir(hash);
-}*/
+}
 int main()
 {
 	pa2m_nuevo_grupo("Pruebas de Creación");
@@ -62,7 +67,7 @@ int main()
 	pa2m_nuevo_grupo("Pruebas de Insercion");
 	hash_insertar_inserta_correctamente();
 	pa2m_nuevo_grupo("Pruebas de Quitado");
-	//hash_quitar_quita_correctamente();
+	hash_quitar_quita_correctamente();
 
 	return pa2m_mostrar_reporte();
 }
