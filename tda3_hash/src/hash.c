@@ -71,6 +71,7 @@ hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
 	return hash;
 
 	//TODO: Si la posicion esta ocupada y no es la misma clave, colisionar conpares 
+	//TODO: Si la posicion esta ocupada y es la misma clave, reemplazar el elemento
 
 	return hash;
 }
