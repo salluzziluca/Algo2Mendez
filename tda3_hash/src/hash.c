@@ -1,8 +1,7 @@
 #include "hash.h"
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#define FACTOR_DE_CARGA_MAXIMO 0.75
 
 
 int funcion_hash(const char *clave) {
@@ -44,7 +43,7 @@ hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
 	if(!hash || !clave)
 		return NULL;
 	//TODO: fijarme primero si me voy a pasar. Si me paso, rehasear y despues insertar
-	if(hash_cantidad(hash) == (double)hash->capacidad *0.75)
+	if(hash_cantidad(hash) >= (double)hash->capacidad *FACTOR_DE_CARGA_MAXIMO)
 		return NULL;
 		//TODO: return rehash(hash);
 
