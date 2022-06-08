@@ -41,12 +41,13 @@ pares_t llenar_par(const char *clave, void *elemento)
 hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
 		      void **anterior)
 {
-	if(!hash || !clave || !elemento)
+	if(!hash || !clave)
 		return NULL;
 	//TODO: fijarme primero si me voy a pasar. Si me paso, rehasear y despues insertar
 	if(hash_cantidad(hash) == (double)hash->capacidad *0.75)
 		return NULL;
 		//TODO: return rehash(hash);
+
 	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
 	if(hash->pares[posicion].clave){
 		*anterior = hash->pares[posicion].elemento;
