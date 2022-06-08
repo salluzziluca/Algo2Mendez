@@ -37,10 +37,10 @@ par_t *llenar_par(const char *clave, void *elemento)
 	return par;
 }
 
-pares_t par_insertar(pares_t *pares, par_t *par)
+pares_t *par_insertar(pares_t *pares, par_t *par)
 {
-	//	if (pares == NULL)
-		//return NULL;
+	if (pares == NULL)
+		return NULL;
 
 	if (pares->cantidad == 0) {
 		pares->par_fin = par;
@@ -51,7 +51,7 @@ pares_t par_insertar(pares_t *pares, par_t *par)
 		pares->par_fin = par;
 		pares->cantidad++;
 	}
-	return *pares;
+	return pares;
 }
 hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
 		      void **anterior)
@@ -65,38 +65,42 @@ hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
 
 	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
 	par_t *par = llenar_par(clave, elemento);
-	hash->pares[posicion] = par_insertar(&hash->pares[posicion], par);
+	if(!par_insertar(&hash->pares[posicion], par))
+		return NULL;
+	hash->cantidad++;
+	return hash;
+
 	//TODO: Si la posicion esta ocupada y no es la misma clave, colisionar conpares 
 
-
-	/*if(hash-> pares[posicion].clave != NULL && strcmp(hash->pares[posicion].clave, clave) != 0)
-		
-	if(hash->pares[posicion].clave){
-		*anterior = hash->pares[posicion].elemento;
-		hash->pares[posicion] = llenar_par(clave, elemento);
-	}
-	else{
-		hash->pares[posicion] = llenar_par(clave, elemento);
-		hash->cantidad++;
-	}*/
 	return hash;
 }
 
-/* void *hash_quitar(hash_t *hash, const char *clave)
+void *hash_quitar(hash_t *hash, const char *clave)
 {
 	if(!hash || !clave)
 		return NULL;
 	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
-	if(!hash->pares[posicion].clave)
-		return NULL;
-	void *elemento = hash->pares[posicion].elemento;
-	hash->pares[posicion].clave = NULL;
-	hash->pares[posicion].elemento = NULL;
-	hash->cantidad--;
-	return elemento;
+	void *elemento_eliminado = NULL;
+	pares_t lista_pares = hash->pares[posicion];
+
+	for(size_t i = 0; i < lista_pares.cantidad; i++){
+
+		if(strcmp(lista_pares.par_inicio->clave, clave) == 0){
+		elemento_eliminado = lista_pares.par_inicio->elemento;	
+		par_t *par_a_elminiar = lista_pares.par_inicio;
+		lista_pares.par_inicio = par_a_elminiar->siguiente;
+		free(par_a_elminiar);
+
+		hash->pares->cantidad--;
+		hash->cantidad--;
+		}
+		
+	}
+	
+	return elemento_eliminado;
 }
 
-*/void *hash_obtener(hash_t *hash, const char *clave)
+void *hash_obtener(hash_t *hash, const char *clave)
 {
 	if(!hash || !clave)
 		return NULL;
@@ -118,7 +122,7 @@ bool hash_contiene(hash_t *hash, const char *clave)
 	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
 	pares_t lista_pares = hash->pares[posicion];
 	for(size_t i = 0; i < lista_pares.cantidad; i++){
-		if(strcmp(lista_pares.par_inicio->clave, clave) == 0)
+		if(lista_pares.par_inicio->clave != NULL && strcmp(lista_pares.par_inicio->clave, clave) == 0)
 			return true;
 		lista_pares.par_inicio = hash->pares[posicion].par_inicio->siguiente;
 	}
