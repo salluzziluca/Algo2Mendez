@@ -49,6 +49,7 @@ hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
 		//TODO: return rehash(hash);
 
 	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
+	//TODO: Si la posicion esta ocupada y no es la misma clave, colisionar con lista
 	if(hash->pares[posicion].clave){
 		*anterior = hash->pares[posicion].elemento;
 		hash->pares[posicion] = llenar_par(clave, elemento);
