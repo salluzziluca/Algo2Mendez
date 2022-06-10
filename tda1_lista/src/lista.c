@@ -265,10 +265,7 @@ void lista_destruir_todo(lista_t *lista, void (*funcion)(void *))
 	}
 	for (size_t i = 0; i < lista->cantidad; i++) {
 		nodo_t *bloque_auxiliar = lista->nodo_inicio->siguiente;
-		
-		if(funcion == NULL)
 		funcion(lista->nodo_inicio->elemento);
-		
 		free(lista->nodo_inicio);
 		lista->nodo_inicio = bloque_auxiliar;
 	}
