@@ -15,7 +15,7 @@ all: 64
 ejemplo: ejemplo.c src/*
 	$(CC) $(CFLAGS) src/*.c ejemplo.c -o ejemplo 2>&1
 
-valgrind: ejemplo
+valgrind-ejemplo: ejemplo
 	valgrind $(VALGRIND_FLAGS) ./ejemplo 2>&1
 
 valgrind-pruebas: pruebas
