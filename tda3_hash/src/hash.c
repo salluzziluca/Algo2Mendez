@@ -65,14 +65,33 @@ hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
 
 	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
 	par_t *par = llenar_par(clave, elemento);
+	
+	if(hash->pares[posicion].cantidad == 0){
 	if(!par_insertar(&hash->pares[posicion], par))
 		return NULL;
 	hash->cantidad++;
 	return hash;
+	}
 
-	//TODO: Si la posicion esta ocupada y no es la misma clave, colisionar conpares 
-	//TODO: Si la posicion esta ocupada y es la misma clave, reemplazar el elemento
-
+	for (size_t i = 0; i < hash->pares[posicion].cantidad; i++)
+	{
+		par_t *par_actual = hash->pares[posicion].par_inicio;
+		if(strcmp(hash->pares[posicion].par_inicio->clave, clave) == 0)
+		{
+			*anterior = par_actual->elemento;
+			par_actual->elemento = elemento;
+			//TODO: ver como hacer para no tener que liberar este nodo
+			free(par);
+			return hash;
+		}
+		else{
+			hash->pares[posicion].par_fin->siguiente = par;
+			hash->pares[posicion].par_fin = par;
+			hash->cantidad++;
+			return hash;
+		}
+		par_actual = par_actual->siguiente;
+	}
 	return hash;
 }
 
