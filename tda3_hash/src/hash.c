@@ -179,7 +179,21 @@ size_t hash_con_cada_clave(hash_t *hash,
 			   bool (*f)(const char *clave, void *valor, void *aux),
 			   void *aux)
 {
-	return 0;
+	if(!hash || !f)
+		return 0;
+	size_t cantidad_claves_iteradas = 0;
+	for (size_t i = 0; i < hash->capacidad; i++)
+	{
+		pares_t lista_pares = hash->pares[i];
+		cantidad_claves_iteradas++; //TODO: ver si esto es correcto. cada vez que entra en una posicion, suma automaticamente uno a cantidad_claves_iteradas, ya que seria la posicion 0 de la lista. Luego, sigue sumando a medida que itera por la susodicha
+		for(size_t j = 1; j < lista_pares.cantidad; j++){
+			if(!f(lista_pares.par_inicio->clave, lista_pares.par_inicio->elemento, aux))
+				return cantidad_claves_iteradas;
+			cantidad_claves_iteradas++;
+			lista_pares.par_inicio = lista_pares.par_inicio->siguiente;
+		}
+	}
+	return cantidad_claves_iteradas;
 }
 
 hash_t *rehash(hash_t *hash, size_t capacidad)

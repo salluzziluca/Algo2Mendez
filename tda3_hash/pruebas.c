@@ -1,6 +1,14 @@
 #include "src/hash.h"
 #include "pa2m.h"
 #include <string.h>
+
+bool no_hace_nada(const char *clave, void *elemento, void *extra)
+{
+	clave = clave;
+	elemento = elemento;
+	extra = extra;
+	return true;
+}
 void hash_crear_crea_e_inicializa_correctamente(){
 	hash_t *hash = hash_crear(3);
 	pa2m_afirmar(hash != NULL, "Se crea el hash correctamente");
@@ -26,12 +34,12 @@ void hash_crear_crea_e_inicializa_correctamente(){
 
 }
 
-void hash_insertar_inserta_correctamente(){
+/*void hash_insertar_inserta_correctamente(){
 	hash_t *hash = NULL; 
 	void *anterior = NULL;
 	int uno = 1, dos = 2;
 	pa2m_afirmar(hash_insertar(hash, "hola", &uno, anterior) == NULL, "No se puede insertar un par en un hash nulo");
-	hash = hash_crear(3);
+	hash = hash_crear(8);
 
 	pa2m_afirmar(hash_insertar(hash, "hola",&uno , &anterior) != NULL, "Se inserta correctamente");
 	pa2m_afirmar(strcmp(hash->pares->par_inicio->clave , "hola") == 0, "Se inserta la clave correctamente");
@@ -44,7 +52,7 @@ void hash_insertar_inserta_correctamente(){
 
 	pa2m_afirmar(hash_insertar(hash, NULL,&dos , &anterior) == NULL, "No se puede insertar par con clave nula");
 	hash_destruir(hash);
-}
+}*/
 void hash_quitar_quita_correctamente(){
 	hash_t *hash = NULL;
 	int uno = 1;
@@ -60,14 +68,27 @@ void hash_quitar_quita_correctamente(){
 
 	hash_destruir(hash);
 }
+
+void hash_con_cada_clave_itera_correctamente(){
+	hash_t *hash = hash_crear(3);
+	int uno = 1, dos = 2, tres = 3;
+	hash_insertar(hash, "hola", &uno, NULL);
+	hash_insertar(hash, "chau", &dos, NULL);
+	hash_insertar(hash, "adios", &tres, NULL);
+	void *aux = NULL;
+	pa2m_afirmar(hash_con_cada_clave(hash, no_hace_nada, aux) == 3, "El iterador funciona correctamente");
+	hash_destruir(hash);
+}
 int main()
 {
 	pa2m_nuevo_grupo("Pruebas de Creación");
 	hash_crear_crea_e_inicializa_correctamente();
 	pa2m_nuevo_grupo("Pruebas de Insercion");
-	hash_insertar_inserta_correctamente();
+	//hash_insertar_inserta_correctamente();
 	pa2m_nuevo_grupo("Pruebas de Quitado");
 	hash_quitar_quita_correctamente();
+	pa2m_nuevo_grupo("Pruebas de Iterador");
+	hash_con_cada_clave_itera_correctamente();
 
 	return pa2m_mostrar_reporte();
 }
