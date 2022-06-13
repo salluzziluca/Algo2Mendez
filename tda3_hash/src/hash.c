@@ -14,6 +14,12 @@ int funcion_hash(const char *clave) {
 	return suma;
 }
 
+char *copiar_string(const char *origen) {
+	char *copia = malloc(strlen(origen) + 1);
+	strcpy(copia, origen);
+	return copia;
+}
+
 hash_t *hash_crear(size_t capacidad)
 {	
 	hash_t *hash = malloc(sizeof(hash_t));
@@ -29,7 +35,7 @@ hash_t *hash_crear(size_t capacidad)
 	return hash;
 }
 
-par_t *llenar_par(const char *clave, void *elemento)
+par_t *llenar_par(char *clave, void *elemento)
 {
 	par_t *par = malloc(sizeof(par_t));
 	par->clave = clave;
@@ -64,7 +70,8 @@ hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
 		//TODO: return rehash(hash);
 
 	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
-	par_t *par = llenar_par(clave, elemento);
+	char *copia_clave = copiar_string(clave);
+	par_t *par = llenar_par(copia_clave, elemento);
 	
 	if(hash->pares[posicion].cantidad == 0){
 	if(!par_insertar(&hash->pares[posicion], par))
@@ -81,6 +88,7 @@ hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
 			*anterior = par_actual->elemento;
 			par_actual->elemento = elemento;
 			//TODO: ver como hacer para no tener que liberar este nodo
+			free(par->clave);
 			free(par);
 			return hash;
 		}
@@ -110,6 +118,7 @@ void *hash_quitar(hash_t *hash, const char *clave)
 		elemento_eliminado = lista_pares.par_inicio->elemento;	
 		par_t *par_a_elminiar = lista_pares.par_inicio;
 		lista_pares.par_inicio = par_a_elminiar->siguiente;
+		free(par_a_elminiar->clave);
 		free(par_a_elminiar);
 
 		hash->pares->cantidad--;
@@ -163,6 +172,7 @@ void hash_destruir(hash_t *hash)
 	for(size_t i = 0; i < hash->capacidad; i++){
 		for(size_t j = 0; j < hash->pares[i].cantidad; j++){
 			par_t *uxiliar = hash->pares[i].par_inicio->siguiente;
+			free(hash->pares[i].par_inicio->clave);
 			free(hash->pares[i].par_inicio);
 			hash->pares[i].par_inicio = uxiliar;
 		}

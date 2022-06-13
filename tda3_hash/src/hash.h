@@ -5,7 +5,7 @@
 #include <stddef.h>
 
 typedef struct par{
-	const char *clave;
+	char *clave;
 	void *elemento;
 	struct par *siguiente;
 }par_t;
