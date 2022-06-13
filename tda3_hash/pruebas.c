@@ -49,7 +49,11 @@ void hash_insertar_inserta_correctamente(){
 	pa2m_afirmar(*(int*)hash_obtener(hash, "hola") == 2, "Se sobreescribio el valor correctamente");
 	pa2m_afirmar(*(int*) anterior == 1, "El elemento sobrescrito es almacenado correctamente");
 	pa2m_afirmar(hash_cantidad(hash)== 1, "La cantidad no aumenta porque el elemento fue sobrescrito");
-
+	hash_quitar(hash, "hola");
+	hash_insertar(hash, "hola",&dos , &anterior);
+	pa2m_afirmar(*(int*)hash_obtener(hash, "hola") == 2, "Se puede agregar, eliminar y volver a agregar el mismo elemento con la misma clave");
+	pa2m_afirmar(hash_insertar(hash, "papa",&dos , &anterior) != NULL, "Se puede insertar dos veces el mismo elemento con diferente clave");
+	pa2m_afirmar((*(int *)hash_obtener(hash, "papa") == 2 )&& (*(int *)hash_obtener(hash, "hola") == 2), "Ambas claves tienen el mismo elemento");
 	pa2m_afirmar(hash_insertar(hash, NULL,&dos , &anterior) == NULL, "No se puede insertar par con clave nula");
 	hash_destruir(hash);
 }
@@ -70,7 +74,10 @@ void hash_quitar_quita_correctamente(){
 }
 
 void hash_con_cada_clave_itera_correctamente(){
-	hash_t *hash = hash_crear(3);
+	hash_t *hash = NULL;
+	pa2m_afirmar(hash_con_cada_clave(hash, no_hace_nada, NULL) == 0, "No se puede iterar un hash nulo");
+	hash = hash_crear(3);
+	pa2m_afirmar(hash_con_cada_clave(hash, no_hace_nada, NULL) == 0, "Pedir iterar en un hash vacio devuelve 0");
 	int uno = 1, dos = 2, tres = 3;
 	hash_insertar(hash, "hola", &uno, NULL);
 	hash_insertar(hash, "chau", &dos, NULL);
