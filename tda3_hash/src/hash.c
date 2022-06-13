@@ -184,13 +184,14 @@ size_t hash_con_cada_clave(hash_t *hash,
 	size_t cantidad_claves_iteradas = 0;
 	for (size_t i = 0; i < hash->capacidad; i++)
 	{
-		pares_t lista_pares = hash->pares[i];
-		cantidad_claves_iteradas++; //TODO: ver si esto es correcto. cada vez que entra en una posicion, suma automaticamente uno a cantidad_claves_iteradas, ya que seria la posicion 0 de la lista. Luego, sigue sumando a medida que itera por la susodicha
-		for(size_t j = 1; j < lista_pares.cantidad; j++){
-			if(!f(lista_pares.par_inicio->clave, lista_pares.par_inicio->elemento, aux))
+		par_t *par_actual = hash->pares[i].par_inicio;
+		cantidad_claves_iteradas++;
+		//TODO: ver si esto es correcto. cada vez que entra en una posicion, suma automaticamente uno a cantidad_claves_iteradas, ya que seria la posicion 0 de la lista. Luego, sigue sumando a medida que itera por la susodicha
+		for(size_t j = 1; j < hash->pares[i].cantidad; j++){
+			if(!f(par_actual->clave, par_actual->elemento, aux))
 				return cantidad_claves_iteradas;
 			cantidad_claves_iteradas++;
-			lista_pares.par_inicio = lista_pares.par_inicio->siguiente;
+			par_actual = par_actual->siguiente;
 		}
 	}
 	return cantidad_claves_iteradas;
