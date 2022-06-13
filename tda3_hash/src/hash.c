@@ -70,36 +70,26 @@ hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
 		//TODO: return rehash(hash);
 
 	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
-	char *copia_clave = copiar_string(clave);
-	par_t *par = llenar_par(copia_clave, elemento);
-	
-	if(hash->pares[posicion].cantidad == 0){
-	if(!par_insertar(&hash->pares[posicion], par))
-		return NULL;
-	hash->cantidad++;
-	return hash;
-	}
 
-	for (size_t i = 0; i < hash->pares[posicion].cantidad; i++)
+	int i = 0;
+	bool agregado = false;
+	par_t *par_actual = hash->pares[posicion].par_inicio;
+	while(i < hash->pares[posicion].cantidad && !agregado)
 	{
-		par_t *par_actual = hash->pares[posicion].par_inicio;
-		if(strcmp(hash->pares[posicion].par_inicio->clave, clave) == 0)
+		if(strcmp(par_actual->clave, clave) == 0)
 		{
 			*anterior = par_actual->elemento;
 			par_actual->elemento = elemento;
-			//TODO: ver como hacer para no tener que liberar este nodo
-			free(par->clave);
-			free(par);
-			return hash;
+			agregado = true;
 		}
-		else{
-			hash->pares[posicion].par_fin->siguiente = par;
-			hash->pares[posicion].par_fin = par;
-			hash->cantidad++;
-			hash->pares[posicion].cantidad++;
-			return hash;
-		}
+		i++;
 		par_actual = par_actual->siguiente;
+	}
+	if(!agregado){
+		char *copia_clave = copiar_string(clave);
+		par_t *par = llenar_par(copia_clave, elemento);
+		par_insertar(&hash->pares[posicion], par);
+		hash->cantidad++;
 	}
 	return hash;
 }
