@@ -72,20 +72,22 @@ hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
 	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
 
 	int i = 0;
-	bool agregado = false;
+	bool sobreescrito = false;
+	bool contiene_clave = hash_contiene(hash, clave);
 	par_t *par_actual = hash->pares[posicion].par_inicio;
-	while(i < hash->pares[posicion].cantidad && !agregado)
+
+	while(contiene_clave && i < hash->pares[posicion].cantidad && !sobreescrito)
 	{
 		if(strcmp(par_actual->clave, clave) == 0)
 		{
 			*anterior = par_actual->elemento;
 			par_actual->elemento = elemento;
-			agregado = true;
+			sobreescrito = true;
 		}
 		i++;
 		par_actual = par_actual->siguiente;
 	}
-	if(!agregado){
+	if(!sobreescrito){
 		char *copia_clave = copiar_string(clave);
 		par_t *par = llenar_par(copia_clave, elemento);
 		par_insertar(&hash->pares[posicion], par);
