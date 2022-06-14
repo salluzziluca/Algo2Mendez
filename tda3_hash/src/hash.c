@@ -31,7 +31,7 @@ hash_t *hash_crear(size_t capacidad)
 	if(!hash->pares)
 		return NULL;
 	hash->capacidad = capacidad;
-	hash->cantidad = 0;
+	hash->ocupados = 0;
 	return hash;
 }
 
@@ -48,14 +48,14 @@ pares_t *par_insertar(pares_t *pares, par_t *par)
 	if (pares == NULL)
 		return NULL;
 
-	if (pares->cantidad == 0) {
+	if (pares->ocupados == 0) {
 		pares->par_fin = par;
 		pares->par_inicio = par;
-		pares->cantidad++;
+		pares->ocupados++;
 	} else {
 		pares->par_fin->siguiente = par;
 		pares->par_fin = par;
-		pares->cantidad++;
+		pares->ocupados++;
 	}
 	return pares;
 }
@@ -72,13 +72,13 @@ hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
 	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
 
 	int i = 0;
+	bool hay_que_sobreescribir = false;
 	bool sobreescrito = false;
-	bool contiene_clave = false;
-	if(hash->pares[posicion].cantidad != 0)
-		contiene_clave = hash_contiene(hash, clave);
+	if(hash->pares[posicion].ocupados != 0)
+		hay_que_sobreescribir = hash_contiene(hash, clave);
 	par_t *par_actual = hash->pares[posicion].par_inicio;
 
-	while(contiene_clave && i < hash->pares[posicion].cantidad && !sobreescrito)
+	while(hay_que_sobreescribir && i < hash->pares[posicion].ocupados && !sobreescrito)
 	{
 		if(strcmp(par_actual->clave, clave) == 0)
 		{
@@ -93,7 +93,7 @@ hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
 		char *copia_clave = copiar_string(clave);
 		par_t *par = llenar_par(copia_clave, elemento);
 		par_insertar(&hash->pares[posicion], par);
-		hash->cantidad++;
+		hash->ocupados++;
 	}
 	return hash;
 }
@@ -102,35 +102,39 @@ void *hash_quitar(hash_t *hash, const char *clave)
 {
 	if(!hash || !clave)
 		return NULL;
+
 	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
 	void *elemento_eliminado = NULL;
-	int i = 0;
-	bool eliminado = false;
-	par_t *par_anterior = hash->pares[posicion].par_inicio;
 
-	if( hash->pares[posicion].cantidad == 1){
-		if(strcmp(par_anterior->clave, clave) == 0){
-			elemento_eliminado = par_anterior->elemento;
+	if( hash->pares[posicion].ocupados == 1){
+		if(strcmp(hash->pares[posicion].par_inicio->clave, clave) == 0){
+			par_t *par_eliminado =  hash->pares[posicion].par_inicio;
+			elemento_eliminado = par_eliminado->elemento;
 			hash->pares[posicion].par_inicio = NULL;
 			hash->pares[posicion].par_fin = NULL;
-			hash->pares[posicion].cantidad = 0;
-			free(par_anterior->clave);
-			free(par_anterior);
-			hash->cantidad--;
+			hash->pares[posicion].ocupados = 0;
+			free(par_eliminado->clave);
+			free(par_eliminado);
+
+			hash->ocupados--;
 			return elemento_eliminado;
 		}
 	}
-	while (i < hash->pares[posicion].cantidad && eliminado == false) {
 
-		if(strcmp(par_anterior->siguiente->clave, clave) == 0){
+	int i = 0;
+	bool eliminado = false;
+	while (i < hash->pares[posicion].ocupados && eliminado == false) {
+
+		if(strcmp(hash->pares[posicion].par_inicio->siguiente->clave, clave) == 0){
+			par_t *par_anterior = hash->pares[posicion].par_inicio;
 			par_t *par_a_elminiar =par_anterior->siguiente;
 			elemento_eliminado = par_a_elminiar->elemento;	
 			par_anterior->siguiente = par_a_elminiar->siguiente;
 			free(par_a_elminiar->clave);
 			free(par_a_elminiar);
 
-			hash->pares->cantidad--;
-			hash->cantidad--;
+			hash->pares->ocupados--;
+			hash->ocupados--;
 			eliminado = true;
 		}
 		i++;
@@ -145,15 +149,16 @@ void *hash_obtener(hash_t *hash, const char *clave)
 {
 	if(!hash || !clave)
 		return NULL;
+
 	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
-	if(hash->pares[posicion].par_inicio->clave == NULL)
-		return NULL;
 	par_t *par_actual = hash->pares[posicion].par_inicio;
-	for(size_t i = 0; i < hash->pares[posicion].cantidad; i++){
+
+	for(size_t i = 0; i < hash->pares[posicion].ocupados; i++){
 		if(par_actual->clave != NULL && strcmp(par_actual->clave, clave) == 0)
 			return par_actual->elemento;
 		par_actual =par_actual->siguiente;
 	}
+
 	return NULL;
 
 }
@@ -164,27 +169,37 @@ bool hash_contiene(hash_t *hash, const char *clave)
 		return false;
 	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
 	par_t *par_actual = hash->pares[posicion].par_inicio;
-	for(size_t i = 0; i < hash->pares[posicion].cantidad; i++){
+
+	for(size_t i = 0; i < hash->pares[posicion].ocupados; i++){
 		if(par_actual->clave != NULL && strcmp(par_actual->clave, clave) == 0)
 			return true;
 		par_actual = par_actual->siguiente;
 	}
+	
 	return false;
 }
 size_t hash_cantidad(hash_t *hash)
 {
 	if(!hash)
 		return 0;
-	return hash->cantidad;
+	return hash->ocupados;
 }
 
 void hash_destruir(hash_t *hash)
 {
+	hash_destruir_todo(hash, NULL);
+}
+
+void hash_destruir_todo(hash_t *hash, void (*destructor)(void *))
+{
 	if(!hash)
 		return;
-	for(size_t i = 0; i < hash->capacidad; i++){
-		for(size_t j = 0; j < hash->pares[i].cantidad; j++){
+	for (size_t i = 0; i < hash->capacidad; i++)
+	{
+		for(size_t j = 0; j < hash->pares[i].ocupados; j++){
 			par_t *uxiliar = hash->pares[i].par_inicio->siguiente;
+			if(destructor != NULL)
+				destructor(hash->pares[i].par_inicio->elemento);
 			free(hash->pares[i].par_inicio->clave);
 			free(hash->pares[i].par_inicio);
 			hash->pares[i].par_inicio = uxiliar;
@@ -194,11 +209,6 @@ void hash_destruir(hash_t *hash)
 	free(hash);
 }
 
-void hash_destruir_todo(hash_t *hash, void (*destructor)(void *))
-{
-
-}
-
 size_t hash_con_cada_clave(hash_t *hash,
 			   bool (*f)(const char *clave, void *valor, void *aux),
 			   void *aux)
@@ -206,7 +216,7 @@ size_t hash_con_cada_clave(hash_t *hash,
 	if(!hash || !f)
 		return 0;
 
-	size_t cantidad_claves_iteradas = 0;
+	size_t ocupados_claves_iteradas = 0;
 	
 	for (size_t i = 0; i < hash->capacidad; i++)
 	{
@@ -214,14 +224,14 @@ size_t hash_con_cada_clave(hash_t *hash,
 		int j = 0;
 		bool continuar = true;
 
-		while(continuar && j < hash->pares[i].cantidad){
+		while(continuar && j < hash->pares[i].ocupados){
 			continuar = f(par_actual->clave, par_actual->elemento, aux);
-			cantidad_claves_iteradas++;
+			ocupados_claves_iteradas++;
 			j++;
 			par_actual = par_actual->siguiente;
 		}
 	}
-	return cantidad_claves_iteradas;
+	return ocupados_claves_iteradas;
 }
 
 hash_t *rehash(hash_t *hash, size_t capacidad)

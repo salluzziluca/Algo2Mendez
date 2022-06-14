@@ -13,11 +13,11 @@ typedef struct par{
 typedef struct pares{
 	par_t *par_inicio;
 	par_t *par_fin;
-	size_t cantidad;
+	size_t ocupados;
 }pares_t;
 typedef struct hash {
 	size_t capacidad;
-	size_t cantidad;
+	size_t ocupados;
 	pares_t *pares;	
 }hash_t;
 /*
@@ -96,7 +96,7 @@ void hash_destruir_todo(hash_t *hash, void (*destructor)(void *));
  * devuelve false, la iteración se corta y la función principal
  * retorna.
  *
- * Devuelve la cantidad de claves totales iteradas (la cantidad de
+ * Devuelve la ocupados de claves totales iteradas (la ocupados de
  * veces que fue invocada la función) o 0 en caso de error.
  *
  */
