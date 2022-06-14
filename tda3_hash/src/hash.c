@@ -128,6 +128,8 @@ void *hash_obtener(hash_t *hash, const char *clave)
 		return NULL;
 	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
 	pares_t lista_pares = hash->pares[posicion];
+	if(lista_pares.par_inicio->clave == NULL)
+		return NULL;
 	for(size_t i = 0; i < lista_pares.cantidad; i++){
 		if(strcmp(lista_pares.par_inicio->clave, clave) == 0)
 			return lista_pares.par_inicio->elemento;
@@ -143,6 +145,9 @@ bool hash_contiene(hash_t *hash, const char *clave)
 		return false;
 	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
 	pares_t lista_pares = hash->pares[posicion];
+	if(lista_pares.par_inicio->clave == NULL) //TODO: Chequear esta condicion de corte para ver si la puedo integrar mejor al workflow. IDEM en hash_obtener
+		return false;
+		//return false;
 	for(size_t i = 0; i < lista_pares.cantidad; i++){
 		if(lista_pares.par_inicio->clave != NULL && strcmp(lista_pares.par_inicio->clave, clave) == 0)
 			return true;
