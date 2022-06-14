@@ -73,7 +73,9 @@ hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
 
 	int i = 0;
 	bool sobreescrito = false;
-	bool contiene_clave = hash_contiene(hash, clave);
+	bool contiene_clave = false;
+	if(hash->pares[posicion].cantidad != 0)
+		contiene_clave = hash_contiene(hash, clave);
 	par_t *par_actual = hash->pares[posicion].par_inicio;
 
 	while(contiene_clave && i < hash->pares[posicion].cantidad && !sobreescrito)
@@ -102,20 +104,35 @@ void *hash_quitar(hash_t *hash, const char *clave)
 		return NULL;
 	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
 	void *elemento_eliminado = NULL;
-	pares_t lista_pares = hash->pares[posicion];
+	int i = 0;
+	bool eliminado = false;
+	par_t *par_anterior = hash->pares[posicion].par_inicio;
 
-	for(size_t i = 0; i < lista_pares.cantidad; i++){
-
-		if(strcmp(lista_pares.par_inicio->clave, clave) == 0){
-		elemento_eliminado = lista_pares.par_inicio->elemento;	
-		par_t *par_a_elminiar = lista_pares.par_inicio;
-		lista_pares.par_inicio = par_a_elminiar->siguiente;
-		free(par_a_elminiar->clave);
-		free(par_a_elminiar);
-
-		hash->pares->cantidad--;
-		hash->cantidad--;
+	if( hash->pares[posicion].cantidad == 1){
+		if(strcmp(par_anterior->clave, clave) == 0){
+			elemento_eliminado = par_anterior->elemento;
+			hash->pares[posicion].par_inicio = NULL;
+			hash->pares[posicion].par_fin = NULL;
+			hash->pares[posicion].cantidad = 0;
+			hash->cantidad--;
+			return elemento_eliminado;
 		}
+	}
+	while (i < hash->pares[posicion].cantidad && eliminado == false) {
+
+		if(strcmp(par_anterior->siguiente->clave, clave) == 0){
+			par_t *par_a_elminiar =par_anterior->siguiente;
+			elemento_eliminado = par_a_elminiar->elemento;	
+			par_anterior->siguiente = par_a_elminiar->siguiente;
+			free(par_a_elminiar->clave);
+			free(par_a_elminiar);
+
+			hash->pares->cantidad--;
+			hash->cantidad--;
+			eliminado = true;
+		}
+		i++;
+		hash->pares[posicion].par_inicio = hash->pares[posicion].par_inicio->siguiente;
 		
 	}
 	
@@ -127,13 +144,12 @@ void *hash_obtener(hash_t *hash, const char *clave)
 	if(!hash || !clave)
 		return NULL;
 	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
-	pares_t lista_pares = hash->pares[posicion];
-	if(lista_pares.par_inicio->clave == NULL)
+	if(hash->pares[posicion].par_inicio->clave == NULL)
 		return NULL;
-	for(size_t i = 0; i < lista_pares.cantidad; i++){
-		if(strcmp(lista_pares.par_inicio->clave, clave) == 0)
-			return lista_pares.par_inicio->elemento;
-		lista_pares.par_inicio = hash->pares[posicion].par_inicio->siguiente;
+	for(size_t i = 0; i < hash->pares[posicion].cantidad; i++){
+		if(strcmp(hash->pares[posicion].par_inicio->clave, clave) == 0)
+			return hash->pares[posicion].par_inicio->elemento;
+		hash->pares[posicion].par_inicio = hash->pares[posicion].par_inicio->siguiente;
 	}
 	return NULL;
 
@@ -141,17 +157,16 @@ void *hash_obtener(hash_t *hash, const char *clave)
 
 bool hash_contiene(hash_t *hash, const char *clave)
 {
-	if(!hash || !clave)
+	if(!hash || !clave )
 		return false;
 	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
-	pares_t lista_pares = hash->pares[posicion];
-	if(lista_pares.par_inicio->clave == NULL) //TODO: Chequear esta condicion de corte para ver si la puedo integrar mejor al workflow. IDEM en hash_obtener
+
+	if(hash->pares[posicion].cantidad == 0)
 		return false;
-		//return false;
-	for(size_t i = 0; i < lista_pares.cantidad; i++){
-		if(lista_pares.par_inicio->clave != NULL && strcmp(lista_pares.par_inicio->clave, clave) == 0)
+	for(size_t i = 0; i < hash->pares[posicion].cantidad; i++){
+		if(hash->pares[posicion].par_inicio->clave != NULL && strcmp(hash->pares[posicion].par_inicio->clave, clave) == 0)
 			return true;
-		lista_pares.par_inicio = hash->pares[posicion].par_inicio->siguiente;
+		hash->pares[posicion].par_inicio = hash->pares[posicion].par_inicio->siguiente;
 	}
 	return false;
 }
