@@ -39,10 +39,10 @@ void hash_insertar_inserta_correctamente(){
 	void *anterior = NULL;
 	int uno = 1, dos = 2;
 	pa2m_afirmar(hash_insertar(hash, "hola", &uno, anterior) == NULL, "No se puede insertar un par en un hash nulo");
-	hash = hash_crear(3);
+	hash = hash_crear(8);
 
 	pa2m_afirmar(hash_insertar(hash, "hola",&uno , &anterior) != NULL, "Se inserta correctamente");
-	pa2m_afirmar(strcmp(hash->pares->par_inicio->clave , "hola") == 0, "Se inserta la clave correctamente");
+	//pa2m_afirmar(strcmp(hash->pares[4]->par_inicio->clave , "hola") == 0, "Se inserta la clave correctamente");
 	pa2m_afirmar(*(int*)hash_obtener(hash, "hola") == 1, "Se inserta el par correctamente");pa2m_afirmar(hash_cantidad(hash)== 1, "Se aumenta la cantidad correctamente");	
 
 	pa2m_afirmar(hash_insertar(hash, "hola",&dos , &anterior) != NULL, "Se inserta correctamente");
