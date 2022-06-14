@@ -114,6 +114,8 @@ void *hash_quitar(hash_t *hash, const char *clave)
 			hash->pares[posicion].par_inicio = NULL;
 			hash->pares[posicion].par_fin = NULL;
 			hash->pares[posicion].cantidad = 0;
+			free(par_anterior->clave);
+			free(par_anterior);
 			hash->cantidad--;
 			return elemento_eliminado;
 		}
@@ -146,10 +148,11 @@ void *hash_obtener(hash_t *hash, const char *clave)
 	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
 	if(hash->pares[posicion].par_inicio->clave == NULL)
 		return NULL;
+	par_t *par_actual = hash->pares[posicion].par_inicio;
 	for(size_t i = 0; i < hash->pares[posicion].cantidad; i++){
-		if(strcmp(hash->pares[posicion].par_inicio->clave, clave) == 0)
-			return hash->pares[posicion].par_inicio->elemento;
-		hash->pares[posicion].par_inicio = hash->pares[posicion].par_inicio->siguiente;
+		if(par_actual->clave != NULL && strcmp(par_actual->clave, clave) == 0)
+			return par_actual->elemento;
+		par_actual =par_actual->siguiente;
 	}
 	return NULL;
 
@@ -157,16 +160,14 @@ void *hash_obtener(hash_t *hash, const char *clave)
 
 bool hash_contiene(hash_t *hash, const char *clave)
 {
-	if(!hash || !clave )
+	if(!hash || !clave)
 		return false;
 	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
-
-	if(hash->pares[posicion].cantidad == 0)
-		return false;
+	par_t *par_actual = hash->pares[posicion].par_inicio;
 	for(size_t i = 0; i < hash->pares[posicion].cantidad; i++){
-		if(hash->pares[posicion].par_inicio->clave != NULL && strcmp(hash->pares[posicion].par_inicio->clave, clave) == 0)
+		if(par_actual->clave != NULL && strcmp(par_actual->clave, clave) == 0)
 			return true;
-		hash->pares[posicion].par_inicio = hash->pares[posicion].par_inicio->siguiente;
+		par_actual = par_actual->siguiente;
 	}
 	return false;
 }
