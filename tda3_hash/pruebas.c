@@ -42,7 +42,7 @@ void hash_insertar_inserta_correctamente(){
 	hash = hash_crear(32);
 
 	pa2m_afirmar(hash_insertar(hash, "hola",&uno , &anterior) != NULL, "Se inserta correctamente");
-	//pa2m_afirmar(strcmp(hash->pares[4]->par_inicio->clave , "hola") == 0, "Se inserta la clave correctamente");
+	pa2m_afirmar(strcmp(hash->pares[4].par_inicio->clave , "hola") == 0, "Se inserta la clave correctamente");
 	pa2m_afirmar(*(int*)hash_obtener(hash, "hola") == 1, "Se inserta el par correctamente");pa2m_afirmar(hash_cantidad(hash)== 1, "Se aumenta la cantidad correctamente");	
 
 	pa2m_afirmar(hash_insertar(hash, "hola",&dos , &anterior) != NULL, "Se inserta correctamente");
