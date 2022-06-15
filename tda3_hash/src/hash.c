@@ -1,19 +1,16 @@
 #include "hash.h"
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
 #define FACTOR_DE_CARGA_MAXIMO 0.65
 
-
-int funcion_hash(const char *clave) {
-	int i = 0;
-	int suma = 0;
-	while (clave[i] != '\0') {
-		suma += clave[i];
-		i++;
-	}
-	return suma;
+uint32_t funcion_hash(const char *clave) {
+	uint32_t hash = 5381;
+	uint8_t c;
+	while ((c = (uint8_t) *clave++))
+		hash = ((hash << 5) + hash) + c;
+	return hash;
 }
-
 char *copiar_string(const char *origen) {
 	char *copia = malloc(strlen(origen) + 1);
 	strcpy(copia, origen);
@@ -71,8 +68,7 @@ hash_t *rehash(hash_t *hash, size_t capacidad)
 		for (size_t j = 0; j <hash->posiciones[i].ocupados; j++) {
 			size_t posicion = (size_t)funcion_hash(hash->posiciones[i].par_inicio->clave) % capacidad;
 			par_t *par_aux = hash->posiciones[i].par_inicio->siguiente;
-			par_t *par1 = hash->posiciones[i].par_inicio;
-			par_insertar(&posiciones_aux[posicion], par1);
+			par_insertar(&posiciones_aux[posicion], hash->posiciones[i].par_inicio);
 			hash->posiciones[i].par_inicio = par_aux;
 
 		}
