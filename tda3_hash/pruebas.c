@@ -124,6 +124,15 @@ void hash_rehash_rehashea_correctamente(){
 	pa2m_afirmar(hash_cantidad(hash) == 7, "se insertaron 7 elementos");
 
 	pa2m_afirmar(hash_cantidad(hash) == 7, "La cantidad es 7");
+
+	pa2m_afirmar(hash_contiene(hash, "hola") == true, "El elemento1 existe");
+	pa2m_afirmar(hash_contiene(hash, "chau") == true, "El elemento2 existe");
+	pa2m_afirmar(hash_contiene(hash, "adios") == true, "El elemento3 existe");
+	pa2m_afirmar(hash_contiene(hash, "cuatro") == true, "El elemento4 existe");
+	pa2m_afirmar(hash_contiene(hash, "cinco") == true, "El elemento5 existe");
+	pa2m_afirmar(hash_contiene(hash, "seis") == true, "El elemento6 existe");
+	pa2m_afirmar(hash_contiene(hash, "siete") == true, "El elemento7 existe");
+
 	hash_destruir(hash);
 }
 

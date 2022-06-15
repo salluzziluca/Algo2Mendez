@@ -64,20 +64,22 @@ hash_t *rehash(hash_t *hash, size_t capacidad)
 {
 	if(!hash)
 		return NULL;
-	hash_t *nuevo_hash = hash_crear(capacidad);
-	if(!nuevo_hash)
+	posiciones_t *posiciones_aux = calloc(capacidad, sizeof(posiciones_t));
+	if(!posiciones_aux)
 		return NULL;
-	for (size_t i = 0; i < hash->capacidad; i++){
-		for (size_t j = 0; j < hash->posiciones[i].ocupados; j++)
-		{
-			hash_insertar(nuevo_hash, hash->posiciones[i].par_inicio->clave, hash->posiciones[i].par_inicio->elemento, NULL);
-			hash->posiciones[i].par_inicio = hash->posiciones[i].par_inicio->siguiente;
+	for(size_t i = 0; i < hash->capacidad; i++){
+		for (size_t j = 0; j <hash->posiciones[i].ocupados; j++) {
+			size_t posicion = (size_t)funcion_hash(hash->posiciones[i].par_inicio->clave) % capacidad;
+			par_t *par_aux = hash->posiciones[i].par_inicio->siguiente;
+			par_insertar(&posiciones_aux[posicion], hash->posiciones[i].par_inicio);
+			free(hash->posiciones[i].par_inicio);
+			hash->posiciones[i].par_inicio = par_aux;
+
 		}
-	}
-	hash_t *aux = hash;
-	hash = nuevo_hash;
-	nuevo_hash = aux;
-	hash_destruir(nuevo_hash);
+
+	}	
+	hash->posiciones = posiciones_aux;	
+	hash->capacidad = capacidad;
 		//BUG: esta funcion se deberia aplicar cuando llegamos al 75% de la capacidad
 	//TODO: mirar ultimos minutos de la clase del 2 de junio
 	return hash;
