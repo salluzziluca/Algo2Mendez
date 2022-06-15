@@ -10,15 +10,15 @@ typedef struct par{
 	struct par *siguiente;
 }par_t;
 
-typedef struct pares{
+typedef struct posiciones{
 	par_t *par_inicio;
 	par_t *par_fin;
 	size_t ocupados;
-}pares_t;
+}posiciones_t;
 typedef struct hash {
 	size_t capacidad;
 	size_t ocupados;
-	pares_t *pares;	
+	posiciones_t *posiciones;	
 }hash_t;
 /*
  * Crea el hash reservando la memoria necesaria para el.
