@@ -99,14 +99,34 @@ void hash_con_cada_clave_itera_correctamente(){
 	pa2m_afirmar(hash_con_cada_clave(hash, no_hace_nada, NULL) == 0, "No se puede iterar un hash nulo");
 	hash = hash_crear(3);
 	pa2m_afirmar(hash_con_cada_clave(hash, no_hace_nada, NULL) == 0, "Pedir iterar en un hash vacio devuelve 0");
-	int uno = 1, dos = 2, tres = 3;
+	int uno = 1, dos = 2;
 	hash_insertar(hash, "hola", &uno, NULL);
 	hash_insertar(hash, "chau", &dos, NULL);
-	hash_insertar(hash, "adios", &tres, NULL);
 	void *aux = NULL;
-	pa2m_afirmar(hash_con_cada_clave(hash, no_hace_nada, aux) == 3, "El iterador funciona correctamente");
+	pa2m_afirmar(hash_con_cada_clave(hash, no_hace_nada, aux) == 2, "El iterador funciona correctamente");
 	hash_destruir(hash);
 }
+
+void hash_rehash_rehashea_correctamente(){
+	hash_t *hash = hash_crear(3);
+	int uno = 1, dos = 2, tres = 3 , cuatro = 4, cinco = 5, seis = 6, siete = 7;
+	pa2m_afirmar(hash->capacidad == 3, "La capacidad del hash es 3");
+	pa2m_afirmar(hash_insertar(hash, "hola", &uno, NULL) != NULL, "se puede insertar un primer par");
+	pa2m_afirmar(hash_insertar(hash, "chau", &dos, NULL) != NULL, "se puede insertar un segundo par");
+	pa2m_afirmar(hash->capacidad == 3, "La capacidad del hash es 3");
+	pa2m_afirmar(hash_insertar(hash, "adios", &tres, NULL) != NULL, "se puede insertar un tercer par");
+	pa2m_afirmar(hash->capacidad == 6, "La capacidad del hash es 6");
+	pa2m_afirmar(hash_insertar(hash, "cuatro", &cuatro, NULL) != NULL, "se puede insertar un cuarto par");
+	pa2m_afirmar(hash_insertar(hash, "cinco", &cinco, NULL) != NULL, "se puede insertar un quinto par");
+	pa2m_afirmar(hash_insertar(hash, "seis", &seis, NULL) != NULL, "se puede insertar un sexto par");
+	pa2m_afirmar(hash->capacidad == 12, "La capacidad del hash es 12");
+	pa2m_afirmar(hash_insertar(hash, "siete", &siete, NULL) != NULL, "se puede insertar un septimo par");
+	pa2m_afirmar(hash_cantidad(hash) == 7, "se insertaron 7 elementos");
+
+	pa2m_afirmar(hash_cantidad(hash) == 7, "La cantidad es 7");
+	hash_destruir(hash);
+}
+
 int main()
 {
 	pa2m_nuevo_grupo("Pruebas de Creación");
@@ -117,6 +137,7 @@ int main()
 	hash_quitar_quita_correctamente();
 	pa2m_nuevo_grupo("Pruebas de Iterador");
 	hash_con_cada_clave_itera_correctamente();
-
+	pa2m_nuevo_grupo("Pruebas de Rehash");
+	hash_rehash_rehashea_correctamente();
 	return pa2m_mostrar_reporte();
 }

@@ -1,7 +1,7 @@
 #include "hash.h"
 #include <stdlib.h>
 #include <string.h>
-#define FACTOR_DE_CARGA_MAXIMO 0.75
+#define FACTOR_DE_CARGA_MAXIMO 0.65
 
 
 int funcion_hash(const char *clave) {
@@ -59,15 +59,38 @@ pares_t *par_insertar(pares_t *pares, par_t *par)
 	}
 	return pares;
 }
+
+hash_t *rehash(hash_t *hash, size_t capacidad)
+{
+	if(!hash)
+		return NULL;
+	hash_t *nuevo_hash = hash_crear(capacidad);
+	if(!nuevo_hash)
+		return NULL;
+	for (size_t i = 0; i < hash->capacidad; i++){
+		for (size_t j = 0; j < hash->pares[i].ocupados; j++)
+		{
+			hash_insertar(nuevo_hash, hash->pares[i].par_inicio->clave, hash->pares[i].par_inicio->elemento, NULL);
+			hash->pares[i].par_inicio = hash->pares[i].par_inicio->siguiente;
+		}
+	}
+	hash_t *aux = hash;
+	hash = nuevo_hash;
+	nuevo_hash = aux;
+	hash_destruir(nuevo_hash);
+		//BUG: esta funcion se deberia aplicar cuando llegamos al 75% de la capacidad
+	//TODO: mirar ultimos minutos de la clase del 2 de junio
+	return hash;
+}
+
 hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
 		      void **anterior)
 {
 	if(!hash || !clave)
 		return NULL;
-	//TODO: fijarme primero si me voy a pasar. Si me paso, rehasear y despues insertar
+
 	if(hash_cantidad(hash) >= (double)hash->capacidad *FACTOR_DE_CARGA_MAXIMO)
-		return NULL;
-		//TODO: return rehash(hash);
+		hash = rehash(hash, hash->capacidad * 2);
 
 	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
 
@@ -196,6 +219,11 @@ void hash_destruir_todo(hash_t *hash, void (*destructor)(void *))
 		return;
 	for (size_t i = 0; i < hash->capacidad; i++)
 	{
+		if(hash->pares[i].ocupados == 1){
+			free(hash->pares[i].par_inicio->clave);
+			free(hash->pares[i].par_inicio);
+			hash->pares[i].ocupados = 0;
+		}
 		for(size_t j = 0; j < hash->pares[i].ocupados; j++){
 			par_t *uxiliar = hash->pares[i].par_inicio->siguiente;
 			if(destructor != NULL)
@@ -232,11 +260,4 @@ size_t hash_con_cada_clave(hash_t *hash,
 		}
 	}
 	return ocupados_claves_iteradas;
-}
-
-hash_t *rehash(hash_t *hash, size_t capacidad)
-{
-	//BUG: esta funcion se deberia aplicar cuando llegamos al 75% de la capacidad
-	//TODO: mirar ultimos minutos de la clase del 2 de junio
-	return hash;
 }
