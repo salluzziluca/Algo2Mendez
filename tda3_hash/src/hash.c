@@ -71,13 +71,14 @@ hash_t *rehash(hash_t *hash, size_t capacidad)
 		for (size_t j = 0; j <hash->posiciones[i].ocupados; j++) {
 			size_t posicion = (size_t)funcion_hash(hash->posiciones[i].par_inicio->clave) % capacidad;
 			par_t *par_aux = hash->posiciones[i].par_inicio->siguiente;
-			par_insertar(&posiciones_aux[posicion], hash->posiciones[i].par_inicio);
-			free(hash->posiciones[i].par_inicio);
+			par_t *par1 = hash->posiciones[i].par_inicio;
+			par_insertar(&posiciones_aux[posicion], par1);
 			hash->posiciones[i].par_inicio = par_aux;
 
 		}
 
-	}	
+	}
+	free(hash->posiciones);	
 	hash->posiciones = posiciones_aux;	
 	hash->capacidad = capacidad;
 		//BUG: esta funcion se deberia aplicar cuando llegamos al 75% de la capacidad
