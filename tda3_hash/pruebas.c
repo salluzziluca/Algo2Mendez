@@ -76,6 +76,11 @@ void hash_insertar_inserta_correctamente(){
 	pa2m_afirmar(hash_contiene(hash, "siete"), "contiene esa clave");
 	pa2m_afirmar(hash_cantidad(hash)== 7, "Se aumenta la cantidad correctamente");
 
+	pa2m_afirmar(hash_insertar(hash, "Nulo", NULL, &anterior) != NULL, "se puede insertar un elemento nulo");
+	pa2m_afirmar(hash_contiene(hash, "Nulo") == true, "contiene esa clave");
+	pa2m_afirmar(hash_obtener(hash, "Nulo") == NULL, "Se obtiene el valor correctamente");
+	pa2m_afirmar(hash_cantidad(hash)== 8, "Se aumenta la cantidad correctamente");
+
 	hash_destruir(hash);
 }
 void hash_quitar_quita_correctamente(){
