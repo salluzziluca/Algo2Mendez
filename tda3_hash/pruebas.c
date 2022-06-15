@@ -1,6 +1,8 @@
 #include "src/hash.h"
+#include "src/estructura_hash.h"
 #include "pa2m.h"
 #include <string.h>
+
 
 bool no_hace_nada(const char *clave, void *elemento, void *extra)
 {

@@ -1,8 +1,11 @@
 #include "hash.h"
+#include "estructura_hash.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
 #define FACTOR_DE_CARGA_MAXIMO 0.65
+
+
 
 uint32_t funcion_hash(const char *clave) {
 	uint32_t hash = 5381;
