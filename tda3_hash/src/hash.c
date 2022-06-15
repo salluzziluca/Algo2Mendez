@@ -1,4 +1,3 @@
-#include "hash.h"
 #include "estructura_hash.h"
 #include <stdlib.h>
 #include <string.h>
@@ -118,6 +117,7 @@ hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
 		char *copia_clave = copiar_string(clave);
 		par_t *par = llenar_par(copia_clave, elemento);
 		par_insertar(&hash->posiciones[posicion], par);
+		*anterior = NULL;
 		hash->ocupados++;
 	}
 	return hash;

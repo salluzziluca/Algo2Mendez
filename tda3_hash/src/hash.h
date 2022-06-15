@@ -3,7 +3,9 @@
 
 #include <stdbool.h>
 #include <stddef.h>
-#include "estructura_hash.h"
+
+typedef struct hash hash_t;
+
 /*
  * Crea el hash reservando la memoria necesaria para el.
  *
@@ -80,7 +82,7 @@ void hash_destruir_todo(hash_t *hash, void (*destructor)(void *));
  * devuelve false, la iteración se corta y la función principal
  * retorna.
  *
- * Devuelve la ocupados de claves totales iteradas (la ocupados de
+ * Devuelve la cantidad de claves totales iteradas (la cantidad de
  * veces que fue invocada la función) o 0 en caso de error.
  *
  */

@@ -1,7 +1,7 @@
 #ifndef __ESTRUCTURA_HASH_H__
 #define __ESTRUCTURA_HASH_H__
 #include <stdio.h>
-
+#include "hash.h"
 typedef struct par{
 	char *clave;
 	void *elemento;
@@ -13,10 +13,10 @@ typedef struct posiciones{
 	par_t *par_fin;
 	size_t ocupados;
 }posiciones_t;
-typedef struct hash {
+struct hash {
 	size_t capacidad;
 	size_t ocupados;
 	posiciones_t *posiciones;	
-}hash_t;
+};
 
 #endif /*__ESTRUCTURA_HASH.H__*/
