@@ -1,0 +1,11 @@
+{
+        "files.associations": {
+                "vector": "c",
+                "memory": "c",
+                "optional": "c",
+                "string_view": "c",
+                "string": "c",
+                "system_error": "c",
+                "estructura_hash.h": "c"
+        }
+}
