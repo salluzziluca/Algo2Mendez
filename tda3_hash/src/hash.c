@@ -133,7 +133,7 @@ void *hash_quitar(hash_t *hash, const char *clave)
 	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
 	void *elemento_eliminado = NULL;
 
-	if( hash->posiciones[posicion].ocupados == 1){
+	if(hash->posiciones[posicion].ocupados == 1){
 		if(strcmp(hash->posiciones[posicion].par_inicio->clave, clave) == 0){
 			par_t *par_eliminado =  hash->posiciones[posicion].par_inicio;
 			elemento_eliminado = par_eliminado->elemento;
@@ -148,6 +148,16 @@ void *hash_quitar(hash_t *hash, const char *clave)
 		}
 	}
 
+	if(hash->posiciones[posicion].ocupados > 0 && strcmp(hash->posiciones[posicion].par_inicio->clave, clave) == 0){
+		par_t *par_eliminado =  hash->posiciones[posicion].par_inicio;
+		elemento_eliminado = par_eliminado->elemento;
+		hash->posiciones[posicion].par_inicio =par_eliminado->siguiente;
+		hash->posiciones[posicion].ocupados--;
+		free(par_eliminado->clave);
+		free(par_eliminado);
+		hash->ocupados--;
+		return elemento_eliminado;
+	}
 	int i = 0;
 	bool eliminado = false;
 	while (i < hash->posiciones[posicion].ocupados && eliminado == false) {

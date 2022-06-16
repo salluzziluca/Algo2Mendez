@@ -171,6 +171,7 @@ void pruebas_chanu(){
 	pa2m_afirmar(hash_insertar(hash, "4", &A, &anterior) != NULL, "inserto <4,A>");
 	pa2m_afirmar(hash_cantidad(hash) == 2, "la cantidad es 2");
 	pa2m_afirmar(hash_quitar(hash, "1") == &B, "elimino la clave 1 y devuelve B");
+	hash_destruir(hash);
 }
 int main()
 {
