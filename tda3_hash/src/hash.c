@@ -170,13 +170,16 @@ void *hash_quitar(hash_t *hash, const char *clave)
 			free(par_a_elminiar->clave);
 			free(par_a_elminiar);
 
-			hash->posiciones->ocupados--;
+			hash->posiciones[posicion].ocupados--;
 			hash->ocupados--;
 			eliminado = true;
+		if(i == 0)
+			hash->posiciones[posicion].par_fin = par_anterior;
 		}
-		i++;
-		hash->posiciones[posicion].par_inicio = hash->posiciones[posicion].par_inicio->siguiente;
-		
+		if(!eliminado){
+			i++;
+			hash->posiciones[posicion].par_inicio->siguiente = hash->posiciones[posicion].par_inicio->siguiente;
+		}
 	}
 	
 	return elemento_eliminado;
@@ -259,7 +262,7 @@ size_t hash_con_cada_clave(hash_t *hash,
 		return 0;
 
 	size_t claves_iteradas = 0;
-	bool continuar = true;
+		bool continuar = true;
 	
 	for (size_t i = 0; i < hash->capacidad; i++)
 	{
