@@ -14,9 +14,9 @@ bool no_hace_nada(const char *clave, void *elemento, void *extra)
 bool recorro_3_veces(const char *clave, void *elemento, void *extra)
 {
 	int *contador = extra;
-	if(*contador >= 3)
-		return false;
 	(*contador)++;
+	if(*contador == 3)
+		return false;
 	return true;
 }
 void hash_crear_crea_e_inicializa_correctamente(){
