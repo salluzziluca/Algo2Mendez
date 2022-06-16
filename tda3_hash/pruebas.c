@@ -11,6 +11,14 @@ bool no_hace_nada(const char *clave, void *elemento, void *extra)
 	return true;
 }
 
+bool recorro_3_veces(const char *clave, void *elemento, void *extra)
+{
+	int *contador = extra;
+	if(*contador >= 3)
+		return false;
+	(*contador)++;
+	return true;
+}
 void hash_crear_crea_e_inicializa_correctamente(){
 	hash_t *hash = hash_crear(3);
 	pa2m_afirmar(hash != NULL, "Se crea el hash correctamente");
@@ -123,6 +131,26 @@ void hash_con_cada_clave_itera_correctamente(){
 	hash_insertar(hash, "chau", &dos, &anterior);
 	void *aux = NULL;
 	pa2m_afirmar(hash_con_cada_clave(hash, no_hace_nada, aux) == 2, "El iterador funciona correctamente");
+	hash_destruir(hash);
+
+	hash = hash_crear(10);
+	int tres = 3, cuatro = 4, cinco = 5, seis = 6, siete = 7, ocho = 8, nueve = 9, diez = 10;
+	hash_insertar(hash, "uno", &uno, &anterior);
+	hash_insertar(hash, "dos", &dos, &anterior);
+	hash_insertar(hash, "tres", &tres, &anterior);
+	hash_insertar(hash, "cuatro", &cuatro, &anterior);
+	hash_insertar(hash, "cinco", &cinco, &anterior);
+	hash_insertar(hash, "seis", &seis, &anterior);
+	hash_insertar(hash, "siete", &siete, &anterior);
+	hash_insertar(hash, "ocho", &ocho, &anterior);
+	hash_insertar(hash, "nueve", &nueve, &anterior);
+	hash_insertar(hash, "diez", &diez, &anterior);
+	int contador = 0;
+	size_t recorridos = hash_con_cada_clave(hash, recorro_3_veces, &contador);
+	recorridos = recorridos;
+	contador = 0; 
+	pa2m_afirmar(hash_con_cada_clave(hash, recorro_3_veces, &contador) == 3, "El iterador recorre 3 veces");
+
 	hash_destruir(hash);
 }
 

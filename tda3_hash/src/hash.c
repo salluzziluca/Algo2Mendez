@@ -258,7 +258,7 @@ size_t hash_con_cada_clave(hash_t *hash,
 	if(!hash || !f)
 		return 0;
 
-	size_t ocupados_claves_iteradas = 0;
+	size_t claves_iteradas = 0;
 	
 	for (size_t i = 0; i < hash->capacidad; i++)
 	{
@@ -268,10 +268,12 @@ size_t hash_con_cada_clave(hash_t *hash,
 
 		while(continuar && j < hash->posiciones[i].ocupados){
 			continuar = f(par_actual->clave, par_actual->elemento, aux);
-			ocupados_claves_iteradas++;
-			j++;
-			par_actual = par_actual->siguiente;
+			if( continuar){
+				claves_iteradas++;
+				j++;
+				par_actual = par_actual->siguiente;
+			}
 		}
 	}
-	return ocupados_claves_iteradas;
+	return claves_iteradas;
 }
