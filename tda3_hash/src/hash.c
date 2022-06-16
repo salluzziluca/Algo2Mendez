@@ -106,7 +106,8 @@ hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
 	{
 		if(strcmp(par_actual->clave, clave) == 0)
 		{
-			*anterior = par_actual->elemento;
+			if(anterior != NULL)
+				*anterior = par_actual->elemento;
 			par_actual->elemento = elemento;
 			sobreescrito = true;
 		}
@@ -117,7 +118,8 @@ hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
 		char *copia_clave = copiar_string(clave);
 		par_t *par = llenar_par(copia_clave, elemento);
 		par_insertar(&hash->posiciones[posicion], par);
-		*anterior = NULL;
+		if(anterior)
+			*anterior = NULL;
 		hash->ocupados++;
 	}
 	return hash;

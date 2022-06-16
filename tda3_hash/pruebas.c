@@ -10,6 +10,7 @@ bool no_hace_nada(const char *clave, void *elemento, void *extra)
 	extra = extra;
 	return true;
 }
+
 void hash_crear_crea_e_inicializa_correctamente(){
 	hash_t *hash = hash_crear(3);
 	pa2m_afirmar(hash != NULL, "Se crea el hash correctamente");
@@ -39,13 +40,15 @@ void hash_insertar_inserta_correctamente(){
 	hash_t *hash = NULL; 
 	void *anterior = NULL;
 	int uno = 1, dos = 2, tres = 3, cuatro = 4, cinco = 5, seis = 6, siete = 7;
-	pa2m_afirmar(hash_insertar(hash, "hola", &uno, anterior) == NULL, "No se puede insertar un par en un hash nulo");
+	pa2m_afirmar(hash_insertar(hash, "hola", &uno, &anterior) == NULL, "No se puede insertar un par en un hash nulo");
 	hash = hash_crear(32);
 
-	pa2m_afirmar(hash_insertar(hash, "hola",&uno , &anterior) != NULL, "Se inserta correctamente");
-	pa2m_afirmar(strcmp(hash->posiciones[9].par_inicio->clave , "hola") == 0, "Se inserta la clave correctamente");
-	pa2m_afirmar(*(int*)hash_obtener(hash, "hola") == 1, "Se inserta el par correctamente");pa2m_afirmar(hash_cantidad(hash)== 1, "Se aumenta la cantidad correctamente");	
+	pa2m_afirmar(hash_insertar(hash, "hola",&uno , NULL) != NULL, "Se inserta correctamente");
 
+	pa2m_afirmar(strcmp(hash->posiciones[9].par_inicio->clave , "hola") == 0, "Se inserta la clave correctamente");
+	pa2m_afirmar(*(int*)hash_obtener(hash, "hola") == 1, "Se inserta el par correctamente");
+	pa2m_afirmar(hash_cantidad(hash)== 1, "Se aumenta la cantidad correctamente");	
+	pa2m_afirmar(anterior == NULL, "No tenia elemento anterior");
 	pa2m_afirmar(hash_insertar(hash, "hola",&dos , &anterior) != NULL, "Se inserta correctamente");
 	pa2m_afirmar(*(int*)hash_obtener(hash, "hola") == 2, "Se sobreescribio el valor correctamente");
 	pa2m_afirmar(*(int*) anterior == 1, "El elemento sobrescrito es almacenado correctamente");
@@ -60,6 +63,7 @@ void hash_insertar_inserta_correctamente(){
 	pa2m_afirmar(hash_obtener(hash, "tres") == &tres, "Se obtiene el valor correctamente");
 	pa2m_afirmar(hash_contiene(hash, "tres"), "contiene esa clave");
 	pa2m_afirmar(hash_cantidad(hash)== 3, "Se aumenta la cantidad correctamente");
+	pa2m_afirmar(anterior == NULL, "El elemento anterior es el correcto");
 	pa2m_afirmar(hash_insertar(hash, "cuatro", &cuatro, &anterior) != NULL, "Se puede insertar un cuarto par");
 	pa2m_afirmar(hash_obtener(hash, "cuatro") == &cuatro, "Se obtiene el valor correctamente");
 	pa2m_afirmar(hash_contiene(hash, "cuatro"), "contiene esa clave");
@@ -152,6 +156,22 @@ void hash_rehash_rehashea_correctamente(){
 	hash_destruir(hash);
 }
 
+void pruebas_chanu(){
+	hash_t *hash = hash_crear(3);
+	char A = 'A', B = 'B';  
+	void *anterior = NULL;
+	pa2m_afirmar(hash_insertar(hash, "1", &A, &anterior) != NULL, "inserto <1,A>");
+	pa2m_afirmar(hash_insertar(hash, "1", &A, &anterior) != NULL, "inserto <1,A>");
+	pa2m_afirmar(hash_quitar(hash, "1") == &A, "elimino la clave 1 y devuelve A");
+	pa2m_afirmar(hash_quitar(hash, "1") == NULL, "elimino la clave 1 otra vez y devuelve error ");
+	pa2m_afirmar(hash_cantidad(hash) == 0, "la cantidad es 0");
+	pa2m_afirmar(hash_obtener(hash, "1") == NULL, "no existe la clave 1");
+	pa2m_afirmar(hash_insertar(hash, "1", &B, &anterior) != NULL, "inserto <2,B>");
+	pa2m_afirmar(hash_obtener(hash, "1") == &B, "Obtengo 1 y devuelve B");
+	pa2m_afirmar(hash_insertar(hash, "4", &A, &anterior) != NULL, "inserto <4,A>");
+	pa2m_afirmar(hash_cantidad(hash) == 2, "la cantidad es 2");
+	pa2m_afirmar(hash_quitar(hash, "1") == &B, "elimino la clave 1 y devuelve B");
+}
 int main()
 {
 	pa2m_nuevo_grupo("Pruebas de Creación");
@@ -164,5 +184,8 @@ int main()
 	hash_con_cada_clave_itera_correctamente();
 	pa2m_nuevo_grupo("Pruebas de Rehash");
 	hash_rehash_rehashea_correctamente();
+
+	pa2m_nuevo_grupo("Pruebas de chanu");
+	pruebas_chanu();
 	return pa2m_mostrar_reporte();
 }
