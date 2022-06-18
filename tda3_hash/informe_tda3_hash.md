@@ -24,15 +24,23 @@ Un hash es...
 En un hash abierto, los elementos se guardan fuera de la estructura original (vease, por ejemplo, en una lista). Las colisiones se resuelven concatenando los elementos que se encuentran en la misma posición dentro de otra estructura. De esta forma, nos ahorramos el tener que reasignarlos a una nueva posición. 
 El tipo de direccionamiento de este hash es cerrado, ya que siempre que la posicion que se le asigne al elemento en su primer hasheo, se mantendra siempre y no variará. 
 Su complejidad en el peor caso es O(n), ya que puede terminar degenerandose a lista si no se lo rehashea al alcanzar una cantidad especifica de elementos.
-sus complejidades son:
+Sus complejidades son:
 | crear | Destruir | Agregar un elemento| Quitar un elemento| Buscar un elemento|
 | ----- | -------- | ------- | ---------------- | ----------- |
 | O(1)  | O(n)     | O(1)    | O(n)            | O(n)       |
 
 
 ### Hash cerrado
-Un hash cerrado siempre guarda sus elemento de
+Un hash cerrado siempre guarda sus elemento dentro de su estructura original. A la hora de resolver colisiones, se buscan nuevas posiciones libres a las que asignar los elementos colisionados. DE esta forma, siempre vamos a tener un tamaño de tabla mayor o igual al numero de claves, jamas menor. Es por esta forma de reasignar colisiones que este es un hash de direccionamiento abierto.
+Para buscar nuevas posiciones libres a la hora de redireccionar las colisiones, se pueden utilizar diferentes metodos:
+- Probing lineal: Se trata de buscar el proximo espacio libre inmediato
+- Probing cuadratico: no me acuerdo que hace TODO: revisar
+- Hash doble: aplicar una segunda funcion hash buscando que nos devuelva una posicion no ocupada. Esto puede llevar, en hashes ya muy cargados, a volver a colisionar y tener que repetir el proceso hasta encontrar una posicion libre. 
 
+Sus complejidades son:
+| crear | Destruir | Agregar un elemento| Quitar un elemento| Buscar un elemento|
+| ----- | -------- | ------- | ---------------- | ----------- |
+| O(1)  | O(1)     | O(n)    | O(n)            | O(n)       |
 ## 3. Detalles de implementación
 
 
