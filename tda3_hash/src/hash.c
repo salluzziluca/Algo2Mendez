@@ -13,7 +13,12 @@ uint32_t funcion_hash(const char *clave) {
 		hash = ((hash << 5) + hash) + c;
 	return hash;
 }
+/*
+* Recibe un string, devuelve una copia del mismo reservado en memoria
+*/
 char *copiar_string(const char *origen) {
+	if (origen == NULL)
+		return NULL;
 	char *copia = malloc(strlen(origen) + 1);
 	strcpy(copia, origen);
 	return copia;
