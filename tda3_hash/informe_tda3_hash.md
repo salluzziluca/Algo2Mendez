@@ -14,11 +14,12 @@
 
 
 ## 1. Introducción
-En este trabajo se buscaba afianzar en el alumno los conocimientos sobre tablas hash. Para esto, se le pidió implementar una tabla hash que permita con primitivas otorgadas por la cátedra.
+En este trabajo se buscaba afianzar en el alumno los conocimientos sobre tablas hash. Para esto, se le pidió implementar una tabla hash abierta con primitivas otorgadas por la cátedra.
 
 ## 2. Teoría, tipos de tablas hash
 
-Un hash es...
+Un hash es una implementación de un TDA diccionario. Este está compuesto por unas tabla hash en la cual se asginan elementos segun su clave. Para encontrar su posicion en la tabla, se pasa la clave por una función hash la cual devuelve un numero. Al aplicar la funcion modulo entre ese numero obtenido y la capacidad de nuestra tabla obtenemos la posicion a la que asignaremos el elemento.
+Si dos elementos terminan asignados a la misma posición, se genera una colision, la forma de resolverla depende del tipo de hash a utilizar.
 
 ### Hash abierto
 En un hash abierto, los elementos se guardan fuera de la estructura original (vease, por ejemplo, en una lista). Las colisiones se resuelven concatenando los elementos que se encuentran en la misma posición dentro de otra estructura. De esta forma, nos ahorramos el tener que reasignarlos a una nueva posición. 
@@ -28,19 +29,23 @@ Sus complejidades son:
 | crear | Destruir | Agregar un elemento| Quitar un elemento| Buscar un elemento|
 | ----- | -------- | ------- | ---------------- | ----------- |
 | O(1)  | O(n)     | O(1)    | O(n)            | O(n)       |
-
+A la hora de agregar, simplemente se hashea la clave para buscar la posicion y luego se carga el par <clave;valor> a la ultima posición de la lista correspondiente. Siempre el proceso es el mismo ya que, utilizando el puntero al ultimo par, no es necesario recorrer todos los elementos de la lista.
+Luego, para quitar o buscar, la justificación es la misma, ya que, en el peor caso, debemos recorrer los elemenos de la lista de la posición correspondiente hasta encontrar el par buscado o el par a eliminar (pudiendose este encontrarse al final).
+Finalmente, a la hora de destruir el hash, dependemos de la cantidad de elementos en el mismo, por lo que la complejidad será O(n).
 
 ### Hash cerrado
 Un hash cerrado siempre guarda sus elemento dentro de su estructura original. A la hora de resolver colisiones, se buscan nuevas posiciones libres a las que asignar los elementos colisionados. DE esta forma, siempre vamos a tener un tamaño de tabla mayor o igual al numero de claves, jamas menor. Es por esta forma de reasignar colisiones que este es un hash de direccionamiento abierto.
 Para buscar nuevas posiciones libres a la hora de redireccionar las colisiones, se pueden utilizar diferentes metodos:
 - Probing lineal: Se trata de buscar el proximo espacio libre inmediato
-- Probing cuadratico: no me acuerdo que hace TODO: revisar
-- Hash doble: aplicar una segunda funcion hash buscando que nos devuelva una posicion no ocupada. Esto puede llevar, en hashes ya muy cargados, a volver a colisionar y tener que repetir el proceso hasta encontrar una posicion libre. 
+- Probing cuadratico: Busca el espacio libre inmediato, de no encontrarlo, busca la proxima posicion libre tomando en cuenta estadisticamente la posicion actual y la posicion a la que se quiere llegar.
+- Hash doble: aplicar por segunda vez la misma funcion hash buscando que nos devuelva una posicion no ocupada. Esto puede llevar, en hashes ya muy cargados, a volver a colisionar y tener que repetir el proceso hasta encontrar una posicion libre. 
 
 Sus complejidades son:
 | crear | Destruir | Agregar un elemento| Quitar un elemento| Buscar un elemento|
 | ----- | -------- | ------- | ---------------- | ----------- |
 | O(1)  | O(1)     | O(n)    | O(n)            | O(n)       |
+En un hash cerrado en el peor escenario, para agregar deberiamos recorrer todo el hash. Suponiendo que la posicion dada por la función hash sea la primera y la unica posicion libre la última.
+Luego, a la hora de quitar y buscar, al igual que en el hash abierto, vamos a tener que recorrer todo el hash hasta encontrarlo (tomando siempre el peor caso).
 ## 3. Detalles de implementación
 
 
