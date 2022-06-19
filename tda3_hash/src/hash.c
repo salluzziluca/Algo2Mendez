@@ -218,14 +218,19 @@ void *hash_obtener(hash_t *hash, const char *clave)
 
 	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
 	par_t *par_actual = hash->tabla[posicion].par_inicio;
+	void *elemento = NULL;
+	bool obtenido = false;
+	int i = 0;
 
-	for(size_t i = 0; i < hash->tabla[posicion].ocupados; i++){
-		if(par_actual->clave  && strcmp(par_actual->clave, clave) == 0)
-			return par_actual->elemento;
-		par_actual =par_actual->siguiente;
+	while (i < hash->tabla[posicion].ocupados && !obtenido) {
+		if(strcmp(par_actual->clave, clave) == 0){
+			obtenido = true;
+			elemento = par_actual->elemento;
+		}
+		i++;
+		par_actual = par_actual->siguiente;
 	}
-
-	return NULL;
+	return elemento;
 
 }
 
@@ -244,7 +249,7 @@ bool hash_contiene(hash_t *hash, const char *clave)
 		i++;
 		par_actual = par_actual->siguiente;
 	}
-	
+
 	return contiene;
 }
 size_t hash_cantidad(hash_t *hash)
