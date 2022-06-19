@@ -163,6 +163,7 @@ void *hash_quitar(hash_t *hash, const char *clave)
 
 	if(hash->tabla[posicion].ocupados == 1){
 		if(strcmp(hash->tabla[posicion].par_inicio->clave, clave) == 0){
+
 			par_t *par_eliminado =  hash->tabla[posicion].par_inicio;
 			elemento_eliminado = par_eliminado->elemento;
 			hash->tabla[posicion].par_inicio = NULL;
@@ -176,40 +177,27 @@ void *hash_quitar(hash_t *hash, const char *clave)
 		}
 	}
 
-	if(hash->tabla[posicion].ocupados > 0 && strcmp(hash->tabla[posicion].par_inicio->clave, clave) == 0){
-		par_t *par_eliminado =  hash->tabla[posicion].par_inicio;
-		elemento_eliminado = par_eliminado->elemento;
-		hash->tabla[posicion].par_inicio =par_eliminado->siguiente;
-		hash->tabla[posicion].ocupados--;
-		free(par_eliminado->clave);
-		free(par_eliminado);
-		hash->ocupados--;
-		return elemento_eliminado;
-	}
+	par_t *par_actual = hash->tabla[posicion].par_inicio;
+	par_t *par_anterior = NULL;
 	int i = 0;
-	bool eliminado = false;
-	while (i < hash->tabla[posicion].ocupados && eliminado == false) {
-
-		if(strcmp(hash->tabla[posicion].par_inicio->siguiente->clave, clave) == 0){
-			par_t *par_anterior = hash->tabla[posicion].par_inicio;
-			par_t *par_a_elminiar =par_anterior->siguiente;
-			elemento_eliminado = par_a_elminiar->elemento;	
-			par_anterior->siguiente = par_a_elminiar->siguiente;
-			free(par_a_elminiar->clave);
-			free(par_a_elminiar);
-
+	while ( i < hash->tabla[posicion].ocupados  && !elemento_eliminado) {
+		if(strcmp(par_actual->clave, clave) == 0){
+			elemento_eliminado = par_actual->elemento;
+			if(par_anterior)
+				par_anterior->siguiente = par_actual->siguiente;
+			else
+				hash->tabla[posicion].par_inicio = par_actual->siguiente;
 			hash->tabla[posicion].ocupados--;
+			free(par_actual->clave);
+			free(par_actual);
 			hash->ocupados--;
-			eliminado = true;
-		if(i == 0)
-			hash->tabla[posicion].par_fin = par_anterior;
 		}
-		if(!eliminado){
+		if(!elemento_eliminado){
 			i++;
-			hash->tabla[posicion].par_inicio->siguiente = hash->tabla[posicion].par_inicio->siguiente;
+			par_anterior = par_actual;
+			par_actual = par_actual->siguiente;
 		}
 	}
-	
 	return elemento_eliminado;
 }
 
