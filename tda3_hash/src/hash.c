@@ -209,12 +209,10 @@ void *hash_obtener(hash_t *hash, const char *clave)
 	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
 	par_t *par_actual = hash->tabla[posicion].par_inicio;
 	void *elemento = NULL;
-	bool obtenido = false;
 	int i = 0;
 
-	while (i < hash->tabla[posicion].ocupados && !obtenido) {
+	while (i < hash->tabla[posicion].ocupados && !elemento) {
 		if(strcmp(par_actual->clave, clave) == 0){
-			obtenido = true;
 			elemento = par_actual->elemento;
 		}
 		i++;
