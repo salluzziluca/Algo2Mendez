@@ -24,21 +24,21 @@ void hash_crear_crea_e_inicializa_correctamente(){
 	pa2m_afirmar(hash != NULL, "Se crea el hash correctamente");
 	pa2m_afirmar(hash->capacidad == 3, "Se crea el hash con la capacidad correcta");
 	pa2m_afirmar(hash_cantidad(hash)== 0, "Se crea el hash con cantidad 0");
-	pa2m_afirmar(hash->posiciones != NULL, "Se crea el hash con posiciones disponibles");
+	pa2m_afirmar(hash->tabla != NULL, "Se crea el hash con tabla disponibles");
 	hash_destruir(hash);
 
 	hash = hash_crear(0);
 	pa2m_afirmar(hash != NULL, "Se devuelve un hash valido de cuando se pide crear un hash con capacidad menor a 3");
 	pa2m_afirmar(hash->capacidad == 3, "se crea el hash con la capacidad correcta");
 	pa2m_afirmar(hash_cantidad(hash)== 0, "se crea el hash con cantidad 0");
-	pa2m_afirmar(hash->posiciones != NULL, "se crea el hash con posiciones disponibles");
+	pa2m_afirmar(hash->tabla != NULL, "se crea el hash con tabla disponibles");
 	hash_destruir(hash);
 
 	hash = hash_crear(23);
 	pa2m_afirmar(hash != NULL, "Se devuelve un hash valido de cuando se pide crear un hash con capacidad mayor a 3");
 	pa2m_afirmar(hash->capacidad == 23, "se crea el hash con la capacidad correcta");
 	pa2m_afirmar(hash_cantidad(hash)== 0, "se crea el hash con cantidad 0");
-	pa2m_afirmar(hash->posiciones != NULL, "se crea el hash con posiciones disponibles");
+	pa2m_afirmar(hash->tabla != NULL, "se crea el hash con tabla disponibles");
 	hash_destruir(hash);
 	
 
@@ -53,7 +53,7 @@ void hash_insertar_inserta_correctamente(){
 
 	pa2m_afirmar(hash_insertar(hash, "hola",&uno , NULL) != NULL, "Se inserta correctamente");
 
-	pa2m_afirmar(strcmp(hash->posiciones[9].par_inicio->clave , "hola") == 0, "Se inserta la clave correctamente");
+	pa2m_afirmar(strcmp(hash->tabla[9].par_inicio->clave , "hola") == 0, "Se inserta la clave correctamente");
 	pa2m_afirmar(*(int*)hash_obtener(hash, "hola") == 1, "Se inserta el par correctamente");
 	pa2m_afirmar(hash_cantidad(hash)== 1, "Se aumenta la cantidad correctamente");	
 	pa2m_afirmar(anterior == NULL, "No tenia elemento anterior");

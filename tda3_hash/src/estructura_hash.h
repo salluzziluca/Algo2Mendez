@@ -8,15 +8,15 @@ typedef struct par{
 	struct par *siguiente;
 }par_t;
 
-typedef struct posiciones{
+typedef struct tabla{
 	par_t *par_inicio;
 	par_t *par_fin;
 	size_t ocupados;
-}posiciones_t;
+}tabla_t;
 struct hash {
 	size_t capacidad;
 	size_t ocupados;
-	posiciones_t *posiciones;	
+	tabla_t *tabla;	
 };
 
 #endif /*__ESTRUCTURA_HASH.H__*/
