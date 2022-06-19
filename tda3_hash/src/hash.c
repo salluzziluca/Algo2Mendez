@@ -165,6 +165,23 @@ hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
 	}
 	return hash;
 }
+/*
+* Recibe una posicion de la tabla, y un puntero a elemento eliminado
+* Elimina el elemento de la posicion correspondiente, asigna los punteros
+* inicio y fin a nulo y disminuye ocupados a cero. 
+* Libera la calve y el par eliminado y devuelve el elemento.
+*/
+void *quitar_con_cantidad_uno(tabla_t *tabla, void *elemento_eliminado)
+{
+	par_t *par_eliminado =  tabla->par_inicio;
+	elemento_eliminado = par_eliminado->elemento;
+	tabla->par_inicio = NULL;
+	tabla->par_fin = NULL;
+	tabla->ocupados = 0;
+	free(par_eliminado->clave);
+	free(par_eliminado);
+	return elemento_eliminado;
+}
 
 void *hash_quitar(hash_t *hash, const char *clave)
 {
@@ -175,19 +192,8 @@ void *hash_quitar(hash_t *hash, const char *clave)
 	void *elemento_eliminado = NULL;
 
 	if(hash->tabla[posicion].ocupados == 1){
-		if(strcmp(hash->tabla[posicion].par_inicio->clave, clave) == 0){
-
-			par_t *par_eliminado =  hash->tabla[posicion].par_inicio;
-			elemento_eliminado = par_eliminado->elemento;
-			hash->tabla[posicion].par_inicio = NULL;
-			hash->tabla[posicion].par_fin = NULL;
-			hash->tabla[posicion].ocupados = 0;
-
-			free(par_eliminado->clave);
-			free(par_eliminado);
-			hash->ocupados--;
-			return elemento_eliminado;
-		}
+		elemento_eliminado = quitar_con_cantidad_uno(&hash->tabla[posicion], elemento_eliminado);
+		hash->ocupados--;
 	}
 
 	par_t *par_actual = hash->tabla[posicion].par_inicio;
@@ -253,6 +259,7 @@ bool hash_contiene(hash_t *hash, const char *clave)
 
 	return contiene;
 }
+
 size_t hash_cantidad(hash_t *hash)
 {
 	if(!hash)
@@ -269,6 +276,7 @@ void hash_destruir_todo(hash_t *hash, void (*destructor)(void *))
 {
 	if(!hash)
 		return;
+
 	for (size_t i = 0; i < hash->capacidad; i++){
 		for(size_t j = 0; j < hash->tabla[i].ocupados; j++){
 			par_t *uxiliar = hash->tabla[i].par_inicio->siguiente;
@@ -291,7 +299,7 @@ size_t hash_con_cada_clave(hash_t *hash,
 		return 0;
 
 	size_t claves_iteradas = 0;
-		bool continuar = true;
+	bool continuar = true;
 	
 	for (size_t i = 0; i < hash->capacidad; i++)
 	{
