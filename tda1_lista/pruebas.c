@@ -133,6 +133,14 @@ void lista_quitar_saca_el_elemento_y_disminuye_cantidad()
         pa2m_afirmar(lista_ultimo(lista) == NULL, "El nodo fin de una lista liberada es NULL");
         lista_destruir(lista);
 
+        lista = lista_crear();
+        lista_insertar(lista, &a);
+        lista_quitar(lista);
+
+        lista_insertar(lista, &a);
+        lista_quitar_de_posicion(lista, 0);
+        lista_destruir(lista);
+
 }
 
 void lista_elemento_lista_buscar_y_lista_primero_y_segundo_devuelven_elemento_correspondientes(){
