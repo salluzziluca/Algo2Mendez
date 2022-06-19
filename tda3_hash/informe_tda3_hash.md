@@ -18,8 +18,8 @@ En este trabajo se buscaba afianzar en el alumno los conocimientos sobre tablas 
 
 ## 2. Teoría, tipos de tablas hash
 
-Un hash es una implementación de un TDA diccionario. Este está compuesto por unas tabla hash en la cual se asginan elementos segun su clave. Para encontrar su posicion en la tabla, se pasa la clave por una función hash la cual devuelve un numero. Al aplicar la funcion modulo entre ese numero obtenido y la capacidad de nuestra tabla obtenemos la posicion a la que asignaremos el elemento.
-Si dos elementos terminan asignados a la misma posición, se genera una colision, la forma de resolverla depende del tipo de hash a utilizar.
+Un hash es una implementación de un TDA diccionario. Este está compuesto por una tabla en la cual se asginan elementos segun su clave. Para encontrar su posicion en la tabla, se pasa la clave por una función hash la cual devuelve un numero. Al aplicar la funcion modulo entre ese numero obtenido y la capacidad de nuestra tabla obtenemos la posicion a la que asignaremos el elemento.
+Si dos elementos son asignados a la misma posición, se genera una colision, la forma de resolverla depende del tipo de hash a utilizar.
 
 ### Hash abierto
 En un hash abierto, los elementos se guardan fuera de la estructura original (vease, por ejemplo, en una lista). Las colisiones se resuelven concatenando los elementos que se encuentran en la misma posición dentro de otra estructura. De esta forma, nos ahorramos el tener que reasignarlos a una nueva posición. 
@@ -49,15 +49,9 @@ Luego, a la hora de quitar y buscar, al igual que en el hash abierto, vamos a te
 ## 3. Detalles de implementación
 
 
-Explicación de como se implemento el trabajo pedido, esta sección es para que puedas explicar de forma un poco mas detallada como se implemento o como planteaste el trabajo y los detalles al respecto. Estos detalles pueden ser alguna justificación de porque implementaste lo pedido de la forma que lo hiciste, con que linea se compilo el trabajo, como ejecutarlo, algún supuesto que hayas hecho, etc. (La idea no es que se explique utilizando código pero si lo ves necesario podes hacerlo.)
+Explicación de como se implemento el trabajo pedido, esta sección es para que puedas explicar de forma un poco mas detallada como se implemento o como planteaste el trabajo y los detalles al respecto. Estos detalles pueden ser alguna justificación de porque implementaste lo pedido de la forma que lo hiciste, con que linea se compilo el trabajo, como ejecutarlo, algún supuesto que hayas hecho, etc. (La idea no es que se explique utilizando código pero si lo ves necesario podes hacerlo.
 
-Primero que nada, el Trabajo Practico se puede implementar con las lineas `gcc escape_pokemon.c  src/*.c -std=c99 -Wall -Wconversion -Wtype-limits -g -Werror -o  escape_pokemon`. Digo puede porque los flags son completamente opcionales a la hora de correrlo. 
-
-Dicho esto, yo tome una implementacion que buscaba modularizar correctamente sin volverse uno loco intentando hacer las cosas mas chicas de lo realmente posible. Me concentre sobre todo en (intentar) no tener ninguna funcion demasiado larga o dificil de leer. Es por esto que a veces se pueden encontrar diferentes llamados o declaraciones separados por espacios aunque la [guia de estilo](https://programmerclick.com/article/47731811610/)  no lo recomendara necesariamente.
-
---- 
-Primero y principal: se aloca memoria para la sala y se inicializa (mediante `calloc`) todo en cero. Si bien esto es un poco redundante (es la primer linea de la funcion) es importantisimo aclararlo porque de esta estabilidad inicial dependen el resto de los procesos. Sin esa memoria "core" en el heap (porque todo despues se asigna a la sala) no hay donde luego "poner" los diferentes valores. Dicho esto...
-
+Para mi implementacióon, decidi utilizar listas simplemente enlazadas para concatenar los elementos colisionados. 
 ### Lectura de Archivos
 Empecé por la lectura de archivos (ya dentro de `sala_crear_desde_archivos`) mediante una funcion que abre uno pasado por parametro y verifica que no sea nulo (de lo contrario retorna -1, error) para luego leerlo linea por linea y, segun se le aclare en la firma de la funcion inicializar y "llenar" un vector dinamico de objetos o de interacciones (respectivamente). 
 Me parecio una buena implementacion la modularizacion de esta funcion (`cargar_a_memoria`) ya que queda visualmente demostrado en el codigo que con ambos archivos realizamos el mismo accionar. Y que si bien luego los campos a rellenar son distinto comparten (aunque sea conceptualmente) una gran parte del proceso.
