@@ -16,7 +16,7 @@ uint32_t funcion_hash(const char *clave) {
 	return hash;
 }
 /*
-* Recibe un string, devuelve una copia del mismo reservado en memoria
+* Recibe un string, devuelve una copia del mismo reservado en memoria o NULL en caso de error. 
 */
 char *copiar_string(const char *origen) {
 	if (origen == NULL)
@@ -70,10 +70,13 @@ tabla_t *par_insertar(tabla_t *tabla, par_t *par)
 	}
 	return tabla;
 }
-void *recorrer_reinsertando(hash_t *hash, size_t capacidad, tabla_t *tabla_aux)
+/*
+* Recibe un hash valido, una capacidad y una tabla de hash auxiliar
+* Reorganiza los elementos del hash original asignandole nuevas posiciones en funcion
+* de la capacidad de la nueva tabla y los inserta en la susodicha. 
+*/
+void recorrer_reinsertando(hash_t *hash, size_t capacidad, tabla_t *tabla_aux)
 {
-	if (hash == NULL)
-		return NULL;
 	for(size_t i = 0; i < hash->capacidad; i++){
 		for (size_t j = 0; j <hash->tabla[i].ocupados; j++) {
 
@@ -85,9 +88,13 @@ void *recorrer_reinsertando(hash_t *hash, size_t capacidad, tabla_t *tabla_aux)
 		}
 
 	}
-	return hash;
 }
 
+/*
+* Recibe un hash. Crea una nueva tabla con el doble de capacidad del hash original 
+* y reinserta los elementos del hash original en la nueva tabla.
+* Devuelve el hash reorganizado o NULL en caso de error.
+*/ 
 hash_t *rehash(hash_t *hash, size_t capacidad)
 {
 	if(!hash)
@@ -97,9 +104,7 @@ hash_t *rehash(hash_t *hash, size_t capacidad)
 	if(!tabla_aux)
 		return NULL;
 
-	void *recorrer = recorrer_reinsertando(hash, capacidad, tabla_aux);
-	if(!recorrer) //TODO: fijarse si esto vale la pena o es al pepe
-		return NULL;
+	recorrer_reinsertando(hash, capacidad, tabla_aux);
 
 	free(hash->tabla);	
 	hash->tabla = tabla_aux;	
