@@ -82,7 +82,9 @@ void recorrer_reinsertando(hash_t *hash, size_t capacidad, tabla_t *tabla_aux)
 
 			size_t posicion = (size_t)funcion_hash(hash->tabla[i].par_inicio->clave) % capacidad;
 			par_t *par_aux = hash->tabla[i].par_inicio->siguiente;
+
 			par_insertar(&tabla_aux[posicion], hash->tabla[i].par_inicio);
+
 			hash->tabla[i].par_inicio = par_aux;
 
 		}
@@ -113,21 +115,18 @@ hash_t *rehash(hash_t *hash, size_t capacidad)
 	return hash;
 }
 
-hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
-		      void **anterior)
-{
-	if(!hash || !clave)
-		return NULL;
+/*
+* Recibe una posicion de una tabla de hash, una clave, un elemento para sobreescribir y un puntero a elemento anterior.
+* itera por la lista de la posicion correspondiente buscando un para con la misma clave.
+* Si encuentra un par con la misma clave, sobreescribe el elemento.
+* Devuelve true si sobreescribió el elemento o false si no lo hizo.
+*/
+bool sobreescribir_elemento(tabla_t *tabla, const char *clave, void *elemento, void **anterior){
 
-	if(hash_cantidad(hash) >= (double)hash->capacidad *FACTOR_DE_CARGA_MAXIMO)
-		hash = rehash(hash, hash->capacidad * 2);
-
-	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
 	int i = 0;
 	bool sobreescrito = false;
-	par_t *par_actual = hash->tabla[posicion].par_inicio;
-
-	while(i < hash->tabla[posicion].ocupados && !sobreescrito)
+	par_t *par_actual = tabla->par_inicio;
+	while(i < tabla->ocupados && !sobreescrito)
 	{
 		if(strcmp(par_actual->clave, clave) == 0)
 		{
@@ -139,7 +138,21 @@ hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
 		i++;
 		par_actual = par_actual->siguiente;
 	}
+	return sobreescrito;
+}
 
+hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
+		      void **anterior)
+{
+	if(!hash || !clave)
+		return NULL;
+
+	if(hash_cantidad(hash) >= (double)hash->capacidad *FACTOR_DE_CARGA_MAXIMO)
+		hash = rehash(hash, hash->capacidad * 2);
+
+	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
+	bool sobreescrito = sobreescribir_elemento(&hash->tabla[posicion], clave, elemento, anterior);
+	
 	if(!sobreescrito){
 		char *copia_clave = copiar_string(clave);
 		par_t *par = llenar_par(copia_clave, elemento);
