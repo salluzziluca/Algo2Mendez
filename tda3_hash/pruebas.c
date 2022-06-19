@@ -148,7 +148,7 @@ void hash_quitar_quita_correctamente(){
 	
 	hash_insertar(hash, "nulo", NULL, &anterior);
 	pa2m_afirmar(hash_quitar(hash, "nulo") == NULL, "Se puede quitar un elemento nulo");
-
+	pa2m_afirmar(hash_quitar(hash, "pedro") == NULL, "No se puede quitar un elemento que no existe");
 
 	hash_destruir(hash);
 }
