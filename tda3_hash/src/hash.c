@@ -120,15 +120,12 @@ hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
 	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
 
 	int i = 0;
-	bool hay_que_sobreescribir = false;
 	bool sobreescrito = false;
 
-	if(hash->tabla[posicion].ocupados != 0)
-		hay_que_sobreescribir = hash_contiene(hash, clave);
 
 	par_t *par_actual = hash->tabla[posicion].par_inicio;
 
-	while(hay_que_sobreescribir && i < hash->tabla[posicion].ocupados && !sobreescrito)
+	while(i < hash->tabla[posicion].ocupados && !sobreescrito)
 	{
 		if(strcmp(par_actual->clave, clave) == 0)
 		{
