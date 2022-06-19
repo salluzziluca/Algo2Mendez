@@ -51,58 +51,15 @@ Luego, a la hora de quitar y buscar, al igual que en el hash abierto, vamos a te
 
 Explicación de como se implemento el trabajo pedido, esta sección es para que puedas explicar de forma un poco mas detallada como se implemento o como planteaste el trabajo y los detalles al respecto. Estos detalles pueden ser alguna justificación de porque implementaste lo pedido de la forma que lo hiciste, con que linea se compilo el trabajo, como ejecutarlo, algún supuesto que hayas hecho, etc. (La idea no es que se explique utilizando código pero si lo ves necesario podes hacerlo.
 
-Para mi implementacióon, decidi utilizar listas simplemente enlazadas para concatenar los elementos colisionados. 
-### Lectura de Archivos
-Empecé por la lectura de archivos (ya dentro de `sala_crear_desde_archivos`) mediante una funcion que abre uno pasado por parametro y verifica que no sea nulo (de lo contrario retorna -1, error) para luego leerlo linea por linea y, segun se le aclare en la firma de la funcion inicializar y "llenar" un vector dinamico de objetos o de interacciones (respectivamente). 
-Me parecio una buena implementacion la modularizacion de esta funcion (`cargar_a_memoria`) ya que queda visualmente demostrado en el codigo que con ambos archivos realizamos el mismo accionar. Y que si bien luego los campos a rellenar son distinto comparten (aunque sea conceptualmente) una gran parte del proceso.
+Para mi implementacióon, decidi utilizar listas simplemente enlazadas para concatenar los elementos colisionados. De esta forma, no fue complicada la busqueda ni la eliminacion de elementos, ya que era muy similar a la de el TDA Lista entregado anteriormente. 
+Como estructuras declaré un hash con un vector de listas, una cantidad maxima de elementos posibles a almacenar y una cantidad de ocupados (haciendo referencia a los elementos actuales existentes en el hash) esto me permitio tener un control mayor de la cantidad de elementos que se almacenaban en mi estructura.
+Para cada lista, utilizé un puntero al primer y al ultimo elemento de estas, asi como un contador de posiciones ocupadas. Estas listas contenian como elementos los pares <clave;valor>, es decir, estructuras con un puntero a la clave y un puntero a el valor, ademas de un puntero al siguiente par.
 
-#### Lectura de lineas
-En esta parte del proceso ya se pueden empezar a notar las diferencias puntuales entre objetos e interacciones, es por eso que decidi programar sus funciones por separado. La diferencia de campos era significativa y me hubiese visto envuelto en una madeja de `ifs` que iba a oscurecer mas que aclarar.  
-En ambas funciones se inicializan los diferentes vectores (o caracteres) en valores basicos para evitar manejo de basura, se verifica que el string recibido no sea ni nulo ni vacio(de ser asi se libera la memoria y se retorna `NULL`) y se parsea la linea. 
-En caso de error en el parseo, sscanf ==no== nos devolvera un entero con la cantidad de valores leidos que le pedimos (si tenia que "dividir" el string en 3, nos deberia devolver 3 si todo salio bien). Asi que si estas condiciones no se verifican como verdaderas, retornamos `NULL`, no sin antes liberar la memoria pedida.
-Si el proceso se ejecutó correctamente, se copian los valores de las variables auxiliares a los campos definitivos de los objetos o interacciones segun corresponda. Sin embargo, en ambos casos tenemos valores que no son strings. 
+En cuanto a la modularizacion, me decidi por "extraer" de las primitivas originales aquellas funciones o procedimientos que podian ser considerados casos bordes o especiales. En hash_insertar, por ejemplo, se llama a `sobreescribir_elemento` para, de ser necesario, actualizar en una clave ya existente el elemento por uno nuevo ingresado. No me parecio propicio, entonces, modularizar el resto de la inserccion (llenado del par y cargado de el mismo al final de la lista de la posicion correspondiente), puesto a que me parecia que esas breves lineas de codigo eran el tronco de la primitiva. Decidi tambien no utilizar hash_contiene para verificar si la sobreescripcion era necesaria ya que esto conllevaria una doble iteracion a lo largo de la lista y, por lo tanto, mayor complejidad algoritmica.
 
-##### Excepciones
-- En objetos tenemos un booleano, por lo que hay que hacer una comparacion extra entre strings y ahi asignarle el valor correspondiente a su campo (ya que asignarle el string "true" o "false" sería incorrecto.)
-- En interacciones tenemos un enum, el cual requiere de un switch en este caso para su correcta carga al campo.
- ---
-Mientras la linea leida siga siendo valida (no sea `NULL` o `FEOF`) se seguiran cargado elementos a los vectores correspondientes. Y una vez que se llegue al final del archivo, se cierra el mismo y se retorna `0` (no  hubo error).
+Otro ejemplo de este lineamiento en la modularización puede verse en `hash_quitar`, donde modularizo el caso de quitar un elemento en una lista de cantidad 1 y mantengo dentro de la primitiva la eliminacion en una de cantidad mayor, iterando a lo largo de los pares de la lista hasta encontrarlo y eliminarlo.
 
- ##### Corroboración
- Finalmente, el programa verifica que las cantidades de ambos vectores no sea nula. Si al menos una lo es, se destruye la sala (con todos sus componentes) y se devuelve `NULL`. De lo contrario, se devuelve una sala ya inicializada
-
-### Creación del vector de nombres de objetos e impresion por pantalla.
-Una vez que esta la sala creada y (verificada), se crea un vector dinamico que contiene solamente el nombre de los objetos ya cargados originalmente en la sala. Este vector no se encuentra dentro de sala pero está ligado a `sala->objetos`. 
-A la funcion que lo crea se le pasa por parametro un puntero a la sala ya llena y otro puntero a una cantidad particular que se ha de "llenar". 
-Se verifican que ninguno de los valores pasados por parametro sean nulos y se procede a alocar la memoria (si por casualidad la `*sala` recibida es nula pero la `*cantidad` recibida no, se asigna una cantidad de -1, mostrando asi que no se pudo crear el vector).
-Luego de haber alocado y verificado la memoria (mismo comportamiento con cantidad si hay error), se le asignan los diferentes nombres de objetos en las posiciones del vector dinámico y si la cantidad no es nula, se le asigna el valor de `sala->cantidad_objetos` ya registrada en el `struct sala`. Se devuelve el vector con los nombres cargados
-Mediante el uso de este nuevo vector, se imprimen con un simple for los nombres de los objetos disponibles en la sala
-
-
-### Validacion  e impresion de interacciones
-Finalmente, se verifica mediante el uso de `sala_es_interaccion_valida` (la cual recibe como string los diferentes campos posibles de una interaccion y los compara con los registros de una sala ya creada) que las interacciones pedidas sean validas o invalidas y se imprime por pantalla el nombre de la interaccion seguida de su validez. En este caso, para no crear 4 variables mas y de alguna forma floodear el main, el contenido del string que se imprimirá por pantalla se verifica directamente en el printf. 
-```c
-printf("examinar la habitacion: %s\n", interaccion_valida(es_examinar_habitacion_valida));
-```
-
-### Liberación de memoria
-Por ultimo, se destruye la sala. Agradeciendole a nuestra computadora por toda la memoria que nos prestó (como nos enseñaron en el colegio). Primero se liberan las diferentes posiciones de los vectores de elementos, luego el priopio vector y por ultimo la estructura misma de la sala.
-
-## 4. Detalles de Funciones en particular
-
-1. `agregar_objeto_a_vector`
-
-    la funcion
-    ```c
-    agregar_objeto_a_vector(struct objeto ***objetos, int *cantidad_objetos, struct objeto *objeto_actual)
-    ```
-    
-	Recibe por parametro un puntero a un vector de punteros, una cantidad y un objeto que se quiere agregar a ese vector. Crea un bloque de memoria auxiliar con el tamaño del vector de punteros que se le pasa + el tamaño de un  `struct objeto*` (le suma una espacio mas al vector para el nuevo elemento). Verifica que l bloque creado no sea nulo, que la memoria estpe correctamente asignada y luego le dice a `struct objeto **objetos` que apunte al mismo lugar donde está apuntando el bloque auxiliar (esto se hace para que, si la memoria no se carga correctamente en el realloc, no se pierda lo que ya habia en el vector importante y principal.).
-	Por ultimo, carga el objeto actual en la posicion correspondiente segun cantidad_objetos y suma uno a cantidad. Devuelve 0, exitoso.
-
-2. `sala_destruir()`
-
-	Destruye la sala creada y alocada en memoria. La destruye de a partes, primero los vectores dinamicos y luego la estructura de la sala en si. No destruye el vector `nombre_objetos` porque este depende exclusivamente de  `sala->objetos`. No retorna nada porque es un ==**procedimiento==
+Finalmente, con respecto a mis pruebas, decidi algunas de caja blanca para poder comprobar el correcto funcionamiento de la inserccion y del rehash. Quizas vistas ahora parezcan un poco redundantes, pero teniendo en cuenta que fueron usadas en el tiempo de desarollo del TDA, fueron de mucha utiliad para comprobar minuciosamente que las funciones cumplian con su cometido.
 
 ## 5. Diagramas
 
