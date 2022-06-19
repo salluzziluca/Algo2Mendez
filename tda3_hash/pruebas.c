@@ -213,7 +213,6 @@ int main()
 	hash_con_cada_clave_itera_correctamente();
 	pa2m_nuevo_grupo("Pruebas de Rehash");
 	hash_rehash_rehashea_correctamente();
-
 	pa2m_nuevo_grupo("Pruebas de chanu");
 	pruebas_chanu();
 	return pa2m_mostrar_reporte();
