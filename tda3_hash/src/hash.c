@@ -204,8 +204,9 @@ void *hash_quitar(hash_t *hash, const char *clave)
 
 	par_t *par_actual = hash->tabla[posicion].par_inicio;
 	par_t *par_anterior = NULL;
+	bool quitado = false;
 	int i = 0;
-	while (i < hash->tabla[posicion].ocupados && !elemento_eliminado) {
+	while (i < hash->tabla[posicion].ocupados && !quitado) {
 		if (strcmp(par_actual->clave, clave) == 0) {
 			elemento_eliminado = par_actual->elemento;
 			if (par_anterior)
@@ -214,11 +215,12 @@ void *hash_quitar(hash_t *hash, const char *clave)
 				hash->tabla[posicion].par_inicio =
 					par_actual->siguiente;
 			hash->tabla[posicion].ocupados--;
+			quitado = true;
 			free(par_actual->clave);
 			free(par_actual);
 			hash->ocupados--;
 		}
-		if (!elemento_eliminado) {
+		if (!quitado) {
 			i++;
 			par_anterior = par_actual;
 			par_actual = par_actual->siguiente;
@@ -235,11 +237,13 @@ void *hash_obtener(hash_t *hash, const char *clave)
 	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
 	par_t *par_actual = hash->tabla[posicion].par_inicio;
 	void *elemento = NULL;
+	bool encontrado = false;
 	int i = 0;
 
-	while (i < hash->tabla[posicion].ocupados && !elemento) {
+	while (i < hash->tabla[posicion].ocupados && !encontrado) {
 		if (strcmp(par_actual->clave, clave) == 0) {
 			elemento = par_actual->elemento;
+			encontrado = true;
 		}
 		i++;
 		par_actual = par_actual->siguiente;
