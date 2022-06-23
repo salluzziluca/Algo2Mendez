@@ -41,6 +41,8 @@ int agregar_interaccion_a_vector(struct interaccion ***interacciones, int *canti
 
 int cargar_a_memoria(struct sala *sala, const char *archivo, char elemento )
 {
+	if(!sala || !archivo)
+		return -1;
 	FILE *archivo_actual = fopen(archivo, MODO_LECTURA);
 
 	if(!archivo_actual)
@@ -84,8 +86,10 @@ int cargar_a_memoria(struct sala *sala, const char *archivo, char elemento )
 
 sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones)
 {
+	if(!objetos || !interacciones)
+		return NULL;
+		
 	struct sala *sala = calloc(1, sizeof(struct sala));
-
 	if(sala == NULL)
 		return NULL;
 
@@ -152,6 +156,8 @@ bool sala_es_interaccion_valida(sala_t *sala, const char *verbo, const char *obj
 
 void sala_destruir(sala_t *sala)
 {
+	if(sala == NULL)
+		return;
 	for(int i = 0; i < sala->cantidad_objetos; i++){
 		free(sala->objetos[i]);
 	}
