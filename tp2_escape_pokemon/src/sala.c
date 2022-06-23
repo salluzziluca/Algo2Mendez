@@ -10,6 +10,7 @@
 #define MODO_LECTURA "r"
 #define OBJETOS 'o'
 #define INTERACCIONES 'i'
+
 struct sala {
 	struct objeto **objetos;
 	int cantidad_objetos;
