@@ -34,4 +34,11 @@ struct objeto {
 	bool es_asible;
 };
 
+struct sala {
+	struct objeto **objetos;
+	int cantidad_objetos;
+	struct interaccion **interacciones;
+	int cantidad_interacciones;
+};
+
 #endif // ESTRUCTURAS_H_
