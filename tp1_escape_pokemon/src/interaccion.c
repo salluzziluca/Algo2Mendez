@@ -9,6 +9,8 @@
 struct interaccion *interaccion_crear_desde_string(const char *string)
 {
 	struct interaccion *interaccion_actual= malloc(sizeof(struct interaccion));
+	if(!interaccion_actual)
+		return NULL;
 
 	char objeto_aux[MAX_NOMBRE] = "\0";
 	char verbo_aux[MAX_NOMBRE] = "\0";
