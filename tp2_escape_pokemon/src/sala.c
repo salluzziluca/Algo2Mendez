@@ -2,6 +2,7 @@
 #include "sala.h"
 #include "objeto.h"
 #include "interaccion.h"
+#include "estructura_sala.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
@@ -11,12 +12,6 @@
 #define OBJETOS 'o'
 #define INTERACCIONES 'i'
 
-struct sala {
-	struct objeto **objetos;
-	int cantidad_objetos;
-	struct interaccion **interacciones;
-	int cantidad_interacciones;
-};
 
 int agregar_objeto_a_vector(struct objeto ***objetos, int *cantidad_objetos, struct objeto *objeto_actual)
 {

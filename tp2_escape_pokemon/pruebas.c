@@ -3,6 +3,7 @@
 #include "src/sala.h"
 #include "src/objeto.h"
 #include "src/interaccion.h"
+#include "src/estructura_sala.h"
 
 #include "string.h"
 #include <stdbool.h>
