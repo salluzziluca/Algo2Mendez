@@ -12,7 +12,11 @@
 #define OBJETOS 'o'
 #define INTERACCIONES 'i'
 
-//TODO: documentar esta funcion
+/*
+* Recibe un 
+*
+*
+*/
 int agregar_objeto_a_vector(struct objeto ***objetos, int *cantidad_objetos, struct objeto *objeto_actual)
 {
 	struct objeto **bloque_auxiliar = realloc(*objetos, ((unsigned)(*cantidad_objetos)+1) * sizeof(struct objeto*));
@@ -156,7 +160,7 @@ int sala_ejecutar_interaccion(sala_t *sala, const char *verbo,
 						      void *aux),
 			      void *aux)
 {
-	return NULL;
+	return 0;
 }
 bool sala_es_interaccion_valida(sala_t *sala, const char *verbo, const char *objeto1,const char *objeto2)
 {	
