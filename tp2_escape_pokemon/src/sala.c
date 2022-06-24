@@ -3,6 +3,7 @@
 #include "objeto.h"
 #include "interaccion.h"
 #include "estructura_sala.h"
+#include "tda3_hash/src/hash.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
@@ -11,12 +12,50 @@
 #define MODO_LECTURA "r"
 #define OBJETOS 'o'
 #define INTERACCIONES 'i'
+#define TAMAÑO_MIN_HASH 15
 
 /*
-* Recibe un 
-*
-*
+* Recibe la direccion de un archivo, un puntero a sala, un puntero a hash y un caracter
+* especificando el tipo de elemento que se esta tratando (objeto o interaccion).
+* Lee el archivo linea por linea y carga el elemento correspondinte a un hash.
+* Utiliza como clave en nombre del objeto o, en el caso de una interaccion, 
+* el nombre del objeto_parametro concatenado al nombre del objeto. 
+ *devuelve el hash o NULL en caso de error
 */
+hash_t *cargar_elementos(sala_t *sala, const char *nombre_archivo, hash_t *hash,  char tipo_elemento)
+{
+	if(!sala, !nombre_archivo, !tipo_elemento)
+		return NULL;
+	FILE *archivo = fopen(nombre_archivo, MODO_LECTURA);
+	if(!archivo)
+		return NULL;
+	
+	char linea[LARGO_MAX_LINEA];
+	char *linea_leida = fgets(linea, LARGO_MAX_LINEA, archivo);
+	if(!linea_leida )
+		return NULL;
+	void* anterior = NULL;
+	while(linea_leida){
+
+		if(tipo_elemento == OBJETOS){
+			struct objeto *objeto_a_agregar = objeto_crear_desde_string(linea);
+			hash_insertar(hash, objeto_a_agregar->nombre, objeto_a_agregar, anterior);
+		}
+		else if(tipo_elemento == INTERACCIONES){
+			struct interaccion *interaccion_a_agregar = interaccion_crear_desde_string(linea);
+			hash_insertar(hash, strcat(interaccion_a_agregar->objeto, interaccion_a_agregar->objeto_parametro), interaccion_a_agregar, anterior);
+		}
+		linea_leida = fgets(linea, LARGO_MAX_LINEA, archivo);
+	}
+	fclose(archivo);
+	if(anterior)
+		return NULL;
+
+	return hash;
+}
+
+
+/*
 int agregar_objeto_a_vector(struct objeto ***objetos, int *cantidad_objetos, struct objeto *objeto_actual)
 {
 	struct objeto **bloque_auxiliar = realloc(*objetos, ((unsigned)(*cantidad_objetos)+1) * sizeof(struct objeto*));
@@ -81,7 +120,7 @@ int cargar_a_memoria(struct sala *sala, const char *archivo, char elemento )
 	fclose(archivo_actual);
 	return 0;
 }
-
+*/
 sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones)
 {
 	if(!objetos || !interacciones)
@@ -90,9 +129,14 @@ sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones
 	struct sala *sala = calloc(1, sizeof(struct sala));
 	if(sala == NULL)
 		return NULL;
+	hash_t* hash_objetos = hash_crear(TAMAÑO_MIN_HASH);
+	cargar_elementos(sala, objetos, hash_objetos, OBJETOS);
 
-	cargar_a_memoria(sala, objetos, OBJETOS);
-	cargar_a_memoria(sala, interacciones, INTERACCIONES);
+	hash_t* hash_interacciones = hash_crear(TAMAÑO_MIN_HASH);
+	cargar_elementos(sala, interacciones, hash_interacciones, INTERACCIONES);
+
+	//cargar_a_memoria(sala, objetos, OBJETOS);
+	//cargar_a_memoria(sala, interacciones, INTERACCIONES);
 
 	if(sala->cantidad_objetos == 0 || sala->cantidad_interacciones == 0){
 		sala_destruir(sala);
@@ -101,7 +145,6 @@ sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones
 
 	return sala;
 }
-
 char **sala_obtener_nombre_objetos(sala_t *sala, int *cantidad)
 {
 	if(sala == NULL){
