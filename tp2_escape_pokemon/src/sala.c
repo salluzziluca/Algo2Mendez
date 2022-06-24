@@ -12,7 +12,7 @@
 #define OBJETOS 'o'
 #define INTERACCIONES 'i'
 
-
+//TODO: documentar esta funcion
 int agregar_objeto_a_vector(struct objeto ***objetos, int *cantidad_objetos, struct objeto *objeto_actual)
 {
 	struct objeto **bloque_auxiliar = realloc(*objetos, ((unsigned)(*cantidad_objetos)+1) * sizeof(struct objeto*));
@@ -27,6 +27,7 @@ int agregar_objeto_a_vector(struct objeto ***objetos, int *cantidad_objetos, str
 	return 0;
 }
 
+//TODO: documentar esta funcion
 int agregar_interaccion_a_vector(struct interaccion ***interacciones, int *cantidad_interacciones, struct interaccion *interaccion_actual)
 {
 	struct interaccion **bloque_auxiliar = realloc(*interacciones, ((unsigned)(*cantidad_interacciones)+1) * sizeof(struct interaccion*));
@@ -41,6 +42,7 @@ int agregar_interaccion_a_vector(struct interaccion ***interacciones, int *canti
 	return 0;
 }
 
+//TODO: documentar esta funcion
 int cargar_a_memoria(struct sala *sala, const char *archivo, char elemento )
 {
 	if(!sala || !archivo)
@@ -57,17 +59,7 @@ int cargar_a_memoria(struct sala *sala, const char *archivo, char elemento )
 		fclose(archivo_actual);
 		return -1;
 	}
-
-	if(elemento == 'o'){
-		sala->objetos = NULL;
-		sala->cantidad_objetos = 0;
-
-	}
-	else if(elemento == 'i'){
-		sala->interacciones = NULL;
-		sala->cantidad_interacciones = 0;
-	}
-
+	
 	while(linea_leida!=NULL){
 		if(elemento == 'o'){
 			struct objeto *objeto_a_agregar = objeto_crear_desde_string(linea);
@@ -134,14 +126,47 @@ char **sala_obtener_nombre_objetos(sala_t *sala, int *cantidad)
 	return nombres_objetos;
 }
 
+char **sala_obtener_nombre_objetos_conocidos(sala_t *sala, int *cantidad)
+{
+	return NULL;
+}
+
+
+char **sala_obtener_nombre_objetos_poseidos(sala_t *sala, int *cantidad)
+{
+	return NULL;
+}
+
+
+bool sala_agarrar_objeto(sala_t *sala, const char *nombre_objeto)
+{
+	return false;
+}
+
+
+char* sala_describir_objeto(sala_t* sala, const char *nombre_objeto)
+{
+	return NULL;
+}
+
+int sala_ejecutar_interaccion(sala_t *sala, const char *verbo,
+			      const char *objeto1, const char *objeto2,
+			      void (*mostrar_mensaje)(const char *mensaje,
+						      enum tipo_accion accion,
+						      void *aux),
+			      void *aux)
+{
+	return NULL;
+}
 bool sala_es_interaccion_valida(sala_t *sala, const char *verbo, const char *objeto1,const char *objeto2)
 {	
 	if(sala == NULL || verbo == NULL || objeto1 == NULL)
 		return false;
 
 	bool es_valido = false;
-
-	for(int i = 0; i < sala->cantidad_interacciones; i++){
+	//TODO: cambiar este
+	int i = 0;
+	while(i < sala->cantidad_interacciones && !es_valido){
 		
 		bool es_objeto_valido = strcmp(sala->interacciones[i]->objeto, objeto1) == 0;
 
@@ -151,9 +176,16 @@ bool sala_es_interaccion_valida(sala_t *sala, const char *verbo, const char *obj
 
 		if(es_objeto_valido && es_objeto_parametro_valido && es_verbo_valido)
 			es_valido = true;
+		i++;
 	}
 
 	return es_valido;
+}
+
+
+bool sala_escape_exitoso(sala_t *sala)
+{
+	return false;
 }
 
 void sala_destruir(sala_t *sala)

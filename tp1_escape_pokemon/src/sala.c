@@ -56,16 +56,6 @@ int cargar_a_memoria(struct sala *sala, const char *archivo, char elemento )
 		return -1;
 	}
 
-	if(elemento == 'o'){
-		sala->objetos = NULL;
-		sala->cantidad_objetos = 0;
-
-	}
-	else if(elemento == 'i'){
-		sala->interacciones = NULL;
-		sala->cantidad_interacciones = 0;
-	}
-
 	while(linea_leida!=NULL){
 		if(elemento == 'o'){
 			struct objeto *objeto_a_agregar = objeto_crear_desde_string(linea);
@@ -139,7 +129,8 @@ bool sala_es_interaccion_valida(sala_t *sala, const char *verbo, const char *obj
 
 	bool es_valido = false;
 
-	for(int i = 0; i < sala->cantidad_interacciones; i++){
+	int i = 0;
+	while(i < sala->cantidad_interacciones && !es_valido){
 		
 		bool es_objeto_valido = strcmp(sala->interacciones[i]->objeto, objeto1) == 0;
 
@@ -149,6 +140,7 @@ bool sala_es_interaccion_valida(sala_t *sala, const char *verbo, const char *obj
 
 		if(es_objeto_valido && es_objeto_parametro_valido && es_verbo_valido)
 			es_valido = true;
+		i++;
 	}
 
 	return es_valido;
