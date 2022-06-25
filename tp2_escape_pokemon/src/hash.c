@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <stdint.h>
+#include "hash.h"
 #define FACTOR_DE_CARGA_MAXIMO 0.65
 
 typedef struct par{
@@ -15,11 +16,11 @@ typedef struct tabla{
 	par_t *par_fin;
 	size_t ocupados;
 }tabla_t;
-typedef struct hash {
+struct hash {
 	size_t capacidad;
 	size_t ocupados;
 	tabla_t *tabla;	
-}hash_t;
+};
 
 uint32_t funcion_hash(const char *clave)
 {
@@ -343,4 +344,19 @@ size_t hash_con_cada_clave(hash_t *hash,
 		}
 	}
 	return claves_iteradas;
+}
+char **hash_obtener_claves (hash_t *hash, char **vector)
+{
+	if (!hash)
+		return NULL;
+	size_t i = 0;
+	for (size_t j = 0; j < hash->capacidad; j++) {
+		par_t *par_actual = hash->tabla[j].par_inicio;
+		while (par_actual) {
+			vector[i] = par_actual->clave;
+			i++;
+			par_actual = par_actual->siguiente;
+		}
+	}
+	return vector;
 }

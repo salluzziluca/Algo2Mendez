@@ -2,7 +2,7 @@
 #include "objeto.h"
 #include "interaccion.h"
 #include "estructura_sala.h"
-#include "hash.h"
+#include "funciones_aux.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
@@ -129,10 +129,16 @@ sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones
 	if(sala == NULL)
 		return NULL;
 	hash_t* hash_objetos = hash_crear(TAMANIO_MIN_HASH);
-	cargar_elementos(sala, objetos, hash_objetos, OBJETOS);
+	if(cargar_elementos(sala, objetos, hash_objetos, OBJETOS)){
+ 		sala->objetos = hash_objetos;
+		sala->cantidad_objetos = hash_cantidad(hash_objetos);
+	}
 
 	hash_t* hash_interacciones = hash_crear(TAMANIO_MIN_HASH);
-	cargar_elementos(sala, interacciones, hash_interacciones, INTERACCIONES);
+	if(cargar_elementos(sala, interacciones, hash_interacciones, INTERACCIONES)){
+		sala->interacciones = hash_interacciones;
+		sala->cantidad_interacciones = hash_cantidad(hash_interacciones);
+	}
 
 	//cargar_a_memoria(sala, objetos, OBJETOS);
 	//cargar_a_memoria(sala, interacciones, INTERACCIONES);
@@ -162,12 +168,14 @@ char **sala_obtener_nombre_objetos(sala_t *sala, int *cantidad)
 		return NULL;	
 	}
 	
-	for(int i = 0; i < sala->cantidad_objetos; i++){
+	/*for(int i = 0; i < sala->cantidad_objetos; i++){
 		nombres_objetos[i] = sala->objetos[i]->nombre;
-	}
+	}*/
+
+	hash_obtener_claves(sala->objetos, nombres_objetos);
 
 	if(cantidad != NULL)
-		*cantidad = sala->cantidad_objetos;
+		*cantidad = (int)sala->cantidad_objetos;
 		
 	return nombres_objetos;
 }
@@ -209,23 +217,14 @@ bool sala_es_interaccion_valida(sala_t *sala, const char *verbo, const char *obj
 	if(sala == NULL || verbo == NULL || objeto1 == NULL)
 		return false;
 
-	bool es_valido = false;
-	//TODO: cambiar este
-	int i = 0;
-	while(i < sala->cantidad_interacciones && !es_valido){
-		
-		bool es_objeto_valido = strcmp(sala->interacciones[i]->objeto, objeto1) == 0;
-
-		bool es_objeto_parametro_valido = strcmp(sala->interacciones[i]->objeto_parametro, objeto2) == 0;
-		
-		bool es_verbo_valido = strcmp(sala->interacciones[i]->verbo, verbo) == 0;
-
-		if(es_objeto_valido && es_objeto_parametro_valido && es_verbo_valido)
-			es_valido = true;
-		i++;
-	}
-
-	return es_valido;
+	
+	char *nombre_interaccion = strcat((char *)objeto1, objeto2);
+	struct interaccion *interaccion = hash_obtener(sala->interacciones, nombre_interaccion);
+	if(interaccion == NULL)
+		return false;
+	if(strcmp(interaccion->verbo, verbo) == 0)
+		return true;
+	return false;
 }
 
 
@@ -236,16 +235,12 @@ bool sala_escape_exitoso(sala_t *sala)
 
 void sala_destruir(sala_t *sala)
 {
+
 	if(sala == NULL)
 		return;
-	for(int i = 0; i < sala->cantidad_objetos; i++){
-		free(sala->objetos[i]);
-	}
-
-	for(int i = 0; i < sala->cantidad_interacciones; i++){
-		free(sala->interacciones[i]);
-	}	
-	free(sala->objetos);
+	
+	hash_destruir(sala->objetos);
+	hash_destruir(sala->interacciones);
 	free(sala->interacciones);
 	free(sala);
 }
