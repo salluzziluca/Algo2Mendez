@@ -3,7 +3,7 @@
 #include "objeto.h"
 #include "interaccion.h"
 #include "estructura_sala.h"
-#include "tda3_hash/src/hash.h"
+#include "hash.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
@@ -12,7 +12,7 @@
 #define MODO_LECTURA "r"
 #define OBJETOS 'o'
 #define INTERACCIONES 'i'
-#define TAMAÑO_MIN_HASH 15
+#define TAMANIO_MIN_HASH 15
 
 /*
 * Recibe la direccion de un archivo, un puntero a sala, un puntero a hash y un caracter
@@ -24,7 +24,7 @@
 */
 hash_t *cargar_elementos(sala_t *sala, const char *nombre_archivo, hash_t *hash,  char tipo_elemento)
 {
-	if(!sala, !nombre_archivo, !tipo_elemento)
+	if(!sala || !nombre_archivo || !tipo_elemento)
 		return NULL;
 	FILE *archivo = fopen(nombre_archivo, MODO_LECTURA);
 	if(!archivo)
@@ -129,10 +129,10 @@ sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones
 	struct sala *sala = calloc(1, sizeof(struct sala));
 	if(sala == NULL)
 		return NULL;
-	hash_t* hash_objetos = hash_crear(TAMAÑO_MIN_HASH);
+	hash_t* hash_objetos = hash_crear(TAMANIO_MIN_HASH);
 	cargar_elementos(sala, objetos, hash_objetos, OBJETOS);
 
-	hash_t* hash_interacciones = hash_crear(TAMAÑO_MIN_HASH);
+	hash_t* hash_interacciones = hash_crear(TAMANIO_MIN_HASH);
 	cargar_elementos(sala, interacciones, hash_interacciones, INTERACCIONES);
 
 	//cargar_a_memoria(sala, objetos, OBJETOS);
