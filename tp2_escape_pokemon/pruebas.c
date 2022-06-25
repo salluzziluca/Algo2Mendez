@@ -1,11 +1,9 @@
 #include "pa2mm.h"
-#include "src/estructuras.h"
-#include "src/sala.h"
 #include "src/objeto.h"
 #include "src/interaccion.h"
 #include "src/estructura_sala.h"
 
-#include "string.h"
+#include <string.h>
 #include <stdbool.h>
 
 void pruebasCrearObjeto()

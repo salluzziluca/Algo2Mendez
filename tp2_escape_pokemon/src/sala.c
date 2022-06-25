@@ -1,4 +1,3 @@
-#include "estructuras.h"
 #include "sala.h"
 #include "objeto.h"
 #include "interaccion.h"
