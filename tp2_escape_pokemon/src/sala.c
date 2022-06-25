@@ -43,7 +43,9 @@ hash_t *cargar_elementos(sala_t *sala, const char *nombre_archivo, hash_t *hash,
 		}
 		else if(tipo_elemento == INTERACCIONES){
 			struct interaccion *interaccion_a_agregar = interaccion_crear_desde_string(linea);
-			hash_insertar(hash, strcat(interaccion_a_agregar->objeto, interaccion_a_agregar->objeto_parametro), interaccion_a_agregar, anterior);
+
+			char clave_interaccion[MAX_NOMBRE_INTERACCION] = "";
+			hash_insertar(hash, strcat(strcat(strcat(clave_interaccion, interaccion_a_agregar->objeto), interaccion_a_agregar->verbo), interaccion_a_agregar->objeto_parametro), interaccion_a_agregar, anterior);
 		}
 		linea_leida = fgets(linea, LARGO_MAX_LINEA, archivo);
 	}
@@ -220,7 +222,7 @@ bool sala_es_interaccion_valida(sala_t *sala, const char *verbo, const char *obj
 
 
 	char nombre_interaccion[30] ="";
-	strcat(nombre_interaccion, objeto1);
+	strcat(strcat(nombre_interaccion, objeto1), verbo);
 
 	if(strcmp(objeto2, "") != 0)
 		strcat(nombre_interaccion, objeto2);

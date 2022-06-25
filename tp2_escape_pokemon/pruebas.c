@@ -124,8 +124,8 @@ void pruebas_nombre_objetos()
 		     "Puedo pedir el vector de nombres a la sala pasando cantidad no NULL");
 	pa2m_afirmar(cantidad == 9, "La cantidad de elementos del vector coincide con lo esperado");
 
-	const char *esperados[] = { "habitacion",    "mesa",  "interruptor", "pokebola", "cajon",
-				    "cajon-abierto", "llave", "anillo",	     "puerta" };
+	const char *esperados[] = { "habitacion",    "pokebola",  "llave", "interruptor", "cajon",
+				    "cajon-abierto", "mesa", "puerta",	     "anillo" };
 
 	int comparaciones_exitosas = 0;
 
