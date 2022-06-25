@@ -93,8 +93,8 @@ void pruebas_crear_sala()
 	sala_t *sala = sala_crear_desde_archivos("", "chanu/int.csv");
 	pa2m_afirmar( sala == NULL,
 		     "No puedo crear la sala sin objetos");
-
-	pa2m_afirmar(sala_crear_desde_archivos("chanu/obj.dat", "chanu/vacio.txt") == NULL,
+	sala_t *a = sala_crear_desde_archivos("chanu/obj.dat", "chanu/vacio.txt");
+	pa2m_afirmar( a== NULL,
 		     "No puedo crear la sala sin interacciones");
 
 	sala = sala_crear_desde_archivos("chanu/obj.dat", "chanu/int.csv");

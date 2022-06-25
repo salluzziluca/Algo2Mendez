@@ -42,6 +42,8 @@ char *copiar_string(const char *origen)
 		return NULL;
 
 	char *copia = malloc(strlen(origen) + 1);
+	if(!copia)
+		return NULL;
 	strcpy(copia, origen);
 
 	return copia;

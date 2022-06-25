@@ -32,8 +32,10 @@ hash_t *cargar_elementos(sala_t *sala, const char *nombre_archivo, hash_t *hash,
 	
 	char linea[LARGO_MAX_LINEA];
 	char *linea_leida = fgets(linea, LARGO_MAX_LINEA, archivo);
-	if(!linea_leida )
+	if(!linea_leida ){
+		fclose(archivo);
 		return NULL;
+	}
 	void* anterior = NULL;
 	while(linea_leida){
 
@@ -136,15 +138,23 @@ sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones
  		sala->objetos = hash_objetos;
 		sala->cantidad_objetos = hash_cantidad(hash_objetos);
 	}
+	else{
+		hash_destruir(hash_objetos);
+		free(sala);
+		return NULL;
+	}
 
 	hash_t* hash_interacciones = hash_crear(TAMANIO_MIN_HASH);
 	if(cargar_elementos(sala, interacciones, hash_interacciones, INTERACCIONES)){
 		sala->interacciones = hash_interacciones;
 		sala->cantidad_interacciones = hash_cantidad(hash_interacciones);
 	}
-
-	//cargar_a_memoria(sala, objetos, OBJETOS);
-	//cargar_a_memoria(sala, interacciones, INTERACCIONES);
+	else{
+		hash_destruir_todo(hash_interacciones, free);
+		hash_destruir_todo(sala->objetos, free);
+		free(sala);
+		return NULL;
+	}
 
 	if(sala->cantidad_objetos == 0 || sala->cantidad_interacciones == 0){
 		sala_destruir(sala);
@@ -246,7 +256,7 @@ void sala_destruir(sala_t *sala)
 	if(sala == NULL)
 		return;
 	
-	hash_destruir(sala->objetos);
-	hash_destruir(sala->interacciones);
+	hash_destruir_todo(sala->objetos, free);
+	hash_destruir_todo(sala->interacciones, free);
 	free(sala);
 }
