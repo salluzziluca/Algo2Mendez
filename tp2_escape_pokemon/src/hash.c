@@ -352,11 +352,12 @@ char **hash_obtener_claves (hash_t *hash, char **vector)
 	size_t i = 0;
 	for (size_t j = 0; j < hash->capacidad; j++) {
 		par_t *par_actual = hash->tabla[j].par_inicio;
-		while (par_actual) {
+		for(size_t k = 0; k < hash->tabla[j].ocupados; k++) {
 			vector[i] = par_actual->clave;
 			i++;
 			par_actual = par_actual->siguiente;
 		}
+
 	}
 	return vector;
 }

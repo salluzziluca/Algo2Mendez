@@ -90,13 +90,14 @@ void pruebas_crear_sala()
 	pa2m_afirmar(sala_crear_desde_archivos("/ASD/ASD/", "dasD/sa2asdd") == NULL,
 		     "No puedo crear la sala a partír de archivos inexistentes");
 
-	pa2m_afirmar(sala_crear_desde_archivos("", "chanu/int.csv") == NULL,
+	sala_t *sala = sala_crear_desde_archivos("", "chanu/int.csv");
+	pa2m_afirmar( sala == NULL,
 		     "No puedo crear la sala sin objetos");
 
 	pa2m_afirmar(sala_crear_desde_archivos("chanu/obj.dat", "chanu/vacio.txt") == NULL,
 		     "No puedo crear la sala sin interacciones");
 
-	sala_t *sala = sala_crear_desde_archivos("chanu/obj.dat", "chanu/int.csv");
+	sala = sala_crear_desde_archivos("chanu/obj.dat", "chanu/int.csv");
 
 	pa2m_afirmar(sala != NULL, "Puedo crear la sala a partir de archivos no vacíos");
 	pa2m_afirmar(sala->cantidad_objetos == 9, "Se leyeron 9 objetos");
@@ -151,6 +152,7 @@ void pruebas_interacciones()
 	pa2m_afirmar(sala_es_interaccion_valida(sala, "hacer", NULL, "") == false, "No es válida una intearcción con objeto NULL");
 
 	pa2m_afirmar(sala_es_interaccion_valida(sala, "examinar", "habitacion", "") == true, "Puedo examinar la habitación");
+	
 	pa2m_afirmar(sala_es_interaccion_valida(sala, "usar", "llave", "cajon") == true, "Puedo usar la llave en el cajón");
 	pa2m_afirmar(sala_es_interaccion_valida(sala, "abrir", "pokebola", "") == true, "Puedo abrir la pokebola");
 	pa2m_afirmar(sala_es_interaccion_valida(sala, "examinar", "cajon-abierto", "") == true, "Puedo examinar el cajón abierto");

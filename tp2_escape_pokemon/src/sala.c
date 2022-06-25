@@ -12,6 +12,7 @@
 #define OBJETOS 'o'
 #define INTERACCIONES 'i'
 #define TAMANIO_MIN_HASH 15
+#define MAX_NOMBRE_INTERACCION 30
 
 /*
 * Recibe la direccion de un archivo, un puntero a sala, un puntero a hash y un caracter
@@ -217,8 +218,12 @@ bool sala_es_interaccion_valida(sala_t *sala, const char *verbo, const char *obj
 	if(sala == NULL || verbo == NULL || objeto1 == NULL)
 		return false;
 
-	
-	char *nombre_interaccion = strcat((char *)objeto1, objeto2);
+
+	char nombre_interaccion[30] ="";
+	strcat(nombre_interaccion, objeto1);
+
+	if(strcmp(objeto2, "") != 0)
+		strcat(nombre_interaccion, objeto2);
 	struct interaccion *interaccion = hash_obtener(sala->interacciones, nombre_interaccion);
 	if(interaccion == NULL)
 		return false;
@@ -241,6 +246,5 @@ void sala_destruir(sala_t *sala)
 	
 	hash_destruir(sala->objetos);
 	hash_destruir(sala->interacciones);
-	free(sala->interacciones);
 	free(sala);
 }
