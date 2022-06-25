@@ -1,5 +1,3 @@
-#include "estructuras.h"
-#include "interaccion.h"
 #include "validaciones.h"
 #include <stdlib.h>
 #include <stdio.h>

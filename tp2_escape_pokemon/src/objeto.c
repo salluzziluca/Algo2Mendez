@@ -1,6 +1,4 @@
 #include "objeto.h"
-#include "estructuras.h"
-#include "estructuras.h"
 #include "validaciones.h"
 #include <stdlib.h>
 #include <stdio.h>
