@@ -138,31 +138,6 @@ hash_t *rehash(hash_t *hash, size_t capacidad)
 	return hash;
 }
 
-/*
-* Recibe una posicion de una tabla de hash, una clave, un elemento para sobreescribir y un puntero a elemento anterior.
-* itera por la lista de la posicion correspondiente buscando un para con la misma clave.
-* Si encuentra un par con la misma clave, sobreescribe el elemento.
-* Devuelve true si sobreescribió el elemento o false si no lo hizo.
-*/
-bool sobreescribir_elemento(tabla_t *tabla, const char *clave, void *elemento,
-			    void **anterior)
-{
-	int i = 0;
-	bool sobreescrito = false;
-	par_t *par_actual = tabla->par_inicio;
-	while (i < tabla->ocupados && !sobreescrito) {
-		if (strcmp(par_actual->clave, clave) == 0) {
-			if (anterior)
-				*anterior = par_actual->elemento;
-			par_actual->elemento = elemento;
-			sobreescrito = true;
-		}
-		i++;
-		par_actual = par_actual->siguiente;
-	}
-	return sobreescrito;
-}
-
 size_t hash_cantidad(hash_t *hash)
 {
 	if (!hash)
@@ -181,19 +156,17 @@ hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
 		hash = rehash(hash, hash->capacidad * 2);
 
 	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
-	bool sobreescrito = sobreescribir_elemento(&hash->tabla[posicion],
-						   clave, elemento, anterior);
 
-	if (!sobreescrito) {
-		char *copia_clave = copiar_string(clave);
-		par_t *par = llenar_par(copia_clave, elemento);
 
-		par_insertar(&hash->tabla[posicion], par);
-		if (anterior)
-			*anterior = NULL;
+	char *copia_clave = copiar_string(clave);
+	par_t *par = llenar_par(copia_clave, elemento);
 
-		hash->ocupados++;
-	}
+	par_insertar(&hash->tabla[posicion], par);
+	if (anterior)
+		*anterior = NULL;
+
+	hash->ocupados++;
+
 	return hash;
 }
 
