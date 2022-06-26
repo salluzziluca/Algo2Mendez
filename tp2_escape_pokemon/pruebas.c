@@ -1,9 +1,10 @@
 #include "pa2mm.h"
+#include "src/estructuras.h"
+#include "src/sala.h"
 #include "src/objeto.h"
 #include "src/interaccion.h"
-#include "src/estructura_sala.h"
 
-#include <string.h>
+#include "string.h"
 #include <stdbool.h>
 
 void pruebasCrearObjeto()
@@ -90,14 +91,13 @@ void pruebas_crear_sala()
 	pa2m_afirmar(sala_crear_desde_archivos("/ASD/ASD/", "dasD/sa2asdd") == NULL,
 		     "No puedo crear la sala a partír de archivos inexistentes");
 
-	sala_t *sala = sala_crear_desde_archivos("", "chanu/int.csv");
-	pa2m_afirmar( sala == NULL,
+	pa2m_afirmar(sala_crear_desde_archivos("", "chanu/int.csv") == NULL,
 		     "No puedo crear la sala sin objetos");
-	sala_t *a = sala_crear_desde_archivos("chanu/obj.dat", "chanu/vacio.txt");
-	pa2m_afirmar( a== NULL,
+
+	pa2m_afirmar(sala_crear_desde_archivos("chanu/obj.dat", "chanu/vacio.txt") == NULL,
 		     "No puedo crear la sala sin interacciones");
 
-	sala = sala_crear_desde_archivos("chanu/obj.dat", "chanu/int.csv");
+	sala_t *sala = sala_crear_desde_archivos("chanu/obj.dat", "chanu/int.csv");
 
 	pa2m_afirmar(sala != NULL, "Puedo crear la sala a partir de archivos no vacíos");
 	pa2m_afirmar(sala->cantidad_objetos == 9, "Se leyeron 9 objetos");
@@ -124,8 +124,8 @@ void pruebas_nombre_objetos()
 		     "Puedo pedir el vector de nombres a la sala pasando cantidad no NULL");
 	pa2m_afirmar(cantidad == 9, "La cantidad de elementos del vector coincide con lo esperado");
 
-	const char *esperados[] = { "habitacion",    "pokebola",  "llave", "interruptor", "cajon",
-				    "cajon-abierto", "mesa", "puerta",	     "anillo" };
+	const char *esperados[] = { "habitacion",    "mesa",  "interruptor", "pokebola", "cajon",
+				    "cajon-abierto", "llave", "anillo",	     "puerta" };
 
 	int comparaciones_exitosas = 0;
 
@@ -152,7 +152,6 @@ void pruebas_interacciones()
 	pa2m_afirmar(sala_es_interaccion_valida(sala, "hacer", NULL, "") == false, "No es válida una intearcción con objeto NULL");
 
 	pa2m_afirmar(sala_es_interaccion_valida(sala, "examinar", "habitacion", "") == true, "Puedo examinar la habitación");
-	
 	pa2m_afirmar(sala_es_interaccion_valida(sala, "usar", "llave", "cajon") == true, "Puedo usar la llave en el cajón");
 	pa2m_afirmar(sala_es_interaccion_valida(sala, "abrir", "pokebola", "") == true, "Puedo abrir la pokebola");
 	pa2m_afirmar(sala_es_interaccion_valida(sala, "examinar", "cajon-abierto", "") == true, "Puedo examinar el cajón abierto");
