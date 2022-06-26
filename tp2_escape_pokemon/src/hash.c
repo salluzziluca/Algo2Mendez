@@ -320,6 +320,12 @@ size_t hash_con_cada_clave(hash_t *hash,
 	}
 	return claves_iteradas;
 }
+
+/*
+* Recibe un hash y un vector de claves.
+* Recorre el hash rellenando el vector con las claves de toodos los pares.
+* Devuelve el vector llenado o NULL en caso de error.
+*/
 char **hash_obtener_claves (hash_t *hash, char **vector)
 {
 	if (!hash)
