@@ -1,5 +1,6 @@
 #ifndef SALA_H_
 #define SALA_H_
+
 #include <stdbool.h>
 
 typedef struct sala sala_t;
