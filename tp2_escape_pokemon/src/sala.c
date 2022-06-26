@@ -1,8 +1,5 @@
+#include "estructuras.h"
 #include "sala.h"
-#include "objeto.h"
-#include "interaccion.h"
-#include "estructura_sala.h"
-#include "funciones_aux.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
@@ -438,12 +435,8 @@ void jugador_destruir(jugador_t *jugador)
 }
 void sala_destruir(sala_t *sala)
 {
+<<<<<<< HEAD
 
 	if(!sala)
 		return;
 	
-	jugador_destruir(sala->jugador);
-	hash_destruir_todo(sala->objetos, free);
-	hash_destruir_todo(sala->interacciones, free);
-	free(sala);
-}

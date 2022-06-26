@@ -1,7 +1,6 @@
-#include "validaciones.h"
+#include "estructuras.h"
+#include "interaccion.h"
 #include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
 
 #define MAX_BOOL 20
 #define MIN_LEIDOS 6
