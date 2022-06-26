@@ -1,8 +1,4 @@
 #include "validaciones.h"
-#include "estructuras.h"
-#include "sala.h"
-#include "objeto.h"
-#include "interaccion.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
