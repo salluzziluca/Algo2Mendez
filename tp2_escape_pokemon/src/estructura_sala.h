@@ -6,5 +6,15 @@ struct sala {
 	size_t cantidad_objetos;
 	hash_t *interacciones;
 	size_t cantidad_interacciones;
+	jugador_t *jugador;
 };
+
+typedef struct jugador
+{
+	hash_t *objetos_conocidos;
+	size_t cantidad_objetos_conocidos;
+	hash_t *objetos_poseidos;
+	size_t cantidad_objetos_poseidos;
+} jugador_t;
+
 #endif // ESTRUCTURA_SALA_H
