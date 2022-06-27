@@ -146,8 +146,7 @@ size_t hash_cantidad(hash_t *hash)
 	return hash->ocupados;
 }
 
-hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
-		      void **anterior)
+hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento)
 {
 	if (!hash || !clave)
 		return NULL;
@@ -165,8 +164,6 @@ hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
 	par_t *par = llenar_par(copia_clave, elemento);
 
 	par_insertar(&hash->tabla[posicion], par);
-	if (anterior)
-		*anterior = NULL;
 
 	hash->ocupados++;
 

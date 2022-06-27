@@ -36,29 +36,26 @@ hash_t *cargar_elementos(sala_t *sala, const char *nombre_archivo, hash_t *hash,
 		fclose(archivo);
 		return NULL;
 	}
-	void* anterior = NULL;
 	while(linea_leida){
 
 		if(tipo_elemento == OBJETOS){
 			struct objeto *objeto_a_agregar = objeto_crear_desde_string(linea);
-			hash_insertar(hash, objeto_a_agregar->nombre, objeto_a_agregar, anterior);
+			hash_insertar(hash, objeto_a_agregar->nombre, objeto_a_agregar);
 		}
 		else if(tipo_elemento == INTERACCIONES){
 			struct interaccion *interaccion_a_agregar = interaccion_crear_desde_string(linea);
 
 			char clave_interaccion[MAX_NOMBRE_INTERACCION] = "";
-			hash_insertar(hash, strcat(strcat(strcat(clave_interaccion, interaccion_a_agregar->objeto), interaccion_a_agregar->verbo), interaccion_a_agregar->objeto_parametro), interaccion_a_agregar, anterior);
+			hash_insertar(hash, strcat(strcat(strcat(clave_interaccion, interaccion_a_agregar->objeto), interaccion_a_agregar->verbo), interaccion_a_agregar->objeto_parametro), interaccion_a_agregar);
 		}
 		linea_leida = fgets(linea, LARGO_MAX_LINEA, archivo);
 	}
 	fclose(archivo);
-	if(anterior)
-		return NULL;
 
 	return hash;
 }
 
-sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones)
+sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones) //TODO: embellecer esta funcion, hay stasheada una posible implementacion para usar sala_destruir para que esto sea mas lindo
 {
 	if(!objetos || !interacciones)
 		return NULL;
@@ -167,6 +164,21 @@ char **sala_obtener_nombre_objetos_poseidos(sala_t *sala, int *cantidad)
 
 bool sala_agarrar_objeto(sala_t *sala, const char *nombre_objeto)
 {
+	if(!sala || !nombre_objeto)
+		return false;
+
+	hash_t *hash_objetos_conocidos = sala->jugador->objetos_conocidos;
+
+	struct objeto *objeto_actual = hash_obtener(hash_objetos_conocidos, nombre_objeto);
+	if(objeto_actual == NULL)
+		return false;
+
+	if(objeto_actual->es_asible){
+		hash_quitar(hash_objetos_conocidos, nombre_objeto);
+		hash_insertar(sala->jugador->objetos_poseidos, nombre_objeto, objeto_actual);
+		return true;
+	}
+
 	return false;
 }
 
