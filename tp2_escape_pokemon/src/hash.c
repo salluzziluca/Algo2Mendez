@@ -59,9 +59,10 @@ hash_t *hash_crear(size_t capacidad)
 		capacidad = 3;
 
 	hash->tabla = calloc(capacidad, sizeof(tabla_t));
-	if (!hash->tabla)
+	if (!hash->tabla){
 		return NULL;
-
+		free(hash);
+	}
 	hash->capacidad = capacidad;
 	hash->ocupados = 0;
 	return hash;
@@ -154,6 +155,8 @@ hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
 	if (hash_cantidad(hash) >=
 	    (double)hash->capacidad * FACTOR_DE_CARGA_MAXIMO)
 		hash = rehash(hash, hash->capacidad * 2);
+	if (!hash)
+		return NULL;
 
 	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
 
