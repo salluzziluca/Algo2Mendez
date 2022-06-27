@@ -185,7 +185,19 @@ bool sala_agarrar_objeto(sala_t *sala, const char *nombre_objeto)
 
 char* sala_describir_objeto(sala_t* sala, const char *nombre_objeto)
 {
-	return NULL;
+	if(!sala || !nombre_objeto)
+		return NULL;
+
+	hash_t *hash_objetos_conocidos = sala->jugador->objetos_conocidos;
+	hash_t *hash_objetos_poseidos = sala->jugador->objetos_poseidos;
+
+	struct objeto *objeto_actual = hash_obtener(hash_objetos_conocidos, nombre_objeto);
+	if(objeto_actual == NULL)
+		objeto_actual = hash_obtener(hash_objetos_poseidos, nombre_objeto);
+	if(objeto_actual == NULL)
+		return NULL;
+	
+	return objeto_actual->descripcion;
 }
 
 int sala_ejecutar_interaccion(sala_t *sala, const char *verbo,
