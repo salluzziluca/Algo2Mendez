@@ -13,6 +13,10 @@
 #define INTERACCIONES 'i'
 #define TAMANIO_MIN_HASH 15
 #define MAX_NOMBRE_INTERACCION 30
+#define ACCION_DESCUBRIR 'd'
+#define ACCION_REEMPLAZAR 'r'
+#define ACCION_ELIMINAR 'e'
+#define ACCION_MOSTRAR 'm'
 
 /*
 * Recibe la direccion de un archivo, un puntero a sala, un puntero a hash y un caracter
@@ -207,6 +211,41 @@ int sala_ejecutar_interaccion(sala_t *sala, const char *verbo,
 						      void *aux),
 			      void *aux)
 {
+	if(!sala || !verbo || objeto1 || objeto2)
+		return 0;
+
+	hash_t *hash_interacciones = sala->interacciones;
+
+	char nombre_interaccion[30] ="";
+	strcat(strcat(nombre_interaccion, objeto1), verbo);
+	struct interaccion *interaccion_actual = hash_obtener(hash_interacciones, nombre_interaccion);
+	if(interaccion_actual == NULL)
+		return 0;
+	
+	switch (interaccion_actual->accion.tipo){
+		case ACCION_DESCUBRIR:
+			hash_quitar(sala->objetos, interaccion_actual->accion.objeto);
+			hash_insertar(sala->jugador->objetos_conocidos, interaccion_actual->accion.objeto,
+				      hash_obtener(sala->objetos, interaccion_actual->accion.objeto));
+			mostrar_mensaje(interaccion_actual->accion.mensaje, ACCION_DESCUBRIR, aux);
+			break;
+		case ACCION_REEMPLAZAR:
+			hash_insertar(sala->jugador->objetos_conocidos, interaccion_actual->accion.objeto,
+				      hash_obtener(sala->jugador->objetos_poseidos, interaccion_actual->accion.objeto));
+			hash_quitar(sala->jugador->objetos_poseidos, interaccion_actual->accion.objeto);
+			mostrar_mensaje(interaccion_actual->accion.mensaje, ACCION_DESCUBRIR, aux);
+			break;
+		case ACCION_ELIMINAR:
+			hash_quitar(sala->jugador->objetos_poseidos, interaccion_actual->accion.objeto);
+			mostrar_mensaje(interaccion_actual->accion.mensaje, ACCION_ELIMINAR, aux);
+			break;
+		case ACCION_MOSTRAR:
+			mostrar_mensaje(interaccion_actual->accion.mensaje, ACCION_MOSTRAR, aux);
+			break;	
+		default:
+			break;
+		}
+
 	return 0;
 }
 bool sala_es_interaccion_valida(sala_t *sala, const char *verbo, const char *objeto1,const char *objeto2)
@@ -233,6 +272,7 @@ bool sala_escape_exitoso(sala_t *sala)
 {
 	return false;
 }
+
 void jugador_destruir(jugador_t *jugador)
 {
 	if(jugador == NULL)

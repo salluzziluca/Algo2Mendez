@@ -163,6 +163,12 @@ void pruebas_interacciones()
 	sala_destruir(sala);
 }
 
+void pruebas_agarrar_y_usar_objetos()
+{
+	sala_t *sala = sala_crear_desde_archivos("chanu/obj.dat", "chanu/int.csv");
+
+	sala_destruir(sala);
+}
 int main()
 {
 	pa2m_nuevo_grupo("Pruebas de creación de objetos");
@@ -179,6 +185,9 @@ int main()
 
 	pa2m_nuevo_grupo("Pruebas de interacciones");
 	pruebas_interacciones();
+
+	pa2m_nuevo_grupo("Pruebas de Agarrar y Usar Objetos");
+	pruebas_agarrar_y_usar_objetos();
 
 	return pa2m_mostrar_reporte();
 }
