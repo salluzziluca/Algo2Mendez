@@ -6,6 +6,11 @@
 #include <string.h>
 #include <stdbool.h>
 
+void mostrar_mensaje(const char *mensaje, enum tipo_accion accion, void *aux)
+{
+	printf("%s\n", mensaje);
+}
+
 void pruebasCrearObjeto()
 {
 	pa2m_afirmar(objeto_crear_desde_string(NULL) == NULL,
@@ -166,7 +171,8 @@ void pruebas_interacciones()
 void pruebas_agarrar_y_usar_objetos()
 {
 	sala_t *sala = sala_crear_desde_archivos("chanu/obj.dat", "chanu/int.csv");
-
+	void *aux = NULL;
+	pa2m_afirmar((sala_ejecutar_interaccion(sala, "examinar", "habitacion", "", mostrar_mensaje, aux) == true), "Puedo examinar la habitacion");
 	sala_destruir(sala);
 }
 int main()

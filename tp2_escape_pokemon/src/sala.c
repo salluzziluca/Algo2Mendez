@@ -13,10 +13,12 @@
 #define INTERACCIONES 'i'
 #define TAMANIO_MIN_HASH 15
 #define MAX_NOMBRE_INTERACCION 30
-#define ACCION_DESCUBRIR 'd'
-#define ACCION_REEMPLAZAR 'r'
-#define ACCION_ELIMINAR 'e'
-#define ACCION_MOSTRAR 'm'
+#define ACCION_INVALIDA 0
+#define	DESCUBRIR_OBJETO 1
+#define REEMPLAZAR_OBJETO 2
+#define ELIMINAR_OBJETO 3
+#define MOSTRAR_MENSAJE 4
+#define ESCAPAR 5
 
 /*
 * Recibe la direccion de un archivo, un puntero a sala, un puntero a hash y un caracter
@@ -223,25 +225,29 @@ int sala_ejecutar_interaccion(sala_t *sala, const char *verbo,
 		return 0;
 	
 	switch (interaccion_actual->accion.tipo){
-		case ACCION_DESCUBRIR:
+		case DESCUBRIR_OBJETO:
 			hash_quitar(sala->objetos, interaccion_actual->accion.objeto);
 			hash_insertar(sala->jugador->objetos_conocidos, interaccion_actual->accion.objeto,
 				      hash_obtener(sala->objetos, interaccion_actual->accion.objeto));
-			mostrar_mensaje(interaccion_actual->accion.mensaje, ACCION_DESCUBRIR, aux);
+			mostrar_mensaje(interaccion_actual->accion.mensaje, DESCUBRIR_OBJETO, aux);
 			break;
-		case ACCION_REEMPLAZAR:
+
+		case REEMPLAZAR_OBJETO:
 			hash_insertar(sala->jugador->objetos_conocidos, interaccion_actual->accion.objeto,
 				      hash_obtener(sala->jugador->objetos_poseidos, interaccion_actual->accion.objeto));
 			hash_quitar(sala->jugador->objetos_poseidos, interaccion_actual->accion.objeto);
-			mostrar_mensaje(interaccion_actual->accion.mensaje, ACCION_DESCUBRIR, aux);
+			mostrar_mensaje(interaccion_actual->accion.mensaje, REEMPLAZAR_OBJETO, aux);
 			break;
-		case ACCION_ELIMINAR:
+
+		case ELIMINAR_OBJETO:
 			hash_quitar(sala->jugador->objetos_poseidos, interaccion_actual->accion.objeto);
-			mostrar_mensaje(interaccion_actual->accion.mensaje, ACCION_ELIMINAR, aux);
+			mostrar_mensaje(interaccion_actual->accion.mensaje, ELIMINAR_OBJETO, aux);
 			break;
-		case ACCION_MOSTRAR:
-			mostrar_mensaje(interaccion_actual->accion.mensaje, ACCION_MOSTRAR, aux);
+
+		case MOSTRAR_MENSAJE:
+			mostrar_mensaje(interaccion_actual->accion.mensaje, MOSTRAR_MENSAJE, aux);
 			break;	
+
 		default:
 			break;
 		}
