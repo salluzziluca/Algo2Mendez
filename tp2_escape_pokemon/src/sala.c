@@ -66,32 +66,31 @@ sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones
 	if(!objetos || !interacciones)
 		return NULL;
 		
-	struct sala *sala = malloc(sizeof(struct sala));
+	struct sala *sala = calloc(1,sizeof(struct sala));
 	if(sala == NULL)
 		return NULL;
 
 	hash_t* hash_objetos = hash_crear(TAMANIO_MIN_HASH);
+	if(!hash_objetos)
+		return NULL;
 
-	if(cargar_elementos(sala, objetos, hash_objetos, OBJETOS)){
- 		sala->objetos = hash_objetos;
+ 	sala->objetos = hash_objetos;
+	if(cargar_elementos(sala, objetos, hash_objetos, OBJETOS))
 		sala->cantidad_objetos = hash_cantidad(hash_objetos);
-	}
 	else{
-		hash_destruir(hash_objetos);
-		free(sala);
+		sala_destruir(sala);
 		return NULL;
 	}
 
 	hash_t* hash_interacciones = hash_crear(TAMANIO_MIN_HASH);
+	if(!hash_interacciones)
+		return NULL;
 
-	if(cargar_elementos(sala, interacciones, hash_interacciones, INTERACCIONES)){
-		sala->interacciones = hash_interacciones;
-		sala->cantidad_interacciones = hash_cantidad(hash_interacciones);
-	}
+	sala->interacciones = hash_interacciones;
+	if(cargar_elementos(sala, interacciones, hash_interacciones, INTERACCIONES))
+		sala->cantidad_interacciones = hash_cantidad(hash_interacciones);	
 	else{
-		hash_destruir_todo(hash_interacciones, free);
-		hash_destruir_todo(sala->objetos, free);
-		free(sala);
+		sala_destruir(sala);
 		return NULL;
 	}
 
@@ -102,27 +101,18 @@ sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones
 
 	sala->jugador = malloc(sizeof(struct jugador));
 	if(sala->jugador == NULL){
-		hash_destruir_todo(sala->interacciones, free);
-		hash_destruir_todo(sala->objetos, free);
-		free(sala);
+		sala_destruir(sala);
 		return NULL;
 	}
 
 	sala->jugador->objetos_conocidos = hash_crear(TAMANIO_MIN_HASH);
 	if(sala->jugador->objetos_conocidos == NULL){
-		hash_destruir_todo(sala->interacciones, free);
-		hash_destruir_todo(sala->objetos, free);
-		free(sala->jugador);
-		free(sala);
+		sala_destruir(sala);
 		return NULL;
 	}
 	sala->jugador->objetos_poseidos = hash_crear(TAMANIO_MIN_HASH);
 	if(sala->jugador->objetos_poseidos == NULL){
-		hash_destruir_todo(sala->interacciones, free);
-		hash_destruir_todo(sala->objetos, free);
-		hash_destruir_todo(sala->jugador->objetos_conocidos, free);
-		free(sala->jugador);
-		free(sala);
+		sala_destruir(sala);
 		return NULL;
 	}
 	return sala;
@@ -281,7 +271,7 @@ bool sala_escape_exitoso(sala_t *sala)
 
 void jugador_destruir(jugador_t *jugador)
 {
-	if(jugador == NULL)
+	if(!jugador)
 		return;
 	hash_destruir_todo(jugador->objetos_conocidos, free);
 	hash_destruir_todo(jugador->objetos_poseidos, free);
@@ -290,11 +280,10 @@ void jugador_destruir(jugador_t *jugador)
 void sala_destruir(sala_t *sala)
 {
 
-	if(sala == NULL)
+	if(!sala)
 		return;
 	
-	if(sala->jugador != NULL)
-		jugador_destruir(sala->jugador);
+	jugador_destruir(sala->jugador);
 	hash_destruir_todo(sala->objetos, free);
 	hash_destruir_todo(sala->interacciones, free);
 	free(sala);
