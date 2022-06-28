@@ -12,7 +12,7 @@
 #define OBJETOS 'o'
 #define INTERACCIONES 'i'
 #define TAMANIO_MIN_HASH 15
-#define MAX_NOMBRE_INTERACCION 30
+#define MAX_NOMBRE_INTERACCION 100
 #define ACCION_INVALIDA 0
 #define	DESCUBRIR_OBJETO 1
 #define REEMPLAZAR_OBJETO 2
@@ -51,7 +51,7 @@ hash_t *cargar_elementos(sala_t *sala, const char *nombre_archivo, hash_t *hash,
 		else if(tipo_elemento == INTERACCIONES){
 			struct interaccion *interaccion_a_agregar = interaccion_crear_desde_string(linea);
 
-			char clave_interaccion[MAX_NOMBRE_INTERACCION] = "";
+			char clave_interaccion[MAX_NOMBRE_INTERACCION] = ""; //TODO: Modularizar el strcat y hacer mas bonita este llamado.
 			hash_insertar(hash, strcat(strcat(strcat(clave_interaccion, interaccion_a_agregar->objeto), interaccion_a_agregar->verbo), interaccion_a_agregar->objeto_parametro), interaccion_a_agregar);
 		}
 		linea_leida = fgets(linea, LARGO_MAX_LINEA, archivo);
@@ -215,17 +215,18 @@ int sala_ejecutar_interaccion(sala_t *sala, const char *verbo,
 						      void *aux),
 			      void *aux)
 {
-	if(!sala || !verbo || objeto1 || objeto2)
+	if(!sala || !verbo || !objeto1 )
 		return 0;
 
 	hash_t *hash_interacciones = sala->interacciones;
 
-	char nombre_interaccion[30] ="";
-	strcat(strcat(nombre_interaccion, objeto1), verbo);
+	char nombre_interaccion[MAX_NOMBRE_INTERACCION] ="";
+	strcat(strcat(strcat(nombre_interaccion, objeto1), verbo), objeto2);
 	struct interaccion *interaccion_actual = hash_obtener(hash_interacciones, nombre_interaccion);
 	if(interaccion_actual == NULL)
 		return 0;
 	
+	hash_quitar(hash_interacciones, nombre_interaccion);
 	switch (interaccion_actual->accion.tipo){
 		case DESCUBRIR_OBJETO:
 			hash_quitar(sala->objetos, interaccion_actual->accion.objeto);
@@ -237,7 +238,7 @@ int sala_ejecutar_interaccion(sala_t *sala, const char *verbo,
 		case REEMPLAZAR_OBJETO:
 			hash_insertar(sala->jugador->objetos_conocidos, interaccion_actual->accion.objeto,
 				      hash_obtener(sala->jugador->objetos_poseidos, interaccion_actual->accion.objeto));
-			hash_quitar(sala->jugador->objetos_poseidos, interaccion_actual->accion.objeto);
+			hash_quitar(sala->jugador->objetos_poseidos, interaccion_actual->objeto);
 			mostrar_mensaje(interaccion_actual->accion.mensaje, REEMPLAZAR_OBJETO, aux);
 			break;
 

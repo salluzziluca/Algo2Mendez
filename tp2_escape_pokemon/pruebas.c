@@ -170,9 +170,62 @@ void pruebas_interacciones()
 }
 void sala_obtener_obtienen_vectores_correctamente(){
 	sala_t *sala = sala_crear_desde_archivos("chanu/obj.dat", "chanu/int.csv");
-	pa2m_afirmar(sala_obtener_nombre_objetos_conocidos(sala) != NULL, "Puedo obtener el vector de nombres de objetos conocidos");
-	pa2m_afirmar(sala_obtener_nombre_objetos_desconocidos(sala) != NULL, "Puedo obtener el vector de nombres de objetos desconocidos");
-	//BUG: Claramente estas pruebas estan mal es para arreglar despues
+	hash_destruir(sala->jugador->objetos_conocidos);
+	hash_destruir(sala->jugador->objetos_poseidos);
+
+	sala->jugador->objetos_conocidos = sala->objetos;
+	sala->jugador->objetos_poseidos = sala->objetos;
+	int cantidad = 0;
+
+	char **objetos =  sala_obtener_nombre_objetos_conocidos(sala, &cantidad);
+	pa2m_afirmar(objetos != NULL,
+		     "Puedo pedir el vector de nombres de objetos conocidos a la sala pasando cantidad NULL");
+
+	char **objetos2 = sala_obtener_nombre_objetos_conocidos(sala, &cantidad);
+	pa2m_afirmar(objetos2 != NULL,
+		     "Puedo pedir el vector de nombres de objetos conocidos a la sala pasando cantidad no NULL");
+	pa2m_afirmar(cantidad == 9, "La cantidad de elementos del vector coincide con lo esperado");
+
+	const char *esperados[] = { "habitacion",    "pokebola",  "llave", "interruptor", "cajon",
+				    "cajon-abierto", "mesa", "puerta",	     "anillo" };
+
+	int comparaciones_exitosas = 0;
+
+	for (int i = 0; i < cantidad; i++)
+		if (strcmp(objetos2[i], esperados[i]) == 0)
+			comparaciones_exitosas++;
+
+	pa2m_afirmar(comparaciones_exitosas == cantidad,
+		     "Todos los nombres de objetos conocidos son los esperados");
+	free(objetos);
+	free(objetos2);
+
+	objetos =  sala_obtener_nombre_objetos_poseidos(sala, &cantidad);
+	pa2m_afirmar(objetos != NULL,
+		     "Puedo pedir el vector de nombres de objetos poseidos a la sala pasando cantidad NULL");
+
+	objetos2 = sala_obtener_nombre_objetos_poseidos(sala, &cantidad);
+	pa2m_afirmar(objetos2 != NULL,
+		     "Puedo pedir el vector de nombres objetos poseidos a la sala pasando cantidad no NULL");
+	pa2m_afirmar(cantidad == 9, "La cantidad de elementos del vector coincide con lo esperado");
+
+	const char *esperados2[] = { "habitacion",    "pokebola",  "llave", "interruptor", "cajon",
+				    "cajon-abierto", "mesa", "puerta",	     "anillo" };
+
+	comparaciones_exitosas = 0;
+
+	for (int i = 0; i < cantidad; i++)
+		if (strcmp(objetos2[i], esperados2[i]) == 0)
+			comparaciones_exitosas++;
+
+	pa2m_afirmar(comparaciones_exitosas == cantidad,
+		     "Todos los nombres de objetos poseidos son los esperados");
+
+	free(objetos);
+	free(objetos2);	
+	free(sala->jugador);
+	sala->jugador = NULL;
+	sala_destruir(sala);
 }
 void pruebas_agarrar_y_usar_objetos()
 {
