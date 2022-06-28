@@ -120,8 +120,11 @@ sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones
 
 char **obtener_nombres_objetos(hash_t *hash, int *cantidad)
 {
-	if(!hash || !cantidad)
+	if(!hash){
+		if(cantidad != NULL)
+			*cantidad=-1;
 		return NULL;
+	}
 	char **nombres_objetos = malloc((unsigned)hash_cantidad(hash) * sizeof(char*));
 	if(nombres_objetos == NULL){
 		if(cantidad != NULL)
@@ -137,23 +140,32 @@ char **obtener_nombres_objetos(hash_t *hash, int *cantidad)
 
 char **sala_obtener_nombre_objetos(sala_t *sala, int *cantidad)
 {
-	if(!sala || !cantidad)
+	if(!sala){
+		if(cantidad != NULL)
+			*cantidad=-1;
 		return NULL;
+	}
 	return obtener_nombres_objetos(sala->objetos, cantidad);
 }
 
 char **sala_obtener_nombre_objetos_conocidos(sala_t *sala, int *cantidad)
 {
-	if(!sala || !cantidad)
+	if(!sala){
+		if(cantidad != NULL)
+			*cantidad=-1;
 		return NULL;
+	}
 	return obtener_nombres_objetos(sala->jugador->objetos_conocidos, cantidad);
 }
 
 
 char **sala_obtener_nombre_objetos_poseidos(sala_t *sala, int *cantidad)
 {
-	if(!sala || !cantidad)
+	if(!sala){
+		if(cantidad != NULL)
+			*cantidad=-1;
 		return NULL;
+	}
 	return obtener_nombres_objetos(sala->jugador->objetos_poseidos, cantidad);
 }
 

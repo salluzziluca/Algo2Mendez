@@ -114,7 +114,8 @@ void pruebas_crear_sala()
 void pruebas_nombre_objetos()
 {
 	int cantidad = 0;
-	pa2m_afirmar(sala_obtener_nombre_objetos(NULL, &cantidad) == NULL,
+	char **cosa = sala_obtener_nombre_objetos(NULL, &cantidad);
+	pa2m_afirmar( cosa == NULL,
 		     "No puedo obtener los nombres de objetos de una sala NULL");
 	pa2m_afirmar(cantidad == -1, "La cantidad es -1 luego de invocar a la función");
 
