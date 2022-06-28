@@ -168,7 +168,12 @@ void pruebas_interacciones()
 
 	sala_destruir(sala);
 }
-
+void sala_obtener_obtienen_vectores_correctamente(){
+	sala_t *sala = sala_crear_desde_archivos("chanu/obj.dat", "chanu/int.csv");
+	pa2m_afirmar(sala_obtener_nombre_objetos_conocidos(sala) != NULL, "Puedo obtener el vector de nombres de objetos conocidos");
+	pa2m_afirmar(sala_obtener_nombre_objetos_desconocidos(sala) != NULL, "Puedo obtener el vector de nombres de objetos desconocidos");
+	//BUG: Claramente estas pruebas estan mal es para arreglar despues
+}
 void pruebas_agarrar_y_usar_objetos()
 {
 	sala_t *sala = sala_crear_desde_archivos("chanu/obj.dat", "chanu/int.csv");
@@ -192,6 +197,9 @@ int main()
 
 	pa2m_nuevo_grupo("Pruebas de interacciones");
 	pruebas_interacciones();
+
+	pa2m_nuevo_grupo("Pruebas de Vectores de Nombres");
+	sala_obtener_obtienen_vectores_correctamente();
 
 	pa2m_nuevo_grupo("Pruebas de Agarrar y Usar Objetos");
 	pruebas_agarrar_y_usar_objetos();
