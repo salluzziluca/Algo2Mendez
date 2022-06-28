@@ -28,14 +28,14 @@
 * el nombre del objeto_parametro concatenado al nombre del objeto. 
  *devuelve el hash o NULL en caso de error
 */
-hash_t *cargar_elementos(sala_t *sala, const char *nombre_archivo, hash_t *hash,  char tipo_elemento)
+hash_t *cargar_elementos(sala_t *sala, const char *nombre_archivo,  char tipo_elemento)
 {
 	if(!sala || !nombre_archivo || !tipo_elemento)
 		return NULL;
 	FILE *archivo = fopen(nombre_archivo, MODO_LECTURA);
 	if(!archivo)
 		return NULL;
-	
+	hash_t *hash = NULL;
 	char linea[LARGO_MAX_LINEA];
 	char *linea_leida = fgets(linea, LARGO_MAX_LINEA, archivo);
 	if(!linea_leida ){
@@ -46,13 +46,15 @@ hash_t *cargar_elementos(sala_t *sala, const char *nombre_archivo, hash_t *hash,
 
 		if(tipo_elemento == OBJETOS){
 			struct objeto *objeto_a_agregar = objeto_crear_desde_string(linea);
-			hash_insertar(hash, objeto_a_agregar->nombre, objeto_a_agregar);
+			hash_insertar(sala->objetos, objeto_a_agregar->nombre, objeto_a_agregar);
+			hash = sala->objetos;
 		}
 		else if(tipo_elemento == INTERACCIONES){
 			struct interaccion *interaccion_a_agregar = interaccion_crear_desde_string(linea);
 
 			char clave_interaccion[MAX_NOMBRE_INTERACCION] = ""; //TODO: Modularizar el strcat y hacer mas bonita este llamado.
-			hash_insertar(hash, strcat(strcat(strcat(clave_interaccion, interaccion_a_agregar->objeto), interaccion_a_agregar->verbo), interaccion_a_agregar->objeto_parametro), interaccion_a_agregar);
+			hash_insertar(sala->interacciones, strcat(strcat(strcat(clave_interaccion, interaccion_a_agregar->objeto), interaccion_a_agregar->verbo), interaccion_a_agregar->objeto_parametro), interaccion_a_agregar);
+			hash = sala->interacciones;
 		}
 		linea_leida = fgets(linea, LARGO_MAX_LINEA, archivo);
 	}
@@ -75,7 +77,7 @@ sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones
 		return NULL;
 
  	sala->objetos = hash_objetos;
-	if(cargar_elementos(sala, objetos, hash_objetos, OBJETOS))
+	if(cargar_elementos(sala, objetos, OBJETOS))
 		sala->cantidad_objetos = hash_cantidad(hash_objetos);
 	else{
 		sala_destruir(sala);
@@ -87,7 +89,7 @@ sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones
 		return NULL;
 
 	sala->interacciones = hash_interacciones;
-	if(cargar_elementos(sala, interacciones, hash_interacciones, INTERACCIONES))
+	if(cargar_elementos(sala, interacciones, INTERACCIONES))
 		sala->cantidad_interacciones = hash_cantidad(hash_interacciones);	
 	else{
 		sala_destruir(sala);
@@ -219,50 +221,69 @@ int sala_ejecutar_interaccion(sala_t *sala, const char *verbo,
 		return 0;
 
 	hash_t *hash_interacciones = sala->interacciones;
-
+	hash_t *hash_objetos_conocidos = sala->jugador->objetos_conocidos;
+	hash_t *hash_objetos_poseidos = sala->jugador->objetos_poseidos;
+	if(strcmp(objeto2, "") == 0){
+		if(!hash_contiene(hash_objetos_conocidos, objeto1) && !hash_contiene(hash_objetos_poseidos, objeto1)){
+			mostrar_mensaje("No conoces los objetos para realizar esta interaccion 🤨.", ACCION_INVALIDA, aux);
+			return 0;
+		}
+	}
+	else if((!hash_contiene(hash_objetos_conocidos, objeto1) && !hash_contiene(hash_objetos_poseidos, objeto1)) && (!hash_contiene(hash_objetos_conocidos, objeto2) &&!hash_contiene(hash_objetos_poseidos, objeto2))){
+		mostrar_mensaje("No conoces los objetos para realizar esta interaccion 🤨.", ACCION_INVALIDA, aux);
+		return 0;
+	}
 	char nombre_interaccion[MAX_NOMBRE_INTERACCION] ="";
 	strcat(strcat(strcat(nombre_interaccion, objeto1), verbo), objeto2);
 	struct interaccion *interaccion_actual = hash_obtener(hash_interacciones, nombre_interaccion);
 	if(interaccion_actual == NULL)
 		return 0;
 	
-	hash_quitar(hash_interacciones, nombre_interaccion);
-	switch (interaccion_actual->accion.tipo){
-		case DESCUBRIR_OBJETO:
-			hash_quitar(sala->objetos, interaccion_actual->accion.objeto);
-			hash_insertar(sala->jugador->objetos_conocidos, interaccion_actual->accion.objeto,
-				      hash_obtener(sala->objetos, interaccion_actual->accion.objeto));
-			mostrar_mensaje(interaccion_actual->accion.mensaje, DESCUBRIR_OBJETO, aux);
-			break;
+	int interacciones_ejecutadas = 0;
+	while( interaccion_actual != NULL){
+		hash_quitar(hash_interacciones, nombre_interaccion);
+		switch (interaccion_actual->accion.tipo){
+			case DESCUBRIR_OBJETO:
+				hash_quitar(sala->objetos, interaccion_actual->accion.objeto);
+				hash_insertar(sala->jugador->objetos_conocidos, interaccion_actual->accion.objeto,
+					hash_obtener(sala->objetos, interaccion_actual->accion.objeto));
+				mostrar_mensaje(interaccion_actual->accion.mensaje, DESCUBRIR_OBJETO, aux);
+				interacciones_ejecutadas++;
+				break;
 
-		case REEMPLAZAR_OBJETO:
-			hash_insertar(sala->jugador->objetos_conocidos, interaccion_actual->accion.objeto,
-				      hash_obtener(sala->jugador->objetos_poseidos, interaccion_actual->accion.objeto));
-			hash_quitar(sala->jugador->objetos_poseidos, interaccion_actual->objeto);
-			mostrar_mensaje(interaccion_actual->accion.mensaje, REEMPLAZAR_OBJETO, aux);
-			break;
+			case REEMPLAZAR_OBJETO:
+				hash_insertar(sala->jugador->objetos_conocidos, interaccion_actual->accion.objeto,
+					hash_obtener(sala->jugador->objetos_poseidos, interaccion_actual->accion.objeto));
+				hash_quitar(sala->jugador->objetos_poseidos, interaccion_actual->objeto);
+				mostrar_mensaje(interaccion_actual->accion.mensaje, REEMPLAZAR_OBJETO, aux);
+				interacciones_ejecutadas++;
+				break;
 
-		case ELIMINAR_OBJETO:
-			hash_quitar(sala->jugador->objetos_poseidos, interaccion_actual->accion.objeto);
-			mostrar_mensaje(interaccion_actual->accion.mensaje, ELIMINAR_OBJETO, aux);
-			break;
+			case ELIMINAR_OBJETO:
+				hash_quitar(sala->jugador->objetos_poseidos, interaccion_actual->accion.objeto);
+				mostrar_mensaje(interaccion_actual->accion.mensaje, ELIMINAR_OBJETO, aux);
+				interacciones_ejecutadas++;
+				break;
 
-		case MOSTRAR_MENSAJE:
-			mostrar_mensaje(interaccion_actual->accion.mensaje, MOSTRAR_MENSAJE, aux);
-			break;	
+			case MOSTRAR_MENSAJE:
+				mostrar_mensaje(interaccion_actual->accion.mensaje, MOSTRAR_MENSAJE, aux);
+				interacciones_ejecutadas++;
+				break;	
 
-		default:
-			break;
+			default:
+				break;
 		}
+		interaccion_actual = hash_obtener(hash_interacciones, nombre_interaccion);
+	}
 
-	return 0;
+	return interacciones_ejecutadas;
 }
 bool sala_es_interaccion_valida(sala_t *sala, const char *verbo, const char *objeto1,const char *objeto2)
 {	
 	if(sala == NULL || verbo == NULL || objeto1 == NULL)
 		return false;
 
-
+	
 	char nombre_interaccion[30] ="";
 	strcat(strcat(nombre_interaccion, objeto1), verbo);
 
