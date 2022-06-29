@@ -18,6 +18,7 @@
 
 - otra de las pruebas a corregir es la de todos los objetos son los esperados. El orden en el que estos aparecen en el hash no es el mismo que el de .dat, porque el criterio de ordenamiento es otro. Para arreglar esta prueba simplemente cambie el orden del vector `esperados` (que es el que se compara con las claves del hash)
 
+- Explicar que para obtener claves decidi no reutilizar con cada clave porque eso suponia pasar un puntero a un struct y se me hacia mas lioso.
 #### 1. Introducción
 
 Idea general del TP, un breve resumen de que se pidió y de que forma.

@@ -33,7 +33,7 @@ hash_t *hash_crear(size_t capacidad);
  *
  * Devuelve el hash si pudo guardar el elemento o NULL si no pudo.
  */
-hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento, void** anterior);
+hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento);
 
 /*
  * Quita un elemento del hash y lo devuelve.
