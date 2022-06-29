@@ -223,16 +223,36 @@ int sala_ejecutar_interaccion(sala_t *sala, const char *verbo,
 	hash_t *hash_interacciones = sala->interacciones;
 	hash_t *hash_objetos_conocidos = sala->jugador->objetos_conocidos;
 	hash_t *hash_objetos_poseidos = sala->jugador->objetos_poseidos;
-	if(strcmp(objeto2, "") == 0){
-		if(!hash_contiene(hash_objetos_conocidos, objeto1) && !hash_contiene(hash_objetos_poseidos, objeto1)){
+	bool es_interaccion_valida = false;
+	struct objeto *objeto1_actual = NULL;
+	struct objeto *objeto2_actual = NULL;
+
+	objeto1_actual = hash_obtener(hash_objetos_poseidos, objeto1);
+	if (objeto1_actual != NULL){
+		es_interaccion_valida = true;
+	}
+	else{
+		objeto1_actual = hash_obtener(hash_objetos_conocidos, objeto1);
+		if (objeto1_actual != NULL){
+			if(!objeto1_actual->es_asible){
+				es_interaccion_valida = true;
+			}
+		}
+	}
+
+
+	if(strcmp(objeto2, "") != 0){
+		objeto2_actual = hash_obtener(hash_objetos_conocidos, objeto2);
+		if (objeto2_actual != NULL){
+			es_interaccion_valida = true;
+		}
+	}
+
+
+	if(!es_interaccion_valida){
 			mostrar_mensaje("No conoces los objetos para realizar esta interaccion 🤨.", ACCION_INVALIDA, aux);
 			return 0;
 		}
-	}
-	else if((!hash_contiene(hash_objetos_conocidos, objeto1) && !hash_contiene(hash_objetos_poseidos, objeto1)) && (!hash_contiene(hash_objetos_conocidos, objeto2) &&!hash_contiene(hash_objetos_poseidos, objeto2))){
-		mostrar_mensaje("No conoces los objetos para realizar esta interaccion 🤨.", ACCION_INVALIDA, aux);
-		return 0;
-	}
 	char nombre_interaccion[MAX_NOMBRE_INTERACCION] ="";
 	strcat(strcat(strcat(nombre_interaccion, objeto1), verbo), objeto2);
 	struct interaccion *interaccion_actual = hash_obtener(hash_interacciones, nombre_interaccion);
@@ -244,9 +264,9 @@ int sala_ejecutar_interaccion(sala_t *sala, const char *verbo,
 		hash_quitar(hash_interacciones, nombre_interaccion);
 		switch (interaccion_actual->accion.tipo){
 			case DESCUBRIR_OBJETO:
-				hash_quitar(sala->objetos, interaccion_actual->accion.objeto);
 				hash_insertar(sala->jugador->objetos_conocidos, interaccion_actual->accion.objeto,
 					hash_obtener(sala->objetos, interaccion_actual->accion.objeto));
+				hash_quitar(sala->objetos, interaccion_actual->accion.objeto);
 				mostrar_mensaje(interaccion_actual->accion.mensaje, DESCUBRIR_OBJETO, aux);
 				interacciones_ejecutadas++;
 				break;
