@@ -230,14 +230,20 @@ void sala_obtener_obtienen_vectores_correctamente(){
 }
 void ejecutar_interacciones_ejecuta_interacciones_correctamente()
 {
-	sala_t *sala = sala_crear_desde_archivos("chanu/obj.dat", "chanu/int.csv");
+	sala_t *sala = NULL;
+	void *aux = NULL;
+	pa2m_afirmar(sala_ejecutar_interaccion(sala, "examinar", "habitacion", "", mostrar_mensaje, aux) == false, "No puedo ejecutar una interacción con sala NULL");
+	pa2m_afirmar(sala_es_interaccion_valida(sala, "examinar", "habitacion", "") == false, "No puedo corroborar si una interacción es válida con sala NULL");
+	sala = sala_crear_desde_archivos("chanu/obj.dat", "chanu/int.csv");
+	pa2m_afirmar(sala_ejecutar_interaccion(sala, "examinar", "habitacion", "", NULL, aux) == false, "No puedo ejecutar una mostrar_mensaje NULL");
+	pa2m_afirmar(sala_agarrar_objeto(sala, "pokebola") == false, "No puedo agarrar un objeto que no existe o no conozco");
+
 	struct objeto *habitacion = hash_quitar(sala->objetos, "habitacion");
 	hash_insertar(sala->jugador->objetos_conocidos, "habitacion", habitacion);
 	
 	pa2m_afirmar(hash_contiene(sala->jugador->objetos_conocidos, "mesa") == false, "El objeto mesa no se encuentra en el hash de objetos conocidos");
 	pa2m_afirmar(hash_contiene(sala->jugador->objetos_conocidos, "interruptor") == false, "El objeto interruptor no se encuentra en el hash de objetos conocidos");
 	
-	void *aux = NULL;
 	pa2m_afirmar(sala_es_interaccion_valida(sala, "examinar", "habitacion", "") == true, "Puedo examinar la habitación");
 	int interacciones = sala_ejecutar_interaccion(sala, "examinar", "habitacion", "", mostrar_mensaje, aux);
 	pa2m_afirmar(( interacciones == 2), "Examiné la habitacion y se ejecutaron 2 interacciones");
@@ -245,7 +251,7 @@ void ejecutar_interacciones_ejecuta_interacciones_correctamente()
 	bool contiene = hash_contiene(sala->jugador->objetos_conocidos, "mesa");
 	pa2m_afirmar( contiene == true, "El objeto mesa se agrego al hash de objetos conocidos");
 	pa2m_afirmar(hash_contiene(sala->jugador->objetos_conocidos, "interruptor") == true, "El objeto interruptor se agrego al hash de objetos conocidos");
-	pa2m_afirmar(hash_contiene(sala->objetos, "mesa") == false, "El objeto mesa ya noe sta en el hash objetos de la sala");
+	pa2m_afirmar(hash_contiene(sala->objetos, "mesa") == false, "El objeto mesa ya no esta en el hash objetos de la sala");
 	pa2m_afirmar(hash_contiene(sala->objetos, "interruptor") == false, "El objeto interruptor ya no esta en el hash objetos de la sala");
 	
 	interacciones = sala_ejecutar_interaccion(sala, "examinar", "mesa", "", mostrar_mensaje, aux);
@@ -255,6 +261,7 @@ void ejecutar_interacciones_ejecuta_interacciones_correctamente()
 	pa2m_afirmar(hash_contiene(sala->objetos, "cajon") == false, "El objeto cajon ya no esta en el hash objetos de la sala");
 	pa2m_afirmar(hash_contiene(sala->objetos, "pokebola") == false, "El objeto mesa ya no esta en el hash objetos de la sala");
 	
+	pa2m_afirmar(sala_agarrar_objeto(NULL, "pokebola") == false, "No puedo agarra un objeto en sala NULL");
 	pa2m_afirmar(sala_agarrar_objeto(sala, "pokebola") == true, "Puedo agarrar la pokebola");
 	interacciones = sala_ejecutar_interaccion(sala, "abrir", "pokebola", "", mostrar_mensaje, aux);
 	pa2m_afirmar(( interacciones == 1), "Abri la pokebola y se ejecutaron 1 interacciones");
@@ -265,6 +272,11 @@ void ejecutar_interacciones_ejecuta_interacciones_correctamente()
 	pa2m_afirmar(hash_contiene(sala->jugador->objetos_conocidos, "cajon-abierto") == true, "El objeto cajon-abierto se agrego al hash de objetos conocidos");
 
 	sala_destruir(sala);
+}
+
+void pruebas_loop_jugable()
+{
+
 }
 int main()
 {
@@ -288,6 +300,9 @@ int main()
 
 	pa2m_nuevo_grupo("Pruebas de Ejecutar Interacciones");
 	ejecutar_interacciones_ejecuta_interacciones_correctamente();
+
+	pa2m_nuevo_grupo("Pruebas de Loop Jugable");
+	pruebas_loop_jugable();
 
 	return pa2m_mostrar_reporte();
 }

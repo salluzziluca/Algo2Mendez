@@ -217,7 +217,7 @@ int sala_ejecutar_interaccion(sala_t *sala, const char *verbo,
 						      void *aux),
 			      void *aux)
 {
-	if(!sala || !verbo || !objeto1 )
+	if(!sala || !verbo || !objeto1 || !mostrar_mensaje)
 		return 0;
 
 	hash_t *hash_interacciones = sala->interacciones;
