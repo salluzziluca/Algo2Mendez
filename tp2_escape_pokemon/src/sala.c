@@ -42,6 +42,10 @@ hash_t *cargar_elementos(sala_t *sala, const char *nombre_archivo,  char tipo_el
 		fclose(archivo);
 		return NULL;
 	}
+	if(tipo_elemento == OBJETOS){
+		struct objeto *objeto_a_agregar = objeto_crear_desde_string(linea);
+		hash_insertar(sala->jugador->objetos_conocidos, objeto_a_agregar->nombre, objeto_a_agregar);
+	}
 	while(linea_leida){
 
 		if(tipo_elemento == OBJETOS){
@@ -76,6 +80,23 @@ sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones
 	if(!hash_objetos)
 		return NULL;
 
+	sala->jugador = calloc(1, sizeof(struct jugador));
+	if(sala->jugador == NULL){
+		sala_destruir(sala);
+		return NULL;
+	}
+
+	sala->jugador->objetos_conocidos = hash_crear(TAMANIO_MIN_HASH);
+	if(sala->jugador->objetos_conocidos == NULL){
+		sala_destruir(sala);
+		return NULL;
+	}
+	sala->jugador->objetos_poseidos = hash_crear(TAMANIO_MIN_HASH);
+	if(sala->jugador->objetos_poseidos == NULL){
+		sala_destruir(sala);
+		return NULL;
+	}
+	
  	sala->objetos = hash_objetos;
 	if(cargar_elementos(sala, objetos, OBJETOS))
 		sala->cantidad_objetos = hash_cantidad(hash_objetos);
@@ -83,6 +104,7 @@ sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones
 		sala_destruir(sala);
 		return NULL;
 	}
+
 
 	hash_t* hash_interacciones = hash_crear(TAMANIO_MIN_HASH);
 	if(!hash_interacciones)
@@ -101,22 +123,7 @@ sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones
 		return NULL;
 	}
 
-	sala->jugador = calloc(1, sizeof(struct jugador));
-	if(sala->jugador == NULL){
-		sala_destruir(sala);
-		return NULL;
-	}
 
-	sala->jugador->objetos_conocidos = hash_crear(TAMANIO_MIN_HASH);
-	if(sala->jugador->objetos_conocidos == NULL){
-		sala_destruir(sala);
-		return NULL;
-	}
-	sala->jugador->objetos_poseidos = hash_crear(TAMANIO_MIN_HASH);
-	if(sala->jugador->objetos_poseidos == NULL){
-		sala_destruir(sala);
-		return NULL;
-	}
 	return sala;
 }
 

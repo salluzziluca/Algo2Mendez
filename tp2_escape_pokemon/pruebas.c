@@ -178,13 +178,12 @@ void pruebas_estructuras()
 }
 void sala_obtener_obtienen_vectores_correctamente(){
 	sala_t *sala = sala_crear_desde_archivos("chanu/obj.dat", "chanu/int.csv");
-	hash_destruir(sala->jugador->objetos_conocidos);
+	hash_destruir_todo(sala->jugador->objetos_conocidos, free);
 	hash_destruir(sala->jugador->objetos_poseidos);
-
 	sala->jugador->objetos_conocidos = sala->objetos;
 	sala->jugador->objetos_poseidos = sala->objetos;
 	int cantidad = 0;
-
+	
 	char **objetos =  sala_obtener_nombre_objetos_conocidos(sala, &cantidad);
 	pa2m_afirmar(objetos != NULL,
 		     "Puedo pedir el vector de nombres de objetos conocidos a la sala pasando cantidad NULL");
@@ -207,7 +206,7 @@ void sala_obtener_obtienen_vectores_correctamente(){
 		     "Todos los nombres de objetos conocidos son los esperados");
 	free(objetos);
 	free(objetos2);
-
+	
 	objetos =  sala_obtener_nombre_objetos_poseidos(sala, &cantidad);
 	pa2m_afirmar(objetos != NULL,
 		     "Puedo pedir el vector de nombres de objetos poseidos a la sala pasando cantidad NULL");
@@ -231,6 +230,7 @@ void sala_obtener_obtienen_vectores_correctamente(){
 
 	free(objetos);
 	free(objetos2);	
+	
 	free(sala->jugador);
 	sala->jugador = NULL;
 	sala_destruir(sala);
@@ -244,9 +244,6 @@ void ejecutar_interacciones_ejecuta_interacciones_correctamente()
 	sala = sala_crear_desde_archivos("chanu/obj.dat", "chanu/int.csv");
 	pa2m_afirmar(sala_ejecutar_interaccion(sala, "examinar", "habitacion", "", NULL, aux) == false, "No puedo ejecutar una mostrar_mensaje NULL");
 	pa2m_afirmar(sala_agarrar_objeto(sala, "pokebola") == false, "No puedo agarrar un objeto que no existe o no conozco");
-
-	struct objeto *habitacion = hash_quitar(sala->objetos, "habitacion");
-	hash_insertar(sala->jugador->objetos_conocidos, "habitacion", habitacion);
 	
 	pa2m_afirmar(hash_contiene(sala->jugador->objetos_conocidos, "mesa") == false, "El objeto mesa no se encuentra en el hash de objetos conocidos");
 	pa2m_afirmar(hash_contiene(sala->jugador->objetos_conocidos, "interruptor") == false, "El objeto interruptor no se encuentra en el hash de objetos conocidos");
@@ -277,7 +274,7 @@ void ejecutar_interacciones_ejecuta_interacciones_correctamente()
 	interacciones = sala_ejecutar_interaccion(sala, "usar", "llave", "cajon", mostrar_mensaje, aux);
 	pa2m_afirmar(( interacciones == 2), "Usé la llave en el cajón y se ejecutaron 1 interacciones");
 	pa2m_afirmar(hash_contiene(sala->jugador->objetos_conocidos, "cajon-abierto") == true, "El objeto cajon-abierto se agrego al hash de objetos conocidos");
-
+	
 	sala_destruir(sala);
 }
 
@@ -285,8 +282,6 @@ void pruebas_loop_jugable()
 {
 	sala_t *sala = sala_crear_desde_archivos("ejemplo/objetos.txt", "ejemplo/interacciones.txt");
 
-	struct objeto *habitacion = hash_quitar(sala->objetos, "habitacion");
-	hash_insertar(sala->jugador->objetos_conocidos, "habitacion", habitacion);
 	pa2m_afirmar(sala_es_interaccion_valida(sala, "examinar", "habitacion", "") == true, "Puedo examinar la habitación");
 	int interacciones = sala_ejecutar_interaccion(sala, "examinar", "habitacion", "", mostrar_mensaje, NULL);
 	pa2m_afirmar(( interacciones == 2), "Examiné la habitacion y se ejecutaron 2 interacciones");
@@ -318,30 +313,31 @@ int main()
 {
 	pa2m_nuevo_grupo("Pruebas de creación de objetos");
 	pruebasCrearObjeto();
-
+	
 	pa2m_nuevo_grupo("Pruebas de creación de interacciones");
 	pruebasCrearInteracciones();
 
 	pa2m_nuevo_grupo("Pruebas de creación de sala");
 	pruebas_crear_sala();
-
+	
 	pa2m_nuevo_grupo("Pruebas del vector de nombres");
 	pruebas_nombre_objetos();
-
+	
 	pa2m_nuevo_grupo("Pruebas de interacciones");
 	pruebas_interacciones();
-
+	
 	pa2m_nuevo_grupo("Pruebas de Estructuras");
 	pruebas_estructuras();
-
+	
 	pa2m_nuevo_grupo("Pruebas de Vectores de Nombres");
 	sala_obtener_obtienen_vectores_correctamente();
-
+	
 	pa2m_nuevo_grupo("Pruebas de Ejecutar Interacciones");
 	ejecutar_interacciones_ejecuta_interacciones_correctamente();
 
 	pa2m_nuevo_grupo("Pruebas de Loop Jugable");
 	pruebas_loop_jugable();
+	
 
 	return pa2m_mostrar_reporte();
 }
