@@ -293,6 +293,7 @@ int sala_ejecutar_interaccion(sala_t *sala, const char *verbo,
 			default:
 				break;
 		}
+		free(interaccion_actual);
 		interaccion_actual = hash_obtener(hash_interacciones, nombre_interaccion);
 	}
 
