@@ -298,16 +298,24 @@ void pruebas_loop_jugable()
 	pa2m_afirmar(hash_contiene(sala->jugador->objetos_conocidos, "llave") == true, "El objeto llave se agrego al hash de objetos conocidos");
 	pa2m_afirmar(sala_agarrar_objeto(sala, "llave") == true, "Puedo agarrar la llave");
 	interacciones = sala_ejecutar_interaccion(sala, "examinar", "llave", "", mostrar_mensaje, NULL);
-	pa2m_afirmar( interacciones== 0, "intente examinar la llave y no vi nada");
+	pa2m_afirmar( interacciones== 0, "intente examinar la llave y pasó nada");
 	interacciones = sala_ejecutar_interaccion(sala, "abrir", "llave", "puerta", mostrar_mensaje, NULL);
-	pa2m_afirmar( interacciones == 1, "intente usar la llave en la puerta y no pude hacer nada");
+	pa2m_afirmar( interacciones == 1, "intente usar la llave en la puerta y se abrio");
 	pa2m_afirmar(hash_contiene(sala->jugador->objetos_conocidos, "puerta-abierta") == true, "El objeto puerta-abierta se agrego al hash de objetos conocidos");
 	bool contiene = hash_contiene(sala->interacciones, "puerta-abiertasalir");
 	pa2m_afirmar( contiene == true, "La interaccion abrir puerta abierta existe");
+	contiene = hash_contiene(sala->jugador->objetos_conocidos, "puerta");
+	pa2m_afirmar( contiene == false, "El objeto puerta no se agregó al hash de objetos conocidos");
 	interacciones = sala_ejecutar_interaccion(sala, "salir", "puerta-abierta", "", mostrar_mensaje, NULL);
 	pa2m_afirmar(interacciones== 1, "intente salir de la puerta abierta y se ejecuto una interacción");
 	pa2m_afirmar(sala_escape_exitoso(sala) == true, "Puedo salir de la sala");
  	sala_destruir(sala);
+}
+
+void pruebas_chanu()
+{
+	sala_t *sala = sala_crear_desde_archivos("ejemplo/objetos.txt", "ejemplo/interacciones.txt");
+	sala_destruir(sala);
 }
 int main()
 {
@@ -337,6 +345,9 @@ int main()
 
 	pa2m_nuevo_grupo("Pruebas de Loop Jugable");
 	pruebas_loop_jugable();
+
+	pa2m_nuevo_grupo("Pruebas Chanu");
+	pruebas_chanu();
 	
 
 	return pa2m_mostrar_reporte();
