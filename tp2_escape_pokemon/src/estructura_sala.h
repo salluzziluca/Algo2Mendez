@@ -8,6 +8,7 @@ typedef struct jugador
 	size_t cantidad_objetos_conocidos;
 	hash_t *objetos_poseidos;
 	size_t cantidad_objetos_poseidos;
+	bool escapo;
 } jugador_t;
 
 struct sala {

@@ -169,6 +169,13 @@ void pruebas_interacciones()
 
 	sala_destruir(sala);
 }
+
+void pruebas_estructuras()
+{
+	sala_t *sala = sala_crear_desde_archivos("chanu/obj.dat", "chanu/int.csv");
+	pa2m_afirmar(sala->jugador->escapo == false, "La variable escapó se inicializa en false");
+	sala_destruir(sala);
+}
 void sala_obtener_obtienen_vectores_correctamente(){
 	sala_t *sala = sala_crear_desde_archivos("chanu/obj.dat", "chanu/int.csv");
 	hash_destruir(sala->jugador->objetos_conocidos);
@@ -276,7 +283,35 @@ void ejecutar_interacciones_ejecuta_interacciones_correctamente()
 
 void pruebas_loop_jugable()
 {
+	sala_t *sala = sala_crear_desde_archivos("ejemplo/objetos.txt", "ejemplo/interacciones.txt");
 
+	struct objeto *habitacion = hash_quitar(sala->objetos, "habitacion");
+	hash_insertar(sala->jugador->objetos_conocidos, "habitacion", habitacion);
+	pa2m_afirmar(sala_es_interaccion_valida(sala, "examinar", "habitacion", "") == true, "Puedo examinar la habitación");
+	int interacciones = sala_ejecutar_interaccion(sala, "examinar", "habitacion", "", mostrar_mensaje, NULL);
+	pa2m_afirmar(( interacciones == 2), "Examiné la habitacion y se ejecutaron 2 interacciones");
+	pa2m_afirmar(hash_contiene(sala->jugador->objetos_conocidos, "pokebola") == true, "El objeto pokebola se agrego al hash de objetos conocidos");
+	pa2m_afirmar(hash_contiene(sala->jugador->objetos_conocidos, "puerta") == true, "El objeto puerta se agrego al hash de objetos conocidos");
+
+	pa2m_afirmar(sala_ejecutar_interaccion(sala, "abrir", "puerta", "", mostrar_mensaje, NULL) == 1, "intente abrir la puerta y estaba cerrada");
+	pa2m_afirmar(sala_agarrar_objeto(sala, "pokebola") == true, "Puedo agarrar la pokebola");
+	pa2m_afirmar(hash_contiene(sala->jugador->objetos_conocidos, "pokebola") == false, "El objeto pokebola se ya no está en el hash de objetos conocidos");
+	pa2m_afirmar(hash_contiene(sala->jugador->objetos_poseidos, "pokebola") == true, "El objeto pokebola se agregó al hash de objetos poseidos");
+	interacciones = sala_ejecutar_interaccion(sala, "abrir", "pokebola", "", mostrar_mensaje, NULL);
+	pa2m_afirmar( interacciones== 2, "intente abrir la pokebola y estaba cerrada");
+	pa2m_afirmar(hash_contiene(sala->jugador->objetos_poseidos, "pokebola") == false, "El objeto pokebola se ya no está en el hash de objetos poseidos");
+	pa2m_afirmar(hash_contiene(sala->jugador->objetos_conocidos, "llave") == true, "El objeto llave se agrego al hash de objetos conocidos");
+	pa2m_afirmar(sala_agarrar_objeto(sala, "llave") == true, "Puedo agarrar la llave");
+	interacciones = sala_ejecutar_interaccion(sala, "examinar", "llave", "", mostrar_mensaje, NULL);
+	pa2m_afirmar( interacciones== 0, "intente examinar la llave y no vi nada");
+	interacciones = sala_ejecutar_interaccion(sala, "abrir", "llave", "puerta", mostrar_mensaje, NULL);
+	pa2m_afirmar( interacciones == 1, "intente usar la llave en la puerta y se ejecutó 1 interaccion");
+	pa2m_afirmar(hash_contiene(sala->jugador->objetos_conocidos, "puerta-abierta") == true, "El objeto puerta-abierta se agrego al hash de objetos conocidos");
+	bool contiene = hash_contiene(sala->interacciones, "puerta-abiertasalir");
+	pa2m_afirmar( contiene == true, "La interaccion abrir puerta abierta existe");
+	interacciones = sala_ejecutar_interaccion(sala, "salir", "puerta-abierta", "", mostrar_mensaje, NULL);
+	pa2m_afirmar(interacciones== 1, "intente salir de la puerta abierta y se ejecuto una interacción");
+ 	sala_destruir(sala);
 }
 int main()
 {
@@ -294,6 +329,9 @@ int main()
 
 	pa2m_nuevo_grupo("Pruebas de interacciones");
 	pruebas_interacciones();
+
+	pa2m_nuevo_grupo("Pruebas de Estructuras");
+	pruebas_estructuras();
 
 	pa2m_nuevo_grupo("Pruebas de Vectores de Nombres");
 	sala_obtener_obtienen_vectores_correctamente();

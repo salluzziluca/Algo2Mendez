@@ -101,7 +101,7 @@ sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones
 		return NULL;
 	}
 
-	sala->jugador = malloc(sizeof(struct jugador));
+	sala->jugador = calloc(1, sizeof(struct jugador));
 	if(sala->jugador == NULL){
 		sala_destruir(sala);
 		return NULL;
@@ -256,8 +256,10 @@ int sala_ejecutar_interaccion(sala_t *sala, const char *verbo,
 	char nombre_interaccion[MAX_NOMBRE_INTERACCION] ="";
 	strcat(strcat(strcat(nombre_interaccion, objeto1), verbo), objeto2);
 	struct interaccion *interaccion_actual = hash_obtener(hash_interacciones, nombre_interaccion);
-	if(interaccion_actual == NULL)
+	if(interaccion_actual == NULL){
+		printf("La interaccion ingresada no existe.\n");
 		return 0;
+	}
 	
 	int interacciones_ejecutadas = 0;
 	while( interaccion_actual != NULL){
@@ -271,27 +273,33 @@ int sala_ejecutar_interaccion(sala_t *sala, const char *verbo,
 				interacciones_ejecutadas++;
 				break;
 
-			case REEMPLAZAR_OBJETO:
-				hash_insertar(sala->jugador->objetos_conocidos, interaccion_actual->accion.objeto,
-					hash_obtener(sala->jugador->objetos_poseidos, interaccion_actual->accion.objeto));
+			case REEMPLAZAR_OBJETO: ;
+				void *objeto_reemplazo = hash_quitar(sala->objetos, interaccion_actual->accion.objeto);
+				hash_insertar(sala->jugador->objetos_conocidos, interaccion_actual->accion.objeto, objeto_reemplazo);
 				void *objeto_quitado = hash_quitar(sala->jugador->objetos_poseidos, interaccion_actual->objeto);
 				free(objeto_quitado);
 				mostrar_mensaje(interaccion_actual->accion.mensaje, REEMPLAZAR_OBJETO, aux);
 				interacciones_ejecutadas++;
 				break;
 
-			case ELIMINAR_OBJETO:
-				hash_quitar(sala->jugador->objetos_poseidos, interaccion_actual->accion.objeto);
+			case ELIMINAR_OBJETO: ;
+
+				
+				void *quitado = hash_quitar(sala->jugador->objetos_poseidos, interaccion_actual->accion.objeto);
 				mostrar_mensaje(interaccion_actual->accion.mensaje, ELIMINAR_OBJETO, aux);
 				interacciones_ejecutadas++;
+				free(quitado);
 				break;
 
 			case MOSTRAR_MENSAJE:
 				mostrar_mensaje(interaccion_actual->accion.mensaje, MOSTRAR_MENSAJE, aux);
 				interacciones_ejecutadas++;
-				break;	
+				break;
+
+			//case ESCAPAR
 
 			default:
+			printf("No se puede realizar la accion que pediste con el objeto actual");
 				break;
 		}
 		free(interaccion_actual);
