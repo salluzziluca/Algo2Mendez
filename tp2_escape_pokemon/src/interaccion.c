@@ -9,6 +9,7 @@
 #define ACCION_REEMPLAZAR 'r'
 #define ACCION_ELIMINAR 'e'
 #define ACCION_MOSTRAR 'm'
+#define ACCION_ESCAPAR 'g'
 struct interaccion *interaccion_crear_desde_string(const char *string)
 {
 	struct interaccion *interaccion_actual= malloc(sizeof(struct interaccion));
@@ -55,7 +56,10 @@ struct interaccion *interaccion_crear_desde_string(const char *string)
 			break;
 		case ACCION_MOSTRAR:
 			interaccion_actual->accion.tipo = MOSTRAR_MENSAJE;
-			break;	
+			break;
+		case ACCION_ESCAPAR:
+			interaccion_actual->accion.tipo = ESCAPAR;
+			break;
 		default:
 			interaccion_actual->accion.tipo = 0;
 			break;

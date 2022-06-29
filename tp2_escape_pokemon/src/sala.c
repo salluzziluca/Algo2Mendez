@@ -265,6 +265,7 @@ int sala_ejecutar_interaccion(sala_t *sala, const char *verbo,
 	while( interaccion_actual != NULL){
 		hash_quitar(hash_interacciones, nombre_interaccion);
 		switch (interaccion_actual->accion.tipo){
+			
 			case DESCUBRIR_OBJETO:
 				hash_insertar(sala->jugador->objetos_conocidos, interaccion_actual->accion.objeto,
 					hash_obtener(sala->objetos, interaccion_actual->accion.objeto));
@@ -283,8 +284,6 @@ int sala_ejecutar_interaccion(sala_t *sala, const char *verbo,
 				break;
 
 			case ELIMINAR_OBJETO: ;
-
-				
 				void *quitado = hash_quitar(sala->jugador->objetos_poseidos, interaccion_actual->accion.objeto);
 				mostrar_mensaje(interaccion_actual->accion.mensaje, ELIMINAR_OBJETO, aux);
 				interacciones_ejecutadas++;
@@ -296,7 +295,13 @@ int sala_ejecutar_interaccion(sala_t *sala, const char *verbo,
 				interacciones_ejecutadas++;
 				break;
 
-			//case ESCAPAR
+			case ESCAPAR:
+				mostrar_mensaje(interaccion_actual->accion.mensaje, ESCAPAR, aux);
+				interacciones_ejecutadas++;
+				sala->jugador->escapo = true;
+				free(interaccion_actual);
+				return 1;
+				break;
 
 			default:
 			printf("No se puede realizar la accion que pediste con el objeto actual");
@@ -330,7 +335,9 @@ bool sala_es_interaccion_valida(sala_t *sala, const char *verbo, const char *obj
 
 bool sala_escape_exitoso(sala_t *sala)
 {
-	return false;
+	if(!sala)
+		return false;
+	return sala->jugador->escapo;
 }
 
 void jugador_destruir(jugador_t *jugador)

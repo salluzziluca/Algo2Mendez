@@ -305,12 +305,13 @@ void pruebas_loop_jugable()
 	interacciones = sala_ejecutar_interaccion(sala, "examinar", "llave", "", mostrar_mensaje, NULL);
 	pa2m_afirmar( interacciones== 0, "intente examinar la llave y no vi nada");
 	interacciones = sala_ejecutar_interaccion(sala, "abrir", "llave", "puerta", mostrar_mensaje, NULL);
-	pa2m_afirmar( interacciones == 1, "intente usar la llave en la puerta y se ejecutó 1 interaccion");
+	pa2m_afirmar( interacciones == 1, "intente usar la llave en la puerta y no pude hacer nada");
 	pa2m_afirmar(hash_contiene(sala->jugador->objetos_conocidos, "puerta-abierta") == true, "El objeto puerta-abierta se agrego al hash de objetos conocidos");
 	bool contiene = hash_contiene(sala->interacciones, "puerta-abiertasalir");
 	pa2m_afirmar( contiene == true, "La interaccion abrir puerta abierta existe");
 	interacciones = sala_ejecutar_interaccion(sala, "salir", "puerta-abierta", "", mostrar_mensaje, NULL);
 	pa2m_afirmar(interacciones== 1, "intente salir de la puerta abierta y se ejecuto una interacción");
+	pa2m_afirmar(sala_escape_exitoso(sala) == true, "Puedo salir de la sala");
  	sala_destruir(sala);
 }
 int main()
