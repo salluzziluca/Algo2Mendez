@@ -315,6 +315,18 @@ void pruebas_loop_jugable()
 void pruebas_chanu()
 {
 	sala_t *sala = sala_crear_desde_archivos("ejemplo/objetos.txt", "ejemplo/interacciones.txt");
+	pa2m_afirmar(sala->jugador->cantidad_objetos_conocidos == 1, "Se conoce un objeto");
+	pa2m_afirmar(sala_ejecutar_interaccion(sala, "examinar", "habitacion", "", mostrar_mensaje, NULL) == 2, "Puedo examinar la habitación");
+	pa2m_afirmar(sala->jugador->cantidad_objetos_conocidos == 3, "Se conocen 3 objetos");
+	pa2m_afirmar(sala_ejecutar_interaccion(sala, "examinar", "habitacion", "", mostrar_mensaje, NULL) == 0, "No puedo examinar la habitación");
+	pa2m_afirmar(sala->jugador->cantidad_objetos_conocidos == 3, "Se siguen conociendo 3 objetos");
+	int cantidad = 0;
+	char **vector = sala_obtener_nombre_objetos_conocidos(sala, &cantidad);
+	printf("%i\n", cantidad);
+	for (int i = 0; i < cantidad; i++)
+	{
+		printf("%s\n", vector[i]);
+	}
 	sala_destruir(sala);
 }
 int main()

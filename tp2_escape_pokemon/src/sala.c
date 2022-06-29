@@ -45,6 +45,7 @@ hash_t *cargar_elementos(sala_t *sala, const char *nombre_archivo,  char tipo_el
 	if(tipo_elemento == OBJETOS){
 		struct objeto *objeto_a_agregar = objeto_crear_desde_string(linea);
 		hash_insertar(sala->jugador->objetos_conocidos, objeto_a_agregar->nombre, objeto_a_agregar);
+		sala->jugador->cantidad_objetos_conocidos++;
 	}
 	while(linea_leida){
 
@@ -52,6 +53,7 @@ hash_t *cargar_elementos(sala_t *sala, const char *nombre_archivo,  char tipo_el
 			struct objeto *objeto_a_agregar = objeto_crear_desde_string(linea);
 			hash_insertar(sala->objetos, objeto_a_agregar->nombre, objeto_a_agregar);
 			hash = sala->objetos;
+			sala->cantidad_objetos++;
 		}
 		else if(tipo_elemento == INTERACCIONES){
 			struct interaccion *interaccion_a_agregar = interaccion_crear_desde_string(linea);
@@ -59,6 +61,7 @@ hash_t *cargar_elementos(sala_t *sala, const char *nombre_archivo,  char tipo_el
 			char clave_interaccion[MAX_NOMBRE_INTERACCION] = ""; //TODO: Modularizar el strcat y hacer mas bonita este llamado.
 			hash_insertar(sala->interacciones, strcat(strcat(strcat(clave_interaccion, interaccion_a_agregar->objeto), interaccion_a_agregar->verbo), interaccion_a_agregar->objeto_parametro), interaccion_a_agregar);
 			hash = sala->interacciones;
+			sala->cantidad_interacciones++;
 		}
 		linea_leida = fgets(linea, LARGO_MAX_LINEA, archivo);
 	}
@@ -281,6 +284,8 @@ int sala_ejecutar_interaccion(sala_t *sala, const char *verbo,
 				hash_quitar(sala->objetos, interaccion_actual->accion.objeto);
 				mostrar_mensaje(interaccion_actual->accion.mensaje,interaccion_actual->accion.tipo, aux);
 				interacciones_ejecutadas++;
+				sala->cantidad_objetos--;
+				sala->jugador->cantidad_objetos_conocidos++;
 				break;
 
 			case REEMPLAZAR_OBJETO: ;
@@ -293,15 +298,20 @@ int sala_ejecutar_interaccion(sala_t *sala, const char *verbo,
 				if(hay_objeto_parametro){
 					objeto_quitado = hash_quitar(sala->jugador->objetos_conocidos, interaccion_actual->objeto_parametro);
 					free(objeto_quitado);
+					sala->jugador->cantidad_objetos_conocidos--;
 				}
 				mostrar_mensaje(interaccion_actual->accion.mensaje, interaccion_actual->accion.tipo, aux);
 				interacciones_ejecutadas++;
+				sala->cantidad_objetos--;
+				sala->jugador->cantidad_objetos_conocidos++;
+				sala->jugador->cantidad_objetos_poseidos--;
 				break;
 
 			case ELIMINAR_OBJETO: ;
 				void *quitado = hash_quitar(sala->jugador->objetos_poseidos, interaccion_actual->accion.objeto);
 				mostrar_mensaje(interaccion_actual->accion.mensaje, interaccion_actual->accion.tipo, aux);
 				interacciones_ejecutadas++;
+				sala->jugador->cantidad_objetos_poseidos--;
 				free(quitado);
 				break;
 
