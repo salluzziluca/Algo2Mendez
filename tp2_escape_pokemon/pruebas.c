@@ -241,30 +241,29 @@ void ejecutar_interacciones_ejecuta_interacciones_correctamente()
 	pa2m_afirmar(sala_es_interaccion_valida(sala, "examinar", "habitacion", "") == true, "Puedo examinar la habitación");
 	int interacciones = sala_ejecutar_interaccion(sala, "examinar", "habitacion", "", mostrar_mensaje, aux);
 	pa2m_afirmar(( interacciones == 2), "Examiné la habitacion y se ejecutaron 2 interacciones");
-	/*
+	
 	bool contiene = hash_contiene(sala->jugador->objetos_conocidos, "mesa");
 	pa2m_afirmar( contiene == true, "El objeto mesa se agrego al hash de objetos conocidos");
 	pa2m_afirmar(hash_contiene(sala->jugador->objetos_conocidos, "interruptor") == true, "El objeto interruptor se agrego al hash de objetos conocidos");
 	pa2m_afirmar(hash_contiene(sala->objetos, "mesa") == false, "El objeto mesa ya noe sta en el hash objetos de la sala");
 	pa2m_afirmar(hash_contiene(sala->objetos, "interruptor") == false, "El objeto interruptor ya no esta en el hash objetos de la sala");
-
+	
 	interacciones = sala_ejecutar_interaccion(sala, "examinar", "mesa", "", mostrar_mensaje, aux);
 	pa2m_afirmar(( interacciones == 2), "Examiné la mesa y se ejecutaron 2 interacciones");
 	pa2m_afirmar(hash_contiene(sala->jugador->objetos_conocidos, "cajon") == true, "El objeto cajon se agrego al hash de objetos conocidos");
 	pa2m_afirmar(hash_contiene(sala->jugador->objetos_conocidos, "pokebola") == true, "El objeto pokebola se agrego al hash de objetos conocidos");
 	pa2m_afirmar(hash_contiene(sala->objetos, "cajon") == false, "El objeto cajon ya no esta en el hash objetos de la sala");
 	pa2m_afirmar(hash_contiene(sala->objetos, "pokebola") == false, "El objeto mesa ya no esta en el hash objetos de la sala");
-
+	
 	pa2m_afirmar(sala_agarrar_objeto(sala, "pokebola") == true, "Puedo agarrar la pokebola");
 	interacciones = sala_ejecutar_interaccion(sala, "abrir", "pokebola", "", mostrar_mensaje, aux);
 	pa2m_afirmar(( interacciones == 1), "Abri la pokebola y se ejecutaron 1 interacciones");
 	pa2m_afirmar(hash_contiene(sala->jugador->objetos_conocidos, "anillo") == true, "El objeto anillo se agrego al hash de objetos conocidos");
-
+	
 	interacciones = sala_ejecutar_interaccion(sala, "usar", "llave", "cajon", mostrar_mensaje, aux);
 	pa2m_afirmar(( interacciones == 2), "Usé la llave en el cajón y se ejecutaron 1 interacciones");
 	pa2m_afirmar(hash_contiene(sala->jugador->objetos_conocidos, "cajon-abierto") == true, "El objeto cajon-abierto se agrego al hash de objetos conocidos");
 
-	*/
 	sala_destruir(sala);
 }
 int main()

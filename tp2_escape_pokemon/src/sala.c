@@ -274,7 +274,8 @@ int sala_ejecutar_interaccion(sala_t *sala, const char *verbo,
 			case REEMPLAZAR_OBJETO:
 				hash_insertar(sala->jugador->objetos_conocidos, interaccion_actual->accion.objeto,
 					hash_obtener(sala->jugador->objetos_poseidos, interaccion_actual->accion.objeto));
-				hash_quitar(sala->jugador->objetos_poseidos, interaccion_actual->objeto);
+				void *objeto_quitado = hash_quitar(sala->jugador->objetos_poseidos, interaccion_actual->objeto);
+				free(objeto_quitado);
 				mostrar_mensaje(interaccion_actual->accion.mensaje, REEMPLAZAR_OBJETO, aux);
 				interacciones_ejecutadas++;
 				break;
