@@ -270,7 +270,6 @@ int sala_ejecutar_interaccion(sala_t *sala, const char *verbo,
 	}
 
 	if(!es_interaccion_valida){
-			mostrar_mensaje("No conoces los objetos para realizar esta interaccion 🤨.", ACCION_INVALIDA, aux);
 			return 0;
 		}
 	char nombre_interaccion[MAX_NOMBRE_INTERACCION] ="";
@@ -301,10 +300,9 @@ int sala_ejecutar_interaccion(sala_t *sala, const char *verbo,
 				void *objeto_reemplazo = hash_quitar(sala->objetos, interaccion_actual->accion.objeto);
 				hash_insertar(sala->jugador->objetos_conocidos, interaccion_actual->accion.objeto, objeto_reemplazo);
 
-				void *objeto_quitado = hash_quitar(sala->jugador->objetos_poseidos, interaccion_actual->objeto);
-				free(objeto_quitado);
+		
 				if(hay_objeto_parametro){
-					objeto_quitado = hash_quitar(sala->jugador->objetos_conocidos, interaccion_actual->objeto_parametro);
+					void *objeto_quitado = hash_quitar(sala->jugador->objetos_conocidos, interaccion_actual->objeto_parametro);
 					free(objeto_quitado);
 					sala->jugador->cantidad_objetos_conocidos--;
 				}

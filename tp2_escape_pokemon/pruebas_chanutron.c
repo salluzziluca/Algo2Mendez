@@ -305,27 +305,29 @@ void pruebas_escenario_basico()
 
 	pa2m_afirmar(sala_escape_exitoso(sala) == false,
 		     "El escape aún no es exitoso");
-
-	pa2m_afirmar(sala_agarrar_objeto(sala, "habitacion") == false,
+	bool interaccion = sala_agarrar_objeto(sala, "habitacion");
+	pa2m_afirmar( interaccion == false,
 		     "No puedo agarrar la sala");
-
-	pa2m_afirmar(sala_agarrar_objeto(sala, "pokebola") == false,
+	interaccion = sala_agarrar_objeto(sala, "pokebola");
+	pa2m_afirmar(interaccion == false,
 		     "No puedo agarrar la pokebola (no la conozco)");
 
-	pa2m_afirmar(sala_agarrar_objeto(sala, "llave") == false,
+	interaccion = sala_agarrar_objeto(sala, "llave");
+	pa2m_afirmar( interaccion == false,
 		     "No puedo agarrar la llave (no la conozco)");
-
-	pa2m_afirmar(sala_agarrar_objeto(sala, "puerta") == false,
+	interaccion = sala_agarrar_objeto(sala, "puerta");
+	pa2m_afirmar(interaccion == false,
 		     "No puedo agarrar la puerta (no la conozco)");
-
-	pa2m_afirmar(sala_ejecutar_interaccion(sala, "abrir", "puerta", "",
+	int interaccione = sala_ejecutar_interaccion(sala, "abrir", "puerta", "",
 					       contar_acciones,
-					       &contadores) == 0,
+					       &contadores);
+	pa2m_afirmar( interaccione == 0,
 		     "No puedo abrir la puerta (no la conozco)");
 
-	pa2m_afirmar(sala_ejecutar_interaccion(sala, "salir", "puerta-abierta",
+	interaccione = sala_ejecutar_interaccion(sala, "salir", "puerta-abierta",
 					       "", contar_acciones,
-					       &contadores) == 0,
+					       &contadores);
+	pa2m_afirmar( interaccione == 0,
 		     "No puedo salir por la puerta-abierta (no la conozco)");
 	printf("%i", contadores.totales);
 	pa2m_afirmar(contadores.totales == 0,
@@ -457,6 +459,10 @@ void pruebas_escenario_basico()
 		     "No se invocó la función de mostrar");
 
 	pa2m_afirmar(sala_agarrar_objeto(sala, "llave")==true, "Puedo agarrar la llave");
+	texto = sala_describir_objeto(sala, "llave");
+	pa2m_afirmar((texto) !=
+			     NULL,
+		     "Puedo pedir la descripción de la llave (todavía existe)");
 
 	pa2m_afirmar((vector = sala_obtener_nombre_objetos_poseidos(sala,
 								    &cantidad)),
@@ -467,12 +473,19 @@ void pruebas_escenario_basico()
 	pa2m_afirmar(strcmp(vector[0], "llave")==0, "El objeto es la llave");
 
 	free(vector);
-
-	pa2m_afirmar(sala_ejecutar_interaccion(sala, "abrir", "llave",
+	texto = sala_describir_objeto(sala, "llave");
+	pa2m_afirmar((texto) !=
+			     NULL,
+		     "PuedoAAAAAA pedir la descripción de la llave (todavía existe)");
+int cosas = sala_ejecutar_interaccion(sala, "abrir", "llave",
 					       "puerta", contar_acciones,
-					       &contadores) == 1,
+					       &contadores);
+	pa2m_afirmar(cosas == 1,
 		     "Puedo 'abrir llave puerta' y se ejecuta una acción");
-
+texto = sala_describir_objeto(sala, "llave");
+	pa2m_afirmar((texto) !=
+			     NULL,
+		     "Puedo tutuututuuuAUAUSU	 la descripción de la llave (todavía existe)");
 	pa2m_afirmar(contadores.totales == 6 && contadores.reemplazar==1,
 		     "Se invocó la función de mostrar con la acción de tipo REEMPLAZO");
 
@@ -488,7 +501,11 @@ void pruebas_escenario_basico()
 		     "Los objetos son la habitación y la puerta-abierta");
 
 	free(vector);
-
+	
+	texto = sala_describir_objeto(sala, "llave");
+	pa2m_afirmar((texto) !=
+			     NULL,
+		     "AAAAAAA pedir la descripción de la llave (todavía existe)");
 	pa2m_afirmar(sala_ejecutar_interaccion(sala, "examinar", "habitacion",
 					       "", contar_acciones,
 					       &contadores) == 0,
@@ -500,8 +517,8 @@ void pruebas_escenario_basico()
 	pa2m_afirmar((texto = sala_describir_objeto(sala, "puerta")) ==
 			     NULL,
 		     "No puedo describir mas la puerta (no existe mas)");
-
-	pa2m_afirmar((texto = sala_describir_objeto(sala, "llave")) !=
+	texto = sala_describir_objeto(sala, "llave");
+	pa2m_afirmar((texto) !=
 			     NULL,
 		     "Puedo pedir la descripción de la llave (todavía existe)");
 
