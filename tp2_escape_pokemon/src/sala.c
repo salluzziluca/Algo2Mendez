@@ -338,7 +338,6 @@ int sala_ejecutar_interaccion(sala_t *sala, const char *verbo,
 
 			default:
 			printf("No se puede realizar la accion que pediste con el objeto actual");
-			mostrar_mensaje(interaccion_actual->accion.mensaje, interaccion_actual->accion.tipo, aux);
 				break;
 		}
 		free(interaccion_actual);
