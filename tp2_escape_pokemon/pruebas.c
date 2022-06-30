@@ -11,6 +11,35 @@ void mostrar_mensaje(const char *mensaje, enum tipo_accion accion, void *aux)
 	printf("%s\n", mensaje);
 }
 
+struct contador_accion{
+	int totales;
+	int descubrir;
+	int reemplazar;
+	int eliminar;
+	int mostrar;
+	int escapar;
+	int desconocidas;
+
+};
+void contar_acciones(const char *mensaje, enum tipo_accion accion,
+         void *_contador)
+{
+    struct contador_accion *contador = _contador;
+    contador->totales++;
+    if (accion == DESCUBRIR_OBJETO) {
+        contador->descubrir++;
+    } else if (accion == REEMPLAZAR_OBJETO) {
+        contador->reemplazar++;
+    } else if (accion == ELIMINAR_OBJETO) {
+        contador->eliminar++;
+    } else if (accion == MOSTRAR_MENSAJE) {
+        contador->mostrar++;
+    } else if (accion == ESCAPAR) {
+        contador->escapar++;
+    } else {
+        contador->desconocidas++;
+    }
+}
 void pruebasCrearObjeto()
 {
 	pa2m_afirmar(objeto_crear_desde_string(NULL) == NULL,
@@ -270,7 +299,7 @@ void ejecutar_interacciones_ejecuta_interacciones_correctamente()
 	interacciones = sala_ejecutar_interaccion(sala, "abrir", "pokebola", "", mostrar_mensaje, aux);
 	pa2m_afirmar(( interacciones == 1), "Abri la pokebola y se ejecutaron 1 interacciones");
 	pa2m_afirmar(hash_contiene(sala->jugador->objetos_conocidos, "anillo") == true, "El objeto anillo se agrego al hash de objetos conocidos");
-	
+	//sala_agarrar_objeto(sala, "llave");
 	interacciones = sala_ejecutar_interaccion(sala, "usar", "llave", "cajon", mostrar_mensaje, aux);
 	pa2m_afirmar(( interacciones == 2), "Usé la llave en el cajón y se ejecutaron 1 interacciones");
 	pa2m_afirmar(hash_contiene(sala->jugador->objetos_conocidos, "cajon-abierto") == true, "El objeto cajon-abierto se agrego al hash de objetos conocidos");
@@ -316,10 +345,20 @@ void pruebas_chanu()
 {
 	sala_t *sala = sala_crear_desde_archivos("ejemplo/objetos.txt", "ejemplo/interacciones.txt");
 	pa2m_afirmar(sala->jugador->cantidad_objetos_conocidos == 1, "Se conoce un objeto");
-	pa2m_afirmar(sala_ejecutar_interaccion(sala, "examinar", "habitacion", "", mostrar_mensaje, NULL) == 2, "Puedo examinar la habitación");
+	struct contador_accion *contador = calloc(1, sizeof(struct contador_accion));
+
+	pa2m_afirmar(sala_ejecutar_interaccion(sala, "agarrar", "sala", "", contar_acciones, contador) == 0, "No se puede agarrar la sala");
+	pa2m_afirmar(sala_ejecutar_interaccion(sala, "agarrar", "pokebola", "", contar_acciones, contador) == 0, "No se puede agarrar la pokebola");
+	pa2m_afirmar(sala_ejecutar_interaccion(sala, "agarrar", "llave", "", contar_acciones, contador) == 0, "No se puede agarrar la llave");
+	pa2m_afirmar(sala_ejecutar_interaccion(sala, "abrir", "puerta", "", contar_acciones, contador) == 0, "No se puede agarrar la puerta");
+	pa2m_afirmar(sala_ejecutar_interaccion(sala, "salir", "puerta-abierta", "", contar_acciones, contador) == 0, "No se puede salir por la puerta abierta");
+
+
+
+	pa2m_afirmar(sala_ejecutar_interaccion(sala, "examinar", "habitacion", "", contar_acciones, contador) == 2, "Puedo examinar la habitación");
 	pa2m_afirmar(sala->jugador->cantidad_objetos_conocidos == 3, "Se conocen 3 objetos");
-	pa2m_afirmar(sala_ejecutar_interaccion(sala, "examinar", "habitacion", "", mostrar_mensaje, NULL) == 0, "No puedo examinar la habitación");
-	pa2m_afirmar(sala->jugador->cantidad_objetos_conocidos == 3, "Se siguen conociendo 3 objetos");
+	pa2m_afirmar(contador->descubrir == 2, "Se descubrio do orjeto");
+	pa2m_afirmar(sala_ejecutar_interaccion(sala, "examinar", "habitacion", "", contar_acciones, contador) == 0, "Examinar la habitación no descubre ningún objeto");
 	int cantidad = 0;
 	char **vector = sala_obtener_nombre_objetos_conocidos(sala, &cantidad);
 	printf("%i\n", cantidad);
@@ -327,6 +366,93 @@ void pruebas_chanu()
 	{
 		printf("%s\n", vector[i]);
 	}
+	pa2m_afirmar(cantidad == 3, "Se conocen 3 objetos");
+	cantidad = 0;
+	char **vector5 = sala_obtener_nombre_objetos_conocidos(sala, &cantidad);
+	printf("%i\n", cantidad);
+	for (int i = 0; i < cantidad; i++)
+	{
+		printf("%s\n", vector5[i]);
+	}
+	pa2m_afirmar(cantidad == 3, "Se conocen 3 objetos");
+	//me fijo la cantidad de objetos poseidos 
+	cantidad = 0;
+	char **vector6 = sala_obtener_nombre_objetos_poseidos(sala, &cantidad);
+	printf("%i\n", cantidad);
+	for (int i = 0; i < cantidad; i++)
+	{
+		printf("%s\n", vector6[i]);
+	}
+	pa2m_afirmar(cantidad == 0, "no se posee ningun objeto");
+	pa2m_afirmar(sala_agarrar_objeto(sala, "puerta") == false , "No se puede agarrar la puerta");
+	pa2m_afirmar(sala_agarrar_objeto(sala, "pokebola") == true, "Puedo agarrar la pokebola");
+	pa2m_afirmar(sala_describir_objeto(sala, "pokebola") != NULL, "Puedo describir la pokebola");
+	pa2m_afirmar(sala_agarrar_objeto(sala, "llave") ==false, "No puedo agarrar la llave");
+	pa2m_afirmar(sala_ejecutar_interaccion(sala, "examinar", "habitacion", "", contar_acciones, contador) == 0, "Examinar la habitacion no vuelve a descubrir objetos");
+	cantidad = 0;
+	char **vector2 = sala_obtener_nombre_objetos_conocidos(sala, &cantidad);
+
+	pa2m_afirmar(cantidad == 2, "La cantidad de objetos conocidos siguie siendo 2");
+
+	pa2m_afirmar(sala_ejecutar_interaccion(sala, "abrir", "pokebola", "", contar_acciones, contador) == 2, "Puedo abrir la pokebola");
+
+	cantidad = 0;
+	char **vector3 = sala_obtener_nombre_objetos_conocidos(sala, &cantidad);
+	printf("%i\n", cantidad);
+	for (int i = 0; i < cantidad; i++)
+	{
+		printf("%s\n", vector3[i]);
+	}
+	pa2m_afirmar(cantidad == 3, "La cantidad de objetos conocidos es igual a 3");
+
+	pa2m_afirmar(sala_ejecutar_interaccion(sala, "examinar", "habitacion", "", contar_acciones, contador) == 0, "Examinar la habitacion no vuelve a descubrir objetos");
+	//me fijo la cantidad de objetos descubiertos 
+	cantidad = 0;
+	char **vector4 = sala_obtener_nombre_objetos_conocidos(sala, &cantidad);
+	printf("%i\n", cantidad);
+	for (int i = 0; i < cantidad; i++)
+	{
+		printf("%s\n", vector4[i]);
+	}
+	pa2m_afirmar(cantidad == 3, "La cantidad de objetos conocidos es igual a 3");
+
+	//uso la llave para abrir la puerta 
+	int ayuda = sala_ejecutar_interaccion(sala, "abrir", "llave", "puerta", contar_acciones, contador);
+	pa2m_afirmar( ayuda == 0, "No puedo abrir la puerta porque no tengo la llave en la mano" );
+	//describo la llave
+	pa2m_afirmar(sala_describir_objeto(sala, "llave") != NULL, "Puedo describir la llave");
+
+	//cantidad objetos conocidos
+	cantidad = 0;
+	char **vector7 = sala_obtener_nombre_objetos_conocidos(sala, &cantidad);
+	pa2m_afirmar(cantidad == 2, "La cantidad de objetos conocidos es igual a 2");
+	for (int i = 0; i < cantidad; i++)
+	{
+		printf("%s\n", vector7[i]);
+	}
+
+	free(vector);
+	free(vector2);
+	free(vector3);
+	free(vector4);
+	free(vector5);
+	free(vector6);
+	free(vector7);
+	free(contador);
+	sala_destruir(sala);
+}
+
+void pruebas_chanu2(){
+	sala_t *sala = sala_crear_desde_archivos("ejemplo/objetos.txt", "ejemplo/interacciones.txt");
+	pa2m_afirmar(sala_describir_objeto(sala, "habitacion")!= NULL, "Puedo describir la habitacion");
+	struct contador_accion *contador = calloc(1, sizeof(struct contador_accion));
+	pa2m_afirmar(sala_ejecutar_interaccion(sala, "agarrar", "sala", "", contar_acciones, contador) == 0, "No se puede agarrar la sala");
+	pa2m_afirmar(sala_ejecutar_interaccion(sala, "agarrar", "pokebola", "", contar_acciones, contador) == 0, "No se puede agarrar la pokebola");
+	pa2m_afirmar(sala_ejecutar_interaccion(sala, "agarrar", "llave", "", contar_acciones, contador) == 0, "No se puede agarrar la llave");
+	pa2m_afirmar(sala_ejecutar_interaccion(sala, "abrir", "puerta", "", contar_acciones, contador) == 0, "No se puede agarrar la puerta");
+	pa2m_afirmar(sala_ejecutar_interaccion(sala, "salir", "puerta-abierta", "", contar_acciones, contador) == 0, "No se puede salir por la puerta abierta");
+	pa2m_afirmar(contador->mostrar == 0, "No se ejecuto la accion mostrar ninguna vez");
+	free(contador);
 	sala_destruir(sala);
 }
 int main()
@@ -361,6 +487,8 @@ int main()
 	pa2m_nuevo_grupo("Pruebas Chanu");
 	pruebas_chanu();
 	
+	pa2m_nuevo_grupo("Pruebas de Chanu 2");
+	pruebas_chanu2();
 
 	return pa2m_mostrar_reporte();
 }

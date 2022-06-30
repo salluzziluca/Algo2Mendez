@@ -235,18 +235,20 @@ int sala_ejecutar_interaccion(sala_t *sala, const char *verbo,
 	hash_t *hash_objetos_poseidos = sala->jugador->objetos_poseidos;
 	bool es_interaccion_valida = false;
 	bool hay_objeto_parametro = false;
+	bool es_objeto_valido = false;
+	bool es_objeto_parametro_valido = false;
 	struct objeto *objeto1_actual = NULL;
 	struct objeto *objeto2_actual = NULL;
 
 	objeto1_actual = hash_obtener(hash_objetos_poseidos, objeto1);
 	if (objeto1_actual != NULL){
-		es_interaccion_valida = true;
+		es_objeto_valido = true;
 	}
 	else{
 		objeto1_actual = hash_obtener(hash_objetos_conocidos, objeto1);
 		if (objeto1_actual != NULL){
 			if(!objeto1_actual->es_asible){
-				es_interaccion_valida = true;
+				es_objeto_valido = true;
 			}
 		}
 	}
@@ -255,11 +257,17 @@ int sala_ejecutar_interaccion(sala_t *sala, const char *verbo,
 	if(strcmp(objeto2, "") != 0){
 		objeto2_actual = hash_obtener(hash_objetos_conocidos, objeto2);
 		if (objeto2_actual != NULL){
-			es_interaccion_valida = true;
+			es_objeto_parametro_valido = true;
 		}
 		hay_objeto_parametro = true;
 	}
 
+	if(es_objeto_valido && !hay_objeto_parametro){
+		es_interaccion_valida = true;
+	}
+	else if(es_objeto_valido && hay_objeto_parametro && es_objeto_parametro_valido){
+		es_interaccion_valida = true;
+	}
 
 	if(!es_interaccion_valida){
 			mostrar_mensaje("No conoces los objetos para realizar esta interaccion 🤨.", ACCION_INVALIDA, aux);
@@ -330,6 +338,7 @@ int sala_ejecutar_interaccion(sala_t *sala, const char *verbo,
 
 			default:
 			printf("No se puede realizar la accion que pediste con el objeto actual");
+			mostrar_mensaje(interaccion_actual->accion.mensaje, interaccion_actual->accion.tipo, aux);
 				break;
 		}
 		free(interaccion_actual);
