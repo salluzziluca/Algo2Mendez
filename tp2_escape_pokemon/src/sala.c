@@ -218,6 +218,14 @@ char* sala_describir_objeto(sala_t* sala, const char *nombre_objeto)
 	
 	return objeto_actual->descripcion;
 }
+
+/*
+* Recibe una sala y dos nombres de objetos.
+* Si los objetos existen y son conocidos o poseidos por el jugador,
+* Devuelve true. Si el objeto1 es conocido pero debe ser poseido (es asible),
+* devuelve false. Si el objeto1 no existe o no es conocido, devuelve false.
+* El objeto2 no debe ser poseido y puede no ser conocido.
+*/
 bool son_objetos_validos(sala_t *sala, const char *objeto1, const char *objeto2)
 {	
 	bool es_interaccion_valida = false;
@@ -274,6 +282,7 @@ int sala_ejecutar_interaccion(sala_t *sala, const char *verbo,
 	if(!son_objetos_validos(sala, objeto1, objeto2)){
 			return 0;
 		}
+		
 	char nombre_interaccion[MAX_NOMBRE_INTERACCION] ="";
 	strcat(strcat(strcat(nombre_interaccion, objeto1), verbo), objeto2);
 	struct interaccion *interaccion_actual = hash_obtener(hash_interacciones, nombre_interaccion);
