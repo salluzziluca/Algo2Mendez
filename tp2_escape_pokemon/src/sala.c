@@ -355,7 +355,6 @@ int sala_ejecutar_interaccion(sala_t *sala, const char *verbo,
 	concatenar_strings(nombre_interaccion, (char *)objeto1, (char *)verbo, (char *)objeto2);	
 	struct interaccion *interaccion_actual = hash_obtener(hash_interacciones, nombre_interaccion);
 	if(interaccion_actual == NULL){
-		printf("La interaccion ingresada no existe.\n");
 		return 0;
 	}
 	
