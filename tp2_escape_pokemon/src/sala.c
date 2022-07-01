@@ -35,6 +35,7 @@ hash_t *cargar_elementos(sala_t *sala, const char *nombre_archivo,  char tipo_el
 	FILE *archivo = fopen(nombre_archivo, MODO_LECTURA);
 	if(!archivo)
 		return NULL;
+
 	hash_t *hash = NULL;
 	char linea[LARGO_MAX_LINEA];
 	char *linea_leida = fgets(linea, LARGO_MAX_LINEA, archivo);
@@ -42,11 +43,13 @@ hash_t *cargar_elementos(sala_t *sala, const char *nombre_archivo,  char tipo_el
 		fclose(archivo);
 		return NULL;
 	}
+
 	if(tipo_elemento == OBJETOS){
 		struct objeto *objeto_a_agregar = objeto_crear_desde_string(linea);
 		hash_insertar(sala->jugador->objetos_conocidos, objeto_a_agregar->nombre, objeto_a_agregar);
 		sala->jugador->cantidad_objetos_conocidos++;
 	}
+
 	while(linea_leida){
 
 		if(tipo_elemento == OBJETOS){
@@ -70,7 +73,7 @@ hash_t *cargar_elementos(sala_t *sala, const char *nombre_archivo,  char tipo_el
 	return hash;
 }
 
-sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones) //TODO: embellecer esta funcion, hay stasheada una posible implementacion para usar sala_destruir para que esto sea mas lindo
+sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones) 
 {
 	if(!objetos || !interacciones)
 		return NULL;
@@ -79,8 +82,12 @@ sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones
 	if(sala == NULL)
 		return NULL;
 
-	hash_t* hash_objetos = hash_crear(TAMANIO_MIN_HASH);
-	if(!hash_objetos)
+ 	sala->objetos = hash_crear(TAMANIO_MIN_HASH);
+	if(!sala->objetos)
+		return NULL;
+
+	sala->interacciones = hash_crear(TAMANIO_MIN_HASH);
+	if(!sala->interacciones)
 		return NULL;
 
 	sala->jugador = calloc(1, sizeof(struct jugador));
@@ -100,22 +107,15 @@ sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones
 		return NULL;
 	}
 
- 	sala->objetos = hash_objetos;
 	if(cargar_elementos(sala, objetos, OBJETOS))
-		sala->cantidad_objetos = hash_cantidad(hash_objetos);
+		sala->cantidad_objetos = hash_cantidad(sala->objetos);
 	else{
 		sala_destruir(sala);
 		return NULL;
 	}
 
-
-	hash_t* hash_interacciones = hash_crear(TAMANIO_MIN_HASH);
-	if(!hash_interacciones)
-		return NULL;
-
-	sala->interacciones = hash_interacciones;
 	if(cargar_elementos(sala, interacciones, INTERACCIONES))
-		sala->cantidad_interacciones = hash_cantidad(hash_interacciones);	
+		sala->cantidad_interacciones = hash_cantidad(sala->interacciones);	
 	else{
 		sala_destruir(sala);
 		return NULL;
@@ -125,7 +125,6 @@ sala_t *sala_crear_desde_archivos(const char *objetos, const char *interacciones
 		sala_destruir(sala);
 		return NULL;
 	}
-
 
 	return sala;
 }
@@ -219,20 +218,8 @@ char* sala_describir_objeto(sala_t* sala, const char *nombre_objeto)
 	
 	return objeto_actual->descripcion;
 }
-
-int sala_ejecutar_interaccion(sala_t *sala, const char *verbo,
-			      const char *objeto1, const char *objeto2,
-			      void (*mostrar_mensaje)(const char *mensaje,
-						      enum tipo_accion accion,
-						      void *aux),
-			      void *aux)
-{
-	if(!sala || !verbo || !objeto1 || !mostrar_mensaje)
-		return 0;
-
-	hash_t *hash_interacciones = sala->interacciones;
-	hash_t *hash_objetos_conocidos = sala->jugador->objetos_conocidos;
-	hash_t *hash_objetos_poseidos = sala->jugador->objetos_poseidos;
+bool son_objetos_validos(sala_t *sala, const char *objeto1, const char *objeto2)
+{	
 	bool es_interaccion_valida = false;
 	bool hay_objeto_parametro = false;
 	bool es_objeto_valido = false;
@@ -240,12 +227,12 @@ int sala_ejecutar_interaccion(sala_t *sala, const char *verbo,
 	struct objeto *objeto1_actual = NULL;
 	struct objeto *objeto2_actual = NULL;
 
-	objeto1_actual = hash_obtener(hash_objetos_poseidos, objeto1);
+	objeto1_actual = hash_obtener(sala->jugador->objetos_poseidos, objeto1);
 	if (objeto1_actual != NULL){
 		es_objeto_valido = true;
 	}
 	else{
-		objeto1_actual = hash_obtener(hash_objetos_conocidos, objeto1);
+		objeto1_actual = hash_obtener(sala->jugador->objetos_conocidos, objeto1);
 		if (objeto1_actual != NULL){
 			if(!objeto1_actual->es_asible){
 				es_objeto_valido = true;
@@ -255,7 +242,7 @@ int sala_ejecutar_interaccion(sala_t *sala, const char *verbo,
 
 
 	if(strcmp(objeto2, "") != 0){
-		objeto2_actual = hash_obtener(hash_objetos_conocidos, objeto2);
+		objeto2_actual = hash_obtener(sala->jugador->objetos_conocidos, objeto2);
 		if (objeto2_actual != NULL){
 			es_objeto_parametro_valido = true;
 		}
@@ -269,7 +256,22 @@ int sala_ejecutar_interaccion(sala_t *sala, const char *verbo,
 		es_interaccion_valida = true;
 	}
 
-	if(!es_interaccion_valida){
+	return es_interaccion_valida;
+}
+int sala_ejecutar_interaccion(sala_t *sala, const char *verbo,
+			      const char *objeto1, const char *objeto2,
+			      void (*mostrar_mensaje)(const char *mensaje,
+						      enum tipo_accion accion,
+						      void *aux),
+			      void *aux)
+{
+	if(!sala || !verbo || !objeto1 || !mostrar_mensaje)
+		return 0;
+
+	hash_t *hash_interacciones = sala->interacciones;
+
+	bool hay_objeto_parametro = (strcmp(objeto2, "") != 0);
+	if(!son_objetos_validos(sala, objeto1, objeto2)){
 			return 0;
 		}
 	char nombre_interaccion[MAX_NOMBRE_INTERACCION] ="";

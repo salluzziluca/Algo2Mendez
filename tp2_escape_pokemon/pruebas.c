@@ -276,8 +276,8 @@ void ejecutar_interacciones_ejecuta_interacciones_correctamente()
 	
 	pa2m_afirmar(hash_contiene(sala->jugador->objetos_conocidos, "mesa") == false, "El objeto mesa no se encuentra en el hash de objetos conocidos");
 	pa2m_afirmar(hash_contiene(sala->jugador->objetos_conocidos, "interruptor") == false, "El objeto interruptor no se encuentra en el hash de objetos conocidos");
-	
-	pa2m_afirmar(sala_es_interaccion_valida(sala, "examinar", "habitacion", "") == true, "Puedo examinar la habitación");
+	int cosa = sala_es_interaccion_valida(sala, "examinar", "habitacion", "");
+	pa2m_afirmar(cosa == true, "Puedo examinar la habitación");
 	int interacciones = sala_ejecutar_interaccion(sala, "examinar", "habitacion", "", mostrar_mensaje, aux);
 	pa2m_afirmar(( interacciones == 2), "Examiné la habitacion y se ejecutaron 2 interacciones");
 	
@@ -299,11 +299,6 @@ void ejecutar_interacciones_ejecuta_interacciones_correctamente()
 	interacciones = sala_ejecutar_interaccion(sala, "abrir", "pokebola", "", mostrar_mensaje, aux);
 	pa2m_afirmar(( interacciones == 1), "Abri la pokebola y se ejecutaron 1 interacciones");
 	pa2m_afirmar(hash_contiene(sala->jugador->objetos_conocidos, "anillo") == true, "El objeto anillo se agrego al hash de objetos conocidos");
-	//sala_agarrar_objeto(sala, "llave");
-	interacciones = sala_ejecutar_interaccion(sala, "usar", "llave", "cajon", mostrar_mensaje, aux);
-	pa2m_afirmar(( interacciones == 2), "Usé la llave en el cajón y se ejecutaron 1 interacciones");
-	pa2m_afirmar(hash_contiene(sala->jugador->objetos_conocidos, "cajon-abierto") == true, "El objeto cajon-abierto se agrego al hash de objetos conocidos");
-	
 	sala_destruir(sala);
 }
 
@@ -422,14 +417,6 @@ void pruebas_chanu()
 	//describo la llave
 	pa2m_afirmar(sala_describir_objeto(sala, "llave") != NULL, "Puedo describir la llave");
 
-	//cantidad objetos conocidos
-	cantidad = 0;
-	char **vector7 = sala_obtener_nombre_objetos_conocidos(sala, &cantidad);
-	pa2m_afirmar(cantidad == 2, "La cantidad de objetos conocidos es igual a 2");
-	for (int i = 0; i < cantidad; i++)
-	{
-		printf("%s\n", vector7[i]);
-	}
 
 	free(vector);
 	free(vector2);
@@ -437,7 +424,6 @@ void pruebas_chanu()
 	free(vector4);
 	free(vector5);
 	free(vector6);
-	free(vector7);
 	free(contador);
 	sala_destruir(sala);
 }
