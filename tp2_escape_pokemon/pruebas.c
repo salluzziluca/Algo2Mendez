@@ -437,7 +437,7 @@ void pruebas_chanu2(){
 	pa2m_afirmar(sala_ejecutar_interaccion(sala, "agarrar", "llave", "", contar_acciones, contador) == 0, "No se puede agarrar la llave");
 	pa2m_afirmar(sala_ejecutar_interaccion(sala, "abrir", "puerta", "", contar_acciones, contador) == 0, "No se puede agarrar la puerta");
 	pa2m_afirmar(sala_ejecutar_interaccion(sala, "salir", "puerta-abierta", "", contar_acciones, contador) == 0, "No se puede salir por la puerta abierta");
-	pa2m_afirmar(contador->mostrar == 0, "No se ejecuto la accion mostrar ninguna vez");
+	pa2m_afirmar(contador->totales == 0, "No se ejecuto la accion mostrar ninguna vez");
 	free(contador);
 	sala_destruir(sala);
 }

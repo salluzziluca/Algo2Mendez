@@ -285,6 +285,53 @@ bool son_objetos_validos(sala_t *sala, const char *objeto1, const char *objeto2)
 
 	return es_interaccion_valida;
 }
+
+/*
+* Recibe una sala y una interaccion actual. Quita el objeto del hash de la sala 
+* y lo inserta en el hash de objetos conocidos por el jugador
+* Reduce en uno la cant de objetos de la sala y aumenta la cant de objetos conocidos.
+*/
+void descubrir_objeto(sala_t* sala, struct interaccion *interaccion_actual)
+{
+	struct objeto* objeto_actual = hash_quitar(sala->objetos, interaccion_actual->accion.objeto);
+	hash_insertar(sala->jugador->objetos_conocidos, interaccion_actual->accion.objeto, objeto_actual);
+	sala->cantidad_objetos--;
+	sala->jugador->cantidad_objetos_conocidos++;
+}
+
+/*
+* Recibe una sala, una interaccion actual un booleano que indica si hay o no
+* un objeto parametro. Reemplaza el objeto parametro con nuevo objeto dictaminado
+* por la interaccion. Es decir, quita uno y agrega el otro.
+* Disminute la cantidad de objetos de la sala y mantiene constante la de objetos conocidos.
+* (si no hay objeto parametro la aumenta)
+*/
+void reemplazar_objeto(sala_t *sala, struct interaccion *interaccion_actual,  bool hay_objeto_parametro)
+{
+	void *objeto_reemplazo = hash_quitar(sala->objetos, interaccion_actual->accion.objeto);
+	hash_insertar(sala->jugador->objetos_conocidos, interaccion_actual->accion.objeto, objeto_reemplazo);
+
+
+	if(hay_objeto_parametro){
+		void *objeto_quitado = hash_quitar(sala->jugador->objetos_conocidos, interaccion_actual->objeto_parametro);
+		free(objeto_quitado);
+		sala->jugador->cantidad_objetos_conocidos--;
+	}
+	sala->cantidad_objetos--;
+	sala->jugador->cantidad_objetos_conocidos++;
+}
+
+/*
+*
+*
+*/
+void eliminar_objeto(sala_t *sala, struct interaccion *interaccion_actual)
+{
+	void *quitado = hash_quitar(sala->jugador->objetos_poseidos, interaccion_actual->accion.objeto);
+	sala->jugador->cantidad_objetos_poseidos--;
+	free(quitado);
+}
+
 int sala_ejecutar_interaccion(sala_t *sala, const char *verbo,
 			      const char *objeto1, const char *objeto2,
 			      void (*mostrar_mensaje)(const char *mensaje,
@@ -316,39 +363,22 @@ int sala_ejecutar_interaccion(sala_t *sala, const char *verbo,
 		switch (interaccion_actual->accion.tipo){
 			
 			case DESCUBRIR_OBJETO:
-				hash_insertar(sala->jugador->objetos_conocidos, interaccion_actual->accion.objeto,
-					hash_obtener(sala->objetos, interaccion_actual->accion.objeto));
-				hash_quitar(sala->objetos, interaccion_actual->accion.objeto);
+				descubrir_objeto(sala, interaccion_actual);
 				mostrar_mensaje(interaccion_actual->accion.mensaje,interaccion_actual->accion.tipo, aux);
 				interacciones_ejecutadas++;
-				sala->cantidad_objetos--;
-				sala->jugador->cantidad_objetos_conocidos++;
 				break;
 
 			case REEMPLAZAR_OBJETO: ;
 
-				void *objeto_reemplazo = hash_quitar(sala->objetos, interaccion_actual->accion.objeto);
-				hash_insertar(sala->jugador->objetos_conocidos, interaccion_actual->accion.objeto, objeto_reemplazo);
-
-		
-				if(hay_objeto_parametro){
-					void *objeto_quitado = hash_quitar(sala->jugador->objetos_conocidos, interaccion_actual->objeto_parametro);
-					free(objeto_quitado);
-					sala->jugador->cantidad_objetos_conocidos--;
-				}
+				reemplazar_objeto(sala, interaccion_actual, hay_objeto_parametro);
 				mostrar_mensaje(interaccion_actual->accion.mensaje, interaccion_actual->accion.tipo, aux);
 				interacciones_ejecutadas++;
-				sala->cantidad_objetos--;
-				sala->jugador->cantidad_objetos_conocidos++;
-				sala->jugador->cantidad_objetos_poseidos--;
 				break;
 
 			case ELIMINAR_OBJETO: ;
-				void *quitado = hash_quitar(sala->jugador->objetos_poseidos, interaccion_actual->accion.objeto);
+;				eliminar_objeto(sala, interaccion_actual);
 				mostrar_mensaje(interaccion_actual->accion.mensaje, interaccion_actual->accion.tipo, aux);
 				interacciones_ejecutadas++;
-				sala->jugador->cantidad_objetos_poseidos--;
-				free(quitado);
 				break;
 
 			case MOSTRAR_MENSAJE:
@@ -357,9 +387,9 @@ int sala_ejecutar_interaccion(sala_t *sala, const char *verbo,
 				break;
 
 			case ESCAPAR:
+				sala->jugador->escapo = true;
 				mostrar_mensaje(interaccion_actual->accion.mensaje, interaccion_actual->accion.tipo, aux);
 				interacciones_ejecutadas++;
-				sala->jugador->escapo = true;
 				free(interaccion_actual);
 				return 1;
 				break;
