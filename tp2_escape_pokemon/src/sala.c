@@ -20,6 +20,24 @@
 #define MOSTRAR_MENSAJE 4
 #define ESCAPAR 5
 
+
+/*
+*Recibe un string vacio pero inicializado de tamaño suficiente y 3 strings a concatenar
+* Concatena los dos primeros y si exisite el 3ero, tambien lo concatena
+* Devuelve el string resultante
+*/
+char* concatenar_strings(char *nombre_interaccion ,char* string1, char* string2, char* string3){
+	if(nombre_interaccion == NULL || string1 == NULL || string2 == NULL){
+		return NULL;
+	}
+	strcat(nombre_interaccion, string1);
+	strcat(nombre_interaccion, string2);
+	if(string3 != NULL){
+		strcat(nombre_interaccion, string3);
+	}
+	return nombre_interaccion;
+}
+
 /*
 * Recibe la direccion de un archivo, un puntero a sala, un puntero a hash y un caracter
 * especificando el tipo de elemento que se esta tratando (objeto o interaccion).
@@ -61,8 +79,9 @@ hash_t *cargar_elementos(sala_t *sala, const char *nombre_archivo,  char tipo_el
 		else if(tipo_elemento == INTERACCIONES){
 			struct interaccion *interaccion_a_agregar = interaccion_crear_desde_string(linea);
 
-			char clave_interaccion[MAX_NOMBRE_INTERACCION] = ""; //TODO: Modularizar el strcat y hacer mas bonita este llamado.
-			hash_insertar(sala->interacciones, strcat(strcat(strcat(clave_interaccion, interaccion_a_agregar->objeto), interaccion_a_agregar->verbo), interaccion_a_agregar->objeto_parametro), interaccion_a_agregar);
+			char nombre_interaccion[MAX_NOMBRE_INTERACCION] = "";
+			concatenar_strings(nombre_interaccion ,interaccion_a_agregar->objeto, interaccion_a_agregar->verbo, interaccion_a_agregar->objeto_parametro);
+			hash_insertar(sala->interacciones,nombre_interaccion,  interaccion_a_agregar);
 			hash = sala->interacciones;
 			sala->cantidad_interacciones++;
 		}
@@ -284,7 +303,7 @@ int sala_ejecutar_interaccion(sala_t *sala, const char *verbo,
 		}
 		
 	char nombre_interaccion[MAX_NOMBRE_INTERACCION] ="";
-	strcat(strcat(strcat(nombre_interaccion, objeto1), verbo), objeto2);
+	concatenar_strings(nombre_interaccion, (char *)objeto1, (char *)verbo, (char *)objeto2);	
 	struct interaccion *interaccion_actual = hash_obtener(hash_interacciones, nombre_interaccion);
 	if(interaccion_actual == NULL){
 		printf("La interaccion ingresada no existe.\n");
@@ -361,11 +380,9 @@ bool sala_es_interaccion_valida(sala_t *sala, const char *verbo, const char *obj
 		return false;
 
 	
-	char nombre_interaccion[30] ="";
-	strcat(strcat(nombre_interaccion, objeto1), verbo);
+	char nombre_interaccion[MAX_NOMBRE_INTERACCION] ="";
+	concatenar_strings(nombre_interaccion, (char *)objeto1, (char *)verbo, (char *)objeto2);
 
-	if(strcmp(objeto2, "") != 0)
-		strcat(nombre_interaccion, objeto2);
 	struct interaccion *interaccion = hash_obtener(sala->interacciones, nombre_interaccion);
 	if(interaccion == NULL)
 		return false;
