@@ -10,8 +10,6 @@
 struct objeto *objeto_crear_desde_string(const char *string)
 {
 	struct objeto *objeto_actual= malloc(sizeof(struct objeto));
-	if(!objeto_actual)
-		return NULL;
 
 	char nombre_aux[MAX_NOMBRE] = "\0";
 	char descripcion_aux[MAX_TEXTO] = "\0";
