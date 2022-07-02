@@ -324,8 +324,8 @@ void reemplazar_objeto(sala_t *sala, struct interaccion *interaccion_actual,  bo
 }
 
 /*
-*
-*
+* Recibe una sala y una interaccion actual.
+* Quita un elemento del hash de objetos poseidos por el jugador, libera el elemento
 */
 void eliminar_objeto(sala_t *sala, struct interaccion *interaccion_actual)
 {
