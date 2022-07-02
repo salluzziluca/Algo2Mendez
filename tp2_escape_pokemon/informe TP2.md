@@ -14,40 +14,25 @@
 | Número de padrón: | 108088 |
 | Email: | lsalluzzi@fi.uba.ar |
 
-- explicar que modularicé en un .h la estructura de sala para poder pasarsela a las pruebas. No afecta a la implementación del juego ya que a cualquier contexto del juego se le sigue pasando solamente `sala.h`. La modificacion solo fue hecha para un desarrollo mas ameno de las pruebas.
-
-- otra de las pruebas a corregir es la de todos los objetos son los esperados. El orden en el que estos aparecen en el hash no es el mismo que el de .dat, porque el criterio de ordenamiento es otro. Para arreglar esta prueba simplemente cambie el orden del vector `esperados` (que es el que se compara con las claves del hash)
-
-- Explicar que para obtener claves decidi no reutilizar con cada clave porque eso suponia pasar un puntero a un struct y se me hacia mas lioso.
 #### 1. Introducción
+En este TP2 se nos dio mucha libertad a la hora de implementar lo pedido. De esta forma se evaluo si el alumno conocia o no los temas impartidos a lo largo del cuatrimestre y si era capaz de moverse con libertad para con ellos.
+Se le pidió, entonces, reescribir el TP1 reemplazando los vectores dinamicos por otras estructuras de datos y, adicionalmente, implementar funciones nuevas que permitieran ejecutar interacciones y desarollar adecuadamente un "loop jugable".
 
-Idea general del TP, un breve resumen de que se pidió y de que forma.
+#### Elección de TDAs
+Decidí reemplazar mis vectores dinamicos con hashes. De esta forma obtenia un acceso muy directo y sencillo al dato (utilizando como clave el nombre del objeto o el string "objeto1verboobjeto2"). Para esto fue necesario eliminar ciertas partes del TDA que sobreescribian elementos con la misma clave. En vez de hacer eso, el hash actual almacena en una misma lista interacciones de igual clave y a la hora de ser llamadas pueden ser ejecutadas una atras de otra.
+Luego, en cuanto a la estructura general del juego, decidi implementar un struct sala con su hash de objetos e interacciones y un struct jugador, anidado en sala. Este segundo struct contienes los objetos poseidos y los objetos conocidos por el jugador. 
+Cuando el susodicho descubre un objeto, este se pas del hash de objetos de la sala al de objetos_conocidos ubicado en el jugador. Si el usuario agarra el objeto, este se mueve nuevamene de su hash de objetos conocidos a su hash de objetos poseidos.
 
-#### 2. Teoría
+#### Resolución de pruebas
+En cuanto a las pruebas, hubo que hacer modificaciones:
+Para resolver las pruebas de caja blanca del TP1, agregué (con permiso de mi correctora, o sea, vos), la estructura de la sala al entorno de pruebas mediante un .h privado. A `escape_pokemon.c` se le sigue pasando exclusivamente `sala.h`.
+Otra prueba a corregir fue la que pedia todos los objetos de la sala y los comparaba con un vector. El orden en el que estos aparecen en el hash no es el mismo que el de .dat, porque el criterio de ordenamiento es otro. Para arreglar esta prueba simplemente cambie el orden del vector `esperados` (que es el que se compara con las claves del hash).
 
-Respuestas a las preguntas teóricas (si no las hay podes borrar esta sección!)
+#### Detalles de la implementación
+`hash_obtener_claves` Esta es una funcion que recorre todo el hash obteniendo del par clave,elemento la clave y guardandola en un vector dinamico. Me parece oportuno aclarar que no reutilicé `hash_con_cada_clave` por un tema de simplicidad a la hora de programar. Para utilizar `con_cada_clave` habria que haberle pasado como parametro un struct con un vector e informacion extra, tambien se podria haber modificado la funcion ateriormente mencionada para que reciba mas parametros la funcion booleana auxiliar. Pero me parecio mas sencilo crear una funcion desde cero que cumpliera con lo que yo estaba necesitando en ese momento. 
 
-1. respuesta1
-2. respuesta2
-
-#### 3. Detalles de implementación
-
-
-Explicación de como se implemento el trabajo pedido, esta sección es para que puedas explicar de forma un poco mas detallada como se implemento o como planteaste el trabajo y los detalles al respecto. Estos detalles pueden ser alguna justificación de porque implementaste lo pedido de la forma que lo hiciste, con que linea se compilo el trabajo, como ejecutarlo, algún supuesto que hayas hecho, etc. (La idea no es que se explique utilizando código pero si lo ves necesario podes hacerlo.)
-
-
-1. Detalles de alguna función
-
-    Algún detalle importante sobre alguna función. La idea no es que expliques todas las funciones, es para que expliques mas en detalle las funciones mas importantes del trabajo (como por ejemplo, como funciona el insertar en una posición especifica en una lista) y como funcionan, porque están implementadas de cierta forma, etc.
-
-2. Detalle de otra función
-
-    Algún detalle de otra función.
-
-#### 4. Diagramas
-
-
-En esta sección van los diagramas que realizas para poder acompañar los detalles de implementación y de funciones que escribiste mas arriba. Trata de que sean lo mas claros posibles, podes hacer mas de un diagrama para una sola función, por ejemplo podes tener un diagrama por cada paso que realiza la función en vez de tener un solo diagrama (que a lo mejor termina siendo poco claro) con toda la información metida junta.
+La mayoria de las funciones tienen un funcionamiento similar, intercambian, pasan o eliminan informacion de los 3 hashes de objetos (dos del jugador, uno de la sala).
+En `ejecutar_interaccion` por ejemplo, se comprueba que los objetos esten en dentro del inventario del jugador. Se concatenan los 3 strings objeto1, verbo, objeto2 (de ser necesario este segundo objeto). Y luego se busca la interaccion dentro del hash correspondiente. Si se encuentra, se analiza que tipo de accion tiene y se la ejecuta sumando uno a la cantidad de interacciones ejecutadas. Se elimina la interaccion actual y se busca luego la proxima que cumpla con la clave correspondiete, repitiendo el proceso de analisis de tipo de accion. La funcion termina cuando no existen mas interacciones con la clave otorgada. Se devuelven, finalmente, la cantidad de interacciones ejecutadas.
 
 
 1. Diagrama1
