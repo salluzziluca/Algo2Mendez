@@ -1,8 +1,26 @@
-#include "estructura_hash.h"
 #include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
 #include <stdint.h>
+#include "hash.h"
 #define FACTOR_DE_CARGA_MAXIMO 0.65
+
+typedef struct par{
+	char *clave;
+	void *elemento;
+	struct par *siguiente;
+}par_t;
+
+typedef struct tabla{
+	par_t *par_inicio;
+	par_t *par_fin;
+	size_t ocupados;
+}tabla_t;
+struct hash {
+	size_t capacidad;
+	size_t ocupados;
+	tabla_t *tabla;	
+};
 
 uint32_t funcion_hash(const char *clave)
 {
@@ -24,6 +42,8 @@ char *copiar_string(const char *origen)
 		return NULL;
 
 	char *copia = malloc(strlen(origen) + 1);
+	if(!copia)
+		return NULL;
 	strcpy(copia, origen);
 
 	return copia;
@@ -119,33 +139,14 @@ hash_t *rehash(hash_t *hash, size_t capacidad)
 	return hash;
 }
 
-/*
-* Recibe una posicion de una tabla de hash, una clave, un elemento para sobreescribir y un puntero a elemento anterior.
-* itera por la lista de la posicion correspondiente buscando un para con la misma clave.
-* Si encuentra un par con la misma clave, sobreescribe el elemento.
-* Devuelve true si sobreescribió el elemento o false si no lo hizo.
-*/
-bool sobreescribir_elemento(tabla_t *tabla, const char *clave, void *elemento,
-			    void **anterior)
+size_t hash_cantidad(hash_t *hash)
 {
-	int i = 0;
-	bool sobreescrito = false;
-	par_t *par_actual = tabla->par_inicio;
-	while (i < tabla->ocupados && !sobreescrito) {
-		if (strcmp(par_actual->clave, clave) == 0) {
-			if (anterior)
-				*anterior = par_actual->elemento;
-			par_actual->elemento = elemento;
-			sobreescrito = true;
-		}
-		i++;
-		par_actual = par_actual->siguiente;
-	}
-	return sobreescrito;
+	if (!hash)
+		return 0;
+	return hash->ocupados;
 }
 
-hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
-		      void **anterior)
+hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento)
 {
 	if (!hash || !clave)
 		return NULL;
@@ -157,19 +158,15 @@ hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
 		return NULL;
 
 	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
-	bool sobreescrito = sobreescribir_elemento(&hash->tabla[posicion],
-						   clave, elemento, anterior);
 
-	if (!sobreescrito) {
-		char *copia_clave = copiar_string(clave);
-		par_t *par = llenar_par(copia_clave, elemento);
 
-		par_insertar(&hash->tabla[posicion], par);
-		if (anterior)
-			*anterior = NULL;
+	char *copia_clave = copiar_string(clave);
+	par_t *par = llenar_par(copia_clave, elemento);
 
-		hash->ocupados++;
-	}
+	par_insertar(&hash->tabla[posicion], par);
+
+	hash->ocupados++;
+
 	return hash;
 }
 
@@ -273,17 +270,7 @@ bool hash_contiene(hash_t *hash, const char *clave)
 	return contiene;
 }
 
-size_t hash_cantidad(hash_t *hash)
-{
-	if (!hash)
-		return 0;
-	return hash->ocupados;
-}
 
-void hash_destruir(hash_t *hash)
-{
-	hash_destruir_todo(hash, NULL);
-}
 
 void hash_destruir_todo(hash_t *hash, void (*destructor)(void *))
 {
@@ -302,6 +289,11 @@ void hash_destruir_todo(hash_t *hash, void (*destructor)(void *))
 	}
 	free(hash->tabla);
 	free(hash);
+}
+
+void hash_destruir(hash_t *hash)
+{
+	hash_destruir_todo(hash, NULL);
 }
 
 size_t hash_con_cada_clave(hash_t *hash,
@@ -327,4 +319,26 @@ size_t hash_con_cada_clave(hash_t *hash,
 		}
 	}
 	return claves_iteradas;
+}
+
+/*
+* Recibe un hash y un vector de claves.
+* Recorre el hash rellenando el vector con las claves de toodos los pares.
+* Devuelve el vector llenado o NULL en caso de error.
+*/
+char **hash_obtener_claves (hash_t *hash, char **vector)
+{
+	if (!hash)
+		return NULL;
+	size_t i = 0;
+	for (size_t j = 0; j < hash->capacidad; j++) {
+		par_t *par_actual = hash->tabla[j].par_inicio;
+		for(size_t k = 0; k < hash->tabla[j].ocupados; k++) {
+			vector[i] = par_actual->clave;
+			i++;
+			par_actual = par_actual->siguiente;
+		}
+
+	}
+	return vector;
 }
