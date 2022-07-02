@@ -20,9 +20,6 @@
 #define MOSTRAR_MENSAJE 4
 #define ESCAPAR 5
 
-
-
-
 /*
 *Recibe un string vacio pero inicializado de tamaño suficiente y 3 strings a concatenar
 * Concatena los dos primeros y si exisite el 3ero, tambien lo concatena
