@@ -438,8 +438,12 @@ void jugador_destruir(jugador_t *jugador)
 }
 void sala_destruir(sala_t *sala)
 {
-<<<<<<< HEAD
 
 	if(!sala)
 		return;
 	
+	jugador_destruir(sala->jugador);
+	hash_destruir_todo(sala->objetos, free);
+	hash_destruir_todo(sala->interacciones, free);
+	free(sala);
+}
