@@ -37,6 +37,7 @@ char* concatenar_strings(char *nombre_interaccion ,char* string1, char* string2,
 	return nombre_interaccion;
 }
 
+
 /*
 * Recibe la direccion de un archivo, un puntero a sala, un puntero a hash y un caracter
 * especificando el tipo de elemento que se esta tratando (objeto o interaccion).
