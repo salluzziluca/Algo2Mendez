@@ -109,7 +109,10 @@ int main(int argc, char *argv[])
 	}
 
 		printf("\n");
-		printf("Gracias por jugar!(o no)\n");
+		if(empezar_juego)
+			printf("Gracias por jugar!\n");
+		else 
+			printf("No quisiste empezar el juego :(\n");
 	sala_destruir(sala);
 
 	return 0;
