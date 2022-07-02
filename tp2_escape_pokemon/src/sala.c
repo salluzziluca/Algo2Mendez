@@ -1,5 +1,8 @@
-#include "estructuras.h"
 #include "sala.h"
+#include "objeto.h"
+#include "interaccion.h"
+#include "estructura_sala.h"
+#include "funciones_aux.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
