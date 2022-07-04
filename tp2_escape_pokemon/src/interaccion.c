@@ -12,8 +12,9 @@
 #define ACCION_ESCAPAR 'g'
 struct interaccion *interaccion_crear_desde_string(const char *string)
 {
-	struct interaccion *interaccion_actual= malloc(sizeof(struct interaccion));
-	if(!interaccion_actual)
+	struct interaccion *interaccion_actual =
+		malloc(sizeof(struct interaccion));
+	if (!interaccion_actual)
 		return NULL;
 
 	char objeto_aux[MAX_NOMBRE] = "\0";
@@ -23,15 +24,19 @@ struct interaccion *interaccion_crear_desde_string(const char *string)
 	char accion_objeto_aux[MAX_NOMBRE] = "\0";
 	char accion_mensaje_aux[MAX_TEXTO] = "\0";
 
-	if(string==NULL || strcmp(string, "\0") == 0){
+	if (string == NULL || strcmp(string, "\0") == 0) {
 		free(interaccion_actual);
 		return NULL;
 	}
 
-	else{
-		int leidos = sscanf(string,"%[^;];%[^;];%[^;];%c:%[^:]:%[^\n]\n", objeto_aux, verbo_aux, objeto_parametro_aux, &tipo_accion_actual, accion_objeto_aux, accion_mensaje_aux);
+	else {
+		int leidos =
+			sscanf(string, "%[^;];%[^;];%[^;];%c:%[^:]:%[^\n]\n",
+			       objeto_aux, verbo_aux, objeto_parametro_aux,
+			       &tipo_accion_actual, accion_objeto_aux,
+			       accion_mensaje_aux);
 
-		if(leidos != MIN_LEIDOS){
+		if (leidos != MIN_LEIDOS) {
 			free(interaccion_actual);
 			return NULL;
 		}
@@ -39,12 +44,13 @@ struct interaccion *interaccion_crear_desde_string(const char *string)
 		strcpy(interaccion_actual->objeto, objeto_aux);
 		strcpy(interaccion_actual->verbo, verbo_aux);
 
-		if(strcmp(objeto_parametro_aux, "_") == 0)
+		if (strcmp(objeto_parametro_aux, "_") == 0)
 			strcpy(interaccion_actual->objeto_parametro, "");
 		else
-			strcpy(interaccion_actual->objeto_parametro, objeto_parametro_aux);
-		
-		switch (tipo_accion_actual){
+			strcpy(interaccion_actual->objeto_parametro,
+			       objeto_parametro_aux);
+
+		switch (tipo_accion_actual) {
 		case ACCION_DESCUBRIR:
 			interaccion_actual->accion.tipo = DESCUBRIR_OBJETO;
 			break;
@@ -65,10 +71,11 @@ struct interaccion *interaccion_crear_desde_string(const char *string)
 			break;
 		}
 
-		if(strcmp(accion_objeto_aux,"_") == 0)
+		if (strcmp(accion_objeto_aux, "_") == 0)
 			strcpy(interaccion_actual->accion.objeto, "");
 		else
-			strcpy(interaccion_actual->accion.objeto, accion_objeto_aux);
+			strcpy(interaccion_actual->accion.objeto,
+			       accion_objeto_aux);
 
 		strcpy(interaccion_actual->accion.mensaje, accion_mensaje_aux);
 	}

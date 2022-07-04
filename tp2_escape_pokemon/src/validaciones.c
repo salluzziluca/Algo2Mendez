@@ -6,7 +6,7 @@
 
 const char *interaccion_valida(bool interaccion)
 {
-	if(interaccion)
-                return "Válido";
-        return "Inválido";
+	if (interaccion)
+		return "Válido";
+	return "Inválido";
 }

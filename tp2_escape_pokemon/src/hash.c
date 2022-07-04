@@ -5,21 +5,21 @@
 #include "hash.h"
 #define FACTOR_DE_CARGA_MAXIMO 0.65
 
-typedef struct par{
+typedef struct par {
 	char *clave;
 	void *elemento;
 	struct par *siguiente;
-}par_t;
+} par_t;
 
-typedef struct tabla{
+typedef struct tabla {
 	par_t *par_inicio;
 	par_t *par_fin;
 	size_t ocupados;
-}tabla_t;
+} tabla_t;
 struct hash {
 	size_t capacidad;
 	size_t ocupados;
-	tabla_t *tabla;	
+	tabla_t *tabla;
 };
 
 uint32_t funcion_hash(const char *clave)
@@ -42,7 +42,7 @@ char *copiar_string(const char *origen)
 		return NULL;
 
 	char *copia = malloc(strlen(origen) + 1);
-	if(!copia)
+	if (!copia)
 		return NULL;
 	strcpy(copia, origen);
 
@@ -59,7 +59,7 @@ hash_t *hash_crear(size_t capacidad)
 		capacidad = 3;
 
 	hash->tabla = calloc(capacidad, sizeof(tabla_t));
-	if (!hash->tabla){
+	if (!hash->tabla) {
 		return NULL;
 		free(hash);
 	}
@@ -158,7 +158,6 @@ hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento)
 		return NULL;
 
 	size_t posicion = (size_t)funcion_hash(clave) % hash->capacidad;
-
 
 	char *copia_clave = copiar_string(clave);
 	par_t *par = llenar_par(copia_clave, elemento);
@@ -270,8 +269,6 @@ bool hash_contiene(hash_t *hash, const char *clave)
 	return contiene;
 }
 
-
-
 void hash_destruir_todo(hash_t *hash, void (*destructor)(void *))
 {
 	if (!hash)
@@ -326,19 +323,18 @@ size_t hash_con_cada_clave(hash_t *hash,
 * Recorre el hash rellenando el vector con las claves de toodos los pares.
 * Devuelve el vector llenado o NULL en caso de error.
 */
-char **hash_obtener_claves (hash_t *hash, char **vector)
+char **hash_obtener_claves(hash_t *hash, char **vector)
 {
 	if (!hash)
 		return NULL;
 	size_t i = 0;
 	for (size_t j = 0; j < hash->capacidad; j++) {
 		par_t *par_actual = hash->tabla[j].par_inicio;
-		for(size_t k = 0; k < hash->tabla[j].ocupados; k++) {
+		for (size_t k = 0; k < hash->tabla[j].ocupados; k++) {
 			vector[i] = par_actual->clave;
 			i++;
 			par_actual = par_actual->siguiente;
 		}
-
 	}
 	return vector;
 }

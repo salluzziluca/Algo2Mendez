@@ -6,6 +6,9 @@
                 "string_view": "c",
                 "string": "c",
                 "system_error": "c",
-                "estructura_hash.h": "c"
+                "estructura_hash.h": "c",
+                "estructura_sala.h": "c",
+                "interaccion.h": "c",
+                "objeto.h": "c"
         }
 }
