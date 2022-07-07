@@ -1,6 +1,6 @@
 # Algo2Mendez
 
-Inside this repo there are (from now) four projects.
+Inside this repo there are five projects.
 ### Escape Pokemón (Pokemon Scape)
 An small project that wanted to reinforce memory managment and file parsing concepts. it can be compiled using the following command: `gcc -std=c99 -Wall -Wconversion -Wtype-limits -g -Werror escape_pokemon.c src/*.c -o  escape_pokemon` and runed using `./escape_pokemon ejemplo/objetos.txt ejemplo/interacciones.txt`. Run the test by using `bash test.sh` or `make valgrind`.
 ### TDA1 List, queue and stack
@@ -15,9 +15,10 @@ In this proyect, the student had to develop and implement a BST. The goal of thi
 (Every projects listed above can be runed without that excesive amout of flags as they dont have important bugs or memory leaks)
 
 ### TDA3 Hash
+A hash implementation made from scratch. Run it using make `valgrind-ejemplo` or see the test using make `valgrind-pruebas`. 
 
-![image](https://user-images.githubusercontent.com/63552496/172411206-02e2b304-f74b-451f-b753-13ea0dab06f4.png)
-![image](https://user-images.githubusercontent.com/63552496/172411343-aafb7a46-7f68-4d83-aacf-55982a63b790.png)
+### TP2 Escape Pokemon
+A pokemon themed scape room. Made with the ADTs created in the previous projects. you can play it using the command `make valgrind-escape_pokemon`. And the test can be runed using `make valgrind-pruebas`.
 
 
 Feel free to ask whatever you want
