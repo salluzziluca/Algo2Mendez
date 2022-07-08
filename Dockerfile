@@ -1,10 +1,7 @@
-FROM ubuntu:24.04
+FROM ubuntu:20.04
 
 RUN apt-get update && apt-get -y upgrade && apt-get install -y tzdata
 RUN apt install -y build-essential
 RUN apt install -y valgrind
 RUN apt install -y gdb
-RUN apt install -y python3-pip.apt install pip3
-RUN pip3 install valgreen
-
 WORKDIR /home

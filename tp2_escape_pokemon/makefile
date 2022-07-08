@@ -13,7 +13,7 @@ valgreen-escape_pokemon: escape_pokemon
 	valgreen $(VALGREEN_FLAGS) ./escape_pokemon ejemplo/objetos.txt ejemplo/interacciones.txt 2>&1
 
 valgrind-escape_pokemon: escape_pokemon
-	valgrind $(VALGRIND_FLAGS) ./escape_pokemon 2>&1
+	valgrind $(VALGRIND_FLAGS) ./escape_pokemon ejemplo/objetos.txt ejemplo/interacciones.txt 2>&1
 
 valgreen-pruebas: pruebas
 	valgreen $(VALGREEN_FLAGS) ./pruebas 2>&1
