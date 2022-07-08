@@ -1,0 +1,6 @@
+ Linux
+ docker run -it --rm -v ${PWD}:/home/files algo2mendez bash 
+
+
+windows
+  docker run -it --rm -v %cd%:/home/files algo2mendez bash 
